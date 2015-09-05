@@ -1,20 +1,26 @@
 var React = require('react');
 var Reflux = require('reflux');
 var UserStore = require('../stores/userStore');
+var Router = require('react-router');
+var Link  = Router.Link;
 
 var LoginButton = React.createClass({
 	render : function(){
 		return (
-				<li><a href="#">登录</a></li>
-			);
+			<li>
+				<Link to="/login">登录</Link>
+			</li>
+		);
 	}
 });
 
 var RegisterButton = React.createClass({
 	render : function(){
 		return (
-				<li><a href="#">注册</a></li>
-			);
+			<li>
+				<Link to = "/register">注册</Link>
+			</li>
+		);
 	}
 });
 
@@ -33,23 +39,25 @@ var Acount = React.createClass({
         this.unsubscribe();
     },
     getContent : function(){
-    	if(this.state.isLogin){
+    	if(this.state.currentUser.isLogin){
 			return <li>已登录{this.state.currentUser.userName}</li>
 		}else{
 			return (
-				<ul className= "nav navbar-nav navbar-right">
-					<LoginButton />
-					<RegisterButton />
-				</ul>)
+					<ul className= "nav navbar-nav navbar-right">
+						<LoginButton />
+						<RegisterButton />
+					</ul>
+				)
 		}
     },
 	render : function(){
 		return(
-			<li>
+				<div className="nav nav-header navbar-right">
 				{
 					this.getContent()
 				}
-			</li>
+				</div>
+			
 		);
 	}
 });

@@ -4,22 +4,6 @@ var Link  = Router.Link;
 
 var Acount = require('./acount');
 
-var LoginButton = React.createClass({
-	render : function(){
-		return (
-			<button className="btn btn-default navbar-btn" >登录</button>
-		);
-	}
-});
-
-var RegisterButton = React.createClass({
-	render : function(){
-		return (
-			
-			<button className="btn btn-default navbar-btn" >注册</button>
-		);
-	}
-});
 
 var SearchInput = React.createClass({
 	render: function(){

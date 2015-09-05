@@ -2,16 +2,16 @@ var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 
-var LoginButton = React.createClass({
+var RegisterButton = React.createClass({
 	render : function(){
 		return (
 			<div className="form-group">
     			<div className="col-sm-offset-2 col-sm-10">
     				<div className="col-sm-5">
-						<button className="btn btn-primary btn-lg">登  录</button>
+						<button className="btn btn-primary btn-lg">注册新用户</button>
 					</div>
 					<div className="col-sm-5">
-						<Link to="/register"><button className="btn btn-success btn-lg">还没有YAOPAI的账户？</button></Link>
+						<Link to="/login"><button className="btn btn-success btn-lg">已有账户?</button></Link>
 					</div>
 				</div>
 
@@ -47,6 +47,19 @@ var UserPasswordInput = React.createClass({
 	
 });
 
+var UserPasswordRepeatInput = React.createClass({
+	render : function(){
+		return(
+			<div className="form-group">
+				<div className="col-sm-offset-2 col-sm-10">
+					<input type="password" className="form-control" placeholder="再输入一次密码" />
+				</div>
+			</div>
+		);
+	}
+	
+});
+
 var RememberMeCheck = React.createClass({
 	render : function(){
 		return(
@@ -63,34 +76,35 @@ var RememberMeCheck = React.createClass({
 	}
 });
 
-var LoginForm = React.createClass({
+var RegisterForm = React.createClass({
 	render : function(){
 		return(
 			<div className="panel-body">
 				<form className="form-horizontal">
 						<UserNameInput />
 	        			<UserPasswordInput />
+	        			<UserPasswordRepeatInput />
 	        			<RememberMeCheck />
-	        			<LoginButton />
+	        			<RegisterButton />
 				</form>
 			</div>
 		);
 	}
 });
 
-var LoginPanel = React.createClass({
+var RegisterPanel = React.createClass({
 
   render: function() {
 
     return (
     	<div className="panel panel-default opacity90">
     		<div className="panel-heading">
-    			登录YAOPAI分享你自己的艺术
+    			注册成为YAOPAI的用户，发现你的不同
     		</div>
-      		<LoginForm />
+      		<RegisterForm />
       	</div>
     );
   }
 });
 
-module.exports = LoginPanel;
+module.exports = RegisterPanel;
