@@ -1,45 +1,61 @@
 {
-  "name": "react-hot-boilerplate",
-  "version": "1.0.0",
-  "description": "Boilerplate for ReactJS project with hot code reloading",
-  "scripts": {
-    "start": "node server.js",
-    "lint": "eslint src"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/gaearon/react-hot-boilerplate.git"
-  },
-  "keywords": [
-    "react",
-    "reactjs",
-    "boilerplate",
-    "hot",
-    "reload",
-    "hmr",
-    "live",
-    "edit",
-    "webpack"
-  ],
-  "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gaearon/react-hot-boilerplate/issues"
-  },
-  "homepage": "https://github.com/gaearon/react-hot-boilerplate",
-  "devDependencies": {
-    "babel-core": "^5.4.7",
-    "babel-eslint": "^3.1.9",
-    "babel-loader": "^5.1.2",
-    "css-loader": "^0.16.0",
-    "eslint-plugin-react": "^2.3.0",
-    "file-loader": "^0.8.4",
-    "react-hot-loader": "^1.3.0",
-    "url-loader": "^0.5.6",
-    "webpack": "^1.9.6",
-    "webpack-dev-server": "^1.8.2"
-  },
+  "name": "yaopai",
+  "version": "0.0.1",
+  "description": "PC web for YaoPai build by react-flux",
+  "author": "Qi Zeng",
+  "license": "BSD",
   "dependencies": {
-    "react": "^0.13.0"
+    "jquery": "~2.1.3",
+    "react": "~0.13.1",
+    "react-router": "~0.13.2",
+    "reflux": "~0.2.7"
+  },
+  "devDependencies": {
+    "browserify": "~9.0.7",
+    "del": "~1.1.1",
+    "domain": "~0.0.1",
+    "gulp": "~3.8.11",
+    "gulp-autoprefixer": "~2.1.0",
+    "gulp-filter": "~2.0.2",
+    "gulp-htmlmin": "~1.1.1",
+    "gulp-if": "~1.2.5",
+    "gulp-imagemin": "~2.2.1",
+    "gulp-load-plugins": "~0.9.0",
+    "gulp-minify-css": "~1.0.0",
+    "gulp-plumber": "~1.0.0",
+    "gulp-preprocess": "^1.2.0",
+    "gulp-rev-all": "~0.8.16",
+    "gulp-size": "~1.2.1",
+    "gulp-tap": "~0.1.3",
+    "gulp-uglify": "~1.1.0",
+    "gulp-useref": "~1.1.2",
+    "gulp-util": "~3.0.4",
+    "gulp-webserver": "~0.9.0",
+    "jest-cli": "~0.4.0",
+    "preprocessify": "~0.0.3",
+    "reactify": "~1.1.0",
+    "react-tools": "~0.13.1",
+    "run-sequence": "~1.0.2",
+    "vinyl-source-stream": "~1.1.0"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "start": "./node_modules/gulp/bin/gulp.js serve",
+    "test": "./node_modules/jest-cli/bin/jest.js",
+    "build": "./node_modules/gulp/bin/gulp.js build"
+  },
+  "jest": {
+    "scriptPreprocessor": "./preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "./node_modules/react"
+    ],
+    "testFileExtensions": [
+      "jsx",
+      "js",
+      "cjsx"
+    ]
   }
 }
