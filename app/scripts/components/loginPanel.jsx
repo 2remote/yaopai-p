@@ -22,11 +22,11 @@ var LoginButton = React.createClass({
 	render : function(){
 		return (
 			<div className="form-group">
-    			<div className="col-sm-offset-2 col-sm-8">
+    			<div className="col-sm-offset-2 col-sm-4">
     				<div className="col-sm-5">
 						<button className="btn btn-primary btn-lg">登  录</button>
 					</div>
-					<div className="col-sm-5">
+					<div className="col-sm-4">
 						<Link to="/register"><button className="btn btn-success btn-lg">还没有YAOPAI的账户？</button></Link>
 					</div>
 				</div>
@@ -57,10 +57,10 @@ var UserNameInput = React.createClass({
 		var classString = getValidatedClass(this.state.validated);
 		return(
 			<div className = {classString}>
-				<div className="col-sm-offset-2 col-sm-8">
+				<div className="col-sm-offset-2 col-sm-6">
 					<input type="text" className="form-control" placeholder="手机号码" onBlur={this.handleBlur} value={this.props.userName}/>
 				</div>
-				<label className="control-label">{this.state.message}</label>
+				<label className="control-label col-sm-4">{this.state.message}</label>
 			</div>
 		);
 	}
@@ -85,10 +85,10 @@ var UserPasswordInput = React.createClass({
 		var classString = getValidatedClass(this.state.validated);
 		return(
 			<div className={classString}>
-				<div className="col-sm-offset-2 col-sm-8">
+				<div className="col-sm-offset-2 col-sm-6">
 					<input type="password" className="form-control" placeholder="用户密码" id="userPasswordInput" onBlur={this.handleBlur}/>
 				</div>
-				<label className="control-label">{this.state.message}</label>
+				<label className="control-label col-sm-4">{this.state.message}</label>
 			</div>
 		);
 	}
