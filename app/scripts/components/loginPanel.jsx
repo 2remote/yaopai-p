@@ -5,6 +5,8 @@ var validator = require('validator');
 var UserActions = require('../actions/UserActions');
 
 /*
+	验证逻辑放到相关的表单组件
+	组件间的调用统一在LoginForm中实现
 */
 var getValidatedClass = function(validated){
 	var classString = 'form-group'
@@ -22,19 +24,13 @@ var getValidatedClass = function(validated){
 };
 
 var LoginButton = React.createClass({
-	handleClick : function(event){
-		var userName = UserNameInput.state.userName;
-		var password = UserPasswordInput.state.password;
-		if(!validator.isMobilePhone(userName, 'zh-CN') || !validator.isLength(password,6,18)) return;
-		var loginData = {userName : userName,password : password};
-		UserActions.login(loginData);
-	},
+	
 	render : function(){
 		return (
 			<div className="form-group">
     			<div className="col-sm-offset-2 col-sm-4">
     				<div className="col-sm-5">
-						<button className="btn btn-primary btn-lg" onClick={this.handleClick}>登  录</button>
+						<button className="btn btn-primary btn-lg" onClick={this.props.handleClick}>登  录</button>
 					</div>
 					<div className="col-sm-4">
 						<Link to="/register"><button className="btn btn-success btn-lg">还没有YAOPAI的账户？</button></Link>
@@ -74,7 +70,7 @@ var UserNameInput = React.createClass({
 		return(
 			<div className = {classString}>
 				<div className="col-sm-offset-2 col-sm-6">
-					<input type="text" className="form-control" placeholder="手机号码" onBlur={this.handleBlur} onChange={this.handleChange} value={this.props.userName}/>
+					<input type="text" className="form-control" value={this.props.userName} placeholder="手机号码" onBlur={this.handleBlur} onChange={this.props.handleChange}/>
 				</div>
 				<label className="control-label col-sm-4">{this.state.message}</label>
 			</div>
@@ -93,9 +89,6 @@ var UserPasswordInput = React.createClass({
 			validated : '0'
 		};
 	},
-	handleChange : function(event){
-		this.state.password = event.target.value;
-	},
 	handleBlur : function(event){
 		var passwordVoild = validator.isLength(event.target.value, 6,18);
 		if(passwordVoild){
@@ -109,7 +102,7 @@ var UserPasswordInput = React.createClass({
 		return(
 			<div className={classString}>
 				<div className="col-sm-offset-2 col-sm-6">
-					<input type="password" className="form-control" placeholder="用户密码" id="userPasswordInput" onBlur={this.handleBlur}/>
+					<input type="password" className="form-control" value= {this.props.password} placeholder="用户密码" id="userPasswordInput" onBlur={this.handleBlur} onChange={this.props.handleChange}/>
 				</div>
 				<label className="control-label col-sm-4">{this.state.message}</label>
 			</div>
@@ -125,7 +118,7 @@ var RememberMeCheck = React.createClass({
 			    <div className="col-sm-offset-2 col-sm-8">
 			      <div className="checkbox">
 			        <label>
-			          <input type="checkbox" /> 记住我的登录信息
+			          <input type="checkbox" onChange={this.props.checkedChange}/> 记住我的登录信息
 			        </label>
 			      </div>
 			    </div>
@@ -135,14 +128,35 @@ var RememberMeCheck = React.createClass({
 });
 
 var LoginForm = React.createClass({
+	getInitialState : function(){
+		return {
+			userName : '',
+			password : '',
+			rememberMe : false
+		}
+	},
+	handleClick : function(event){
+		if(!validator.isMobilePhone(this.state.userName, 'zh-CN') || !validator.isLength(this.state.password,6,18)) return;
+		var loginData = {userName : this.state.userName,password : this.state.password};
+		UserActions.login(loginData);
+	},
+	handleUserNameChange : function(event){
+		this.setState({userName:event.target.value});
+	},
+	handlePasswordChange : function(event){
+		this.setState({password:event.target.value});
+	},
+	handleCheckedChange : function(event){
+		this.setState({rememberMe : event.target.checked});
+	},
 	render : function(){
 		return(
 			<div className="panel-body">
 				<form className="form-horizontal">
-						<UserNameInput />
-	        			<UserPasswordInput />
-	        			<RememberMeCheck />
-	        			<LoginButton />
+						<UserNameInput userName = {this.state.userName} handleChange={this.handleUserNameChange}/>
+	        	<UserPasswordInput password = {this.state.password} handleChange={this.handlePasswordChange}/>
+	        	<RememberMeCheck checkedChange = {this.handleCheckedChange} />
+	        	<LoginButton handleClick={this.handleClick}/>
 				</form>
 			</div>
 		);
