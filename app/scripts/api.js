@@ -4,3 +4,5 @@ var API_CONST = {
     register_url : '',
   }
 }
+
+module.exports = API_CONST;
