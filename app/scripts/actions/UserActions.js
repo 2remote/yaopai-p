@@ -1,5 +1,6 @@
-require('../api.js')
 var Reflux = require('reflux');
+var API = require('../api');
+
 var UserActions = Reflux.createActions({
 	  'register' : {children:["success","failed"]},
 	  'login' : {children:["success","failed"]},
@@ -7,11 +8,12 @@ var UserActions = Reflux.createActions({
 });
 
 UserActions.login.listen(function(data) {
-    $.post(API_CONST.user_apid.login_url, data).then(this.success, this.failed);
+  console.log("login begin");
+  $.post(API.user_api.login_url, data).then(this.success, this.failed);
 });
 
 UserActions.register.listen(function(data) {
-    $.post(API_CONST.user_apid.register_url, data).then(this.success, this.failed);
+  $.post(API.user_api.register_url, data).then(this.success, this.failed);
 });
 
 UserActions.logout.listen(function(data) {
