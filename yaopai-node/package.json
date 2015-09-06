@@ -1,0 +1,19 @@
+{
+  "name": "yaopai-node",
+  "version": "1.0.0",
+  "description": "yaopai test nodejs server",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Tony Zeng",
+  "license": "ISC",
+
+  "devDependencies": {
+    "express" : "^4.13.3",
+    "body-parser" : "*"
+  }
+}
