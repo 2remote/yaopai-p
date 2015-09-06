@@ -2,7 +2,10 @@ var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 var validator = require('validator');
+var UserActions = require('../actions/UserActions');
 
+/*
+*/
 var getValidatedClass = function(validated){
 	var classString = 'form-group'
 	switch(validated){
@@ -19,12 +22,19 @@ var getValidatedClass = function(validated){
 };
 
 var LoginButton = React.createClass({
+	handleClick : function(event){
+		var userName = UserNameInput.state.userName;
+		var password = UserPasswordInput.state.password;
+		if(!validator.isMobilePhone(userName, 'zh-CN') || !validator.isLength(password,6,18)) return;
+		var loginData = {userName : userName,password : password};
+		UserActions.login(loginData);
+	},
 	render : function(){
 		return (
 			<div className="form-group">
     			<div className="col-sm-offset-2 col-sm-4">
     				<div className="col-sm-5">
-						<button className="btn btn-primary btn-lg">登  录</button>
+						<button className="btn btn-primary btn-lg" onClick={this.handleClick}>登  录</button>
 					</div>
 					<div className="col-sm-4">
 						<Link to="/register"><button className="btn btn-success btn-lg">还没有YAOPAI的账户？</button></Link>
@@ -37,10 +47,13 @@ var LoginButton = React.createClass({
 });
 
 
-
+/*
+	用户名文本组件
+*/
 var UserNameInput = React.createClass({
 	getInitialState : function(){
 		return {
+			userName : '',
 			message : '',
 			validated : '0'
 		};
@@ -53,12 +66,15 @@ var UserNameInput = React.createClass({
 			this.setState({message : '请输入正确的手机号码', validated : '2'});
 		}
 	},
+	handleChange : function(event){
+		this.state.userName = event.target.value;
+	},
 	render : function(){
 		var classString = getValidatedClass(this.state.validated);
 		return(
 			<div className = {classString}>
 				<div className="col-sm-offset-2 col-sm-6">
-					<input type="text" className="form-control" placeholder="手机号码" onBlur={this.handleBlur} value={this.props.userName}/>
+					<input type="text" className="form-control" placeholder="手机号码" onBlur={this.handleBlur} onChange={this.handleChange} value={this.props.userName}/>
 				</div>
 				<label className="control-label col-sm-4">{this.state.message}</label>
 			</div>
@@ -66,12 +82,19 @@ var UserNameInput = React.createClass({
 	}
 });
 
+/*
+	密码组件
+*/
 var UserPasswordInput = React.createClass({
 	getInitialState : function(){
 		return {
+			password : '',
 			message : '',
 			validated : '0'
 		};
+	},
+	handleChange : function(event){
+		this.state.password = event.target.value;
 	},
 	handleBlur : function(event){
 		var passwordVoild = validator.isLength(event.target.value, 6,18);

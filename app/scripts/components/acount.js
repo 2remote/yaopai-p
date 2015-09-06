@@ -27,29 +27,29 @@ var RegisterButton = React.createClass({
 var Acount = React.createClass({
 	mixins: [Reflux.listenTo(UserStore, 'onStatusChange')],
 	getInitialState: function () {
-        return {currentUser : UserStore.data};
-    },
-    onStatusChange: function (data) {
-        this.setState({currentUser : data});
-    },
-    componentDidMount: function () {
-        this.unsubscribe = UserStore.listen(this.onStatusChange);
-    },
-    componentWillUnmount: function () {
-        this.unsubscribe();
-    },
-    getContent : function(){
-    	if(this.state.currentUser.isLogin){
-			return <li>已登录{this.state.currentUser.userName}</li>
-		}else{
-			return (
-					<ul className= "nav navbar-nav pull-right">
-						<LoginButton />
-						<RegisterButton />
-					</ul>
-				)
-		}
-    },
+      return {currentUser : UserStore.userData};
+  },
+  onStatusChange: function (data) {
+      this.setState({currentUser : data});
+  },
+  componentDidMount: function () {
+      this.unsubscribe = UserStore.listen(this.onStatusChange);
+  },
+  componentWillUnmount: function () {
+      this.unsubscribe();
+  },
+  getContent : function(){
+  	if(this.state.currentUser.isLogin){
+		return <li>已登录{this.state.currentUser.userName}</li>
+	}else{
+		return (
+				<ul className= "nav navbar-nav pull-right">
+					<LoginButton />
+					<RegisterButton />
+				</ul>
+			)
+	}
+  },
 	render : function(){
 		return(
 				<div className="nav nav-header pull-right">
