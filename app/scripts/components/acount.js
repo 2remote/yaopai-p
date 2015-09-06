@@ -43,7 +43,7 @@ var Acount = React.createClass({
 			return <li>已登录{this.state.currentUser.userName}</li>
 		}else{
 			return (
-					<ul className= "nav navbar-nav navbar-right">
+					<ul className= "nav navbar-nav pull-right">
 						<LoginButton />
 						<RegisterButton />
 					</ul>
@@ -52,7 +52,7 @@ var Acount = React.createClass({
     },
 	render : function(){
 		return(
-				<div className="nav nav-header navbar-right">
+				<div className="nav nav-header pull-right">
 				{
 					this.getContent()
 				}

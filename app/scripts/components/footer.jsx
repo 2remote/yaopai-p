@@ -7,7 +7,7 @@ var Footer = React.createClass({
 					<div className="navbar-brand">
 						YAOPAI
 					</div>
-					<div className="navbar-text navbar-right">
+					<div className="navbar-text pull-right">
 						公司联系方式及备案信息
 					</div>
 				</nav>
