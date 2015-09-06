@@ -31,8 +31,10 @@ var UserStore = Reflux.createStore({
   },
 
   onLoginSuccess: function(data) {
+    console.log('login get data:' + data);
+    data = eval("(" + data + ")");
     if (data.success == '1') {
-      this.setCurrentUser(data.userData);
+      this.setCurrentUser(data.data);
       this.trigger(this.userData);
     } else {
       this.userData.hintMessage = data.errMessage;
@@ -51,7 +53,7 @@ var UserStore = Reflux.createStore({
   */
   onRegisterSuccess: function(data) {
     if (data.success == '1') {
-      this.setCurrentUser(data.userData);
+      this.setCurrentUser(data.data);
       this.trigger(this.userData);
     } else {
       this.userData.hintMessage = data.errMessage;
