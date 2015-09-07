@@ -55,8 +55,8 @@ var UserNameInput = React.createClass({
 		};
 	},
 	handleBlur : function(event){
-		var phoneNumberVoild = validator.isMobilePhone(event.target.value, 'zh-CN');
-		if(phoneNumberVoild){
+		var phoneNumberValid = validator.isMobilePhone(event.target.value, 'zh-CN');
+		if(phoneNumberValid){
 			this.setState({message : '', validated : '1'});
 		}else{
 			this.setState({message : '请输入正确的手机号码', validated : '2'});
@@ -90,8 +90,8 @@ var UserPasswordInput = React.createClass({
 		};
 	},
 	handleBlur : function(event){
-		var passwordVoild = validator.isLength(event.target.value, 6,18);
-		if(passwordVoild){
+		var passwordValid = validator.isLength(event.target.value, 6,18);
+		if(passwordValid){
 			this.setState({message : '', validated : '1'});
 		}else{
 			this.setState({message : '密码长度为6-18', validated : '2'});
