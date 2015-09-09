@@ -1,14 +1,24 @@
 var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
+var Reflux = require('reflux');
+var UserStore = require('../stores/userStore');
 
+var validator = require('validator');
+var UserActions = require('../actions/UserActions');
+
+
+var UserNameInput = require('./user/UserNameInput');
+var UserPasswordInput = require('./user/userPasswordInput');
+var AlertBox = require('./user/alertBox');
 var RegisterButton = React.createClass({
+
 	render : function(){
 		return (
 			<div className="form-group">
     			<div className="col-sm-offset-2 col-sm-6">
     				<div className="col-sm-5">
-						<button className="btn btn-primary btn-lg">注册新用户</button>
+						<button className="btn btn-primary btn-lg" onclick={this.props.handleClick}>注册新用户</button>
 					</div>
 					<div className="col-sm-4">
 						<Link to="/login"><button className="btn btn-success btn-lg">已有账户?</button></Link>
@@ -21,39 +31,40 @@ var RegisterButton = React.createClass({
 });
 
 
-
-var UserNameInput = React.createClass({
-	render : function(){
-		return(
-			<div className = "form-group">
-				<div className="col-sm-offset-2 col-sm-6">
-					<input type="text" className="form-control" placeholder="用户名" />
-				</div>
-			</div>
-		);
-	}
-});
-
-var UserPasswordInput = React.createClass({
-	render : function(){
-		return(
-			<div className="form-group">
-				<div className="col-sm-offset-2 col-sm-6">
-					<input type="password" className="form-control" placeholder="用户密码" id="userPasswordInput" />
-				</div>
-			</div>
-		);
-	}
-	
-});
-
 var UserPasswordRepeatInput = React.createClass({
+	getInitialState : function(){
+    return {
+      repeatPassword : '',
+      message : '',
+      validated : '0'
+    };
+  },
+  getDefaultProps : function(){
+  	return {
+  		originPassword : '',
+  		validatedClass : function(validated){
+  			return 'form-control';
+  		}
+  	}
+  },
+  handleChange : function(event){
+  	if(this.props.originPassword != event.target.value){
+  		this.setState({repeatPassword : event.target.value,message : '两次密码输入不一致',validated : '2'})
+  	}else{
+  		this.setState({repeatPassword : event.target.value,message : '', validated : '1'})
+  	}
+  },
 	render : function(){
+		var classString = this.props.validatedClass(this.state.validated);
 		return(
-			<div className="form-group">
+			<div className={classString}>
 				<div className="col-sm-offset-2 col-sm-6">
-					<input type="password" className="form-control" placeholder="再输入一次密码" />
+					<input type="password" 
+						className="form-control" 
+						placeholder="再输入一次密码" 
+						onChange={this.handleChange}/>
 				</div>
+				<label className="control-label col-sm-4">{this.state.message}</label>
 			</div>
 		);
 	}
@@ -77,15 +88,88 @@ var RememberMeCheck = React.createClass({
 });
 
 var RegisterForm = React.createClass({
+	getInitialState : function(){
+		return {
+			userName : '',
+			password : '',
+			repeatPassword : '',
+			rememberMe : false,
+			alertMessage : ''
+		}
+	},
+	getValidatedClass : function(validated){
+		var classString = 'form-group'
+		switch(validated){
+			case '0' :
+				break;
+			case '1' :
+				classString = classString + ' has-success';
+				break;
+			case '2' :
+				classString = classString + ' has-warning';
+				break;
+		}
+		return classString;
+	},
+	handleUserNameChange : function(event){
+		this.setState({userName:event.target.value});
+	},
+	handlePasswordChange : function(event){
+		this.setState({password:event.target.value});
+	},
+	handleCheckedChange : function(event){
+		this.setState({rememberMe : event.target.checked});
+	},
+	handleClick : function(){
+		if(!validator.isMobilePhone(this.state.userName, 'zh-CN') || !validator.isLength(this.state.password,6,18)) {
+			this.setState({alertMessage:'请输入正确的手机号码和密码格式'});
+			return;
+		}else{
+			if(this.state.password != this.state.repeatPassword){
+				this.setState({alertMessage : '两次密码输入不一致'});
+				return;
+			}
+		}
+		var registerData = {userName : this.state.userName,password : this.state.password};
+		UserActions.register(registerData);
+	},
+	/*
+		校验表现css
+	*/
+	getValidatedClass : function(validated){
+		var classString = 'form-group'
+		switch(validated){
+			case '0' :
+				break;
+			case '1' :
+				classString = classString + ' has-success';
+				break;
+			case '2' :
+				classString = classString + ' has-warning';
+				break;
+		}
+		return classString;
+	},
+
 	render : function(){
 		return(
 			<div className="panel-body">
 				<form className="form-horizontal">
-						<UserNameInput />
-	        			<UserPasswordInput />
-	        			<UserPasswordRepeatInput />
-	        			<RememberMeCheck />
-	        			<RegisterButton />
+						<UserNameInput 
+							userName = {this.state.userName} 
+							handleChange={this.handleUserNameChange} 
+							validatedClass={this.getValidatedClass}/>
+						<UserPasswordInput 
+	        		password = {this.state.password} 
+	        		handleChange={this.handlePasswordChange} 
+	        		validatedClass={this.getValidatedClass}/>
+
+	        	<UserPasswordRepeatInput 
+	        		originPassword={this.state.password} 
+	        		validatedClass={this.getValidatedClass}/>
+	        	<RememberMeCheck />
+	        	<RegisterButton handleClick={this.handleClick}/>
+	        	<AlertBox alertMessage={this.state.alertMessage} />
 				</form>
 			</div>
 		);
