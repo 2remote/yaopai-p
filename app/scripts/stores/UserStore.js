@@ -37,7 +37,7 @@ var UserStore = Reflux.createStore({
       this.setCurrentUser(data.data);
       this.trigger(this.userData);
     } else {
-      this.userData.hintMessage = data.errMessage;
+      this.userData.hintMessage = data.data.errorMessage;
       this.trigger(this.userData);
     }
   },
