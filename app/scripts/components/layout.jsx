@@ -7,18 +7,20 @@ var RouteHandler = Router.RouteHandler;
 var IndexCover = require('./indexCover');
 
 var Layout = React.createClass({
-
+  getDefaultProps : function(){
+    return {
+      style : 'indexCover',
+    }
+  },
   render: function() {
-
-    return (
-      <div className="App">
-      	<Header />
-      	<IndexCover>
-        	<RouteHandler />
-        </IndexCover>
-        <Footer />
-      </div>
-    );
+        return (
+          <div className="App">
+            <Header />
+              <RouteHandler />
+            <Footer />
+          </div>
+        );
+    
   }
 });
 

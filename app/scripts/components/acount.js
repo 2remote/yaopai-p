@@ -1,6 +1,6 @@
 var React = require('react');
 var Reflux = require('reflux');
-var UserStore = require('../stores/userStore');
+var UserStore = require('../stores/UserStore');
 var Router = require('react-router');
 var Link  = Router.Link;
 

@@ -7,13 +7,15 @@ var Layout = require('./components/layout');
 var Home = require('./components/home');
 var About = require('./components/about');
 var Login = require('./components/loginPanel');
-var Register = require('./components/registerPanel')
+var Register = require('./components/registerPanel');
+var PhotographerAuth = require('./components/photographerAuth');
 var routes = (
-	<Route name="layout" path="/" handler={Layout}>
+	<Route name="homeLayout" path="/" handler={Layout}>
 		<DefaultRoute handler={Home} />
 		<Route name="about" handler={About} />
 		<Route name="login" handler={Login} />
 		<Route name="register" handler={Register} />
+		<Route name="pAuth" handler={PhotographerAuth} />
 	</Route>
 	
 );

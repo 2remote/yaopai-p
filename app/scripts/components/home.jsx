@@ -1,11 +1,14 @@
 var React = require('react');
+var IndexCover = require('./indexCover');
 
 var Home = React.createClass({
 
   render: function() {
 
     return (
-      <div className="jumbotron">Home</div>
+      <IndexCover>
+        <div className="jumbotron">Home</div>
+      </IndexCover>
     );
   }
 });

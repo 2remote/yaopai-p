@@ -37,6 +37,13 @@ body {
     left:0px;
     top:0px;
 }
+.nobgimg{
+    position:fixed; 
+    width:100%; 
+    height:100%; 
+    left:0px;
+    top:0px;
+}
 
 .centerContent {
     padding-top: 30px;
@@ -45,6 +52,14 @@ body {
     width:680px;
     margin:0 auto;
     margin-top: -240px;
+}
+.common {
+    padding-top: 30px;
+    top: 50%;
+    position:relative;
+    width:980px;
+    margin:0 auto;
+    margin-top: -180px;
 }
 
 .opacity90 { /* 90% opaque */

@@ -2,12 +2,14 @@ var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 var Reflux = require('reflux');
-var UserStore = require('../stores/userStore');
+var UserStore = require('../stores/UserStore');
 
 var validator = require('validator');
 var UserActions = require('../actions/UserActions');
 var UserNameInput = require('./user/userNameInput');
 var UserPasswordInput = require('./user/userPasswordInput');
+var IndexCover = require('./indexCover');
+
 var AlertBox = require('./user/alertBox');
 /*
 	验证逻辑放到相关的表单组件
@@ -126,12 +128,14 @@ var LoginPanel = React.createClass({
   render: function() {
 
     return (
-    	<div className="panel panel-default opacity90">
-    		<div className="panel-heading">
-    			登录YAOPAI分享你自己的艺术
-    		</div>
-      		<LoginForm />
-      	</div>
+    	<IndexCover>
+	    	<div className="panel panel-default opacity90">
+	    		<div className="panel-heading">
+	    			登录YAOPAI分享你自己的艺术
+	    		</div>
+	      		<LoginForm />
+	      </div>
+      </IndexCover>
     );
   }
 });

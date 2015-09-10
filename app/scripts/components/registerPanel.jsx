@@ -8,8 +8,10 @@ var validator = require('validator');
 var UserActions = require('../actions/UserActions');
 
 
-var UserNameInput = require('./user/UserNameInput');
+var UserNameInput = require('./user/userNameInput');
 var UserPasswordInput = require('./user/userPasswordInput');
+var IndexCover = require('./indexCover');
+
 var AlertBox = require('./user/alertBox');
 var RegisterButton = React.createClass({
 
@@ -87,12 +89,47 @@ var RememberMeCheck = React.createClass({
 	}
 });
 
+var ValidateCodeInput = React.createClass({
+	getInitialState : function(){
+		return{
+			validated : '0'
+		}
+	},
+	getDefaultProps : function(){
+		return {
+			validatedClass : function(){
+				return 'form-group';
+			},
+			code : ''
+		}
+	},
+	render : function(){
+		var classString = this.props.validatedClass(this.state.validated);
+		return(
+			<div className={classString}>
+				<div className="col-sm-offset-2 col-sm-6 ">
+				<div className="input-group">
+					<input type="text" 
+						className="form-control" 
+						placeholder="输入验证码" 
+						onChange={this.handleChange}/>
+						<span className="input-group-btn">
+			        <button className="btn btn-default" type="button">获取验证码</button>
+			      </span>
+				</div>
+				</div>
+				<label className="control-label col-sm-4">{this.state.message}</label>
+			</div>
+		);
+	}
+});
+
 var RegisterForm = React.createClass({
 	getInitialState : function(){
 		return {
 			userName : '',
 			password : '',
-			repeatPassword : '',
+			validateCode : '',
 			rememberMe : false,
 			alertMessage : ''
 		}
@@ -124,11 +161,6 @@ var RegisterForm = React.createClass({
 		if(!validator.isMobilePhone(this.state.userName, 'zh-CN') || !validator.isLength(this.state.password,6,18)) {
 			this.setState({alertMessage:'请输入正确的手机号码和密码格式'});
 			return;
-		}else{
-			if(this.state.password != this.state.repeatPassword){
-				this.setState({alertMessage : '两次密码输入不一致'});
-				return;
-			}
 		}
 		var registerData = {userName : this.state.userName,password : this.state.password};
 		UserActions.register(registerData);
@@ -163,12 +195,9 @@ var RegisterForm = React.createClass({
 	        		password = {this.state.password} 
 	        		handleChange={this.handlePasswordChange} 
 	        		validatedClass={this.getValidatedClass}/>
-
-	        	<UserPasswordRepeatInput 
-	        		originPassword={this.state.password} 
+	        	<ValidateCodeInput />
+	        	<RegisterButton handleClick={this.handleClick}
 	        		validatedClass={this.getValidatedClass}/>
-	        	<RememberMeCheck />
-	        	<RegisterButton handleClick={this.handleClick}/>
 	        	<AlertBox alertMessage={this.state.alertMessage} />
 				</form>
 			</div>
@@ -181,12 +210,14 @@ var RegisterPanel = React.createClass({
   render: function() {
 
     return (
-    	<div className="panel panel-default opacity90">
-    		<div className="panel-heading">
-    			注册成为YAOPAI的用户，发现你的不同
-    		</div>
-      		<RegisterForm />
-      	</div>
+    	<IndexCover>
+	    	<div className="panel panel-default opacity90">
+	    		<div className="panel-heading">
+	    			注册成为YAOPAI的用户，发现你的不同
+	    		</div>
+	      		<RegisterForm />
+	      </div>
+	    </IndexCover>
     );
   }
 });
