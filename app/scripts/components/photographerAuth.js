@@ -3,7 +3,7 @@ var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 var Reflux = require('reflux');
-var UserStore = require('../stores/userStore');
+var UserStore = require('../stores/UserStore');
 
 var validator = require('validator');
 var UserActions = require('../actions/UserActions');
