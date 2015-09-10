@@ -2,13 +2,13 @@ var React = require('react');
 var Alert = require('react-bootstrap').Alert;
 
 const AlertBox = React.createClass({
-  getInitialState() {
+  getInitialState : function() {
     return {
       alertVisible: true
     };
   },
 
-  render() {
+  render : function() {
     if (this.props.alertMessage!='') {
       return (
         <div className="col-sm-offset-2 col-sm-6">
@@ -24,7 +24,7 @@ const AlertBox = React.createClass({
     );
   },
 
-  handleAlertDismiss() {
+  handleAlertDismiss : function() {
     this.props.alertMessage = '';
     this.setState({alertMessage:false});
   },
