@@ -38,7 +38,7 @@ body {
     top:0px;
 }
 .nobgimg{
-    position:fixed; 
+    /*position:fixed; */
     width:100%; 
     height:100%; 
     left:0px;
@@ -55,11 +55,11 @@ body {
 }
 .common {
     padding-top: 30px;
-    top: 50%;
     position:relative;
     width:980px;
     margin:0 auto;
-    margin-top: -180px;
+    margin-top : 50px;
+    margin-bottom: 150px;
 }
 
 .opacity90 { /* 90% opaque */
@@ -67,4 +67,7 @@ body {
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=90)";
     filter:alpha(opacity=90);
     zoom:1
+}
+.hidden {
+    display: none;
 }

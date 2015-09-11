@@ -45,7 +45,7 @@ var UserStore = Reflux.createStore({
     onLoginFailed 主要监听网络访问错误
   */
   onLoginFailed: function(data) {
-      this.userData.hintMessage = data;
+      this.userData.hintMessage = "网络出错啦！";
       this.trigger(this.userData);
   },
   /*

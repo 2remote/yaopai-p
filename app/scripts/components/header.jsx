@@ -17,15 +17,7 @@ var SearchInput = React.createClass({
 });
 
 
-var HomeLink = React.createClass({
-	render: function(){
-		return(
-			<li>
-				<Link to="/">首页</Link>
-			</li>
-			);
-	}
-});
+
 
 var AboutLink = React.createClass({
 	render: function(){
@@ -37,6 +29,14 @@ var AboutLink = React.createClass({
 	}
 });
 
+var CityLink = React.createClass({
+	render : function() {
+		return (
+				<li><a href="#">郑州</a></li>
+			);
+	}
+});
+
 var Header = React.createClass({
 	render: function(){
 		return(
@@ -44,20 +44,33 @@ var Header = React.createClass({
 					<div className="container-fluid">
 						<div className="navbar-header">
 							<a className="navbar-brand" href="#">
-								YAOPAI
+								<img src="../img/logo.png" />
 							</a>
 						</div>
 						<ul className="nav navbar-nav">
-							<HomeLink />
+							<CityLink />
+						</ul>
+						<ul className="nav navbar-nav">
+							<li>
+								<Link to="/">首页</Link>
+							</li>
+							<li>
+								<Link to="/">作品</Link>
+							</li>
+							<li>
+								<Link to="/">摄影师</Link>
+							</li>
+							<li>
+								<Link to="/">访谈</Link>
+							</li>
+							<li>
+								<Link to="/">活动</Link>
+							</li>
+							<li>
+								<Link to="/">城市之美</Link>
+							</li>
 							<AboutLink />		
 						</ul>
-						<form className="navbar-form navbar-left" role="search">
-						  <div className="form-group">
-						  	<SearchInput />
-						  </div>
-						  <button type="submit" className="btn btn-primary">搜索</button>
-						</form>
-						
 						<Acount />
 					</div>
 				</nav>

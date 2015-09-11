@@ -18,7 +18,7 @@ var RegisterButton = React.createClass({
 	render : function(){
 		return (
 			<li>
-				<Link to = "/register">注册</Link>
+				<Link to = "/register"><img src="../../img/user.png" /></Link>
 			</li>
 		);
 	}
@@ -40,11 +40,19 @@ var Acount = React.createClass({
   },
   getContent : function(){
   	if(this.state.currentUser.isLogin){
-		return <li>已登录{this.state.currentUser.userName}</li>
+		return (
+      <ul className= "nav navbar-nav pull-right">
+        <li>
+          <Link to="/pAuth"><img src="../img/camera.png" /></Link>
+        </li>
+        <li>
+          <Link to="/pAuth"><img src="../img/user.png" /></Link>
+        </li>
+      </ul>
+      )
 	}else{
 		return (
 				<ul className= "nav navbar-nav pull-right">
-					<LoginButton />
 					<RegisterButton />
 				</ul>
 			)

@@ -38,8 +38,8 @@ app.post('/login',function(req,res){
   var password = req.body.password ;
 
   console.log(req.body.userName + ':' + req.body.password + ' begin to login.');
-  //var result = {success : '1' , data : {userName:'testUserName',userID : '1'}};
-  var result = {success : '0' , data : {errorMessage : '用户名或者密码错误'}}
+  var result = {success : '1' , data : {userName:'testUserName',userID : '1'}};
+  //var result = {success : '0' , data : {errorMessage : '用户名或者密码错误'}}
   responseJson(res,params,result);
 });
 
