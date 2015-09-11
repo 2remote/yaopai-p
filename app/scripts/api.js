@@ -1,4 +1,4 @@
-var API_URL = 'http://localhost:3000';
+var API_URL = '';
 var API_CONST = {
   user_api : {
     login_url : API_URL + '/login',

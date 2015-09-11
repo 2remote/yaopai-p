@@ -1,6 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
+var Navigation = Router.Navigation;
 var Reflux = require('reflux');
 var UserStore = require('../stores/UserStore');
 
@@ -55,7 +56,7 @@ var RememberMeCheck = React.createClass({
 
 
 var LoginForm = React.createClass({
-	mixins: [Reflux.listenTo(UserStore, 'handleLoginResult')],
+	mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),Navigation],
 	getInitialState : function(){
 		return {
 			userName : '',
@@ -83,7 +84,9 @@ var LoginForm = React.createClass({
 	},
 	handleLoginResult : function(data){
 		if(data.isLogin){
-			//redirect or other action
+			//先转到认证页面
+			this.setState({alertMessage:''});
+			this.transitionTo('pAuth');
 		}else{
 			this.setState({alertMessage : data.hintMessage});
 		}

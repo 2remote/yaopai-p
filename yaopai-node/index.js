@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var urllib  = require('url');
-
+var path = require('path');
 var app = express();
 
 //默认情况下Express并不知道该如何处理该请求体，因此我们需要增加bodyParser中间件，用于分析  
@@ -9,6 +9,7 @@ var app = express();
 //请求体，并把变量存入req.body。我们可以像下面的样子来“使用”中间件[这个保证POST能取到请求参数的值]：     
 app.use(bodyParser.urlencoded({ extended: false }));  
 
+app.use(express.static(path.join(__dirname, '../dist')));
 
 function responseJson(res,params,data){
   if (params.query && params.query.callback) {  
@@ -41,10 +42,6 @@ app.post('/login',function(req,res){
   var result = {success : '1' , data : {userName:'testUserName',userID : '1'}};
   //var result = {success : '0' , data : {errorMessage : '用户名或者密码错误'}}
   responseJson(res,params,result);
-});
-
-app.get('/login',function(req,res){
-  res.send('I am listening.');
 });
 
 

@@ -3,7 +3,7 @@ var UserActions = require('../actions/UserActions')
 var data = [];
 
 var UserStore = Reflux.createStore({
-
+  userKey : 'yaopai_user',
   init: function() {
     console.log('UserStore initialized');
 
@@ -18,6 +18,12 @@ var UserStore = Reflux.createStore({
       isLogin: false,
       hintMessage: ''
     };
+
+    var temp = localStorage.getItem(this.userKey);
+    if(temp){
+      this.userData = eval('('+temp+')');
+    }
+    
     /*
         可以用下面代码代替
         listenables: UserActions，
@@ -35,6 +41,7 @@ var UserStore = Reflux.createStore({
     data = eval("(" + data + ")");
     if (data.success == '1') {
       this.setCurrentUser(data.data);
+      localStorage.setItem(this.userKey,JSON.stringify(this.userData));
       this.trigger(this.userData);
     } else {
       this.userData.hintMessage = data.data.errorMessage;
@@ -72,6 +79,7 @@ var UserStore = Reflux.createStore({
   */
   onLogoutSuccess: function(payload) {
     this.setCurrentUser(null);
+    localStorage.removeItem(this.userKey);
     this.trigger(this.userData);
   },
   /*
