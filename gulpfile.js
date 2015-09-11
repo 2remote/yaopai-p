@@ -44,11 +44,7 @@ gulp.task('scripts', function() {
       entries: [filePath],
       extensions: extensions,
       debug: env === 'dev'
-    }).transform(preprocessify({
-      env: env
-    }, {
-      includeExtensions: extensions
-    })).transform('reactify')
+    }).transform('reactify')
     .bundle()
       .pipe(source('app.js'))
       .pipe(gulp.dest('.tmp/scripts/bundle'))
@@ -80,11 +76,7 @@ gulp.task('scripts', function() {
 
 
 gulp.task('imagemin', function() {
-  return gulp.src('app/img/*')
-    .pipe($.imagemin({
-      progressive: true,
-      svgoPlugins: [{removeViewBox: false}]
-    }))
+  return gulp.src(['app/img/*.png'])
     .pipe(gulp.dest('dist/img'));
 });
 
@@ -156,8 +148,8 @@ gulp.task('serve', function() {
 gulp.task('build', function() {
   env = 'prod';
   runSequence(['clean:dev', 'clean:dist'],
-              ['scripts', 'imagemin'],
-              'bundle', 'copy','copyStyles');
+              ['scripts', ],
+              'bundle', 'copy','copyStyles','imagemin');
 });
 
 gulp.task('default', ['build']);

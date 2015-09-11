@@ -44,7 +44,7 @@ var Header = React.createClass({
 					<div className="container-fluid">
 						<div className="navbar-header">
 							<a className="navbar-brand" href="#">
-								<img src="../img/logo.png" />
+								<img src="img/logo.png" />
 							</a>
 						</div>
 						<ul className="nav navbar-nav">

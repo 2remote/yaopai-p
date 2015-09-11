@@ -159,18 +159,18 @@ var PersonIDImage = React.createClass({
         <div className="col-xs-6">
           <div className="row">
             <div className="col-xs-6">
-              <img src="../../img/id1.png" onClick={this.chooseIDPicture1}/>
+              <img src="img/id1.png" onClick={this.chooseIDPicture1}/>
               <input type="file" ref="IDPicture1" className="hidden" onChange={this.handleIDPicture1}/>
             </div>
             <div className="col-xs-6">
-              <img src="../../img/id2.png" onClick={this.chooseIDPicture2}/>
+              <img src="img/id2.png" onClick={this.chooseIDPicture2}/>
               <input type="file" ref="IDPicture2" className="hidden" onChange={this.handleIDPicture2}/>
             </div>
           </div>
 
           <div className="row">
             <div className="col-xs-6">
-              <img src="../../img/id_shili.png" />
+              <img src="img/id_shili.png" />
             </div>
             <div className="col-xs-6">
               <div>
@@ -193,7 +193,7 @@ var PersonProduct = React.createClass({
       <div className="form-group">
         <label className="control-label col-xs-2">个人作品：</label>
         <div className="col-xs-6">
-          <img src="../../img/tianjia.png" />
+          <img src="img/tianjia.png" />
         </div>
       </div>
       )
@@ -216,7 +216,7 @@ var CompanyLogo = React.createClass({
       <div className="form-group">
         <label className="control-label col-xs-2">工作室LOGO：</label>
         <div className="col-xs-6">
-          <img src="../../img/logo_up.png" />
+          <img src="img/logo_up.png" />
         </div>
       </div>
       );

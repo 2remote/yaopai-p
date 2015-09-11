@@ -18,7 +18,7 @@ var RegisterButton = React.createClass({
 	render : function(){
 		return (
 			<li>
-				<Link to = "/register"><img src="../../img/user.png" /></Link>
+				<Link to = "/register"><img src="img/user.png" /></Link>
 			</li>
 		);
 	}
@@ -43,10 +43,10 @@ var Acount = React.createClass({
 		return (
       <ul className= "nav navbar-nav pull-right">
         <li>
-          <Link to="/pAuth"><img src="../img/camera.png" /></Link>
+          <Link to="/pAuth"><img src="img/camera.png" /></Link>
         </li>
         <li>
-          <Link to="/pAuth"><img src="../img/user.png" /></Link>
+          <Link to="/pAuth"><img src="img/user.png" /></Link>
         </li>
       </ul>
       )
