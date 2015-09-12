@@ -1,6 +1,7 @@
 var React = require('react');
 var Reflux = require('reflux');
 var UserStore = require('../stores/UserStore');
+var UserActions = require('../actions/UserActions');
 var Router = require('react-router');
 var Link  = Router.Link;
 
@@ -38,15 +39,29 @@ var Acount = React.createClass({
   componentWillUnmount: function () {
       this.unsubscribe();
   },
+  handleLogout : function () {
+    UserActions.logout();
+  },
   getContent : function(){
   	if(this.state.currentUser.isLogin){
 		return (
-      <ul className= "nav navbar-nav pull-right">
-        <li>
-          <Link to="/pAuth"><img src="img/camera.png" /></Link>
+      <ul className= "nav navbar-nav navbar-right">
+        <li className="dropdown">
+          <Link to="pAuth">
+            <img src="img/camera.png" />
+          </Link>
         </li>
-        <li>
-          <Link to="/pAuth"><img src="img/user.png" /></Link>
+        <li className="dropdown">
+          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <img height="40" src="img/default_user_img_o.png" />
+          </a>
+          <ul className="dropdown-menu">
+            <li><Link to="personInfo">个人信息</Link></li>
+            <li><Link to="info">账户信息</Link></li>
+            <li><Link to="pAuth">摄影师认证</Link></li>
+            <li role="separator" className="divider"></li>
+            <li><a href="#" onclick={this.handleLogout}>登出</a></li>
+          </ul>
         </li>
       </ul>
       )

@@ -3,7 +3,7 @@ var React = require('react');
 var Footer = React.createClass({
 	render: function(){
 		return(
-				<nav className="navbar navbar-default navbar-fixed-bottom" >
+				<nav className="navbar navbar-default" >
 					<div className="navbar-brand">
 						YAOPAI
 					</div>

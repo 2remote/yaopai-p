@@ -86,7 +86,7 @@ var LoginForm = React.createClass({
 		if(data.isLogin){
 			//先转到认证页面
 			this.setState({alertMessage:''});
-			this.transitionTo('pAuth');
+			this.transitionTo('account/pAuth');
 		}else{
 			this.setState({alertMessage : data.hintMessage});
 		}

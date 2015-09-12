@@ -18,23 +18,23 @@ PC web For YaoPai
 － reflux
 
 
-## css 直接在html文件中使用boostrap
-## jquery 也是在html文件中直接使用
+### css 直接在html文件中使用boostrap
+### jquery 也是在html文件中直接使用
 
 
-安装使用：Yeoman Generator
-npm install -g yo
-npm install -g generator-react-reflux
-yo react-reflux [app-name]
+### 安装使用：Yeoman Generator
+```npm install -g yo```
+```npm install -g generator-react-reflux```
+```yo react-reflux [app-name]```
 
 - 生成component模块
-  	- yo react-reflux:component name_of_component
+  	- ```yo react-reflux:component name_of_component```
   	生成文件在app/scripts/compenents下
 - 生成Actions
-  	- yo react-reflux:actions name_of_action
+  	- ```yo react-reflux:actions name_of_action```
   	生成文件在app/scripts/actions下
 - 生成Store
-	－ yo react-reflux:store user
+	－ ```yo react-reflux:store user```
 	生成文件在app/scripts/stores下
 
 

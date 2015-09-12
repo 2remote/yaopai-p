@@ -20,7 +20,7 @@ var AuthHeader = React.createClass({
     return (
       <div className="row">
         <div className="col-sm-8">
-          <span>摄影师认证</span>
+          <span><h3>摄影师认证</h3></span>
         </div>
         <div className="col-sm-4">
           <span>未认证</span>
@@ -51,6 +51,7 @@ var TextInput = React.createClass({
       );
   }
 });
+
 var RealName = React.createClass({
   render : function(){
     return (
@@ -242,8 +243,6 @@ var PhotographerAuth = React.createClass({
   render: function() {
 
     return (
-      <div className="container-fluid nobgimg">
-        <div className="common">
           <Panel>
             <AuthHeader />
             <form className='form-horizontal'>
@@ -263,8 +262,6 @@ var PhotographerAuth = React.createClass({
               <Button bsStyle="primary">提交</Button>
             </form>
           </Panel>
-        </div>
-      </div>
     );
   }
 });

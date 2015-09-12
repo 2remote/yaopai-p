@@ -77,7 +77,7 @@ var UserStore = Reflux.createStore({
   /*
     登出后清空userData的用户信息
   */
-  onLogoutSuccess: function(payload) {
+  onLogoutSuccess: function() {
     this.setCurrentUser(null);
     localStorage.removeItem(this.userKey);
     this.trigger(this.userData);
