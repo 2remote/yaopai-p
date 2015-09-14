@@ -5,6 +5,9 @@ var UserActions = require('../actions/UserActions');
 var Router = require('react-router');
 var Link  = Router.Link;
 
+var LoginPanel = require('./loginPanel');
+var RegisterPanel = require('./registerPanel');
+
 var LoginButton = React.createClass({
 	render : function(){
 		return (
@@ -16,10 +19,15 @@ var LoginButton = React.createClass({
 });
 
 var RegisterButton = React.createClass({
+  login : function(){
+    var loginModal = this.refs.loginModal;
+    loginModal.open();
+  },
 	render : function(){
+    
 		return (
 			<li>
-        <Link to = "/login"><span className="glyphicon glyphicon-login-in" aria-hidden="true"></span>登录</Link>
+        <a href="#" onClick={this.login}><span className="glyphicon glyphicon-login-in" aria-hidden="true"></span>登录</a>
 			</li>
 		);
 	}
@@ -42,7 +50,16 @@ var Acount = React.createClass({
   handleLogout : function () {
     console.log('click logout');
     UserActions.logout(true);
-    Na
+  },
+  handleLogin : function(){
+    this.refs.registerModal.close();
+    var loginModal = this.refs.loginModal;
+    loginModal.open();
+  },
+  handleRegister : function(){
+    this.refs.loginModal.close();
+    var registerModal = this.refs.registerModal;
+    registerModal.open();
   },
   getContent : function(){
   	if(this.state.currentUser.isLogin){
@@ -70,7 +87,9 @@ var Acount = React.createClass({
 	}else{
 		return (
 				<ul className= "nav navbar-nav pull-right">
-					<RegisterButton />
+					<li>
+            <a onClick={this.handleLogin}><span className="glyphicon glyphicon-login-in" aria-hidden="true"></span>登录</a>
+          </li>
 				</ul>
 			)
 	}
@@ -81,6 +100,8 @@ var Acount = React.createClass({
 				{
 					this.getContent()
 				}
+        <LoginPanel ref="loginModal" register={this.handleRegister} />
+        <RegisterPanel ref="registerModal" login={this.handleLogin}/>
 				</div>
 			
 		);

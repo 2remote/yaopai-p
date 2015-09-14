@@ -11,6 +11,7 @@ var UserActions = require('../actions/UserActions');
 var UserNameInput = require('./user/userNameInput');
 var UserPasswordInput = require('./user/userPasswordInput');
 var IndexCover = require('./indexCover');
+var Modal = require('react-bootstrap').Modal;
 
 var AlertBox = require('./user/alertBox');
 var RegisterButton = React.createClass({
@@ -20,10 +21,10 @@ var RegisterButton = React.createClass({
 			<div className="form-group">
     			<div className="col-sm-offset-2 col-sm-6">
     				<div className="col-sm-5">
-						<button className="btn btn-primary btn-lg" onclick={this.props.handleClick}>注册新用户</button>
+						<button className="btn btn-primary " onClick={this.props.handleClick}>注册新用户</button>
 					</div>
 					<div className="col-sm-4">
-						<Link to="/login"><button className="btn btn-success btn-lg">已有账户?</button></Link>
+						<button className="btn btn-success " onClick={this.props.toLogin}>已有账户?</button>
 					</div>
 				</div>
 
@@ -197,7 +198,7 @@ var RegisterForm = React.createClass({
 	        		validatedClass={this.getValidatedClass}/>
 	        	<ValidateCodeInput />
 	        	<RegisterButton handleClick={this.handleClick}
-	        		validatedClass={this.getValidatedClass}/>
+	        		validatedClass={this.getValidatedClass} toLogin={this.props.toLogin}/>
 	        	<AlertBox alertMessage={this.state.alertMessage} />
 				</form>
 			</div>
@@ -206,18 +207,27 @@ var RegisterForm = React.createClass({
 });
 
 var RegisterPanel = React.createClass({
+	getInitialState() {
+    return { showModal: false };
+  },
+  close() {
+    this.setState({ showModal: false });
+  },
 
+  open() {
+    this.setState({ showModal: true });
+  },
   render: function() {
 
     return (
-    	<IndexCover>
-	    	<div className="panel panel-default opacity90">
-	    		<div className="panel-heading">
+	    	<Modal show={this.state.showModal} onHide={this.close}>
+	    		<Modal.Header closeButton>
 	    			注册成为YAOPAI的用户，发现你的不同
-	    		</div>
-	      		<RegisterForm />
-	      </div>
-	    </IndexCover>
+	    		</Modal.Header>
+	    		<Modal.Body>
+	      		<RegisterForm toLogin={this.props.login}/>
+	      	</Modal.Body>
+	      </Modal>
     );
   }
 });

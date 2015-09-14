@@ -12,6 +12,8 @@ var UserPasswordInput = require('./user/userPasswordInput');
 var IndexCover = require('./indexCover');
 
 var AlertBox = require('./user/alertBox');
+
+var Modal = require('react-bootstrap').Modal;
 /*
 	验证逻辑放到相关的表单组件
 	组件间的调用统一在LoginForm中实现
@@ -25,10 +27,10 @@ var LoginButton = React.createClass({
 			<div className="form-group">
     			<div className="col-sm-offset-2 col-sm-4">
     				<div className="col-sm-5">
-						<button className="btn btn-primary btn-lg" onClick={this.props.handleClick}>登  录</button>
+						<button className="btn btn-primary" onClick={this.props.handleClick}>登  录</button>
 					</div>
 					<div className="col-sm-4">
-						<Link to="/register"><button className="btn btn-success btn-lg">还没有YAOPAI的账户？</button></Link>
+						<button className="btn btn-success" onClick={this.props.toRegister}>还没有YAOPAI的账户？</button>
 					</div>
 				</div>
 
@@ -65,6 +67,13 @@ var LoginForm = React.createClass({
 			alertMessage : ''
 		}
 	},
+	getDefaultProps : function(){
+		return {
+			finishLogin:function(){
+				return ;
+			}
+		}
+	},
 	handleClick : function(event){
 		if(!validator.isMobilePhone(this.state.userName, 'zh-CN') || !validator.isLength(this.state.password,6,18)) {
 			this.setState({alertMessage:'请输入正确的手机号码和密码格式'});
@@ -86,7 +95,7 @@ var LoginForm = React.createClass({
 		if(data.isLogin){
 			//先转到认证页面
 			this.setState({alertMessage:''});
-			this.transitionTo('account/pAuth');
+			this.props.finishLogin();
 		}else{
 			this.setState({alertMessage : data.hintMessage});
 		}
@@ -118,7 +127,7 @@ var LoginForm = React.createClass({
 	        		handleChange={this.handlePasswordChange} 
 	        		validatedClass={this.getValidatedClass}/>
 	        	<RememberMeCheck checkedChange = {this.handleCheckedChange} />
-	        	<LoginButton handleClick={this.handleClick}/>
+	        	<LoginButton handleClick={this.handleClick} toRegister={this.props.toRegister}/>
 	        	<AlertBox alertMessage={this.state.alertMessage} />
 				</form>
 			</div>
@@ -127,18 +136,40 @@ var LoginForm = React.createClass({
 });
 
 var LoginPanel = React.createClass({
+	getInitialState() {
+    return { showModal: false };
+  },
+  getDefaultProps :function(){
+  	return{
+  		register : function(){
+  			this.close();
+  			return;
+  		},
+  		forgetPassword : function(){
+  			this.close();
+  			return;
+  		}
+  	}
+  },
+  close() {
+    this.setState({ showModal: false });
+  },
+
+  open() {
+    this.setState({ showModal: true });
+  },
 
   render: function() {
 
     return (
-    	<IndexCover>
-	    	<div className="panel panel-default opacity90">
-	    		<div className="panel-heading">
-	    			登录YAOPAI分享你自己的艺术
-	    		</div>
-	      		<LoginForm />
-	      </div>
-      </IndexCover>
+    	<Modal show={this.state.showModal} onHide={this.close}>
+	    		<Modal.Header closeButton>
+	    			<Modal.Title>登录YAOPAI分享你自己的艺术</Modal.Title>
+	    		</Modal.Header>
+	    		<Modal.Body>
+	      		<LoginForm finishLogin={this.close} toRegister={this.props.register} toForgetPassword={this.props.forgetPassword}/>
+	      	</Modal.Body>
+	    </Modal>
     );
   }
 });
