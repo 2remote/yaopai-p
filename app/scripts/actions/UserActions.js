@@ -16,7 +16,7 @@ UserActions.register.listen(function(data) {
   $.post(API.user_api.register_url, data).then(this.success, this.failed);
 });
 
-UserActions.logout.listen(function() {
+UserActions.logout.listen(function(data) {
     console.log('begin to logout!');
     this.success();
 });

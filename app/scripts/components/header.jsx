@@ -15,7 +15,7 @@ var CityLink = React.createClass({
 var Header = React.createClass({
 	render: function(){
 		return(
-			<header role="banner">
+			<header role="banner" className="header">
 					<nav className="nav navbar navbar-inverse navbar-fixed-top" role="navigation">
 							<div className="navbar-header">
 								<a className="navbar-brand" href="/">

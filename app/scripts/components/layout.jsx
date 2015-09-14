@@ -14,9 +14,9 @@ var Layout = React.createClass({
   },
   render: function() {
         return (
-          <div className="App">
+          <div className="container-fluid bgimg">
             <Header />
-              <RouteHandler />
+              {this.props.children}
             <Footer />
           </div>
         );

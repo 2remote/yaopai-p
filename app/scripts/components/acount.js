@@ -40,14 +40,16 @@ var Acount = React.createClass({
       this.unsubscribe();
   },
   handleLogout : function () {
-    UserActions.logout();
+    console.log('click logout');
+    UserActions.logout(true);
+    Na
   },
   getContent : function(){
   	if(this.state.currentUser.isLogin){
 		return (
       <ul className= "nav navbar-nav navbar-right">
         <li className="dropdown">
-          <Link to="pAuth">
+          <Link to="/account/pAuth">
             <img src="img/camera.png" />
           </Link>
         </li>
@@ -56,11 +58,11 @@ var Acount = React.createClass({
             <img height="40" src="img/default_user_img_o.png" />
           </a>
           <ul className="dropdown-menu">
-            <li><Link to="personInfo">个人信息</Link></li>
-            <li><Link to="info">账户信息</Link></li>
-            <li><Link to="pAuth">摄影师认证</Link></li>
+            <li><Link to="/account">我的主页</Link></li>
+            <li><Link to="/account">订单管理</Link></li>
+            <li><Link to="/account">账户设置</Link></li>
             <li role="separator" className="divider"></li>
-            <li><a href="#" onclick={this.handleLogout}>登出</a></li>
+            <li><a href="#" onClick={this.handleLogout}>登出</a></li>
           </ul>
         </li>
       </ul>

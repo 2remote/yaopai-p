@@ -30,14 +30,26 @@ body {
     padding: 0.2em 0;
 }
 
+.header {
+    overflow: hidden;
+    height: 70px;
+}
+.header nav{
+    background-color: #1f2f3c;
+    font-size: 16px;
+}
+
 .bgimg {
     background: url(http://static.bootcss.com/expo/img/d/dd/2de797545de56274f03a5920eb3a1.jpg) no-repeat center center fixed;
     background-size:cover;
-    position:fixed; 
+    position: relative; 
     width:100%; 
     height:100%; 
     left:0px;
     top:0px;
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+    overflow: hidden;;
 }
 .nobgimg{
     /*position:fixed; */
@@ -48,17 +60,17 @@ body {
 }
 
 .centerContent {
+    min-height: 300px;
     padding-top: 30px;
-    top: 50%;
-    position:relative;
-    width:680px;
+    width:50%;
     margin:0 auto;
-    margin-top: -240px;
+    margin-top: 10px;
+    overflow: hidden;
 }
 .common {
     padding-top: 30px;
     position:relative;
-    width:980px;
+    width:70%;
     margin:0 auto;
     margin-top : 50px;
     margin-bottom: 150px;
@@ -73,3 +85,68 @@ body {
 .hidden {
     display: none;
 }
+.account-center-appear {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.accoutn-center-appear.account-center-appear-active {
+  opacity: 1;
+}
+.footer{
+    width: 100%;
+    bottom: 0px;
+    right: 0px;
+    padding-top: 60px;
+    overflow: hidden;;
+}
+.footer .footer-cover{
+    background: url(../img/footer_bg.png) no-repeat center center;
+    background-size:cover;
+    width:100%; 
+    left:0px;
+}
+.footer .footer-cover .center {
+    padding-top: 0px;
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-bottom: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+.footer .footer-cover .center div{
+    padding-top: 20px;
+    color: #eaeaea;
+}
+
+.footer .line {
+    height: 1px;
+    background-color: #eaeaea;
+}
+.footer .footer-bar{
+    background-color: #1f2f3c;
+    height: 70px;
+    bottom: 0px;
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.footer .footer-bar .footer-code{
+    margin-right: 10px;
+    float: left;
+}
+.footer .footer-bar .footer-info{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 30px;
+    color: #eaeaea;
+    text-align: center;
+    font-size: 12px;
+}
+.footer .footer-bar .footer-info span{
+    font-size: 120%;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+

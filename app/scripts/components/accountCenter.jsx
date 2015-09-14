@@ -11,7 +11,7 @@ var AccountCenter = React.createClass({
       <div className="container-fluid nobgimg">
         <div className="common">
           <div className="col-xs-10">
-            <RouteHandler />
+              {this.props.children}
           </div>
           <div className="col-xs-2">
             <AccountNav />

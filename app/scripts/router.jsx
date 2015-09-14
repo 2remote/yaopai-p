@@ -1,8 +1,9 @@
 var React = require('react');
-var Router = require('react-router');
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-
+var ReactRouter = require('react-router')
+var Router = ReactRouter.Router
+var Route = ReactRouter.Route
+var Link = ReactRouter.Link;
+var IndexRoute = ReactRouter.IndexRoute;
 var Layout = require('./components/layout');
 var Home = require('./components/home');
 var About = require('./components/about');
@@ -15,23 +16,23 @@ var AccountInfo = require('./components/accountInfo');
 
 
 var routes = (
-	<Route name="homeLayout" path="/" handler={Layout}>
-		<DefaultRoute handler={Home} />
-		<Route name="about" handler={About} />
-		<Route name="login" handler={Login} />
-		<Route name="register" handler={Register} />
-		<Route name="account" handler={AccountCenter} >
-			<Route name="personInfo" handler={PersonInfo} />
-			<Route name="pAuth" handler={PhotographerAuth} />
-			<Route name="info" handler={AccountInfo} />
+	<Router>
+		<Route path="/" component={Layout}>
+			<IndexRoute component={Home} />
+			<Route path="login" component={Login} />
+			<Route path="register" component={Register} />
+			<Route path="/account" component={AccountCenter} >
+				<IndexRoute component={PersonInfo} />
+				<Route path="personInfo" component={PersonInfo} />
+				<Route path="pAuth" component={PhotographerAuth} />
+				<Route path="info" component={AccountInfo} />
+			</Route>
 		</Route>
-	</Route>
+	</Router>
 	
 );
 
 exports.start = function() {
   
-  Router.run(routes, function (Handler) {
-		React.render(<Handler />, document.getElementById('content'));
-	});
+		React.render(routes, document.getElementById('content'));
 }

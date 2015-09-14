@@ -12,9 +12,9 @@ var AccountNav = React.createClass({
     return (
       <div>
         <ul className="list-group">
-          <li className="list-group-item"><Link to="personInfo">个人信息</Link></li>
-          <li className="list-group-item"><Link to="info">账户信息</Link></li>
-          <li className="list-group-item"><Link to="pAuth">摄影师认证</Link></li>
+          <li className="list-group-item"><Link to="/account/personInfo">个人信息</Link></li>
+          <li className="list-group-item"><Link to="/account/info">账户信息</Link></li>
+          <li className="list-group-item"><Link to="/account/pAuth">摄影师认证</Link></li>
         </ul>
       </div>
     );

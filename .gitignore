@@ -25,3 +25,5 @@ chrome-user-data
 .idea
 *.iml
 .tmp
+doc
+dist
