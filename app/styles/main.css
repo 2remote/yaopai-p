@@ -33,6 +33,7 @@ body {
 .header {
     overflow: hidden;
     height: 70px;
+    opacity:0.95;
 }
 .header nav{
     background-color: #1f2f3c;

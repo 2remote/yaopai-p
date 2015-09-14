@@ -19,7 +19,7 @@ var RegisterButton = React.createClass({
 	render : function(){
 		return (
 			<li>
-				<Link to = "/register"><img src="img/user.png" /></Link>
+        <Link to = "/login"><span className="glyphicon glyphicon-login-in" aria-hidden="true"></span>登录</Link>
 			</li>
 		);
 	}
@@ -62,7 +62,7 @@ var Acount = React.createClass({
             <li><Link to="/account">订单管理</Link></li>
             <li><Link to="/account">账户设置</Link></li>
             <li role="separator" className="divider"></li>
-            <li><a href="#" onClick={this.handleLogout}>登出</a></li>
+            <li><a href="#" onClick={this.handleLogout}><span className="glyphicon glyphicon-login-out" aria-hidden="true"></span>登出</a></li>
           </ul>
         </li>
       </ul>
