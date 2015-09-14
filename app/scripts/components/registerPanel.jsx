@@ -207,14 +207,14 @@ var RegisterForm = React.createClass({
 });
 
 var RegisterPanel = React.createClass({
-	getInitialState() {
+	getInitialState : function() {
     return { showModal: false };
   },
-  close() {
+  close : function() {
     this.setState({ showModal: false });
   },
 
-  open() {
+  open : function() {
     this.setState({ showModal: true });
   },
   render: function() {

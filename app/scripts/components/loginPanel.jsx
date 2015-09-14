@@ -136,7 +136,7 @@ var LoginForm = React.createClass({
 });
 
 var LoginPanel = React.createClass({
-	getInitialState() {
+	getInitialState : function() {
     return { showModal: false };
   },
   getDefaultProps :function(){
@@ -151,11 +151,11 @@ var LoginPanel = React.createClass({
   		}
   	}
   },
-  close() {
+  close : function() {
     this.setState({ showModal: false });
   },
 
-  open() {
+  open : function() {
     this.setState({ showModal: true });
   },
 

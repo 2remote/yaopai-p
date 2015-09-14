@@ -80,6 +80,11 @@ gulp.task('imagemin', function() {
     .pipe(gulp.dest('dist/img'));
 });
 
+gulp.task('fonts', function() {
+  return gulp.src(['app/fonts/*.eot','app/fonts/*.svg','app/fonts/*.ttf','app/fonts/*.woff','app/fonts/*.woff2'])
+    .pipe(gulp.dest('dist/fonts'));
+});
+
 gulp.task('copy', function() {
   return gulp.src(['app/*.txt', 'app/*.ico'])
     .pipe(gulp.dest('dist'));
@@ -93,7 +98,7 @@ gulp.task('copyStyles', function() {
 gulp.task('bundle', function () {
   var assets = $.useref.assets();
   var revAll = new $.revAll({dontRenameFile: [/^\/favicon.ico$/g, '.html']});
-  var jsFilter = $.filter(['**/*.js']);
+  var jsFilter = $.filter(['**/*.js','**/*.jsx']);
   var cssFilter = $.filter(['**/*.css']);
   var htmlFilter = $.filter(['*.html']);
 
@@ -149,7 +154,7 @@ gulp.task('build', function() {
   env = 'prod';
   runSequence(['clean:dev', 'clean:dist'],
               ['scripts', ],
-              'bundle', 'copy','copyStyles','imagemin');
+              'bundle', 'copy','copyStyles','imagemin','fonts');
 });
 
 gulp.task('default', ['build']);
