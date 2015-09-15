@@ -6,40 +6,27 @@ body {
     height: 100%;
 }
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
-}
-
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
-}
-
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
 .header {
     overflow: hidden;
     height: 70px;
     opacity:0.95;
+    position: fixed;
+    z-index: 999;
 }
 .header nav{
     background-color: #1f2f3c;
     font-size: 16px;
 }
-
+.right-header-nav {
+    margin-right: 10px;
+}
+.right-header-nav li a{
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;
+}
+.rigth-header-nav .down{
+    bottom: -20px;
+}
 .bgimg {
     background: url(http://static.bootcss.com/expo/img/d/dd/2de797545de56274f03a5920eb3a1.jpg) no-repeat center center fixed;
     background-size:cover;
@@ -63,9 +50,9 @@ body {
 .centerContent {
     min-height: 300px;
     padding-top: 30px;
-    width:50%;
+    width:70%;
     margin:0 auto;
-    margin-top: 10px;
+    margin-top: 80px;
     overflow: hidden;
 }
 .common {
@@ -150,4 +137,3 @@ body {
     margin-right: 5px;
     margin-left: 5px;
 }
-
