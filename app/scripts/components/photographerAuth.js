@@ -1,5 +1,4 @@
 var React = require('react');
-var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 var Reflux = require('reflux');
@@ -10,6 +9,7 @@ var UserActions = require('../actions/UserActions');
 var UserNameInput = require('./user/userNameInput');
 var UserPasswordInput = require('./user/userPasswordInput');
 var AlertBox = require('./user/alertBox');
+
 var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
