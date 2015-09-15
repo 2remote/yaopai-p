@@ -13,6 +13,7 @@ var AccountCenter = require('./components/accountCenter');
 var PhotographerAuth = require('./components/photographerAuth');
 var PersonInfo = require('./components/personInfo');
 var AccountInfo = require('./components/accountInfo');
+var UploadWorks = require('./components/uploadWorks');
 
 
 var routes = (
@@ -26,8 +27,7 @@ var routes = (
 				<Route path="personInfo" component={PersonInfo} />
 				<Route path="pAuth" component={PhotographerAuth} />
 				<Route path="info" component={AccountInfo} />
-				<Route path="upload" component={AccountInfo} />
-
+				<Route path="upload" component={UploadWorks} />
 			</Route>
 		</Route>
 	</Router>
