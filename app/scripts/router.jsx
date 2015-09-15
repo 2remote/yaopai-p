@@ -26,6 +26,8 @@ var routes = (
 				<Route path="personInfo" component={PersonInfo} />
 				<Route path="pAuth" component={PhotographerAuth} />
 				<Route path="info" component={AccountInfo} />
+				<Route path="upload" component={AccountInfo} />
+
 			</Route>
 		</Route>
 	</Router>
