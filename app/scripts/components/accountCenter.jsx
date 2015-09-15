@@ -8,8 +8,7 @@ var AccountCenter = React.createClass({
   render: function() {
 
     return (
-      <div className="container-fluid nobgimg">
-        <div className="common">
+        <div className="centerContent">
           <div className="col-xs-10">
               {this.props.children}
           </div>
@@ -17,7 +16,6 @@ var AccountCenter = React.createClass({
             <AccountNav />
           </div>
         </div>
-      </div>
     );
   }
 });
