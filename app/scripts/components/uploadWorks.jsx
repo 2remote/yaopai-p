@@ -4,7 +4,7 @@ var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
 var AccountHeader = require('./account/accountHeader');
 var TextInput = require('./account/textInput');
-var ChooseImage = require('./account/ChooseImage');
+var ChooseImage = require('./account/chooseImage');
 
 /*
   选择类别组件
