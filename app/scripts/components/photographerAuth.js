@@ -235,7 +235,7 @@ var CompnayIntro = React.createClass({
 });
 
 var PhotographerAuth = React.createClass({
-  getInintialState: function(){
+  getInitialState: function(){
     return {
       authState : '0'
     }
