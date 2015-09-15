@@ -64,10 +64,10 @@ var Acount = React.createClass({
   getContent : function(){
   	if(this.state.currentUser.isLogin){
 		return (
-      <ul className= "nav navbar-nav navbar-right">
-        <li className="dropdown">
+      <ul className= "nav navbar-nav navbar-right  right-header-nav">
+        <li>
           <Link to="/account/pAuth">
-            <img src="img/camera.png" />
+            <img height="20" src="img/camera.png" />
           </Link>
         </li>
         <li className="dropdown">
@@ -75,20 +75,20 @@ var Acount = React.createClass({
             <img height="40" src="img/default_user_img_o.png" />
           </a>
           <ul className="dropdown-menu">
-            <li><Link to="/account">我的主页</Link></li>
-            <li><Link to="/account">订单管理</Link></li>
-            <li><Link to="/account">账户设置</Link></li>
+            <li><Link to="/account"><span className="glyphicon glyphicon-home" aria-hidden="true"></span>  我的主页</Link></li>
+            <li><Link to="/account"><span className="glyphicon glyphicon-file" aria-hidden="true"></span>  订单管理</Link></li>
+            <li><Link to="/account"><span className="glyphicon glyphicon-con" aria-hidden="true"></span>  账户设置</Link></li>
             <li role="separator" className="divider"></li>
-            <li><a href="#" onClick={this.handleLogout}><span className="glyphicon glyphicon-login-out" aria-hidden="true"></span>登出</a></li>
+            <li><a href="#" onClick={this.handleLogout}><span className="glyphicon glyphicon-log-out" aria-hidden="true"></span>  登出</a></li>
           </ul>
         </li>
       </ul>
       )
 	}else{
 		return (
-				<ul className= "nav navbar-nav pull-right">
+				<ul className= "nav navbar-nav navbar-right">
 					<li>
-            <a onClick={this.handleLogin}><span className="glyphicon glyphicon-login-in" aria-hidden="true"></span>登录</a>
+            <a onClick={this.handleLogin}><span className="glyphicon glyphicon-log-in" aria-hidden="true"></span>  登录</a>
           </li>
 				</ul>
 			)
@@ -96,12 +96,12 @@ var Acount = React.createClass({
   },
 	render : function(){
 		return(
-				<div className="nav nav-header pull-right">
-				{
-					this.getContent()
-				}
-        <LoginPanel ref="loginModal" register={this.handleRegister} />
-        <RegisterPanel ref="registerModal" login={this.handleLogin}/>
+				<div className="right-header-nav">
+  				{
+  					this.getContent()
+  				}
+          <LoginPanel ref="loginModal" register={this.handleRegister} />
+          <RegisterPanel ref="registerModal" login={this.handleLogin}/>
 				</div>
 			
 		);
