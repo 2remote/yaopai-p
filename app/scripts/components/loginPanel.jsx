@@ -79,7 +79,13 @@ var LoginForm = React.createClass({
 			this.setState({alertMessage:'请输入正确的手机号码和密码格式'});
 			return;
 		}
-		var loginData = {userName : this.state.userName,password : this.state.password};
+		//登录数据
+		var loginData = {
+			loginname : this.state.userName,
+			password : this.state.password,
+			autologin : this.state.rememberMe,
+			autoexpires : 10000
+		};
 		UserActions.login(loginData);
 	},
 	handleUserNameChange : function(event){

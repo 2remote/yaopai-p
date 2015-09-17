@@ -13,6 +13,7 @@ var UserStore = Reflux.createStore({
     this.userData = {
       userId: '',
       userName: '',
+      loginToken : '',//用户选择rememberme的时候返回
       userType: '',
       userState: '',
       isLogin: false,
@@ -37,16 +38,17 @@ var UserStore = Reflux.createStore({
   },
 
   onLoginSuccess: function(data) {
-    console.log('login get data:' + data);
+    console.log(data);
     //测试本地须转换JSON，集成测试后不需要
-    data = eval("(" + data + ")");
-    if (data.ErrorCode == 0) {
+    //data = eval("(" + data + ")");
+    if (data.Success) {
       //用户登录成功，需要获得用户信息
-      this.setCurrentUser(data.user);
+      this.setCurrentUser(data.User);
       localStorage.setItem(this.userKey,JSON.stringify(this.userData));
       this.trigger(this.userData);
     } else {
       this.userData.hintMessage = data.ErrorMsg;
+      console.log(this.userData);
       this.trigger(this.userData);
     }
   },
@@ -95,11 +97,11 @@ var UserStore = Reflux.createStore({
       this.userData.userType = '';
       this.userData.userState = '';
     } else {
-      this.userData.userId = userData.userId;
-      this.userData.userName = userData.userName;
+      this.userData.userId = userData.Id;
+      this.userData.userName = userData.Name;
       this.userData.isLogin = true;
-      this.userData.userType = userData.userType;
-      this.userData.userState = userData.userState;
+      // this.userData.userType = userData.userType;
+      // this.userData.userState = userData.userState;
     }
   }
 

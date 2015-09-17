@@ -33,6 +33,8 @@ var RegisterButton = React.createClass({
 	}
 });
 
+/*
+//暂时不用comfirm密码
 
 var UserPasswordRepeatInput = React.createClass({
 	getInitialState : function(){
@@ -74,6 +76,7 @@ var UserPasswordRepeatInput = React.createClass({
 	
 });
 
+
 var RememberMeCheck = React.createClass({
 	render : function(){
 		return(
@@ -89,11 +92,13 @@ var RememberMeCheck = React.createClass({
 			);
 	}
 });
+*/
 
 var ValidateCodeInput = React.createClass({
 	getInitialState : function(){
 		return{
-			validated : '0'
+			validated : '0',
+			timeLeft : 0 ,
 		}
 	},
 	getDefaultProps : function(){
@@ -106,6 +111,16 @@ var ValidateCodeInput = React.createClass({
 	},
 	render : function(){
 		var classString = this.props.validatedClass(this.state.validated);
+		var getCodeButton ;
+		if(this.state.timeLeft > 0){
+			getCodeButton = (
+				<button className="btn btn-default" type="button" disabled={isDesabled}>获取验证码({this.state.timeLeft})</button>
+				);
+		}else{
+			getCodeButton = (
+				<button className="btn btn-default" type="button" onClick={this.props.handleGetCode} >获取验证码</button>
+				)
+		}
 		return(
 			<div className={classString}>
 				<div className="col-sm-offset-2 col-sm-6 ">
@@ -115,7 +130,7 @@ var ValidateCodeInput = React.createClass({
 						placeholder="输入验证码" 
 						onChange={this.handleChange}/>
 						<span className="input-group-btn">
-			        <button className="btn btn-default" type="button">获取验证码</button>
+			        {getCodeButton}
 			      </span>
 				</div>
 				</div>
@@ -159,12 +174,23 @@ var RegisterForm = React.createClass({
 		this.setState({rememberMe : event.target.checked});
 	},
 	handleClick : function(){
-		if(!validator.isMobilePhone(this.state.userName, 'zh-CN') || !validator.isLength(this.state.password,6,18)) {
+		var isMobile = validator.isMobilePhone(this.state.userName, 'zh-CN');
+		var isPassword = validator.isLength(this.state.password,6,18);
+		if(!isMobile || !isPassword) {
 			this.setState({alertMessage:'请输入正确的手机号码和密码格式'});
 			return;
 		}
 		var registerData = {userName : this.state.userName,password : this.state.password};
 		UserActions.register(registerData);
+	},
+	handleGetCode : function(){
+		var phone = this.state.userName;
+		var isMobile = validator.isMobilePhone(this.state.userName, 'zh-CN');
+		if(!isMobile){
+			this.setState({alertMessage:'请输入正确的手机号码'});
+			return;	
+		}
+		UserActions.sendTelRegister({tel:phone});
 	},
 	/*
 		校验表现css
@@ -196,7 +222,7 @@ var RegisterForm = React.createClass({
 	        		password = {this.state.password} 
 	        		handleChange={this.handlePasswordChange} 
 	        		validatedClass={this.getValidatedClass}/>
-	        	<ValidateCodeInput />
+	        	<ValidateCodeInput handleGetCode={this.handleGetCode}/>
 	        	<RegisterButton handleClick={this.handleClick}
 	        		validatedClass={this.getValidatedClass} toLogin={this.props.toLogin}/>
 	        	<AlertBox alertMessage={this.state.alertMessage} />
