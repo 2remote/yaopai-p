@@ -93,6 +93,7 @@ var PersonInfo = React.createClass({
           <TextInput labelName="昵称：" />
           <UserGender />
           <District />
+          <button className="btn btn-primary">保存</button>
         </form>
       </Panel>
     );
