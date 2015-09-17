@@ -14,7 +14,7 @@ var Layout = React.createClass({
   },
   render: function() {
         return (
-          <div className="container-fluid bgimg">
+          <div className="container-fluid no-bgimg gray-bg">
             <Header />
               {this.props.children}
             <Footer />
