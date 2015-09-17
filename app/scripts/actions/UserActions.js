@@ -1,5 +1,6 @@
 var Reflux = require('reflux');
 var API = require('../api');
+var HttpFactory = require('../HttpFactory');
 
 var UserActions = Reflux.createActions({
     'sendTelRegister' : {children:["success","failed"]},
@@ -17,7 +18,8 @@ var UserActions = Reflux.createActions({
 */
 UserActions.login.listen(function(data) {
   console.log("login begin");
-  $.post(API.user_api.login_url, data).then(this.success, this.failed);
+  //$.post(API.user_api.login_url, data).then(this.success, this.failed);
+  HttpFactory.post(API.user_api.login,data,this.success,this.failed);
 });
 
 /*
@@ -33,7 +35,8 @@ UserActions.login.listen(function(data) {
 */
 UserActions.sendTelRegister.listen(function(data) {
   console.log("send request code.");
-  $.post(API.user_api.sendTelRegister_url, data).then(this.success, this.failed);
+  // $.post(API.user_api.sendTelRegister_url, data).then(this.success, this.failed);
+  HttpFactory.post(API.user_api.sendTelRegister,data,this.success,this.failed);
 });
 
 /*
@@ -46,7 +49,8 @@ UserActions.sendTelRegister.listen(function(data) {
   }
 */
 UserActions.register.listen(function(data) {
-  $.post(API.user_api.register_url, data).then(this.success, this.failed);
+  // $.post(API.user_api.register_url, data).then(this.success, this.failed);
+  HttpFactory.post(API.user_api.register,data,this.success,this.failed);
 });
 
 /*
@@ -54,7 +58,7 @@ UserActions.register.listen(function(data) {
 */
 UserActions.logout.listen(function(data) {
     console.log('begin to logout!');
-    this.success();
+    HttpFactory.post(API.user_api.logout,data,this.success,this.failed);
 });
 
 
