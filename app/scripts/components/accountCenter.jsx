@@ -8,7 +8,7 @@ var AccountCenter = React.createClass({
   render: function() {
 
     return (
-        <div className="centerContent">
+        <div className="center-content">
           <div className="col-xs-10">
               {this.props.children}
           </div>

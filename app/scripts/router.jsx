@@ -14,7 +14,7 @@ var PhotographerAuth = require('./components/photographerAuth');
 var PersonInfo = require('./components/personInfo');
 var AccountInfo = require('./components/accountInfo');
 var UploadWorks = require('./components/uploadWorks');
-
+var OrderManager = require('./components/orderManager');
 
 var routes = (
 	<Router>
@@ -29,6 +29,7 @@ var routes = (
 				<Route path="info" component={AccountInfo} />
 				<Route path="upload" component={UploadWorks} />
 			</Route>
+			<Route path="order" component={OrderManager} />
 		</Route>
 	</Router>
 	
