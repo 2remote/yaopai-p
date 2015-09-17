@@ -1,9 +1,13 @@
-var API_URL = 'http://localhost:3000';
+// var API_URL = 'http://localhost:3000';
+var API_URL = 'http://yaopai.chinacloudapp.cn/api/?api=';
+
 var API_CONST = {
   user_api : {
-    login_url : API_URL + '/login',
-    register_url : API_URL + '/register',
-    sendTelRegister : API_URL + "/sendTelRegister"
+    login : API_URL + 'User.Login',
+    register : API_URL + 'User.ReceiveTelRegister',
+    sendTelRegister : API_URL + "User.SendTelRegister",
+    logout : API_URL + "User.Logout"
+
   }
 }
 
