@@ -160,11 +160,12 @@ body {
     width: 70%;
     padding-left: 10px;
     padding-top: 10px;
-    padding-bottom: 10px;
 }
 .image-item .main-des textarea{
-    width: 100%;
+    width: 95%;
     height: 60px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .image-item .delete-button {
     float: right;

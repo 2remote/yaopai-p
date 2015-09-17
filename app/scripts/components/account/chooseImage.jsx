@@ -1,5 +1,9 @@
 var React = require('react');
+var Reflux = require('reflux');
+var WorkActions  = require('../../actions/WorkActions');
+var WorkStore = require('../../stores/WorkStore');
 
+var Input = require('react-bootstrap').Input;
 /*
   data structure
   {
@@ -14,22 +18,19 @@ var ImageItem = React.createClass({
   getDefaultProps : function(){
     return{
       imageData: {},  
-      onDelete : function(){},
-      onMoveUp : function(){},
-      onMoveDown : function(){}
     }
   },
   handleChange : function(event){
-    this.props.imageData.imageDes = event.target.value;
+    WorkActions.editImageDes(this.props.imageData,this.refs.description.getValue());
   },
   deleteItem : function(event){
-    this.props.onDelete(this.props.imageData);
+    WorkActions.removeImage(this.props.imageData);
   },
   moveUpItem : function(event){
-    this.props.onMoveUp(this.props.imageData);
+    WorkActions.moveUpImage(this.props.imageData);
   },
   moveDownItem : function(event){
-    this.props.onMoveDown(this.props.imageData);
+    WorkActions.moveDownImage(this.props.imageData);
   },
   render : function(){
     return (
@@ -42,7 +43,7 @@ var ImageItem = React.createClass({
           <img height="60" width="60" src={this.props.imageData.imageUrl} />
         </div>
         <div className="main-des">
-          <textarea type="textarea" ref="description" onChange={this.handleChange} >{this.props.imageData.imageDes}</textarea>
+          <Input type="textarea" ref="description" onChange={this.handleChange} value={this.props.imageData.imageDes} />
         </div>
         <div className="delete-button">
           <span className="glyphicon glyphicon-remove-circle image-button" onClick={this.deleteItem}></span>
@@ -53,10 +54,14 @@ var ImageItem = React.createClass({
 });
 
 var ChooseImages = React.createClass({
+  mixins: [Reflux.listenTo(WorkStore, 'onStatusChange')],
   getInitialState : function(){
     return {
       imageItemList : []
     }
+  },
+  onStatusChange : function(data){
+    this.setState({imageItemList : data});
   },
   /*
     通过FileReader读取图片文件
@@ -84,69 +89,7 @@ var ChooseImages = React.createClass({
   },
   //增加图片
   addImage : function(item){
-    if(this.state.imageItemList.length == 0){
-      //设置封面
-      item.isCover =  true;
-    }
-    item.key = this.state.imageItemList.length;
-    var list = this.state.imageItemList;
-    list.push(item);
-    this.setState({imageItemList : list});
-  },
-  //删除图片
-  deleteImage : function(item){
-    var len = this.state.imageItemList.length;
-    var list = []
-    var index = -1;
-    for(var i = 0 ;i < len; i++ ){
-      if(item.key == this.state.imageItemList[i].key){
-        index = i;
-        break;
-      }
-    }
-    if(index > -1){
-      this.state.imageItemList.splice(index,1);
-      list = this.state.imageItemList;
-      //重新生成key
-      for(var i = 0 ; i < list.length; i++){
-        list[i].key = i ;
-      }
-      this.setState({imageItemList : list});
-    }
-  },
-  /*
-    移动图片
-    暂时只做移动按钮
-  */
-  swapItems : function(arr, index1, index2) {
-    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
-    return arr;
-  },
-  /*
-    上移
-  */
-  moveUp : function(item){
-    if(item.key == 0)return;
-    var list = this.state.imageItemList;
-    list = this.swapItems(list,item.key,item.key-1);
-    //重新生成key
-    for(var i = 0 ; i < list.length; i++){
-      list[i].key = i ;
-    }
-    this.setState({imageItemList : list});
-  },
-  /*
-    下移
-  */
-  moveDown : function(item){
-    if(item.key == this.state.imageItemList.length-1) return;
-    var list = this.state.imageItemList;
-    list = this.swapItems(list,item.key,item.key+1);
-    //重新生成key
-    for(var i = 0 ; i < list.length; i++){
-      list[i].key = i ;
-    }
-    this.setState({imageItemList : list});
+    WorkActions.addImage(item);
   },
   handleClick : function(){
     React.findDOMNode(this.refs.selectImage).click();
