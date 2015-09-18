@@ -21,9 +21,7 @@ var GetCodeActions = Reflux.createActions({
 */
 GetCodeActions.sendTelRegister.listen(function(data) {
   console.log("send request code.");
-  // $.post(API.user_api.sendTelRegister_url, data).then(this.success, this.failed);
   HttpFactory.post(API.user_api.sendTelRegister,data,this.success,this.failed);
-  //this.success({Success : true});
 });
 
 module.exports = GetCodeActions;
