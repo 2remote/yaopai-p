@@ -62,15 +62,20 @@ var Acount = React.createClass({
     registerModal.open();
   },
   getContent : function(){
+    var liStyle = {
+      height : '50px',
+      width : '40px',
+      paddingTop : '15px',
+    };
   	if(this.state.currentUser.isLogin){
 		return (
       <ul className= "nav navbar-nav navbar-right  right-header-nav">
-        <li>
+        <li style={liStyle}>
           <Link to="/account/pAuth">
             <img height="20" src="img/camera.png" />
           </Link>
         </li>
-        <li>
+        <li style={liStyle}>
           <Link to="/account/upload">
             <img height="20" src="img/shangchuan.png" />
           </Link>
@@ -80,11 +85,27 @@ var Acount = React.createClass({
             <img height="40" src="img/default_user_img_o.png" />
           </a>
           <ul className="dropdown-menu">
-            <li><Link to="/account"><span className="glyphicon glyphicon-home" aria-hidden="true"></span>  我的主页</Link></li>
-            <li><Link to="/order"><span className="glyphicon glyphicon-file" aria-hidden="true"></span>  订单管理</Link></li>
-            <li><Link to="/account"><span className="glyphicon glyphicon-cog" aria-hidden="true"></span>  账户设置</Link></li>
+            <li>
+              <Link to="/profile/onSale">
+              <span className="glyphicon glyphicon-home" aria-hidden="true"></span>  我的主页
+              </Link>
+            </li>
+            <li>
+              <Link to="/order/myInquiry">
+                <span className="glyphicon glyphicon-file" aria-hidden="true"></span>  订单管理
+              </Link>
+            </li>
+            <li>
+              <Link to="/account">
+                <span className="glyphicon glyphicon-cog" aria-hidden="true"></span>  账户设置
+              </Link>
+            </li>
             <li role="separator" className="divider"></li>
-            <li><a href="#" onClick={this.handleLogout}><span className="glyphicon glyphicon-log-out" aria-hidden="true"></span>  登出</a></li>
+            <li>
+              <a href="#" onClick={this.handleLogout}>
+                <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span>  登出
+              </a>
+            </li>
           </ul>
         </li>
       </ul>

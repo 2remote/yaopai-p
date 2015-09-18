@@ -1,18 +1,25 @@
 var React = require('react');
+var Reflux = require('reflux');
 
 var Router = require('react-router');
 var Link = Router.Link;
 
 var OrderStore = require('../stores/OrderStore');
-var OrderAction = require('../actions/OrderActions');
+var OrderActions = require('../actions/OrderActions');
+var Input = require('react-bootstrap').Input;
+var Collapse = require('react-bootstrap').Collapse;
 
 var OrderManagerNav = React.createClass({
   render : function(){
+    var navStyle = {
+      cursor : 'pointer',
+
+    }
     return (
       <div>
         <ul className="list-group">
-          <li className="list-group-item"><Link to="/account/personInfo">我的预约</Link></li>
-          <li className="list-group-item"><Link to="/account/info">我的订单</Link></li>
+          <li className="list-group-item"><Link to="/order/myInquiry">我的预约</Link></li>
+          <li className="list-group-item"><Link to="/order/myOrder">我的订单</Link></li>
         </ul>
       </div>
     );
@@ -45,58 +52,122 @@ var OrderTitle = React.createClass({
 
 
 var OrderItem = React.createClass({
+  getInitialState : function(){
+    return {
+      detailOpen : false,
+    }
+  },
   getDefaultProps : function(){
     return{
       order : {}
     }
   },
+  handleOpenDetail : function(){
+    this.setState({detailOpen : !this.state.detailOpen});
+  },
   render : function(){
-    <div className="order-item">
-      <div className="order-item-title">
-        2015.10.20   -------   订单号
-      </div>
-      <div className="col-xs-3">
-        <img src = {this.props.order.photographer.avator} />
-        {this.props.order.photographer.name}
-      </div>
-      <div className="col-xs-3">
-        {this.props.order.date}
-      </div>
-      <div className="col-xs-2">
-        {this.props.order.customer.phoneNumeber}
-      </div>
-      <div className="col-xs-2">
-        {this.props.order.customer.name}
-      </div>
-      <div className="col-xs-2">
-        {this.props.order.price}
-      </div>
-      <div>
-        <div className="col-xs-3">
-          摄影师姓名
-          {this.props.order.photographer.phoneNumeber}
-          摄影师微信
-          {this.props.order.photographer.wechate}
+    var itemStyle = {
+      item : {
+        marginLeft : '0px',
+        marginRight : '0px',
+      },
+      header : {
+        backgroundColor : '#1f2f3f',
+        color : '#777777',
+      }, 
+      photographer : {
+        backgroundColor : '#f7f7f7',
+        height : '60px',
+        paddingTop : '10px',
+        paddingLeft : '20px',
+        border : '1px solid #FFFFFF'
+      },
+      content : {
+        backgroundColor : '#FFFFFF',
+        height : '60px',
+        paddingTop : '10px',
+        paddingLeft : '20px',
+      },
+      detail : {
+        marginRight : '0px',
+        marginLeft : '0px',
+      },
+      detailPhotographoer : {
+        height : '80px',
+        backgroundColor : '#f7f7f7',
+        paddingTop : '10px',
+        paddingLeft : '20px',
+        border : '1px solid #FFFFFF'
+      },
+      detailContent : {
+        height : '80px',
+        backgroundColor : '#FFFFFF',
+        paddingTop : '10px',
+        paddingLeft : '20px',
+      },
+      openCloseButton : {
+        position : 'absolute',
+        paddingTop : '40px',
+        cursor : 'pointer',
+        right : '0px',
+        bottom : '0px',
+      }
+    };
+    return(
+      <div className="row order-item" style={itemStyle.item}>
+        <div className="order-item-title" style={itemStyle.header}>
+          2015.10.20   -------   订单号
         </div>
-        <div className="col-xs-7">
-          {this.props.order.photographer.service}
+        <div className="col-xs-3" style={itemStyle.photographer}>
+          <img src = {this.props.order.photographer.avator} />
+          {this.props.order.photographer.name}
         </div>
-        <div className="col-xs-7">
-          {this.props.order.photographer.service}
+        <div className="col-xs-3" style={itemStyle.content}>
+          <Input type="date" defaultValue={this.props.order.date} />
         </div>
-        <div className="col-xs-2">
-          <button className="btn btn-primary">确认</button>
+        <div className="col-xs-2" style={itemStyle.content}>
+          {this.props.order.customer.phoneNumeber}
         </div>
+        <div className="col-xs-2" style={itemStyle.content}>
+          {this.props.order.customer.name}
+        </div>
+        <div className="col-xs-2" style={itemStyle.content}>
+          {this.props.order.price}
+          <span className="glyphicon glyphicon-resize-full" onClick={this.handleOpenDetail} style={itemStyle.openCloseButton}></span>
+        </div>
+        <Collapse in={this.state.detailOpen}>
+          <div className="row" style={itemStyle.detail}>
+            <div className="col-xs-3" style={itemStyle.detailPhotographoer}>
+              摄影师姓名
+              {this.props.order.photographer.phoneNumeber}
+              摄影师微信
+              {this.props.order.photographer.wechate}
+            </div>
+            <div className="col-xs-7" style={itemStyle.detail}>
+              {this.props.order.photographer.service}
+            </div>
+            <div className="col-xs-2" style={itemStyle.detail}>
+              <button className="btn btn-primary">确认</button>
+            </div>
+          </div>
+        </Collapse>
       </div>
-    </div>
+    )
   },
 });
 
 var OrderList = React.createClass({
+  mixins: [Reflux.listenTo(OrderStore, 'handleStatus')],
   getInitialState : function(){
     return{
       orders : []
     }
+  },
+  componentDidMount : function(){
+    OrderActions.listOrders(this.props.type);
+  },
+  handleStatus : function(data){
+    this.setState({orders : data});
   },
   render : function(){
     var getList = this.state.orders.map(function(item){
@@ -126,7 +197,7 @@ var OrderList = React.createClass({
 var OrderManager = React.createClass({
   getInitialState : function(){
     return {
-      orderType : '0'
+      orderType : 'myInquiry'
     }
   },
   render: function() {
@@ -134,7 +205,7 @@ var OrderManager = React.createClass({
     return (
       <div className="center-content">
         <div className="col-xs-10">
-            <OrderList type={this.state.orderType}/>
+            <OrderList type={this.props.params.type}/>
         </div>
         <div className="col-xs-2">
           <OrderManagerNav />

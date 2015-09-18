@@ -15,6 +15,7 @@ var PersonInfo = require('./components/personInfo');
 var AccountInfo = require('./components/accountInfo');
 var UploadWorks = require('./components/uploadWorks');
 var OrderManager = require('./components/orderManager');
+var Profile = require('./components/profile');
 
 var routes = (
 	<Router>
@@ -29,7 +30,8 @@ var routes = (
 				<Route path="info" component={AccountInfo} />
 				<Route path="upload" component={UploadWorks} />
 			</Route>
-			<Route path="order" component={OrderManager} />
+			<Route path="order/:type" component={OrderManager} />
+			<Route path="profile/:category" component={Profile} />
 		</Route>
 	</Router>
 	

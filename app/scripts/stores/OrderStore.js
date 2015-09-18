@@ -10,6 +10,7 @@ var OrderStore = Reflux.createStore({
     //listen to the OrderActions
     this.listenTo(OrderActions.listOrders,this.onListOrders);
     this.listenTo(OrderActions.getOrder,this.onGetOrder);
+    this.listenTo(OrderActions.bookOrder,this.onBookOrder);
     this.listenTo(OrderActions.comfirmOrder,this.onComfirmOrder);
   },
   onListOrders : function(type){
@@ -23,7 +24,13 @@ var OrderStore = Reflux.createStore({
         customer : {name : '周晓宏',avator : '../img/user.png',phoneNumber : '13999000111'},
 
       },
-      {}
+      {
+        date : '2015-10-20',
+        price : '3000',
+        orderNo : '201510200001',
+        photographer : {name : '电磁猫',avator : '../img/user.png',phoneNumber : '13999000111'},
+        customer : {name : '周晓宏',avator : '../img/user.png',phoneNumber : '13999000111'},
+      }
     ];
     this.trigger(this.orders);
   },
@@ -32,6 +39,11 @@ var OrderStore = Reflux.createStore({
   },
   onComfirmOrder : function(order){
 
+  },
+  onBookOrder : function(data){
+
   }
 
 });
+
+module.exports = OrderStore;
