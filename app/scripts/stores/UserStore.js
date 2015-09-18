@@ -36,7 +36,16 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.register.failed, this.onRegisterFailed);
     this.listenTo(UserActions.logout.success, this.onLogoutSuccess);
   },
-
+  onRegisterSuccess : function(){
+    this.getCode.left = 60 ;
+    countTimeLeft = function(){
+      this.getCode.left = this.getCode.left -1;
+      this.trigger(this.getCode);
+      setTimeout(countTimeLeft, 1000);
+    }.bind(this);
+    countTimeLeft();
+  },
+  
   onLoginSuccess: function(data) {
     console.log(data);
     //测试本地须转换JSON，集成测试后不需要
@@ -63,8 +72,9 @@ var UserStore = Reflux.createStore({
     监听注册action，根据返回的data.success判断是否注册成功
   */
   onRegisterSuccess: function(data) {
-    if (data.ErrorCode == 0) {
-      this.setCurrentUser(data.data);
+    if (data.Success) {
+      this.userData.hintMessage = '';
+      this.setCurrentUser(data.User);
       this.trigger(this.userData);
     } else {
       this.userData.hintMessage = data.ErrorMsg;
@@ -99,6 +109,7 @@ var UserStore = Reflux.createStore({
     } else {
       this.userData.userId = userData.Id;
       this.userData.userName = userData.Name;
+      this.userData.userType = userData.Name;
       this.userData.isLogin = true;
       // this.userData.userType = userData.userType;
       // this.userData.userState = userData.userState;

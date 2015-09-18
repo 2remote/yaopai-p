@@ -3,7 +3,6 @@ var API = require('../api');
 var HttpFactory = require('../HttpFactory');
 
 var UserActions = Reflux.createActions({
-    'sendTelRegister' : {children:["success","failed"]},
 	  'register' : {children:["success","failed"]},
 	  'login' : {children:["success","failed"]},
 	  'logout' : {children:["success"]},
@@ -22,22 +21,6 @@ UserActions.login.listen(function(data) {
   HttpFactory.post(API.user_api.login,data,this.success,this.failed);
 });
 
-/*
-  发送注册手机号码
-  request : 
-  {tel : string}
-  response:
-  {
-    Result: true,    //信息是否发送成功
-    ErrorCode: 0，    //错误代码
-    ErrorMsg: null    //错误信息
-}
-*/
-UserActions.sendTelRegister.listen(function(data) {
-  console.log("send request code.");
-  // $.post(API.user_api.sendTelRegister_url, data).then(this.success, this.failed);
-  HttpFactory.post(API.user_api.sendTelRegister,data,this.success,this.failed);
-});
 
 /*
   用户注册

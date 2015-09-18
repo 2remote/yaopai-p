@@ -2,10 +2,13 @@ var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 var Reflux = require('reflux');
-var UserStore = require('../stores/UserStore');
 
 var validator = require('validator');
 var UserActions = require('../actions/UserActions');
+var UserStore = require('../stores/UserStore');
+
+var GetCodeActions = require('../actions/GetCodeActions');
+var GetCodeStore = require('../stores/GetCodeStore');
 
 
 var UserNameInput = require('./user/userNameInput');
@@ -95,10 +98,11 @@ var RememberMeCheck = React.createClass({
 */
 
 var ValidateCodeInput = React.createClass({
+	mixins: [Reflux.listenTo(GetCodeStore, 'handleResult')],
 	getInitialState : function(){
 		return{
 			validated : '0',
-			timeLeft : 0 ,
+			getCode : {left : 0 , result : ''} ,
 		}
 	},
 	getDefaultProps : function(){
@@ -109,12 +113,15 @@ var ValidateCodeInput = React.createClass({
 			code : ''
 		}
 	},
+	handleResult : function(){
+		this.setState({getCode : GetCodeStore.getCode});
+	},
 	render : function(){
 		var classString = this.props.validatedClass(this.state.validated);
 		var getCodeButton ;
-		if(this.state.timeLeft > 0){
+		if(this.state.getCode.left > 0){
 			getCodeButton = (
-				<button className="btn btn-default" type="button" disabled={isDesabled}>获取验证码({this.state.timeLeft})</button>
+				<button className="btn btn-default" type="button" disabled="disabled" >获取验证码({this.state.getCode.left})</button>
 				);
 		}else{
 			getCodeButton = (
@@ -124,15 +131,16 @@ var ValidateCodeInput = React.createClass({
 		return(
 			<div className={classString}>
 				<div className="col-sm-offset-2 col-sm-6 ">
-				<div className="input-group">
-					<input type="text" 
-						className="form-control" 
-						placeholder="输入验证码" 
-						onChange={this.handleChange}/>
+					<div className="input-group">
+						<input type="text" 
+							className="form-control" 
+							placeholder="输入验证码" 
+							onChange={this.props.handleChange}/>
 						<span className="input-group-btn">
 			        {getCodeButton}
 			      </span>
-				</div>
+					</div>
+					<span>{this.state.getCode.result}</span>
 				</div>
 				<label className="control-label col-sm-4">{this.state.message}</label>
 			</div>
@@ -141,6 +149,7 @@ var ValidateCodeInput = React.createClass({
 });
 
 var RegisterForm = React.createClass({
+	mixins: [Reflux.listenTo(UserStore, 'handleRegister')],
 	getInitialState : function(){
 		return {
 			userName : '',
@@ -173,16 +182,33 @@ var RegisterForm = React.createClass({
 	handleCheckedChange : function(event){
 		this.setState({rememberMe : event.target.checked});
 	},
+	handleCodeChange : function(event){
+		this.setState({validateCode : event.target.value});
+	},
+	handleRegister : function(data){
+		if(data.hintMessage == ''){
+			//注册成功,暂时跳转登录页面
+			this.props.finishRegister();
+		}else{
+			this.setState({alertMessage:data.hintMessage});
+		}
+		
+	},
 	handleClick : function(){
 		var isMobile = validator.isMobilePhone(this.state.userName, 'zh-CN');
 		var isPassword = validator.isLength(this.state.password,6,18);
+		var isValidedCode = this.state.validateCode && this.state.validateCode !='';
 		if(!isMobile || !isPassword) {
 			this.setState({alertMessage:'请输入正确的手机号码和密码格式'});
 			return;
 		}
-		var registerData = {userName : this.state.userName,password : this.state.password};
+		if(!isValidedCode){
+			this.setState({alertMessage:'请输入验证码'})
+		}
+		var registerData = {tel : this.state.userName,password : this.state.password,code : this.state.validateCode};
 		UserActions.register(registerData);
 	},
+	//发送验证码
 	handleGetCode : function(){
 		var phone = this.state.userName;
 		var isMobile = validator.isMobilePhone(this.state.userName, 'zh-CN');
@@ -190,7 +216,7 @@ var RegisterForm = React.createClass({
 			this.setState({alertMessage:'请输入正确的手机号码'});
 			return;	
 		}
-		UserActions.sendTelRegister({tel:phone});
+		GetCodeActions.sendTelRegister({tel:phone});
 	},
 	/*
 		校验表现css
@@ -214,17 +240,24 @@ var RegisterForm = React.createClass({
 		return(
 			<div className="panel-body">
 				<form className="form-horizontal">
+
 						<UserNameInput 
 							userName = {this.state.userName} 
 							handleChange={this.handleUserNameChange} 
 							validatedClass={this.getValidatedClass}/>
+
 						<UserPasswordInput 
 	        		password = {this.state.password} 
 	        		handleChange={this.handlePasswordChange} 
 	        		validatedClass={this.getValidatedClass}/>
-	        	<ValidateCodeInput handleGetCode={this.handleGetCode}/>
+
+	        	<ValidateCodeInput 
+	        		handleGetCode={this.handleGetCode} 
+	        		handleChange={this.handleCodeChange}/>
+
 	        	<RegisterButton handleClick={this.handleClick}
-	        		validatedClass={this.getValidatedClass} toLogin={this.props.toLogin}/>
+	        		validatedClass={this.getValidatedClass} 
+	        		toLogin={this.props.toLogin}/>
 	        	<AlertBox alertMessage={this.state.alertMessage} />
 				</form>
 			</div>
@@ -251,7 +284,7 @@ var RegisterPanel = React.createClass({
 	    			注册成为YAOPAI的用户，发现你的不同
 	    		</Modal.Header>
 	    		<Modal.Body>
-	      		<RegisterForm toLogin={this.props.login}/>
+	      		<RegisterForm toLogin={this.props.login} finishRegister={this.props.login}/>
 	      	</Modal.Body>
 	      </Modal>
     );
