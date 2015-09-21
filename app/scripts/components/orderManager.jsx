@@ -80,13 +80,13 @@ var OrderItem = React.createClass({
         height : '60px',
         paddingTop : '10px',
         paddingLeft : '20px',
-        border : '1px solid #FFFFFF'
       },
       content : {
         backgroundColor : '#FFFFFF',
         height : '60px',
         paddingTop : '10px',
         paddingLeft : '20px',
+        borderLeft : '2px solid #eaeaea'
       },
       detail : {
         marginRight : '0px',
@@ -97,13 +97,13 @@ var OrderItem = React.createClass({
         backgroundColor : '#f7f7f7',
         paddingTop : '10px',
         paddingLeft : '20px',
-        border : '1px solid #FFFFFF'
       },
       detailContent : {
         height : '80px',
         backgroundColor : '#FFFFFF',
         paddingTop : '10px',
         paddingLeft : '20px',
+        borderLeft : '2px solid #eaeaea'
       },
       openCloseButton : {
         position : 'absolute',
@@ -143,10 +143,10 @@ var OrderItem = React.createClass({
               摄影师微信
               {this.props.order.photographer.wechate}
             </div>
-            <div className="col-xs-7" style={itemStyle.detail}>
+            <div className="col-xs-7" style={itemStyle.detailContent}>
               {this.props.order.photographer.service}
             </div>
-            <div className="col-xs-2" style={itemStyle.detail}>
+            <div className="col-xs-2" style={itemStyle.detailContent}>
               <button className="btn btn-primary">确认</button>
             </div>
           </div>
