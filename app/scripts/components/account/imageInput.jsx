@@ -9,7 +9,8 @@ var ImageInput = React.createClass({
   },
   getDefaultProps : function(){
     return {
-      defaultImage : 'img/tianjia.png'
+      defaultImage : 'img/tianjia.png',
+      colWidth : 'col-xs-4'
     }
   },
   componentDidMount : function() {
@@ -47,7 +48,7 @@ var ImageInput = React.createClass({
     }
 
     return (
-      <div className="col-xs-4">
+      <div className={this.props.colWidth}>
         <div>
           {img}
           <input type="file" ref="imageFile" className="hidden" onChange={this.selectImage} />

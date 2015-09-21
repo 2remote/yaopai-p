@@ -67,8 +67,8 @@ var ChooseImages = React.createClass({
     通过FileReader读取图片文件
   */
   componentDidMount : function() {
-    this.reader = new FileReader()
-    this.reader.onload = this.fileLoaded
+    //this.reader = new FileReader()
+    //this.reader.onload = this.fileLoaded
   },
   /*
     读取成功后加载Image
@@ -79,8 +79,12 @@ var ChooseImages = React.createClass({
   },
   selectImage : function(event){
     if(event.target.files && event.target.files[0]) {
-      //this.setState({ loading: true, fileURL: null })
-      this.reader.readAsDataURL(event.target.files[0])
+      console.log(event.target.files);
+      for(var i = 0 ; i < event.target.files.length;i++){
+        var fr = new FileReader();
+        fr.onload = this.fileLoaded;
+        fr.readAsDataURL(event.target.files[i]);
+      }
     }
   },
   //返回图片列表
@@ -106,7 +110,7 @@ var ChooseImages = React.createClass({
           <div className="col-xs-10">
             <div>
               <img className="image-button" width="80" heigth="80" src="../../../img/tianjia.png" onClick={this.handleClick} />
-              <input type="file" ref="selectImage" className="hidden" onChange={this.selectImage} />
+              <input type="file" ref="selectImage" className="hidden" onChange={this.selectImage} multiple="multiple"/>
             </div>
             <div>
               {renderImages}

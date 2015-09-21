@@ -169,12 +169,47 @@ var PersonIDImage = React.createClass({
 
 
 var PersonProduct = React.createClass({
+  getDefaultProps : function(){
+    return {
+      products : [],
+      updateProducts : function(result){}
+    }
+  },
+  componentDidMount : function() {
+  },
+
+  /*
+    读取成功后加载Image
+  */
+  fileLoaded : function(event) {
+    this.props.updateProducts(event.target.result);
+  },
+  selectImage : function(event){
+    if(event.target.files && event.target.files[0]) {
+      console.log(event.target.files);
+      for(var i = 0 ; i < event.target.files.length;i++){
+        var fr = new FileReader();
+        fr.onload = this.fileLoaded;
+        fr.readAsDataURL(event.target.files[i]);
+      }
+    }
+  },
+  handleClick : function(){
+    React.findDOMNode(this.refs.imageFile).click();
+  },
   render : function(){
+    var renderProducts = this.props.products.map(function(prod,i){
+      return (
+        <ImageInput defaultImage={prod.imgUrl} />
+      )
+    });
     return (
       <div className="form-group">
         <label className="control-label col-xs-2">个人作品：</label>
-        <div className="col-xs-6">
-          <img src="img/tianjia.png" />
+          <div className="col-xs-10">
+          {renderProducts}
+          <img className="image-button" src="img/tianjia.png" onClick={this.handleClick}/>
+          <input type="file" ref="imageFile" className="hidden" onChange={this.selectImage} multiple="multiple" />
         </div>
       </div>
       )
@@ -217,8 +252,14 @@ var CompnayIntro = React.createClass({
 var PhotographerAuth = React.createClass({
   getInitialState: function(){
     return {
-      authState : '0'
+      authState : '0',
+      products : [],
     }
+  },
+  updateProducts : function(result){
+    var datas = this.state.products;
+    datas.push({imgUrl : result});
+    this.setState({products : datas});
   },
   render: function() {
 
@@ -232,7 +273,7 @@ var PhotographerAuth = React.createClass({
               <TextInput ref="RealName" labelName="QQ：" minLength={5} placeholder=""/>
               <PersonIDImage />
               <PersonIntro />
-              <PersonProduct />
+              <PersonProduct products={this.state.products} updateProducts={this.updateProducts}/>
               <CompanyName />
               <CompanyLogo />
               <Province />
