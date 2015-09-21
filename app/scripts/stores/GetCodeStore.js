@@ -26,7 +26,7 @@ var GetCodeStore = Reflux.createStore({
   },
   onTelRegisterSucess : function(data){
     console.log(data);
-    if(data.Success && data.Result){
+    if(data.Success){
       this.getCode.result = '验证码已发送';
     }else{
       this.getCode.result = '验证码发送失败';
