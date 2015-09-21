@@ -14,6 +14,8 @@ var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
 
+var TextInput = require('./account/textInput');
+var ImageInput = require('.//account/imageInput');
 
 var AuthHeader = React.createClass({
   render : function(){
@@ -32,6 +34,7 @@ var AuthHeader = React.createClass({
   }
 });
 
+/*
 var TextInput = React.createClass({
   getDefaultProps : function(){
     return{
@@ -51,14 +54,7 @@ var TextInput = React.createClass({
       );
   }
 });
-
-var RealName = React.createClass({
-  render : function(){
-    return (
-      <TextInput labelName="姓名：" placeholderName="真实姓名"/>
-      )
-  }
-});
+*/
 
 var ContactPhone = React.createClass({
   render : function(){
@@ -68,16 +64,6 @@ var ContactPhone = React.createClass({
       );
   }
 });
-
-var Wechat = React.createClass({
-  render : function(){
-    return(
-      <TextInput labelName="微信：" placeholderName=""/>
-
-      );
-  }
-});
-
 var QQNumber = React.createClass({
   render : function(){
     return(
@@ -89,7 +75,7 @@ var QQNumber = React.createClass({
 var PersonIDNumber = React.createClass({
   render : function(){
     return(
-      <TextInput labelName="身份证号码：" placeholderName=""/>
+      <TextInput ref="RealName" labelName="身份证号码：" minLength={5} placeholder=""/>
 
       );
   }
@@ -98,7 +84,7 @@ var PersonIDNumber = React.createClass({
 var PersonIntro = React.createClass({
   render : function(){
     return(
-      <TextInput labelName="个人简介：" placeholderName="他很懒什么都没有留下" textClassName="col-sm-6" validatedClass="warning"/>
+      <TextInput ref="RealName" labelName="个人简介：" minLength={5} placeholder="他很懒什么都没有留下"/>
 
       );
   }
@@ -107,7 +93,7 @@ var PersonIntro = React.createClass({
 var CompanyName = React.createClass({
   render : function(){
     return(
-      <TextInput labelName="工作室名称：" placeholderName=""/>
+      <TextInput ref="RealName" labelName="工作室名称：" minLength={5} placeholder=""/>
 
       );
   }
@@ -129,7 +115,7 @@ var Province = React.createClass({
 var Address = React.createClass({
   render : function(){
     return(
-      <TextInput labelName="详细地址：" placeholderName=""/>
+      <TextInput labelName="详细地址：" placeholderName="" minLength={8} />
 
       );
   }
@@ -157,21 +143,15 @@ var PersonIDImage = React.createClass({
     return (
       <div className="form-group">
         <label className="control-label col-xs-2">身份证正反面：</label>
-        <div className="col-xs-6">
+        <div className="col-xs-10">
           <div className="row">
-            <div className="col-xs-6">
-              <img src="img/id1.png" onClick={this.chooseIDPicture1}/>
-              <input type="file" ref="IDPicture1" className="hidden" onChange={this.handleIDPicture1}/>
-            </div>
-            <div className="col-xs-6">
-              <img src="img/id2.png" onClick={this.chooseIDPicture2}/>
-              <input type="file" ref="IDPicture2" className="hidden" onChange={this.handleIDPicture2}/>
-            </div>
+            <ImageInput ref="IDPicture1" />
+            <ImageInput ref="IDPicture2" />
           </div>
 
           <div className="row">
             <div className="col-xs-6">
-              <img src="img/id_shili.png" />
+              <img height="150" src="img/id_shili.png" />
             </div>
             <div className="col-xs-6">
               <div>
@@ -217,7 +197,7 @@ var CompanyLogo = React.createClass({
       <div className="form-group">
         <label className="control-label col-xs-2">工作室LOGO：</label>
         <div className="col-xs-6">
-          <img src="img/logo_up.png" />
+          <ImageInput defaultImage = "img/logo_up.png" />
         </div>
       </div>
       );
@@ -246,11 +226,10 @@ var PhotographerAuth = React.createClass({
           <Panel>
             <AuthHeader />
             <form className='form-horizontal'>
-              <RealName />
-              <ContactPhone />
-              <Wechat />
-              <QQNumber />
-              <PersonIDNumber />
+              <TextInput ref="RealName" labelName="姓名：" minLength={2} placeholder="真实姓名2字以上"/>
+              <TextInput ref="RealName" labelName="工作电话：" minLength={5} placeholder=""/>
+              <TextInput ref="RealName" labelName="微信：" minLength={3} placeholder=""/>
+              <TextInput ref="RealName" labelName="QQ：" minLength={5} placeholder=""/>
               <PersonIDImage />
               <PersonIntro />
               <PersonProduct />
