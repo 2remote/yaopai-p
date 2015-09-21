@@ -16,6 +16,7 @@ var ProfileHeader = React.createClass({
         paddingTop : '100px',
         textAlign : 'center',
         color : '#777777',
+        paddingBottom : '130px',
       }
     };
     var categoryStyle = {
@@ -55,6 +56,7 @@ var WorksList = React.createClass({
     };
     return (
       <div style={mainStyle}>
+
       </div>
     );
   }
