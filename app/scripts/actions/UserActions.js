@@ -5,6 +5,7 @@ var HttpFactory = require('../HttpFactory');
 var UserActions = Reflux.createActions({
 	  'register' : {children:["success","failed"]},
 	  'login' : {children:["success","failed"]},
+    'loginWithToken' : {children : ['success','failed']},
 	  'logout' : {children:["success"]},
 
 });
@@ -21,7 +22,10 @@ UserActions.login.listen(function(data) {
   HttpFactory.post(API.user_api.login,data,this.success,this.failed);
 });
 
-
+UserActions.loginWithToken.listen(function(data){
+  console.log("begin login with token");
+  HttpFactory.post(API.user_api.login_with_token,data,this.success,this.failed);
+});
 /*
   用户注册
   data:｛tel,code,password｝
