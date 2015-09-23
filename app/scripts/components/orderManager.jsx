@@ -113,6 +113,13 @@ var OrderItem = React.createClass({
         bottom : '0px',
       }
     };
+    var detailBtn = '';
+    if(this.state.detailOpen){
+      detailBtn = 'glyphicon glyphicon-triangle-bottom';
+    }else{
+      detailBtn = 'glyphicon glyphicon-triangle-top';
+    }
+    
     return(
       <div className="row order-item" style={itemStyle.item}>
         <div className="order-item-title" style={itemStyle.header}>
@@ -133,7 +140,7 @@ var OrderItem = React.createClass({
         </div>
         <div className="col-xs-2" style={itemStyle.content}>
           {this.props.order.price}
-          <span className="glyphicon glyphicon-resize-full" onClick={this.handleOpenDetail} style={itemStyle.openCloseButton}></span>
+          <span className={detailBtn} onClick={this.handleOpenDetail} style={itemStyle.openCloseButton}></span>
         </div>
         <Collapse in={this.state.detailOpen}>
           <div className="row" style={itemStyle.detail}>
