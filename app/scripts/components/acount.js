@@ -8,30 +8,6 @@ var Link  = Router.Link;
 var LoginPanel = require('./loginPanel');
 var RegisterPanel = require('./registerPanel');
 
-var LoginButton = React.createClass({
-	render : function(){
-		return (
-			<li>
-				<Link to="/login">登录</Link>
-			</li>
-		);
-	}
-});
-
-var RegisterButton = React.createClass({
-  login : function(){
-    var loginModal = this.refs.loginModal;
-    loginModal.open();
-  },
-	render : function(){
-    
-		return (
-			<li>
-        <a href="#" onClick={this.login}><span className="glyphicon glyphicon-login-in" aria-hidden="true"></span>登录</a>
-			</li>
-		);
-	}
-});
 
 var Acount = React.createClass({
 	mixins: [Reflux.listenTo(UserStore, 'onStatusChange')],
@@ -62,20 +38,39 @@ var Acount = React.createClass({
     registerModal.open();
   },
   getContent : function(){
-    var liStyle = {
-      height : '50px',
-      width : '40px',
-      paddingTop : '15px',
+    var headerStyle= {
+      liStyle : {
+        height : '50px',
+        width : '40px',
+        paddingTop : '15px'
+      },
+      loginBtn : {
+        color : '#eeeeee',
+        cursor : 'pointer',
+        marginRight :'20px',
+        marginTop : '10px',
+      },
+      logoutBtn : {
+        display: 'block',
+        padding: '3px 20px',
+        clear: 'both',
+        fontWeight: '400',
+        lineHeight: '1.42857143',
+        color: '#333',
+        whiteSpace: 'nowrap',
+        cursor : 'pointer',
+      }
     };
+
   	if(this.state.currentUser.isLogin){
 		return (
       <ul className= "nav navbar-nav navbar-right  right-header-nav">
-        <li style={liStyle}>
+        <li style={headerStyle.liStyle}>
           <Link to="/account/pAuth">
             <img height="20" src="img/camera.png" />
           </Link>
         </li>
-        <li style={liStyle}>
+        <li style={headerStyle.liStyle}>
           <Link to="/account/upload">
             <img height="20" src="img/shangchuan.png" />
           </Link>
@@ -101,10 +96,8 @@ var Acount = React.createClass({
               </Link>
             </li>
             <li role="separator" className="divider"></li>
-            <li>
-              <a href="#" onClick={this.handleLogout}>
+            <li style={headerStyle.logoutBtn} onClick={this.handleLogout}>
                 <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span>  登出
-              </a>
             </li>
           </ul>
         </li>
@@ -113,8 +106,8 @@ var Acount = React.createClass({
 	}else{
 		return (
 				<ul className= "nav navbar-nav navbar-right">
-					<li>
-            <a onClick={this.handleLogin}><span className="glyphicon glyphicon-log-in" aria-hidden="true"></span>  登录</a>
+					<li style={headerStyle.loginBtn} onClick={this.handleLogin}>
+              <span className="glyphicon glyphicon-log-in" aria-hidden="true"></span>  登录
           </li>
 				</ul>
 			)
