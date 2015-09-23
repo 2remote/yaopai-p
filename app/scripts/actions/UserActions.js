@@ -7,7 +7,8 @@ var UserActions = Reflux.createActions({
 	  'login' : {children:["success","failed"]},
     'loginWithToken' : {children : ['success','failed']},
 	  'logout' : {children:["success"]},
-
+    'openLogin' : {children:["success","failed"]},
+    'currentUser' : {children:["success","failed"]}
 });
 
 /*
@@ -22,9 +23,27 @@ UserActions.login.listen(function(data) {
   HttpFactory.post(API.user_api.login,data,this.success,this.failed);
 });
 
+/*
+  用Token登录
+*/
 UserActions.loginWithToken.listen(function(data){
   console.log("begin login with token");
   HttpFactory.post(API.user_api.login_with_token,data,this.success,this.failed);
+});
+
+/*
+  第三方登录
+*/
+
+UserActions.openLogin.listen(function(data){
+  window.location.href = API.user_api.open_login;
+});
+/*
+  得到当前用户
+*/
+UserActions.currentUser.listen(function(data){
+  console.log('get currentUser');
+  HttpFactory.post(API.user_api.current_user,data,this.success,this.failed);
 });
 /*
   用户注册

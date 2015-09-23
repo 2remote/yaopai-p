@@ -28,7 +28,18 @@ var UserStore = Reflux.createStore({
         UserActions.loginWithToken({token : this.userData.loginToken});
       }
     }
-    
+    /*
+      获取第三方登录的返回值，并得到当前用户
+    */
+    var GetQueryString = function (name){
+      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if (r!=null) return unescape(r[2]); return null;
+    };
+    var openLoginState = GetQueryString('state');
+    if(openLoginState == 'y'){
+      UserActions.currentUser();
+    }
     /*
         可以用下面代码代替
         listenables: UserActions，
@@ -40,7 +51,9 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.register.failed, this.onRegisterFailed);
     this.listenTo(UserActions.logout.success, this.onLogoutSuccess);
     this.listenTo(UserActions.loginWithToken.success,this.onLoginWithTokenSuccess);
-    this.listenTo(UserActions.loginWithToken.failed,this.onLoginWithTokenFailed)
+    this.listenTo(UserActions.loginWithToken.failed,this.onLoginWithTokenFailed);
+    this.listenTo(UserActions.currentUser.success,this.onGetCurrentUser);
+    this.listenTo(UserActions.currentUser.failed,this.onGetCurrentUserFailed);
   },
   onRegisterSuccess : function(){
     this.getCode.left = 60 ;
@@ -74,7 +87,18 @@ var UserStore = Reflux.createStore({
       this.userData.hintMessage = "网络出错啦！";
       this.trigger(this.userData);
   },
+  onGetCurrentUser : function(data){
+    if(data.Success){
+      console.log(data);
+      this.setCurrentUser(data);
+    }else{
+      console.log(data.ErrorMsg);
+    }
+    this.trigger(this.userData);
+  },
+  onGetCurrentUserFailed : function(data){
 
+  },
   /*
     自动登录，如果用了loginToken，是否不用存user的其他信息？
   */
