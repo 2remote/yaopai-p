@@ -38,7 +38,7 @@ PC web For YaoPai
 	生成文件在app/scripts/stores下
 
 
-参考：
+###参考：
 	Yeoman Generator https://github.com/TFaga/generator-react-reflux
 	聊一聊基于flux的前端系统
 	http://react.nodejs-china.org/t/flux/615
