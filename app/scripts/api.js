@@ -1,6 +1,6 @@
 // var API_URL = 'http://localhost:3000';
 var API_URL = 'http://api.anorangevision.com/?api=';
-var Local_Host = getRootPath_web();
+var Local_Host = "http://localhost:8000";
 
 var API_CONST = {
   user_api : {
@@ -11,17 +11,19 @@ var API_CONST = {
     logout : API_URL + "User.Logout",
     open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Host,
     current_user : API_URL + 'User.CurrentUser',
-
+  },
+  file_api : {
+    getToken : API_URL + 'File.Token',
   }
 }
 
 function getRootPath_web() {
-    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
-    var curWwwPath = window.document.location.href;
-    var pos = curWwwPath.indexOf("#");
-    //获取主机地址，如： http://localhost:8000
-    var localhostPath = curWwwPath.substring(0, pos);
-    return localhostPath ;
+    var strFullPath=window.document.location.href; 
+    var strPath=window.document.location.pathname; 
+    var pos=strFullPath.indexOf(strPath); 
+    var prePath=strFullPath.substring(0,pos); 
+    var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1); 
+    return(prePath+postPath); 
 }
 
 module.exports = API_CONST;

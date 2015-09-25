@@ -9,7 +9,7 @@ const AlertBox = React.createClass({
   },
 
   render : function() {
-    if (this.props.alertMessage!='') {
+    if (this.props.alertMessage!='' ) {
       return (
         <div className="col-sm-offset-2 col-sm-6">
           <Alert bsStyle='danger' onDismiss={this.handleAlertDismiss}>
@@ -26,7 +26,7 @@ const AlertBox = React.createClass({
 
   handleAlertDismiss : function() {
     this.props.alertMessage = '';
-    this.setState({alertMessage:false});
+    this.setState({alertVisible:false});
   },
 });
 
