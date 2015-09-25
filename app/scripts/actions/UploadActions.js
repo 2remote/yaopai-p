@@ -1,11 +1,13 @@
 var Reflux = require('reflux');
 var HttpFactory = require('../HttpFactory');
+var API = require('../api');
 
-var UploadActions = Reflux.createActions([
+
+var UploadActions = Reflux.createActions({
   'upload':{children:["success","failed"]},
-  'getToken'{children:["success","failed"]},
+  'getToken':{children:["success","failed"]},
   // Here you can list your actions
-]);
+});
 
 var uploaderOption = {
     runtimes: 'html5,flash,html4',    //上传模式,依次退化
@@ -72,13 +74,13 @@ UploadActions.upload.listen(function(data){
   if(data.token && data.token != ''){
     uploaderOption.token = data.token;
     var uploader = Qiniu.uploader(uploaderOption);
-    
+
   }else{
     return;
   }
 });
 UploadActions.getToken.listen(function(data){
-  HttpFactory.post(API.user_api.getToken,data,this.success,this.failed);
+  HttpFactory.post(API.file_api.getToken,data,this.success,this.failed);
 });
 
 module.exports = UploadActions;
