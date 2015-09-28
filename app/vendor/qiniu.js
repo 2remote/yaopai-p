@@ -189,8 +189,10 @@ function QiniuJsSDK() {
         var xmlhttp = {};
         if (window.XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
+            xmlhttp.withCredentials = "true";
         } else {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlhttp.withCredentials = "true";
         }
         return xmlhttp;
     };
@@ -291,13 +293,17 @@ function QiniuJsSDK() {
             if (!op.uptoken) {
                 var ajax = that.createAjax();
                 ajax.open('GET', that.uptoken_url, true);
+                console.log(that.uptoken_url);
                 ajax.setRequestHeader("If-Modified-Since", "0");
                 ajax.onreadystatechange = function() {
                     if (ajax.readyState === 4 && ajax.status === 200) {
-                        var res = that.parseJSON(ajax.responseText);
-                        that.token = res.uptoken;
+                        // var res = that.parseJSON(ajax.responseText);
+                        // that.token = res.uptoken;
+                        that.token = ajax.responseText;
+                        console.log(ajax.responseText);
                     }
                 };
+                ajax.withCredentials =true;
                 ajax.send();
             } else {
                 that.token = op.uptoken;

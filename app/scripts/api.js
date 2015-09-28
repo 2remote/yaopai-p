@@ -14,6 +14,8 @@ var API_CONST = {
   },
   file_api : {
     getToken : API_URL + 'File.Token',
+    user_token_url : 'http://api.anorangevision.com/file/token?type=user',
+    work_token_url : 'http://api.anorangevision.com/file/token?type=work',
   }
 }
 
