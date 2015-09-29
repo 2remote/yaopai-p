@@ -24,11 +24,7 @@ var ImageItem = React.createClass({
       imageData: {},  
     }
   },
-  getInitialState : function(){
-    return {
-      imageUrl : ''
-    }
-  },
+  
   handleChange : function(event){
     WorkActions.editImageDes(this.props.imageData,this.refs.description.getValue());
   },
@@ -41,20 +37,9 @@ var ImageItem = React.createClass({
   moveDownItem : function(event){
     WorkActions.moveDownImage(this.props.imageData);
   },
-  
-  /*
-    读取成功后加载Image
-  */
-  fileLoaded : function(event) {
-    this.setState({imageUrl : event.target.result});
-  },
+
   componentDidMount : function(){
-    // if(this.props.imageData.imageFile){
-    //   var fr = new FileReader();
-    //   fr.onload = this.fileLoaded;
-    //   fr.readAsDataURL(this.props.imageData.imageFile);
-    // }
-    // this.initUploader();
+
   },
   render : function(){
     return (
@@ -64,7 +49,7 @@ var ImageItem = React.createClass({
           <span className="glyphicon glyphicon-chevron-down image-button" onClick={this.moveDownItem}></span>
         </div>
         <div className="main-image">
-          <img height="60" width="60" src={this.state.imageUrl} />
+          <img height="60" width="60" src={this.props.imageData.imageUrl} />
         </div>
         <div className="main-des">
           <Input type="textarea" ref="description" onChange={this.handleChange} value={this.props.imageData.imageDes} />
@@ -115,7 +100,7 @@ var ChooseImages = React.createClass({
   },
   getInitialState : function(){
     return {
-      imageItemList : []
+      imageItemList : [],
     }
   },
   onStatusChange : function(data){
@@ -138,17 +123,14 @@ var ChooseImages = React.createClass({
   */
   onFileUploaded : function(up,file,info){
     var list = this.state.imageItemList;
-    var item = list.map(function(item){
+    var res = JSON.parse(info);
+    list.map(function(item){
       if(item.id == file.id){
-        return item;
+        item.imageUrl = res.Url;
+        item.uploaded = true;
       }
-      return null;
     });
-    if(item){
-      item.imageUrl = info.Url;
-      item.uploaded = true;
-      this.setState({imageItemList : list});
-    }
+    this.setState({imageItemList : list});
     console.log(info);
   },
   /*
@@ -158,14 +140,10 @@ var ChooseImages = React.createClass({
     var list = this.state.imageItemList;
     var item = list.map(function(item){
       if(item.id == file.id){
-        return item;
+        item.progress = file.percent;
       }
-      return null;
     });
-    if(item){
-      item.progress = file.percent;
-      this.setState({imageItemList : list});
-    }
+    this.setState({imageItemList : list});
   },
 
   onUploadComplete : function(){
@@ -183,8 +161,6 @@ var ChooseImages = React.createClass({
     this.uploaderOption.init.FileUploaded = this.onFileUploaded;
     this.uploaderOption.init.UploadProgress = this.onUploadProgress;
     this.uploader = Qiniu.uploader(this.uploaderOption);
-
-    console.log(this.uploader);
   },
     
   //返回图片列表

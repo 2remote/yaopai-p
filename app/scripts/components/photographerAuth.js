@@ -15,7 +15,7 @@ var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
 
 var TextInput = require('./account/textInput');
-var ImageInput = require('.//account/imageInput');
+var ImageInput = require('./account/imageInput');
 
 var AuthHeader = React.createClass({
   render : function(){
@@ -34,27 +34,7 @@ var AuthHeader = React.createClass({
   }
 });
 
-/*
-var TextInput = React.createClass({
-  getDefaultProps : function(){
-    return{
-      textClassName : 'col-sm-4',
-      validatedClass : ''
-    }
-  },
-  render : function(){
-    return (
-      <Input type="text" 
-        bsStyle={this.props.validatedClass} 
-        label={this.props.labelName} 
-        placeholder={this.props.placeholderName} 
-        labelClassName='col-xs-2' 
-        wrapperClassName={this.props.textClassName}
-        hasFeedback />
-      );
-  }
-});
-*/
+
 
 var ContactPhone = React.createClass({
   render : function(){
@@ -125,28 +105,15 @@ var Address = React.createClass({
   身份证图片上传
 */
 var PersonIDImage = React.createClass({
-  chooseIDPicture1 : function () {
-    React.findDOMNode(this.refs.IDPicture1).click();
-  },
-  handleIDPicture1 : function () {
-    var fileinput = React.findDOMNode(this.refs.IDPicture1);
-    console.log(fileinput.value);
-  },
-  chooseIDPicture2 : function () {
-    React.findDOMNode(this.refs.IDPicture2).click();
-  },
-  handleIDPicture2 : function () {
-    var fileinput = React.findDOMNode(this.refs.IDPicture2);
-    console.log(fileinput.value);
-  },
+  
   render : function(){
     return (
       <div className="form-group">
         <label className="control-label col-xs-2">身份证正反面：</label>
         <div className="col-xs-10">
           <div className="row">
-            <ImageInput ref="IDPicture1" />
-            <ImageInput ref="IDPicture2" />
+            <ImageInput uid="IDPicture1" type="user"/>
+            <ImageInput uid="IDPicture2" type="user"/>
           </div>
 
           <div className="row">
@@ -232,7 +199,7 @@ var CompanyLogo = React.createClass({
       <div className="form-group">
         <label className="control-label col-xs-2">工作室LOGO：</label>
         <div className="col-xs-6">
-          <ImageInput defaultImage = "img/logo_up.png" />
+          <ImageInput uid="complanyLogo" defaultImage = "img/logo_up.png" type="user"/>
         </div>
       </div>
       );
