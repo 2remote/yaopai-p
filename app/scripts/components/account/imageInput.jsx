@@ -34,11 +34,13 @@ var ImageInput = React.createClass({
       colWidth : 'col-xs-4',
       type : '',  //必须指定图片类型 user, work...
       uid : 'imagePick', //当一个页面引用了多个ImageInput，必须指定不同的uid
+      onUpload : function(data){},  //上传陈工后回调函数
     }
   },
   onFileUploaded : function(up,file,info){
     var res = JSON.parse(info);
     this.setState({imageUrl : res.Url});
+    this.props.onUpload(res.Url); //上传成功后可以回调onUpload函数
   },
 
   getImage : function(){

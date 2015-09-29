@@ -5,8 +5,8 @@ var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
 
 var ImageInput = require("./account/imageInput");
-var UploadTokenStore = require('../stores/UploadTokenStore');
-var UploadActions = require('../actions/UploadActions');
+var AccountActions = require("../actions/AccountActions");
+var AccountStore = require("../stores/AccountStore");
 
 var InfoHeader = React.createClass({
   render : function(){
@@ -46,12 +46,15 @@ var UserImage = React.createClass({
   componentDidMount : function(){
 
   },
+  onUpload : function(avatorUrl){
+    AccountActions.changeAvator({Avator : avatorUrl});
+  },
   render : function() {
     return (
         <div className="form-group">
           <label className="control-label col-xs-2">头像：</label>
           <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput uid="uploadAvator" type="user" defaultImage="img/default_user_img.png"/>
+            <ImageInput uid="uploadAvator" type="user" defaultImage="img/default_user_img.png" onUpload={this.onUpload}/>
           </div>
         </div>
       );

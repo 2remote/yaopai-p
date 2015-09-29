@@ -11,8 +11,10 @@ var API_CONST = {
     modify_password : API_URL + 'User.ChangePassword',
     logout : API_URL + "User.Logout",
     open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Host,
-    current_user : API_URL + 'User.CurrentUser'
+    current_user : API_URL + 'User.CurrentUser',
+    changeAvator : API_URL + 'User.ChangeAvator',
   },
+
   file_api : {
     getToken : API_URL + 'File.Token',
     user_token_url : 'http://api.anorangevision.com/file/token?type=user',
