@@ -17,20 +17,22 @@ var UserStore = Reflux.createStore({
       userType: '',
       userState: '',
       isLogin: false,
-      hintMessage: ''
+      hintMessage: '',
+      flag : ''
     };
     //从localStorage读取UserData
     var temp = localStorage.getItem(this.userKey);
     if(temp){
-      this.userData = eval('('+temp+')');
-      if(this.userData.loginToken && this.userData.loginToken != ''){
+      temp = eval('('+temp+')');
+      if(temp.loginToken && temp.loginToken != ''){
         //得到loginToken，自动登录
-        UserActions.loginWithToken({token : this.userData.loginToken});
+        UserActions.loginWithToken({token : temp.loginToken});
       }
     }
     /*
       获取第三方登录的返回值，并得到当前用户
     */
+    /*
     var GetQueryString = function (name){
       var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
       var r = window.location.search.substr(1).match(reg);
@@ -40,6 +42,8 @@ var UserStore = Reflux.createStore({
     if(openLoginState == 'y'){
       UserActions.currentUser();
     }
+    */
+    UserActions.currentUser();
     /*
         可以用下面代码代替
         listenables: UserActions，
@@ -54,15 +58,8 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.loginWithToken.failed,this.onLoginWithTokenFailed);
     this.listenTo(UserActions.currentUser.success,this.onGetCurrentUser);
     this.listenTo(UserActions.currentUser.failed,this.onGetCurrentUserFailed);
-  },
-  onRegisterSuccess : function(){
-    this.getCode.left = 60 ;
-    countTimeLeft = function(){
-      this.getCode.left = this.getCode.left -1;
-      this.trigger(this.getCode);
-      setTimeout(countTimeLeft, 1000);
-    }.bind(this);
-    countTimeLeft();
+    this.listenTo(UserActions.modifyPassword.success,this.onModifyPasswordSuccess);
+    this.listenTo(UserActions.modifyPassword.failed,this.onModifyPasswordFailed);
   },
   
   onLoginSuccess: function(data) {
@@ -74,11 +71,11 @@ var UserStore = Reflux.createStore({
       this.setCurrentUser(data.User);
       this.userData.loginToken = data.LoginToken;
       localStorage.setItem(this.userKey,JSON.stringify(this.userData));
-      this.trigger(this.userData);
     } else {
       this.userData.hintMessage = data.ErrorMsg;
-      this.trigger(this.userData);
     }
+    this.userData.flag = "login";
+    this.trigger(this.userData);
   },
   /*
     onLoginFailed 主要监听网络访问错误
@@ -113,6 +110,7 @@ var UserStore = Reflux.createStore({
       this.userData.LoginToken = '';
       localStorage.removeItem(this.userKey);
     }
+    this.userData.flag = "login";
     this.trigger(this.userData);
 
   },
@@ -126,17 +124,18 @@ var UserStore = Reflux.createStore({
     if (data.Success) {
       this.userData.hintMessage = '';
       this.setCurrentUser(data.User);
-      this.trigger(this.userData);
     } else {
       this.userData.hintMessage = data.ErrorMsg;
-      this.trigger(this.userData);
     }
+    this.userData.flag = "register";
+    this.trigger(this.userData);
   },
   /*
     onRegisterFailed 主要监听网络访问错误
   */
   onRegisterFailed: function(data) {
       this.userData.hintMessage = data;
+      this.userData.flag = "register"
       this.trigger(this.userData);
   },
   /*
@@ -145,8 +144,26 @@ var UserStore = Reflux.createStore({
   onLogoutSuccess: function() {
     this.setCurrentUser(null);
     localStorage.removeItem(this.userKey);
+    this.userData.flag = "logout";
     this.trigger(this.userData);
   },
+
+  /*
+    用户修改密码,flag :  modifyPassword
+  */
+  onModifyPasswordSuccess : function(data){
+    if(data.Success){
+      this.userData.hintMessage = "修改密码成功";
+    }else{
+      this.userData.hintMessage = data.ErrorMsg;
+    }
+    this.userData.flag="modifyPassword";
+    this.trigger(this.userData);
+  },
+  onModifyPasswordFailed : function(data){
+    console.log('网络出错，无法连接服务器！');
+  },
+
   /*
     设定当前用户信息
   */
@@ -165,7 +182,7 @@ var UserStore = Reflux.createStore({
       // this.userData.userType = userData.userType;
       // this.userData.userState = userData.userState;
     }
-  }
+  },
 
 });
 

@@ -8,7 +8,8 @@ var UserActions = Reflux.createActions({
     'loginWithToken' : {children : ['success','failed']},
 	  'logout' : {children:["success"]},
     'openLogin' : {children:["success","failed"]},
-    'currentUser' : {children:["success","failed"]}
+    'currentUser' : {children:["success","failed"]},
+    'modifyPassword':{children:["success","failed"]}
 });
 
 /*
@@ -58,7 +59,23 @@ UserActions.register.listen(function(data) {
   // $.post(API.user_api.register_url, data).then(this.success, this.failed);
   HttpFactory.post(API.user_api.register,data,this.success,this.failed);
 });
-
+/*
+  修改密码
+  ##请求data结构
+  | 参数 | 类型 | 必填 |说明 |
+  | -- | -- | -- |-- |
+  | rawPassword | string | Y |用户原始密码 |
+  | newPassword | string | Y |用户新密码 |
+  返回值：
+  {
+    ErrorCode: 0, //错误代码
+    ErrorMsg: null  //错误信息
+    Success:true    //请求是否成功
+  }
+*/
+UserActions.modifyPassword.listen(function(data){
+  HttpFactory.post(API.user_api.modify_password,data,this.success,this.failed);
+});
 /*
   用户登出
 */

@@ -3,6 +3,12 @@ var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
 
+var Reflux = require('reflux');
+var UserStore = require('../stores/UserStore');
+var UserActions = require('../actions/UserActions');
+
+var AlertBox = require('./user/alertBox');
+
 var InfoHeader = React.createClass({
   render : function(){
     return (
@@ -24,9 +30,13 @@ var PasswordInput = React.createClass({
       validatedClass : ''
     }
   },
+  getValue : function(){
+    return this.refs.passwordInput.getValue();
+  },
   render : function(){
     return (
       <Input type="password" 
+        ref="passwordInput"
         bsStyle={this.props.validatedClass} 
         label={this.props.labelName} 
         placeholder={this.props.placeholderName} 
@@ -38,6 +48,40 @@ var PasswordInput = React.createClass({
 });
 
 var ModifyPassword = React.createClass({
+  mixins: [Reflux.listenTo(UserStore, 'handleModifyResult')],
+  getInitialState : function(){
+    return {
+      alertMessage : '',
+    }
+  },
+  /*
+    接收修改密码结果
+  */
+  handleModifyResult : function(data){
+    if(data.flag != "modifyPassword")return;
+    this.setState({alertMessage : data.hintMessage});
+  },
+  handleModifyPassword : function(){
+    var oldPass = this.refs.oldPass.getValue();
+    var newPass = this.refs.newPass.getValue();
+    var newPassRepeat = this.refs.newPassRepeat.getValue();
+    if(!oldPass || oldPass=='') {
+      this.setState({alertMessage:'原密码不能为空！'});
+      return;
+    }
+    if(oldPass == newPass){
+      this.setState({alertMessage : '新密码不能和原密码一样！'});
+      return;
+    }
+    if(newPass != newPassRepeat){
+      this.setState({alertMessage : '两次输入密码不一致！'});
+      return ;
+    }
+    if(newPass.length <6 || newPass.length > 18){
+      this.setState({alertMessage:'密码长度必须大于6，小于18'});
+    }
+    UserActions.modifyPassword({rawPassword:oldPass,newPassword:newPass});
+  },
   render : function () {
     return (
       <div>
@@ -46,12 +90,13 @@ var ModifyPassword = React.createClass({
             <label className="control-label">修改密码</label>
           </div>
         </div>
-        <PasswordInput labelName="当前密码：" />
-        <PasswordInput labelName="新密码：" />
-        <PasswordInput labelName="确认密码：" />
-        <Button>保存</Button>
+        <PasswordInput ref="oldPass" labelName="当前密码：" />
+        <PasswordInput ref="newPass" labelName="新密码：" />
+        <PasswordInput ref="newPassRepeat" labelName="确认密码：" />
+        <Button onClick={this.handleModifyPassword}>保存</Button>
+        <AlertBox alertMessage={this.state.alertMessage} />
       </div>
-      );
+    );
   }
 });
 
