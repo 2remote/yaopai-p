@@ -19,6 +19,9 @@ var API_CONST = {
     getToken : API_URL + 'File.Token',
     user_token_url : 'http://api.anorangevision.com/file/token?type=user',
     work_token_url : 'http://api.anorangevision.com/file/token?type=work',
+  },
+  common_api : {
+    area_list : API_URL + 'Area.List',
   }
 }
 
