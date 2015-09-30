@@ -2,7 +2,7 @@ var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 
-var Acount = require('./acount');
+var Account = require('./headerAccount');
 
 var CityLink = React.createClass({
 	render : function() {
@@ -46,7 +46,7 @@ var Header = React.createClass({
 										<Link to="/">城市之美</Link>
 									</li>
 								</ul>
-								<Acount />
+								<Account />
 							</div>
 					</nav>
 			</header>
