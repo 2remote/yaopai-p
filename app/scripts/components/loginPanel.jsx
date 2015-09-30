@@ -21,7 +21,6 @@ var Modal = require('react-bootstrap').Modal;
 
 
 var LoginButton = React.createClass({
-	
 	render : function(){
 		return (
 			<div className="form-group">

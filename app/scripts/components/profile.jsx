@@ -25,7 +25,6 @@ var ProfileHeader = React.createClass({
       textAlign : 'center',
       width : '100%',
     };
-    
     return (
       <div style={headerStyle.background}>
         <div style={headerStyle.center}>

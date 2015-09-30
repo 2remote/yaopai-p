@@ -20,7 +20,6 @@ var Layout = React.createClass({
             <Footer />
           </div>
         );
-    
   }
 });
 

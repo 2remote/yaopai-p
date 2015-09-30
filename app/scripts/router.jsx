@@ -6,7 +6,6 @@ var Link = ReactRouter.Link;
 var IndexRoute = ReactRouter.IndexRoute;
 var Layout = require('./components/layout');
 var Home = require('./components/home');
-var About = require('./components/about');
 var Login = require('./components/loginPanel');
 var Register = require('./components/registerPanel');
 var AccountCenter = require('./components/accountCenter');
