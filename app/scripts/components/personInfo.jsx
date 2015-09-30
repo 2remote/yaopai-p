@@ -29,9 +29,13 @@ var TextInput = React.createClass({
       validatedClass : ''
     }
   },
+  getValue : function(){
+    return this.refs.textInput.getValue();
+  },
   render : function(){
     return (
       <Input type="text" 
+        ref="textInput"
         bsStyle={this.props.validatedClass} 
         label={this.props.labelName} 
         placeholder={this.props.placeholderName} 
@@ -67,18 +71,34 @@ var UserImage = React.createClass({
 });
 
 var UserGender = React.createClass({
+  getInitialState : function(){
+    return {
+      gender : 1,
+    }
+  },
+  getValue : function(){
+    return this.state.gender;
+  },
+  /*
+    暂时先这样写，之后考虑用相应的控件
+  */
+  beMan : function(){
+    this.setState({gender : 1});
+  },
+  beWeman : function(){
+    this.setState({gender : 1});
+  },
   render : function  () {
     return (
       <div className="form-group">
         <label className="control-label col-xs-2">性别：</label>
         <div className="col-xs-4">
-          <Button>男</Button>
-          <Button>女</Button>
+          <Button onClick={this.beMan}>男</Button>
+          <Button onClick={this.beWeman}>女</Button>
         </div>
       </div>
-      );
+    );
   }
-
 });
 
 var District = React.createClass({
@@ -97,6 +117,12 @@ var District = React.createClass({
 
 var PersonInfo = React.createClass({
 
+  updateInfo : function(){
+    var nickName = this.refs.nickName.getValue();
+    var gender = this.refs.gender.getValue();
+    AccountActions.updateInfo({NickName:nickName,Sex:gender});
+  },
+
   render: function() {
 
     return (
@@ -104,10 +130,9 @@ var PersonInfo = React.createClass({
         <form className='form-horizontal'>
           <InfoHeader />
           <UserImage />
-          <TextInput labelName="昵称：" />
-          <UserGender />
-          <District />
-          <button className="btn btn-primary">保存</button>
+          <TextInput ref="nickName" labelName="昵称：" />
+          <UserGender ref="gender" />
+          <button className="btn btn-primary" onClick={this.updateInfo}>保存</button>
         </form>
       </Panel>
     );

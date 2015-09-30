@@ -13,6 +13,7 @@ var API_CONST = {
     open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Host,
     current_user : API_URL + 'User.CurrentUser',
     changeAvatar : API_URL + 'User.ChangeAvatar',
+    updateInfo : API_URL + 'User.ChangeInfo'
   },
 
   file_api : {

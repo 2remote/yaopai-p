@@ -13,6 +13,8 @@ var AccountStore = Reflux.createStore({
     };
     this.listenTo(AccountActions.changeAvatar.success,this.onChangeAvatarSuccess);
     this.listenTo(AccountActions.changeAvatar.failed,this.onChangeAvatarFailed);
+    this.listenTo(AccountActions.updateInfo.success,this.onUpdateInfoSuccess);
+    this.listenTo(AccountActions.updateInfo.failed,this.onUpateInfoFailed);
   },
 
   onChangeAvatarSuccess : function(data){
@@ -21,13 +23,27 @@ var AccountStore = Reflux.createStore({
     }else{
       this.accountData.hintMessage = data.ErrorMsg;
     }
-    console.log(data);
     this.accountData.flag = 'avator';
     this.trigger(this.accountData);
   },
   onChangeAvatarFailed : function(data){
     this.accountData.hintMessage = '网络错误，请重试！';
     this.accountData.flag= "avator";
+    this.trigger(this.accountData);
+  },
+
+  onUpdateInfoSuccess : function(data){
+    if(data.Success){
+      this.accountData.hintMessage = '用户信息修改成功！'
+    }else{
+      this.accountData.hintMessage = data.ErrorMsg;
+    }
+    this.accountData.flag = 'info';
+    this.trigger(this.accountData);
+  },
+  onUpateInfoFailed : function(data){
+    this.accountData.hintMessage = '网络错误，请重试！';
+    this.accountData.flag = 'info';
     this.trigger(this.accountData);
   },
 
