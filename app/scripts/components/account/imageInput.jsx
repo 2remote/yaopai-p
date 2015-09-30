@@ -52,16 +52,25 @@ var ImageInput = React.createClass({
     this.uploaderOption.init.FileUploaded = this.onFileUploaded;
     this.uploader = Qiniu.uploader(this.uploaderOption);
   },
-  
   render : function (){
     var img ;
     if(this.state.imageUrl != ''){
       img = (
-        <img id={this.props.uid} className="image-button" width="150" heigth="150" src={this.state.imageUrl} onClick={this.showImage} />
+        <img id={this.props.uid}
+          className="image-button"
+          width="150"
+          heigth="150"
+          src={this.state.imageUrl}
+          onClick={this.showImage} />
       );
     }else{
       img = (
-        <img id={this.props.uid} className="image-button" width="150" heigth="150" src={this.props.defaultImage} onClick={this.handleClick} />
+        <img id={this.props.uid}
+        className="image-button"
+        width="150"
+        heigth="150"
+        src={this.props.defaultImage}
+        onClick={this.handleClick} />
       );
     }
 

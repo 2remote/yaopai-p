@@ -4,6 +4,9 @@ var Reflux = require('reflux');
 var Router = require('react-router');
 var Link = Router.Link;
 
+var Header = require('./header');
+var Footer = require('./footer');
+
 var OrderStore = require('../stores/OrderStore');
 var OrderActions = require('../actions/OrderActions');
 var Input = require('react-bootstrap').Input;
@@ -210,13 +213,17 @@ var OrderManager = React.createClass({
   render: function() {
 
     return (
-      <div className="center-content">
-        <div className="col-xs-10">
-            <OrderList type={this.props.params.type}/>
+      <div className="container-fluid no-bgimg gray-bg">
+        <Header />
+        <div className="center-content">
+          <div className="col-xs-10">
+              <OrderList type={this.props.params.type}/>
+          </div>
+          <div className="col-xs-2">
+            <OrderManagerNav />
+          </div>
         </div>
-        <div className="col-xs-2">
-          <OrderManagerNav />
-        </div>
+        <Footer />
       </div>
     );
   }

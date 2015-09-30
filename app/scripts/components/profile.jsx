@@ -2,6 +2,9 @@ var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
 
+var Header = require('./header');
+var Footer = require('./footer');
+
 var ProfileHeader = React.createClass({
   render : function(){
     var headerStyle = {
@@ -66,9 +69,13 @@ var Profile = React.createClass({
   render: function() {
 
     return (
-      <div>
-        <ProfileHeader />
-        <WorksList />
+      <div className="container-fluid no-bgimg gray-bg">
+        <Header />
+        <div>
+          <ProfileHeader />
+          <WorksList />
+        </div>
+        <Footer />
       </div>
     );
   }
