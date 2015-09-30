@@ -1,5 +1,5 @@
 var React = require ('react');
-var Reflux = require('Reflux');
+var Reflux = require('reflux');
 var Input = require('react-bootstrap').Input;
 
 var AreaActions = require('../../actions/AreaActions');
