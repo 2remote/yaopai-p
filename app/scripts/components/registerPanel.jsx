@@ -36,67 +36,6 @@ var RegisterButton = React.createClass({
 	}
 });
 
-/*
-//暂时不用comfirm密码
-
-var UserPasswordRepeatInput = React.createClass({
-	getInitialState : function(){
-    return {
-      repeatPassword : '',
-      message : '',
-      validated : '0'
-    };
-  },
-  getDefaultProps : function(){
-  	return {
-  		originPassword : '',
-  		validatedClass : function(validated){
-  			return 'form-control';
-  		}
-  	}
-  },
-  handleChange : function(event){
-  	if(this.props.originPassword != event.target.value){
-  		this.setState({repeatPassword : event.target.value,message : '两次密码输入不一致',validated : '2'})
-  	}else{
-  		this.setState({repeatPassword : event.target.value,message : '', validated : '1'})
-  	}
-  },
-	render : function(){
-		var classString = this.props.validatedClass(this.state.validated);
-		return(
-			<div className={classString}>
-				<div className="col-sm-offset-2 col-sm-6">
-					<input type="password" 
-						className="form-control" 
-						placeholder="再输入一次密码" 
-						onChange={this.handleChange}/>
-				</div>
-				<label className="control-label col-sm-4">{this.state.message}</label>
-			</div>
-		);
-	}
-	
-});
-
-
-var RememberMeCheck = React.createClass({
-	render : function(){
-		return(
-			<div className="form-group">
-			    <div className="col-sm-offset-2 col-sm-6">
-			      <div className="checkbox">
-			        <label>
-			          <input type="checkbox" /> 记住我的登录信息
-			        </label>
-			      </div>
-			    </div>
-			 </div>
-			);
-	}
-});
-*/
-
 var ValidateCodeInput = React.createClass({
 	mixins: [Reflux.listenTo(GetCodeStore, 'handleResult')],
 	getInitialState : function(){

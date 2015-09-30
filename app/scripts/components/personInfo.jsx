@@ -43,11 +43,15 @@ var TextInput = React.createClass({
 });
 
 var UserImage = React.createClass({
+  mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
   componentDidMount : function(){
 
   },
   onUpload : function(avatorUrl){
-    AccountActions.changeAvator({Avator : avatorUrl});
+    AccountActions.changeAvatar({Avatar : avatorUrl});
+  },
+  onUpdateAvatar : function(data){
+    console.log(data);
   },
   render : function() {
     return (

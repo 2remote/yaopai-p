@@ -16,6 +16,7 @@ var Button = require('react-bootstrap').Button;
 
 var TextInput = require('./account/textInput');
 var ImageInput = require('./account/imageInput');
+var AreaSelect = require('./account/areaSelect');
 
 var AuthHeader = React.createClass({
   render : function(){
@@ -74,19 +75,6 @@ var CompanyName = React.createClass({
   render : function(){
     return(
       <TextInput ref="RealName" labelName="工作室名称：" minLength={5} placeholder=""/>
-
-      );
-  }
-});
-
-var Province = React.createClass({
-  render : function(){
-    return(
-      <div className="form-group">
-        <Input type="select" label="地区：" labelClassName='col-xs-2' wrapperClassName="col-xs-6">
-          <option value="1">郑州</option>
-        </Input>
-      </div>
 
       );
   }
@@ -235,6 +223,7 @@ var PhotographerAuth = React.createClass({
             <AuthHeader />
             <form className='form-horizontal'>
               <TextInput ref="RealName" labelName="姓名：" minLength={2} placeholder="真实姓名2字以上"/>
+              <AreaSelect />
               <TextInput ref="RealName" labelName="工作电话：" minLength={5} placeholder=""/>
               <TextInput ref="RealName" labelName="微信：" minLength={3} placeholder=""/>
               <TextInput ref="RealName" labelName="QQ：" minLength={5} placeholder=""/>
@@ -243,7 +232,6 @@ var PhotographerAuth = React.createClass({
               <PersonProduct products={this.state.products} updateProducts={this.updateProducts}/>
               <CompanyName />
               <CompanyLogo />
-              <Province />
               <Address />
               <CompnayIntro />
               <Button bsStyle="primary">提交</Button>

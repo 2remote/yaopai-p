@@ -11,11 +11,11 @@ var AccountStore = Reflux.createStore({
       hintMessage : '',
       flag : '',
     };
-    this.listenTo(AccountActions.changeAvator.success,this.onChangeAvatorSuccess);
-    this.listenTo(AccountActions.changeAvator.failed,this.onChangeAvatorFailed);
+    this.listenTo(AccountActions.changeAvatar.success,this.onChangeAvatarSuccess);
+    this.listenTo(AccountActions.changeAvatar.failed,this.onChangeAvatarFailed);
   },
 
-  onChangeAvatorSuccess : function(data){
+  onChangeAvatarSuccess : function(data){
     if(data.Success){
       this.accountData.hintMessage = '用户头秀修改成功！';
     }else{
@@ -25,7 +25,7 @@ var AccountStore = Reflux.createStore({
     this.accountData.flag = 'avator';
     this.trigger(this.accountData);
   },
-  onChangeAvatorFailed : function(data){
+  onChangeAvatarFailed : function(data){
     this.accountData.hintMessage = '网络错误，请重试！';
     this.accountData.flag= "avator";
     this.trigger(this.accountData);
