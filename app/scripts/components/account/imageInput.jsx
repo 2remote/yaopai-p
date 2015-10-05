@@ -10,7 +10,7 @@ var ImageInput = React.createClass({
     flash_swf_url: 'vendor/Moxie.swf',
     dragdrop: false,
     chunk_size: '4mb',
-    uptoken_url: API.file_api.user_token_url,
+    uptoken_url: API.FILE.user_token_url,
     domain: 'http://qiniu-plupload.qiniudn.com/',
     auto_start: true,
     get_new_uptoken: true,
@@ -30,11 +30,13 @@ var ImageInput = React.createClass({
   },
   getDefaultProps : function(){
     return {
-      defaultImage : 'img/tianjia.png',
-      colWidth : 'col-xs-4',
+      defaultImage : 'img/tianjia.png', //指定未上传时的图片
+      colWidth : 'col-xs-4',  //指定所占列宽
+      width : '150',  //图片高度
+      height : '150', //指定图片高度
       type : '',  //必须指定图片类型 user, work...
       uid : 'imagePick', //当一个页面引用了多个ImageInput，必须指定不同的uid
-      onUpload : function(data){},  //上传陈工后回调函数
+      onUpload : function(data){},  //上传成功后回调函数
     }
   },
   onFileUploaded : function(up,file,info){
@@ -58,19 +60,17 @@ var ImageInput = React.createClass({
       img = (
         <img id={this.props.uid}
           className="image-button"
-          width="150"
-          heigth="150"
-          src={this.state.imageUrl}
-          onClick={this.showImage} />
+          width={this.props.width}
+          height={this.props.height}
+          src={this.state.imageUrl} />
       );
     }else{
       img = (
         <img id={this.props.uid}
         className="image-button"
-        width="150"
-        heigth="150"
-        src={this.props.defaultImage}
-        onClick={this.handleClick} />
+        width={this.props.width}
+        height={this.props.height}
+        src={this.props.defaultImage} />
       );
     }
 

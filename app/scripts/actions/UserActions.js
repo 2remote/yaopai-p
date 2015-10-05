@@ -21,7 +21,7 @@ var UserActions = Reflux.createActions({
 UserActions.login.listen(function(data) {
   console.log("login begin");
   //$.post(API.user_api.login_url, data).then(this.success, this.failed);
-  HttpFactory.post(API.user_api.login,data,this.success,this.failed);
+  HttpFactory.post(API.USER.login,data,this.success,this.failed);
 });
 
 /*
@@ -29,7 +29,7 @@ UserActions.login.listen(function(data) {
 */
 UserActions.loginWithToken.listen(function(data){
   console.log("begin login with token");
-  HttpFactory.post(API.user_api.login_with_token,data,this.success,this.failed);
+  HttpFactory.post(API.USER.login_with_token,data,this.success,this.failed);
 });
 
 /*
@@ -37,14 +37,14 @@ UserActions.loginWithToken.listen(function(data){
 */
 
 UserActions.openLogin.listen(function(data){
-  window.location.href = API.user_api.open_login;
+  window.location.href = API.USER.open_login;
 });
 /*
   得到当前用户
 */
 UserActions.currentUser.listen(function(data){
   console.log('get currentUser');
-  HttpFactory.post(API.user_api.current_user,data,this.success,this.failed);
+  HttpFactory.post(API.USER.current_user,data,this.success,this.failed);
 });
 /*
   用户注册

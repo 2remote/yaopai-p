@@ -13,7 +13,7 @@ var AreaActions = Reflux.createActions({
 AreaActions.getProvince.listen(function(){
   console.log('begin get province');
   var data = {ParentId : 0};
-  HttpFactory.post(API.common_api.area_list,data,this.success,this.failed);
+  HttpFactory.post(API.COMMON.area_list,data,this.success,this.failed);
   
 });
 
@@ -21,14 +21,14 @@ AreaActions.getCity.listen(function(data){
   /*
     data 格式为 {ParentId : id}
   */
-  HttpFactory.post(API.common_api.area_list,data,this.success,this.failed);
+  HttpFactory.post(API.COMMON.area_list,data,this.success,this.failed);
 });
 
 AreaActions.getDistrict.listen(function(data){
   /*
     data 格式为 {ParentId : id}
   */
-  HttpFactory.post(API.common_api.area_list,data,this.success,this.failed);
+  HttpFactory.post(API.COMMON.area_list,data,this.success,this.failed);
 });
 
 

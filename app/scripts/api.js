@@ -3,7 +3,7 @@ var API_URL = 'http://api.anorangevision.com/?api=';
 var Local_Host = "http://localhost:8000";
 
 var API_CONST = {
-  user_api : {
+  USER : {
     login : API_URL + 'User.Login',
     login_with_token : API_URL + 'User.LoginWithToken',
     register : API_URL + 'User.ReceiveTelRegister',
@@ -12,16 +12,17 @@ var API_CONST = {
     logout : API_URL + "User.Logout",
     open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Host,
     current_user : API_URL + 'User.CurrentUser',
+    currentUserDetail : API_URL + 'User.CurrentUserDetail',
     changeAvatar : API_URL + 'User.ChangeAvatar',
-    updateInfo : API_URL + 'User.ChangeInfo'
+    updateInfo : API_URL + 'User.ChangeInfo',
   },
 
-  file_api : {
+  FILE : {
     getToken : API_URL + 'File.Token',
     user_token_url : 'http://api.anorangevision.com/file/token?type=user',
     work_token_url : 'http://api.anorangevision.com/file/token?type=work',
   },
-  common_api : {
+  COMMON : {
     area_list : API_URL + 'Area.List',
   }
 }

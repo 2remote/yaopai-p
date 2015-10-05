@@ -15,6 +15,8 @@ var AccountStore = Reflux.createStore({
     this.listenTo(AccountActions.changeAvatar.failed,this.onChangeAvatarFailed);
     this.listenTo(AccountActions.updateInfo.success,this.onUpdateInfoSuccess);
     this.listenTo(AccountActions.updateInfo.failed,this.onUpateInfoFailed);
+    this.listenTo(AccountActions.userDetail.success,this.onGetUserDetailSuccess);
+    this.listenTo(AccountActions.userDetail.failed,this.onGetUserDetailFailed);
   },
 
   onChangeAvatarSuccess : function(data){
@@ -46,7 +48,22 @@ var AccountStore = Reflux.createStore({
     this.accountData.flag = 'info';
     this.trigger(this.accountData);
   },
-
+  onGetUserDetailSuccess : function(data){
+    if(data.Success){
+      this.accountData.detail = data;
+    }else{
+      this.accountData.detail = null;
+      this.accountData.hintMessage = data.ErrorMsg;
+    }
+    this.accountData.flag = 'userDetail';
+    this.trigger(this.accountData);
+  },
+  onGetUserDetailFailed : function(data){
+    console.log(data);
+    this.accountData.hintMessage = '网络错误，请重试！';
+    this.accountData.flag = 'userDetail';
+    this.trigger(this.accountData);
+  },
 });
 
 module.exports = AccountStore;

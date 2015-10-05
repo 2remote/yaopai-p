@@ -80,7 +80,7 @@ UploadActions.upload.listen(function(data){
   }
 });
 UploadActions.getToken.listen(function(data){
-  HttpFactory.post(API.file_api.getToken,data,this.success,this.failed);
+  HttpFactory.post(API.FILE.getToken,data,this.success,this.failed);
 });
 
 module.exports = UploadActions;

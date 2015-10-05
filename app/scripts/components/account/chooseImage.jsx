@@ -74,7 +74,7 @@ var ChooseImages = React.createClass({
     flash_swf_url: 'vendor/Moxie.swf',
     dragdrop: true,
     chunk_size: '4mb',
-    uptoken_url: API.file_api.work_token_url,
+    uptoken_url: API.FILE.work_token_url,
     domain: 'http://qiniu-plupload.qiniudn.com/',
     get_new_uptoken: true,
     auto_start: true,

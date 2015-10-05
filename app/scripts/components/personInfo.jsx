@@ -41,6 +41,7 @@ var TextInput = React.createClass({
         placeholder={this.props.placeholderName} 
         labelClassName='col-xs-2' 
         wrapperClassName={this.props.textClassName}
+        defaultValue = {this.props.defaultValue}
         hasFeedback />
       );
   }
@@ -55,7 +56,9 @@ var UserImage = React.createClass({
     AccountActions.changeAvatar({Avatar : avatorUrl});
   },
   onUpdateAvatar : function(data){
-    console.log(data);
+    if(data.flag == 'avatar'){
+      console.log(data);
+    }
   },
   render : function() {
     return (
@@ -101,37 +104,52 @@ var UserGender = React.createClass({
   }
 });
 
-var District = React.createClass({
-  render : function () {
-    return (
-      <Input type="select" 
-        label="地区：" 
-        placeholder={this.props.placeholderName} 
-        labelClassName='col-xs-2' 
-        wrapperClassName='col-xs-4'
-        hasFeedback />
-      );
-  }
-
-});
-
 var PersonInfo = React.createClass({
-
+  mixins : [Reflux.listenTo(AccountStore,'onAccountChanged')],
+  getInitialState : function(){
+    return {
+      info : {
+        id : '',
+        nickName : '',
+        gender : '',
+        avatar : ''
+      }
+    }
+  },
   updateInfo : function(){
     var nickName = this.refs.nickName.getValue();
     var gender = this.refs.gender.getValue();
     AccountActions.updateInfo({NickName:nickName,Sex:gender});
   },
+  componentDidMount : function(){
+    AccountActions.userDetail({Fields:'Id,NickName,Sex,Avatar'});
+  },
+  onAccountChanged : function(data){
+    if(data.flag == 'userDetail'){
+      if(data.detail){
+        this.setState({info : {
+          nickName : data.detail.nickName,
+          gender : data.detail.Sex,
+          avatar : data.detail.Avatar
+        }});
+      }else{
+        //未取得userdetail
+        console.log(data.hitMessage);
+      }
+    }
+    if(data.flag == 'updateInfo'){
 
+    }
+  },
   render: function() {
 
     return (
       <Panel>
         <form className='form-horizontal'>
           <InfoHeader />
-          <UserImage />
-          <TextInput ref="nickName" labelName="昵称：" />
-          <UserGender ref="gender" />
+          <UserImage defaultImage={this.state.info.avatar}/>
+          <TextInput ref="nickName" labelName="昵称：" defaultValue={this.state.info.nickName}/>
+          <UserGender ref="gender" defaultValue={this.state.info.gender}/>
           <button className="btn btn-primary" onClick={this.updateInfo}>保存</button>
         </form>
       </Panel>
