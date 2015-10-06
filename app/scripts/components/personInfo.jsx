@@ -1,4 +1,5 @@
 var React = require('react');
+
 var Reflux = require('reflux');
 var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
@@ -8,52 +9,30 @@ var ImageInput = require("./account/imageInput");
 var AccountActions = require("../actions/AccountActions");
 var AccountStore = require("../stores/AccountStore");
 var TextInput = require('./account/textInput');
-var InfoHeader = React.createClass({
-  render : function(){
-    return (
-      <div className="row">
-        <div className="col-sm-8">
-          <span><h3>个人信息</h3></span>
-        </div>
-        <div className="line">
-        </div>
-      </div>
-      )
-  }
-});
-/*
-var TextInput = React.createClass({
-  getInitialState : function(){
 
-  },
-  getDefaultProps : function(){
-    return{
-      textClassName : 'col-sm-4',
-      validatedClass : ''
-    }
-  },
-  getValue : function(){
-    return this.refs.textInput.getValue();
-  },
-  onChange : function (e) {
-    
-  }
-  render : function(){
+var InfoHeader = React.createClass({
+  render: function () {
+    var style = {
+      headerInfo: {
+        fontSize: '22px',
+        color: '#777777',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: '#e8e8e8',
+      },
+      title: {
+        paddingLeft: '20px',
+      }
+    };
     return (
-      <Input type="text" 
-        ref="textInput"
-        bsStyle={this.props.validatedClass} 
-        label={this.props.labelName} 
-        placeholder={this.props.placeholderName} 
-        labelClassName='col-xs-2' 
-        wrapperClassName={this.props.textClassName}
-        value = {this.props.defaultValue}
-        onChange = {this.onChange}
-        hasFeedback />
-      );
+      <div style={style.headerInfo} className="header-info">
+        <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
+        <span style={style.title} className="title">个人信息</span>
+      </div>
+    );
   }
 });
-*/
+
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
   componentDidMount : function(){
@@ -81,9 +60,7 @@ var UserImage = React.createClass({
         </div>
       );
   }
-
 });
-
 var UserGender = React.createClass({
   getInitialState : function(){
     return {
@@ -100,25 +77,29 @@ var UserGender = React.createClass({
     this.setState({gender : 1});
   },
   beWeman : function(){
-    this.setState({gender : 1});
+    this.setState({gender : 0});
   },
   render : function  () {
     var buttons;
     if(this.state.gender == 1){
       buttons = (
-        <Button onClick={this.beMan} active>男</Button>
-        <Button onClick={this.beWeman}>女</Button>
+        <div className="col-xs-4">
+          <Button onClick={this.beMan} active>男</Button>
+          <Button onClick={this.beWeman}>女</Button>
+        </div>
       );
     }else{
-      <Button onClick={this.beMan} >男</Button>
-      <Button onClick={this.beWeman} active>女</Button>
+      buttons = (
+        <div className="col-xs-4">
+          <Button onClick={this.beMan} >男</Button>
+          <Button onClick={this.beWeman} active>女</Button>
+        </div>
+      )
     }
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">性别：</label>
-        <div className="col-xs-4">
+        <label className="control-label col-xs-2">性别</label>
           {buttons}
-        </div>
       </div>
     );
   }
@@ -163,9 +144,8 @@ var PersonInfo = React.createClass({
     }
   },
   render: function() {
-
     return (
-      <Panel>
+      <div>
         <form className='form-horizontal'>
           <InfoHeader />
           <UserImage defaultImage={this.state.info.avatar}/>
@@ -173,7 +153,7 @@ var PersonInfo = React.createClass({
           <UserGender ref="gender" defaultValue={this.state.info.gender}/>
           <button className="btn btn-primary" onClick={this.updateInfo}>保存</button>
         </form>
-      </Panel>
+      </div>
     );
   }
 });

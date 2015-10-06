@@ -1,7 +1,6 @@
 var React = require('react');
 
 var IndexCover = React.createClass({
-  
     render : function(){
       return (
       <div className="centerContent">
