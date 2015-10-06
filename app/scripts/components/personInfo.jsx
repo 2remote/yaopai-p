@@ -7,7 +7,7 @@ var Button = require('react-bootstrap').Button;
 var ImageInput = require("./account/imageInput");
 var AccountActions = require("../actions/AccountActions");
 var AccountStore = require("../stores/AccountStore");
-
+var TextInput = require('./account/textInput');
 var InfoHeader = React.createClass({
   render : function(){
     return (
@@ -21,8 +21,11 @@ var InfoHeader = React.createClass({
       )
   }
 });
-
+/*
 var TextInput = React.createClass({
+  getInitialState : function(){
+
+  },
   getDefaultProps : function(){
     return{
       textClassName : 'col-sm-4',
@@ -32,6 +35,9 @@ var TextInput = React.createClass({
   getValue : function(){
     return this.refs.textInput.getValue();
   },
+  onChange : function (e) {
+    
+  }
   render : function(){
     return (
       <Input type="text" 
@@ -41,12 +47,13 @@ var TextInput = React.createClass({
         placeholder={this.props.placeholderName} 
         labelClassName='col-xs-2' 
         wrapperClassName={this.props.textClassName}
-        defaultValue = {this.props.defaultValue}
+        value = {this.props.defaultValue}
+        onChange = {this.onChange}
         hasFeedback />
       );
   }
 });
-
+*/
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
   componentDidMount : function(){
@@ -61,11 +68,15 @@ var UserImage = React.createClass({
     }
   },
   render : function() {
+    var image = 'img/default_user_img.png';
+    if(this.props.defaultImage){
+      image = this.props.defaultImage;
+    }
     return (
         <div className="form-group">
           <label className="control-label col-xs-2">头像：</label>
           <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput uid="uploadAvator" type="user" defaultImage="img/default_user_img.png" onUpload={this.onUpload}/>
+            <ImageInput uid="uploadAvator" type="user" defaultImage={image} onUpload={this.onUpload}/>
           </div>
         </div>
       );
@@ -92,12 +103,21 @@ var UserGender = React.createClass({
     this.setState({gender : 1});
   },
   render : function  () {
+    var buttons;
+    if(this.state.gender == 1){
+      buttons = (
+        <Button onClick={this.beMan} active>男</Button>
+        <Button onClick={this.beWeman}>女</Button>
+      );
+    }else{
+      <Button onClick={this.beMan} >男</Button>
+      <Button onClick={this.beWeman} active>女</Button>
+    }
     return (
       <div className="form-group">
         <label className="control-label col-xs-2">性别：</label>
         <div className="col-xs-4">
-          <Button onClick={this.beMan}>男</Button>
-          <Button onClick={this.beWeman}>女</Button>
+          {buttons}
         </div>
       </div>
     );
@@ -128,10 +148,11 @@ var PersonInfo = React.createClass({
     if(data.flag == 'userDetail'){
       if(data.detail){
         this.setState({info : {
-          nickName : data.detail.nickName,
+          nickName : data.detail.NickName,
           gender : data.detail.Sex,
           avatar : data.detail.Avatar
         }});
+        this.refs.nickName.setState({value : data.detail.NickName});
       }else{
         //未取得userdetail
         console.log(data.hitMessage);
@@ -148,7 +169,7 @@ var PersonInfo = React.createClass({
         <form className='form-horizontal'>
           <InfoHeader />
           <UserImage defaultImage={this.state.info.avatar}/>
-          <TextInput ref="nickName" labelName="昵称：" defaultValue={this.state.info.nickName}/>
+          <TextInput ref="nickName" labelName="昵称：" defaultValue={this.state.info.nickName} textClassName='col-xs-4'/>
           <UserGender ref="gender" defaultValue={this.state.info.gender}/>
           <button className="btn btn-primary" onClick={this.updateInfo}>保存</button>
         </form>

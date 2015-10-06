@@ -3,7 +3,7 @@ var Alert = require('react-bootstrap').Alert;
 var validator = require('validator');
 
 /*
-  用户名文本组件
+  用户名文本组件，用于弹出登录框
 */
 var UserNameInput = React.createClass({
   getInitialState : function(){

@@ -16,7 +16,7 @@ var TextInput = React.createClass({
   getInitialState : function(){
     return{
       validated : '0',
-      value : ''
+      value : this.props.defaultValue,
     }
   },
   validatedClass : function(){
@@ -38,10 +38,14 @@ var TextInput = React.createClass({
     var textValue = this.refs.input.getValue();
     this.setState({value : textValue});
   },
+  getValue : function(){
+    return this.state.value;
+  },
   render : function(){
     return (
       <Input type={this.props.type} 
         ref="input"
+        value = {this.state.value}
         onChange={this.handleChange}
         bsStyle={this.validatedClass()} 
         label={this.props.labelName} 
