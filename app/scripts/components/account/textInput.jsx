@@ -16,7 +16,7 @@ var TextInput = React.createClass({
   getInitialState : function(){
     return{
       validated : '0',
-      value : this.props.defaultValue,
+      value : '',
     }
   },
   validatedClass : function(){
