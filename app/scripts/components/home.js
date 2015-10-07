@@ -1,5 +1,6 @@
 var React = require('react');
 var IndexCover = require('./indexCover');
+var ToolTip = require('./toolTip');
 
 var Reflux = require('reflux');
 var GetCodeStore = require('../stores/GetCodeStore');
@@ -155,6 +156,9 @@ var ValidateCodeInput = React.createClass({
   }
 });
 var RegisterButtonn = React.createClass({
+  handleReg: function () {
+    this.props.handleReg();
+  },
   render : function(){
     var buttonStyle = {
       width : '300px',
@@ -184,7 +188,7 @@ var RegisterButtonn = React.createClass({
     return (
       <div>
         <span style={textStyle}>点登录表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
-        <div style={buttonStyle}>注册</div>
+        <div style={buttonStyle} onClick={this.handleReg}>注册</div>
         <div style={openLogin}><span>社交账号直接登录</span><img src="img/wechat.png" /></div>
         <div style={openLogin}><span>已经有账号？直接登录</span></div>
       </div>
@@ -222,6 +226,25 @@ var LoginForm = React.createClass({
 });
 
 var RegisterForm = React.createClass({
+  getDefaultProps: function () {
+    return {
+      pass: false,
+    }
+  },
+  getInitialState: function () {
+    return {
+      checkPass: this.props.pass,
+    }
+  },
+  handleReg: function () {
+    if (this.state.checkPass) {
+      /*是否提交*/
+      console.log('通过检测');
+      return false;
+    } else {
+      this.props.handleReg();
+    }
+  },
   render : function(){
     var registerStyle = {
       width : '360px',
@@ -248,13 +271,16 @@ var RegisterForm = React.createClass({
         <PhoneInput />
         <PasswordInput />
         <ValidateCodeInput />
-        <RegisterButtonn />
+        <RegisterButtonn handleReg={this.handleReg}/>
       </div>
     );
   }
 });
 
 var Home = React.createClass({
+  handleReg: function () {
+    this.refs.toolTip.toShow();
+  },
   render : function(){
     var bgStyle = {
       width : '100%',
@@ -268,7 +294,8 @@ var Home = React.createClass({
     };
     return (
       <div style={bgStyle}>
-        <RegisterForm />
+        <ToolTip ref="toolTip" title="请设置密码，至少6位字符"></ToolTip>
+        <RegisterForm pass={false} handleReg={this.handleReg}/>
       </div>
     );
   }
