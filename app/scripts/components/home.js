@@ -117,10 +117,23 @@ var ValidateCodeInput = React.createClass({
       opacity : '0.5',
       marginBottom : '10px',
       padding : '5px',
-      color : '#fff'
+      color : '#fff',
+      float : 'left'
     };
     var codeBtnStyle = {
-
+      width : '120px',
+      height : '45px',
+      border: '1px solid #FFFFFF',
+      display: 'block',
+      boxSizing: 'border-box',
+      background: 'rgba(0,0,0,0.5)',
+      opacity : '0.5',
+      marginBottom : '10px',
+      paddingTop : '5px',
+      padding : '5px',
+      color : '#fff',
+      float : 'left',
+      cursor : 'pointer',
     };
     if(this.state.getCode.left > 0){
       getCodeButton = (
@@ -141,7 +154,43 @@ var ValidateCodeInput = React.createClass({
     );
   }
 });
-
+var RegisterButtonn = React.createClass({
+  render : function(){
+    var buttonStyle = {
+      width : '300px',
+      height : '45px',
+      backgroundColor : '#3F7BB4',
+      color: '#fff',
+      fontSize: '20px',
+      textAlign : 'center',
+      paddingTop : '10px;',
+      cursor : 'pointer',
+    };
+    var textStyle ={
+      color : '#8d8d8d',
+      fontSize : '11px',
+    };
+    var ruleStyle ={
+      color : '#fff',
+      fontSize : '11px',
+    };
+    var openLogin = {
+      color : '#fff',
+      fontSize : '14px',
+      textAlign : 'left',
+      width : '300px',
+      marginTop : '10px',
+    }
+    return (
+      <div>
+        <span style={textStyle}>点登录表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
+        <div style={buttonStyle}>注册</div>
+        <div style={openLogin}><span>社交账号直接登录</span><img src="img/wechat.png" /></div>
+        <div style={openLogin}><span>已经有账号？直接登录</span></div>
+      </div>
+    );
+  }
+});
 var LoginForm = React.createClass({
 
   render: function() {
@@ -196,6 +245,7 @@ var RegisterForm = React.createClass({
         <PhoneInput />
         <PasswordInput />
         <ValidateCodeInput />
+        <RegisterButtonn />
       </div>
     );
   }
