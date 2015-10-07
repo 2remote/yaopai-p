@@ -71,6 +71,7 @@ var UserStore = Reflux.createStore({
       this.setCurrentUser(data.User);
       this.userData.loginToken = data.LoginToken;
       localStorage.setItem(this.userKey,JSON.stringify(this.userData));
+      this.userData.hintMessage = '';
     } else {
       this.userData.hintMessage = data.ErrorMsg;
     }

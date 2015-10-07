@@ -79,6 +79,9 @@ var PasswordInput = React.createClass({
   }
 });
 var LoginButtonn = React.createClass({
+  openLogin : function(){
+    UserActions.openLogin();
+  },
   render : function(){
     var buttonStyle = {
       width : '300px',
@@ -104,13 +107,16 @@ var LoginButtonn = React.createClass({
       textAlign : 'left',
       width : '300px',
       marginTop : '10px',
-    }
+    };
+    var imageBtn = {
+      cursor : 'pointer',
+    };
     return (
       <div>
         <span style={textStyle}>点登录表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
-        <div style={buttonStyle}>登录</div>
-        <div style={openLogin}><span>社交账号直接登录</span><img src="img/wechat.png" /></div>
-        <div style={openLogin}><span>还没有账号？先注册</span></div>
+        <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
+        <div style={openLogin}><span>社交账号直接登录</span><img style={imageBtn} onClick={this.openLogin} src="img/wechat.png" /></div>
+        <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span></div>
       </div>
     );
   }
@@ -195,6 +201,9 @@ var RegisterButtons = React.createClass({
   handleReg: function () {
     this.props.handleReg();
   },
+  openLogin : function(){
+    UserActions.openLogin();
+  },
   render : function(){
     var buttonStyle = {
       width : '300px',
@@ -220,28 +229,60 @@ var RegisterButtons = React.createClass({
       textAlign : 'left',
       width : '300px',
       marginTop : '10px',
+    };
+    var imageBtn = {
+      cursor : 'pointer'
     }
     return (
       <div>
         <span style={textStyle}>点登录表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
         <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
-        <div style={openLogin}><span>社交账号直接登录</span><img src="img/wechat.png" /></div>
-        <div style={openLogin}><span>已经有账号？直接登录</span></div>
+        <div style={openLogin}><span>社交账号直接登录</span><img style={imageBtn} onClick={this.openLogin} src="img/wechat.png" /></div>
+        <div style={openLogin}><span>已经有账号？<a href="#" onClick={this.props.toLogin}>直接登录</a></span></div>
       </div>
     );
   }
 });
 var LoginForm = React.createClass({
-
+  mixins: [Reflux.listenTo(UserStore, 'handleLoginResult')],
+  handleLoginResult : function(data){
+    if(data.flag == 'login'){
+      if(data.hintMessage){
+        this.handleHint(data.hintMessage);
+      }else{
+        //登录成功,跳转到account界面
+        console.log('登录成功');
+      }
+    }
+  },
+  handleLogin : function(){
+    var phone = this.refs.phoneInput.getValue();
+    var password = this.refs.passwordInput.getValue();
+    if(!validator.isMobilePhone(phone, 'zh-CN') || !validator.isLength(password,6,18)) {
+      this.props.handleHint('请输入正确的手机号码和密码格式');
+      return;
+    }
+    //登录数据
+    var loginData = {
+      loginname : phone,
+      password : password,
+      //autologin : this.state.rememberMe, //记住我的登录需要加上
+      autoexpires : 10000
+    };
+    UserActions.login(loginData);
+  },
   render: function() {
     var loginStyle = {
-      width : '368px',
+      width : '360px',
       height : '500px',
       background: 'rgba(0,0,0,0.7)',
       margin : '0 auto',
-      padding : '30px',
+      padding : '18px 30px',
       position : 'relative',
-      top : '100px',
+      top: '50%',
+      left: '50%',
+      marginLeft: '-180px',
+      marginTop: '-250px',
       textAlign: 'center',
     };
     var imageCenter = {
@@ -253,9 +294,9 @@ var LoginForm = React.createClass({
       <div style={loginStyle}>
         <img style={imageCenter} src="img/logo1.png" />
         <img style={imageCenter} src="img/logo2.png" />
-        <PhoneInput />
-        <PasswordInput />
-        <LoginButtonn />
+        <PhoneInput ref="phoneInput"/>
+        <PasswordInput ref="passwordInput"/>
+        <LoginButtonn handleLogin={this.handleLogin} toRegister={this.props.toRegister}/>
       </div>
     );
   }
@@ -269,7 +310,7 @@ var RegisterForm = React.createClass({
     if(isMobile){
       GetCodeActions.sendTelRegister({tel:phone});
     }else{
-      this.props.handleReg('请输入正确的手机号码');
+      this.props.handleHint('请输入正确的手机号码');
     }
   },
   handleRegister : function(){
@@ -278,23 +319,23 @@ var RegisterForm = React.createClass({
     var password = this.refs.passwordInput.getValue();
     var isMobile = validator.isMobilePhone(phone,'zh-CN');
     if(!isMobile){
-      this.props.handleReg('请输入正确的手机号码');
+      this.props.handleHint('请输入正确的手机号码');
       return;
     }
     if(!password){
-      this.props.handleReg('请输入密码');
+      this.props.handleHint('请输入密码');
       return;
     }
     if(password.length < 6 || password.length > 18){
-      this.props.handleReg('密码长度应在6-18之间');
+      this.props.handleHint('密码长度应在6-18之间');
       return;
     }
     if(!code){
-      this.props.handleReg('请输入验证码');
+      this.props.handleHint('请输入验证码');
       return;
     }
     if(code.length != 4){
-      this.props.handleReg('请输入4位验证码');
+      this.props.handleHint('请输入4位验证码');
     }
     var registerData = {tel : phone,password : password,code : code};
     UserActions.register(registerData);
@@ -302,9 +343,10 @@ var RegisterForm = React.createClass({
   handleRegisterResult : function(data){
     if(data.flag == 'register'){
       if(data.hintMessage){
-        this.props.handleReg(data.hintMessage);
+        this.props.handleHint(data.hintMessage);
       }else{
-        this.props.handleReg('注册成功，请登录！');
+        this.props.handleHint('注册成功，请登录！');
+        this.props.toLogin();
       }
     }
   },
@@ -312,14 +354,14 @@ var RegisterForm = React.createClass({
     var registerStyle = {
       width : '360px',
       height : '500px',
-      background: 'rgba(0,0,0,0.6)',
+      background: 'rgba(0,0,0,0.7)',
       margin : '0 auto',
       padding : '18px 30px',
       position : 'relative',
       top: '50%',
       left: '50%',
       marginLeft: '-180px',
-      marginTop: '-280px',
+      marginTop: '-250px',
       textAlign: 'center',
     };
     var imageCenter = {
@@ -334,15 +376,26 @@ var RegisterForm = React.createClass({
         <PhoneInput ref="phoneInput"/>
         <PasswordInput ref="passwordInput"/>
         <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode}/>
-        <RegisterButtons handleRegister={this.handleRegister}/>
+        <RegisterButtons handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
       </div>
     );
   }
 });
 
 var Home = React.createClass({
-  handleReg: function (title) {
+  getInitialState : function(){
+    return{
+      show : 'register',
+    }
+  },
+  handleHint: function (title) {
     this.refs.toolTip.toShow(title);
+  },
+  showLogin : function(){
+    this.setState({show : 'login'});
+  },
+  showRegister : function(){
+    this.setState({show : 'register'});
   },
   render : function(){
     var bgStyle = {
@@ -355,10 +408,20 @@ var Home = React.createClass({
       top: '0',
       left: '0',
     };
+    var mainFrame ;
+    if(this.state.show == 'register'){
+      mainFrame = (
+        <RegisterForm handleHint={this.handleHint} toLogin={this.showLogin}/>
+      );
+    }else{
+      mainFrame = (
+        <LoginForm handleHint={this.handleHint} toRegister={this.showRegister}/>
+      );
+    }
     return (
       <div style={bgStyle}>
         <ToolTip ref="toolTip" title=""></ToolTip>
-        <RegisterForm pass={false} handleReg={this.handleReg}/>
+        {mainFrame}
       </div>
     );
   }
