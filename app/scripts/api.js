@@ -16,6 +16,10 @@ var API_CONST = {
     changeAvatar : API_URL + 'User.ChangeAvatar',
     updateInfo : API_URL + 'User.ChangeInfo',
   },
+  PHOTOGRAPHER :{
+    submitAudit : API_URL + 'Photographer.SubmitAudit',
+    viewAudit : API_URL + 'Photographer.ViewAudit'
+  },
 
   FILE : {
     getToken : API_URL + 'File.Token',
