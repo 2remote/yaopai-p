@@ -224,13 +224,16 @@ var LoginForm = React.createClass({
 var RegisterForm = React.createClass({
   render : function(){
     var registerStyle = {
-      width : '368px',
+      width : '360px',
       height : '500px',
-      background: 'rgba(0,0,0,0.7)',
+      background: 'rgba(0,0,0,0.6)',
       margin : '0 auto',
-      padding : '30px',
+      padding : '18px 30px',
       position : 'relative',
-      top : '100px',
+      top: '50%',
+      left: '50%',
+      marginLeft: '-180px',
+      marginTop: '-280px',
       textAlign: 'center',
     };
     var imageCenter = {
@@ -256,9 +259,12 @@ var Home = React.createClass({
     var bgStyle = {
       width : '100%',
       height : '100%',
-      background : 'url(img/background1.jpg) no-repeat center center fixed',
+      background : 'url(img/background1.jpg) no-repeat center center',
       backgroundColor : '#777777',
       backgroundSize : 'cover',
+      position: 'fixed',
+      top: '0',
+      left: '0',
     };
     return (
       <div style={bgStyle}>
