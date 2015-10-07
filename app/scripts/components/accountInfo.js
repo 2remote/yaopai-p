@@ -66,7 +66,9 @@ var PasswordInput = React.createClass({
   },
   render : function(){
     return (
-      <Input type="password"
+      <Input
+        ref="passwordInput"
+        type="password"
         bsStyle={this.props.validatedClass}
         label={this.props.labelName}
         placeholder={this.props.placeholderName}
@@ -115,22 +117,24 @@ var ModifyPassword = React.createClass({
   render : function () {
     var style = {
       labelWrap: {
-        textAlign: 'right',
+        textAlign: 'left',
+        margin : '5px',
+
       },
     }
     return (
       <div>
         <div className="form-group">
-          <div className="col-xs-2" style={style.labelWrap}>
+          <div style={style.labelWrap}>
             <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
             <label className="control-label">修改密码</label>
           </div>
+          <PasswordInput ref="oldPass" labelName="当前密码：" />
+          <PasswordInput ref="newPass" labelName="新密码：" />
+          <PasswordInput ref="newPassRepeat" labelName="确认密码：" />
+          <Button bsStyle="primary" className="col-xs-offset-3" onClick={this.handleModifyPassword}>保存</Button>
+          <AlertBox alertMessage={this.state.alertMessage} />
         </div>
-        <PasswordInput ref="oldPass" labelName="当前密码：" />
-        <PasswordInput ref="newPass" labelName="新密码：" />
-        <PasswordInput ref="newPassRepeat" labelName="确认密码：" />
-        <Button bsStyle="primary" className="col-xs-offset-3" onClick={this.handleModifyPassword}>保存</Button>
-        <AlertBox alertMessage={this.state.alertMessage} />
       </div>
     );
   }
