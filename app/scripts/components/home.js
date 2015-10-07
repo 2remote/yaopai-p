@@ -1,11 +1,23 @@
 var React = require('react');
 var IndexCover = require('./indexCover');
 
+var validator = require('validator');
 var Reflux = require('reflux');
 var GetCodeStore = require('../stores/GetCodeStore');
 var GetCodeActions = require('../actions/GetCodeActions');
 
 var PhoneInput = React.createClass({
+  getInitialState : function(){
+    return({
+      value : '',
+    });
+  },
+  getValue : function(){
+    return this.state.value;
+  },
+  handleChange : function(event){
+    this.setState({value : event.target.value});
+  },
   render : function(){
     var textStyle = {
       width: '300px',
@@ -21,12 +33,23 @@ var PhoneInput = React.createClass({
     };
     return (
       <div>
-        <input type="text" placeholder="请输入您的手机号" style={textStyle}/>
+        <input ref="phone" type="text" value={this.state.value} placeholder="请输入您的手机号" style={textStyle} onChange={this.handleChange}/>
       </div>
     );
   }
 });
 var PasswordInput = React.createClass({
+  getInitialState : function(){
+    return({
+      value : '',
+    });
+  },
+  handleChange : function(event){
+    this.setState({value : event.target.value});
+  },
+  getValue : function(){
+    return this.state.value;
+  },
   render : function(){
     var textStyle = {
       width: '300px',
@@ -42,7 +65,7 @@ var PasswordInput = React.createClass({
     };
     return (
       <div>
-        <input type="password" placeholder="请输入您的密码" style={textStyle}/>
+        <input type="password" placeholder="请输入您的密码" style={textStyle} onChange={this.handleChange}/>
       </div>
     );
   }
@@ -104,6 +127,12 @@ var ValidateCodeInput = React.createClass({
   handleResult : function(){
     this.setState({getCode : GetCodeStore.getCode});
   },
+  handleChange : function(event){
+    this.setState({value : event.target.value});
+  },
+  getValue : function(){
+    return this.state.value;
+  },
   render : function(){
     var classString = this.props.validatedClass(this.state.validated);
     var getCodeButton ;
@@ -148,7 +177,7 @@ var ValidateCodeInput = React.createClass({
       <div>
         <input type="text" 
           placeholder="输入验证码" 
-          onChange={this.props.handleChange} style={codeStyle}/>
+          onChange={this.handleChange} style={codeStyle}/>
         {getCodeButton}
       </div>
     );
@@ -184,7 +213,7 @@ var RegisterButtonn = React.createClass({
     return (
       <div>
         <span style={textStyle}>点登录表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
-        <div style={buttonStyle}>注册</div>
+        <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
         <div style={openLogin}><span>社交账号直接登录</span><img src="img/wechat.png" /></div>
         <div style={openLogin}><span>已经有账号？直接登录</span></div>
       </div>
@@ -222,6 +251,21 @@ var LoginForm = React.createClass({
 });
 
 var RegisterForm = React.createClass({
+  handleGetCode : function(){
+    var phone = this.refs.phoneInput.getValue();
+    var isMobile = validator.isMobilePhone(phone,'zh-CN')
+    if(isMobile){
+      GetCodeActions.sendTelRegister({tel:phone});
+    }else{
+      console.log('请输入电话号码');
+    }
+  },
+  handleRegister : function(){
+    var phone = this.refs.phoneInput.getValue();
+    var code = this.refs.codeInput.getValue();
+    var password = this.refs.passwordInput.getValue();
+    var isMobile = validator.isMobilePhone(phone,'zh-CN');
+  },
   render : function(){
     var registerStyle = {
       width : '360px',
@@ -240,15 +284,15 @@ var RegisterForm = React.createClass({
       margin : '0px auto',
       marginBottom : '10px',
       opacity : '0.7'
-    }
+    };
     return (
       <div style={registerStyle}>
         <img style={imageCenter} src="img/logo1.png" />
         <img style={imageCenter} src="img/logo2.png" />
-        <PhoneInput />
-        <PasswordInput />
-        <ValidateCodeInput />
-        <RegisterButtonn />
+        <PhoneInput ref="phoneInput"/>
+        <PasswordInput ref="passwordInput"/>
+        <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode}/>
+        <RegisterButtonn handleRegister={this.handleRegister}/>
       </div>
     );
   }

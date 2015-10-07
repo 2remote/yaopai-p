@@ -81,7 +81,6 @@ var ChooseImages = React.createClass({
     init: {
             'FilesAdded': function(){},
             'BeforeUpload': function(up, file) {
-                
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
                     // progress.setChunkProgess(chunk_size);
