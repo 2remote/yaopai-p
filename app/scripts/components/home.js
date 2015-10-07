@@ -196,7 +196,7 @@ var LoginForm = React.createClass({
   render: function() {
     var loginStyle = {
       width : '368px',
-      height : '560px',
+      height : '500px',
       background: 'rgba(0,0,0,0.7)',
       margin : '0 auto',
       padding : '30px',
@@ -225,7 +225,7 @@ var RegisterForm = React.createClass({
   render : function(){
     var registerStyle = {
       width : '368px',
-      height : '560px',
+      height : '500px',
       background: 'rgba(0,0,0,0.7)',
       margin : '0 auto',
       padding : '30px',
