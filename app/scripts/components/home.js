@@ -1,13 +1,13 @@
 var React = require('react');
-var IndexCover = require('./indexCover');
-var ToolTip = require('./toolTip');
-
+var History = require('react-router').History;
 var validator = require('validator');
 var Reflux = require('reflux');
 var GetCodeStore = require('../stores/GetCodeStore');
 var GetCodeActions = require('../actions/GetCodeActions');
 var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
+var IndexCover = require('./indexCover');
+var ToolTip = require('./toolTip');
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -244,7 +244,7 @@ var RegisterButtons = React.createClass({
   }
 });
 var LoginForm = React.createClass({
-  mixins: [Reflux.listenTo(UserStore, 'handleLoginResult')],
+  mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History],
   handleLoginResult : function(data){
     if(data.flag == 'login'){
       if(data.hintMessage){
@@ -252,6 +252,7 @@ var LoginForm = React.createClass({
       }else{
         //登录成功,跳转到account界面
         console.log('登录成功');
+        this.history.pushState(null,'/account');
       }
     }
   },

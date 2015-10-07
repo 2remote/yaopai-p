@@ -107,6 +107,7 @@ var UserStore = Reflux.createStore({
   onLoginWithTokenSuccess : function(data){
     console.log(data);
     if(data.Success){
+      console.log('login with token success');
       this.setCurrentUser(data.User);
       this.userData.loginToken = data.LoginToken;
       localStorage.setItem(this.userKey,JSON.stringify(this.userData));
