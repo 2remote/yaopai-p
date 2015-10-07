@@ -76,7 +76,7 @@ gulp.task('scripts', function() {
 
 
 gulp.task('imagemin', function() {
-  return gulp.src(['app/img/*.png'])
+  return gulp.src(['app/img/*.png','app/img/*.jpg'])
     .pipe(gulp.dest('dist/img'));
 });
 
