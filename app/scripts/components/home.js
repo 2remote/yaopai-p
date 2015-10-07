@@ -1,10 +1,13 @@
 var React = require('react');
 var IndexCover = require('./indexCover');
+var ToolTip = require('./toolTip');
 
 var validator = require('validator');
 var Reflux = require('reflux');
 var GetCodeStore = require('../stores/GetCodeStore');
 var GetCodeActions = require('../actions/GetCodeActions');
+var UserActions = require('../actions/UserActions');
+var UserStore = require('../stores/UserStore');
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -33,7 +36,12 @@ var PhoneInput = React.createClass({
     };
     return (
       <div>
-        <input ref="phone" type="text" value={this.state.value} placeholder="请输入您的手机号" style={textStyle} onChange={this.handleChange}/>
+        <input ref="phone" 
+          type="text" 
+          value={this.state.value} 
+          placeholder="请输入您的手机号" 
+          style={textStyle} 
+          onChange={this.handleChange} />
       </div>
     );
   }
@@ -183,7 +191,10 @@ var ValidateCodeInput = React.createClass({
     );
   }
 });
-var RegisterButtonn = React.createClass({
+var RegisterButtons = React.createClass({
+  handleReg: function () {
+    this.props.handleReg();
+  },
   render : function(){
     var buttonStyle = {
       width : '300px',
@@ -251,13 +262,14 @@ var LoginForm = React.createClass({
 });
 
 var RegisterForm = React.createClass({
+  mixins: [Reflux.listenTo(UserStore, 'handleRegisterResult')],
   handleGetCode : function(){
     var phone = this.refs.phoneInput.getValue();
     var isMobile = validator.isMobilePhone(phone,'zh-CN')
     if(isMobile){
       GetCodeActions.sendTelRegister({tel:phone});
     }else{
-      console.log('请输入电话号码');
+      this.props.handleReg('请输入正确的手机号码');
     }
   },
   handleRegister : function(){
@@ -265,6 +277,36 @@ var RegisterForm = React.createClass({
     var code = this.refs.codeInput.getValue();
     var password = this.refs.passwordInput.getValue();
     var isMobile = validator.isMobilePhone(phone,'zh-CN');
+    if(!isMobile){
+      this.props.handleReg('请输入正确的手机号码');
+      return;
+    }
+    if(!password){
+      this.props.handleReg('请输入密码');
+      return;
+    }
+    if(password.length < 6 || password.length > 18){
+      this.props.handleReg('密码长度应在6-18之间');
+      return;
+    }
+    if(!code){
+      this.props.handleReg('请输入验证码');
+      return;
+    }
+    if(code.length != 4){
+      this.props.handleReg('请输入4位验证码');
+    }
+    var registerData = {tel : phone,password : password,code : code};
+    UserActions.register(registerData);
+  },
+  handleRegisterResult : function(data){
+    if(data.flag == 'register'){
+      if(data.hintMessage){
+        this.props.handleReg(data.hintMessage);
+      }else{
+        this.props.handleReg('注册成功，请登录！');
+      }
+    }
   },
   render : function(){
     var registerStyle = {
@@ -292,13 +334,16 @@ var RegisterForm = React.createClass({
         <PhoneInput ref="phoneInput"/>
         <PasswordInput ref="passwordInput"/>
         <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode}/>
-        <RegisterButtonn handleRegister={this.handleRegister}/>
+        <RegisterButtons handleRegister={this.handleRegister}/>
       </div>
     );
   }
 });
 
 var Home = React.createClass({
+  handleReg: function (title) {
+    this.refs.toolTip.toShow(title);
+  },
   render : function(){
     var bgStyle = {
       width : '100%',
@@ -312,7 +357,8 @@ var Home = React.createClass({
     };
     return (
       <div style={bgStyle}>
-        <RegisterForm />
+        <ToolTip ref="toolTip" title=""></ToolTip>
+        <RegisterForm pass={false} handleReg={this.handleReg}/>
       </div>
     );
   }

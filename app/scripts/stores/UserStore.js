@@ -82,6 +82,7 @@ var UserStore = Reflux.createStore({
   */
   onLoginFailed: function(data) {
       this.userData.hintMessage = "网络出错啦！";
+      this.userData.flag = "login";
       this.trigger(this.userData);
   },
   onGetCurrentUser : function(data){
@@ -91,10 +92,13 @@ var UserStore = Reflux.createStore({
     }else{
       console.log(data.ErrorMsg);
     }
+    this.userData.flag = 'currentUser';
     this.trigger(this.userData);
   },
   onGetCurrentUserFailed : function(data){
-
+    this.userData.hintMessage = '网络出错啦！';
+    this.userData.flag = 'currentUser';
+    this.trigger(this.userData);
   },
   /*
     自动登录，如果用了loginToken，是否不用存user的其他信息？
@@ -110,12 +114,14 @@ var UserStore = Reflux.createStore({
       this.userData.LoginToken = '';
       localStorage.removeItem(this.userKey);
     }
-    this.userData.flag = "login";
+    this.userData.flag = "loginToken";
     this.trigger(this.userData);
 
   },
   onLoginWithTokenFailed : function(data){
-
+    this.userData.hintMessage = '网络出错啦！';
+    this.userData.flag = 'loginToken';
+    this.trigger(this.userData);
   },
   /*
     监听注册action，根据返回的data.success判断是否注册成功
@@ -134,7 +140,7 @@ var UserStore = Reflux.createStore({
     onRegisterFailed 主要监听网络访问错误
   */
   onRegisterFailed: function(data) {
-      this.userData.hintMessage = data;
+      this.userData.hintMessage = '网络出错啦！';
       this.userData.flag = "register"
       this.trigger(this.userData);
   },
