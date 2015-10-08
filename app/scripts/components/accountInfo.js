@@ -1,50 +1,33 @@
 var React = require('react');
-var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
+var Radium = require('radium');
 
 var Reflux = require('reflux');
 var UserStore = require('../stores/UserStore');
 var UserActions = require('../actions/UserActions');
 
 var AlertBox = require('./user/alertBox');
-
-var InfoHeader = React.createClass({
-  render : function(){
-    var style = {
-      headerInfo: {
-        fontSize: '22px',
-        color: '#777777',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: '#e8e8e8',
-        marginBottom: '50px',
-      },
-      title: {
-        paddingLeft: '20px',
-      }
-    };
-    return (
-      <div style={style.headerInfo} className="header-info">
-        <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
-        <span style={style.title} className="title">账户信息</span>
-      </div>
-    );
-  }
-});
+var InfoHeader = require('./infoHeader');
 
 var UserPhone = React.createClass({
   render: function () {
     var style = {
+      phone: {
+        marginBottom: '40px',
+      },
       labelWrap: {
         textAlign: 'right',
       },
+      label: {
+        marginLeft: '10px',
+      }
     }
     return (
-      <div className="form-group">
+      <div className="form-group" style={style.phone}>
         <div className="col-xs-2" style={style.labelWrap}>
           <span className="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-          <label className="control-label">个人手机</label>
+          <label className="control-label" style={style.label}>个人手机</label>
         </div>
         <div className="col-xs-4">
           <input className="form-control" />
@@ -117,24 +100,25 @@ var ModifyPassword = React.createClass({
   render : function () {
     var style = {
       labelWrap: {
-        textAlign: 'left',
-        margin : '5px',
-
+        textAlign: 'right',
       },
+      label: {
+        marginLeft: '10px',
+      }
     }
     return (
       <div>
         <div className="form-group">
-          <div style={style.labelWrap}>
+          <div className="col-xs-2" style={style.labelWrap}>
             <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-            <label className="control-label">修改密码</label>
+            <label className="control-label" style={style.label}>修改密码</label>
           </div>
-          <PasswordInput ref="oldPass" labelName="当前密码：" />
-          <PasswordInput ref="newPass" labelName="新密码：" />
-          <PasswordInput ref="newPassRepeat" labelName="确认密码：" />
-          <Button bsStyle="primary" className="col-xs-offset-3" onClick={this.handleModifyPassword}>保存</Button>
-          <AlertBox alertMessage={this.state.alertMessage} />
         </div>
+        <PasswordInput ref="oldPass" labelName="当前密码" />
+        <PasswordInput ref="newPass" labelName="新密码" />
+        <PasswordInput ref="newPassRepeat" labelName="确认密码" />
+        <Button bsStyle="primary" className="col-xs-offset-3" onClick={this.handleModifyPassword}>保存</Button>
+        <AlertBox alertMessage={this.state.alertMessage} />
       </div>
     );
   }
@@ -145,6 +129,12 @@ var ThirdPartLogin = React.createClass({
     var style = {
       title: {
         marginBottom: '40px',
+        marginTop: '60px',
+        textAlign: 'right',
+        borderTop: '1px solid #e8e8e8',
+      },
+      label: {
+        marginLeft: '10px',
       },
       words: {
         paddingLeft: '100px',
@@ -162,6 +152,14 @@ var ThirdPartLogin = React.createClass({
       lineH: {
         lineHeight: '50px',
         height: '50px',
+      },
+      weibo: {
+        background: 'url(img/weibo.png) no-repeat left center',
+        textIndent: '60px',
+      },
+      wechat: {
+        background: 'url(img/account-wechat.png) no-repeat left center',
+        textIndent: '60px',
       }
     };
     return(
@@ -169,14 +167,14 @@ var ThirdPartLogin = React.createClass({
         <div className="row" style={style.title}>
           <div className="col-xs-2">
             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
-            <label className="control-label">第三方登录</label>
+            <label className="control-label" style={style.label}>第三方登录</label>
           </div>
         </div>
         <div className="row">
           <div className="col-xs-6" style={style.words}>
             <h5>应用</h5>
-            <p style={style.lineH}>新浪微博</p>
-            <p style={style.lineH}>微信</p>
+            <p style={[style.weibo, style.lineH]}>新浪微博</p>
+            <p style={[style.wechat, style.lineH]}>微信</p>
           </div>
           <div className="col-xs-6">
             <h5>状态</h5>
@@ -193,20 +191,20 @@ var ThirdPartLogin = React.createClass({
     );
   }
 });
+ThirdPartLogin = Radium(ThirdPartLogin);
 var AccountInfo = React.createClass({
 
   render: function() {
     var style = {
       outer: {
         backgroundColor: '#fff',
-        paddingTop: '40px',
-        paddingLeft: '60px',
-        paddingBottom: '70px',
+        padding: '40px 60px 70px 60px',
+        color: '#777777',
       },
     };
     return (
       <div style={style.outer}>
-        <InfoHeader />
+        <InfoHeader infoTitle="账户信息" infoIconClass="glyphicon glyphicon-user"/>
         <form className='form-horizontal'>
           <UserPhone />
           <ModifyPassword />

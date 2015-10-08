@@ -1,7 +1,6 @@
 var React = require('react');
 
 var Reflux = require('reflux');
-var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
 
@@ -138,9 +137,7 @@ var PersonInfo = React.createClass({
     var style = {
       outer: {
         backgroundColor: '#fff',
-        paddingTop: '40px',
-        paddingLeft: '60px',
-        paddingBottom: '70px',
+        padding: '40px 60px 70px 60px',
       }
     };
     return (

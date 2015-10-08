@@ -12,9 +12,8 @@ var InfoHeader = React.createClass({
       headerInfo: {
         fontSize: '22px',
         color: '#777777',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: '#e8e8e8',
+        borderBottom: '1px solid #e8e8e8',
+        marginBottom: '40px',
       },
       title: {
         paddingLeft: '20px',
