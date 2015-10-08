@@ -250,7 +250,7 @@ var LoginForm = React.createClass({
   handleLoginResult : function(data){
     if(data.flag == 'login'){
       if(data.hintMessage){
-        this.handleHint(data.hintMessage);
+        this.props.handleHint(data.hintMessage);
       }else{
         //登录成功,跳转到account界面
         console.log('登录成功');
