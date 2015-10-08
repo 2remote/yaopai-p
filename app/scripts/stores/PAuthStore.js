@@ -14,8 +14,10 @@ var PAuthStore = Reflux.createStore({
   onSubmitAudit : function(data){
     if(data.Success){
       console.log('submit audit success');
+      console.log(data);
     }else{
       console.log('submit audit failed');
+      console.log(data);
     }
   },
   onViewAudit : function(data){

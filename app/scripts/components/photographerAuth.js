@@ -16,9 +16,11 @@ var Button = require('react-bootstrap').Button;
 var TextInput = require('./account/textInput');
 var ImageInput = require('./account/imageInput');
 var AreaSelect = require('./account/areaSelect');
+var ToolTip = require('./toolTip');
 
 var UserActions = require('../actions/UserActions');
 var PAuthActions = require('../actions/PAuthActions');
+var PAuthStore = require('../stores/PAuthStore');
 
 var AuthHeader = React.createClass({
   render : function(){
@@ -178,12 +180,15 @@ var HasCompany = React.createClass({
   }
 });
 var CompanyLogo = React.createClass({
+  getValue : function () {
+    return this.refs.companyLogo.getValue();
+  },
   render : function () {
     return (
       <div className="form-group">
         <label className="control-label col-xs-2">工作室LOGO：</label>
         <div className="col-xs-6">
-          <ImageInput uid="complanyLogo" defaultImage = "img/logo_up.png" type="user"/>
+          <ImageInput uid="companyLogo" ref="companyLogo" defaultImage = "img/logo_up.png" type="user"/>
         </div>
       </div>
       );
@@ -191,10 +196,13 @@ var CompanyLogo = React.createClass({
 });
 
 var CompnayIntro = React.createClass({
+  getValue : function () {
+    return this.refs.companyIntro.getValue();
+  },
   render : function(){
     return (
       <div className="form-group">
-        <Input type="textarea" label="工作室简介：" labelClassName='col-xs-2' wrapperClassName="col-xs-6"/>
+        <Input type="textarea" ref="companyIntro" label="工作室简介：" labelClassName='col-xs-2' wrapperClassName="col-xs-6"/>
       </div>
       );
   }
@@ -280,13 +288,16 @@ var PhotographerAuth = React.createClass({
     }
     return message;
   },
+  showMessage : function(message) {
+    this.refs.toolTip.toShow(message);
+  },
   getWorks : function(){
     var works = '';
     for(var i = 0 ;i < this.state.products.length; i ++){
       if(i == this.state.products.length-1)
-        works = works + this.state.products[i].imageUrl;
+        works = works + this.state.products[i].imgUrl;
       else
-        works =works + this.state.products[i].imageUrl +',';
+        works =works + this.state.products[i].imgUrl +',';
     }
     return works;
   },
@@ -294,9 +305,9 @@ var PhotographerAuth = React.createClass({
     var images = '';
     for(var i = 0 ;i < this.state.companyImages.length; i ++){
       if(i == this.state.companyImages.length-1)
-        images = works + this.state.companyImages[i].imageUrl;
+        images = works + this.state.companyImages[i].imgUrl;
       else
-        images =works + this.state.companyImages[i].imageUrl +',';
+        images =works + this.state.companyImages[i].imgUrl +',';
     }
     return images;
   },
@@ -322,7 +333,7 @@ var PhotographerAuth = React.createClass({
       };
       PAuthActions.submitAudit(data);
     }else{
-      console.log(message);
+      this.showMessage(message);
     }
   },
   render: function() {
@@ -347,6 +358,7 @@ var PhotographerAuth = React.createClass({
               <TextInput ref="address" labelName="工作室地址：" minLength={5} placeholder=""/>
               <CompnayIntro ref="companyIntro"/>
               <Button bsStyle="primary" onClick={this.handleSubmit}>提交</Button>
+              <ToolTip ref="toolTip" title=""/>
             </form>
           </Panel>
     );
