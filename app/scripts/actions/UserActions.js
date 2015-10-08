@@ -57,7 +57,7 @@ UserActions.currentUser.listen(function(data){
 */
 UserActions.register.listen(function(data) {
   // $.post(API.user_api.register_url, data).then(this.success, this.failed);
-  HttpFactory.post(API.user_api.register,data,this.success,this.failed);
+  HttpFactory.post(API.USER.register,data,this.success,this.failed);
 });
 /*
   修改密码
@@ -74,14 +74,14 @@ UserActions.register.listen(function(data) {
   }
 */
 UserActions.modifyPassword.listen(function(data){
-  HttpFactory.post(API.user_api.modify_password,data,this.success,this.failed);
+  HttpFactory.post(API.USER.modify_password,data,this.success,this.failed);
 });
 /*
   用户登出
 */
 UserActions.logout.listen(function(data) {
     console.log('begin to logout!');
-    HttpFactory.post(API.user_api.logout,data,this.success,this.failed);
+    HttpFactory.post(API.USER.logout,data,this.success,this.failed);
 });
 
 

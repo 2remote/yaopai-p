@@ -21,7 +21,7 @@ var TextInput = React.createClass({
   },
   validatedClass : function(){
     if(this.props.isRequired){
-      if(this.state.value.length == 0){
+      if(this.state.value && this.state.value.length == 0){
         return '';
       }else{
         if(this.props.minLength > 0 && this.state.value.length < this.props.minLength){
