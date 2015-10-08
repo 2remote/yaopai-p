@@ -4,12 +4,6 @@ var Radium = require('radium');
 var ToolTip = React.createClass({
   getDefaultProps: function () {
     return {
-      title: 'toolTip',
-    }
-  },
-  getInitialState: function () {
-    return {
-      title : '',
       changeStyle: {
         width: '386px',
         position: 'fixed',
@@ -23,20 +17,25 @@ var ToolTip = React.createClass({
         color: '#fff',
         transition: 'top 1s',
       },
+    }
+  },
+  getInitialState: function () {
+    return {
+      title : '',
       setTop: {
         top: '-200px',
       }
     }
   },
   toShow: function (title) {
-    this.setState({title:title,setTop: {top: '10px'}});
+    this.setState({title: title, setTop: {top: '10px'}});
     setTimeout(function () {
       this.setState({setTop: {top: '-200px'}})
     }.bind(this), 5000);
   },
   render: function () {
     return (
-      <div className="tool-tip" style={[this.state.changeStyle, this.state.setTop]}>{this.state.title}</div>
+      <div className="tool-tip" style={[this.props.changeStyle, this.state.setTop]}>{this.state.title}</div>
     )
   }
 });

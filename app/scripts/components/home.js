@@ -28,19 +28,18 @@ var PhoneInput = React.createClass({
       border: '1px solid #FFFFFF',
       display: 'block',
       boxSizing: 'border-box',
-      background: 'rgba(0,0,0,0.5)',
-      opacity : '0.5',
+      background: 'rgba(0,0,0,0)',
       marginBottom : '10px',
-      padding : '5px',
-      color : '#fff'
+      padding : '10px',
+      color : '#8d8d8d'
     };
     return (
       <div>
-        <input ref="phone" 
-          type="text" 
-          value={this.state.value} 
-          placeholder="请输入您的手机号" 
-          style={textStyle} 
+        <input ref="phone"
+          type="text"
+          value={this.state.value}
+          placeholder="请输入您的手机号"
+          style={textStyle}
           onChange={this.handleChange} />
       </div>
     );
@@ -65,11 +64,10 @@ var PasswordInput = React.createClass({
       border: '1px solid #FFFFFF',
       display: 'block',
       boxSizing: 'border-box',
-      background: 'rgba(0,0,0,0.5)',
-      opacity : '0.5',
+      background: 'rgba(0,0,0,0)',
       marginBottom : '10px',
-      padding : '5px',
-      color : '#fff'
+      padding : '10px',
+      color : '#8d8d8d'
     };
     return (
       <div>
@@ -92,10 +90,12 @@ var LoginButtonn = React.createClass({
       textAlign : 'center',
       paddingTop : '10px;',
       cursor : 'pointer',
+      marginBottom: '26px'
     };
     var textStyle ={
       color : '#8d8d8d',
       fontSize : '11px',
+      lineHeight: '20px',
     };
     var ruleStyle ={
       color : '#fff',
@@ -107,6 +107,7 @@ var LoginButtonn = React.createClass({
       textAlign : 'left',
       width : '300px',
       marginTop : '10px',
+      marginLeft: '12px',
     };
     var imageBtn = {
       cursor : 'pointer',
@@ -156,11 +157,10 @@ var ValidateCodeInput = React.createClass({
       border: '1px solid #FFFFFF',
       display: 'block',
       boxSizing: 'border-box',
-      background: 'rgba(0,0,0,0.5)',
-      opacity : '0.5',
+      background: 'rgba(0,0,0,0)',
       marginBottom : '10px',
-      padding : '5px',
-      color : '#fff',
+      padding : '10px',
+      color : '#8d8d8d',
       float : 'left'
     };
     var codeBtnStyle = {
@@ -169,14 +169,13 @@ var ValidateCodeInput = React.createClass({
       border: '1px solid #FFFFFF',
       display: 'block',
       boxSizing: 'border-box',
-      background: 'rgba(0,0,0,0.5)',
-      opacity : '0.5',
+      background: 'rgba(0,0,0,0)',
       marginBottom : '10px',
-      paddingTop : '5px',
       padding : '5px',
-      color : '#fff',
+      color : '#8d8d8d',
       float : 'left',
       cursor : 'pointer',
+      lineHeight: '33px',
     };
     if(this.state.getCode.left > 0){
       getCodeButton = (
@@ -188,9 +187,9 @@ var ValidateCodeInput = React.createClass({
         )
     }
     return(
-      <div>
-        <input type="text" 
-          placeholder="输入验证码" 
+      <div className="clearfix">
+        <input type="text"
+          placeholder="输入验证码"
           onChange={this.handleChange} style={codeStyle}/>
         {getCodeButton}
       </div>
@@ -214,10 +213,12 @@ var RegisterButtons = React.createClass({
       textAlign : 'center',
       paddingTop : '10px;',
       cursor : 'pointer',
+      marginBottom: '26px',
     };
     var textStyle ={
       color : '#8d8d8d',
       fontSize : '11px',
+      lineHeight: '20px',
     };
     var ruleStyle ={
       color : '#fff',
@@ -229,6 +230,7 @@ var RegisterButtons = React.createClass({
       textAlign : 'left',
       width : '300px',
       marginTop : '10px',
+      marginLeft: '12px',
     };
     var imageBtn = {
       cursor : 'pointer'
@@ -275,28 +277,31 @@ var LoginForm = React.createClass({
   render: function() {
     var loginStyle = {
       width : '360px',
-      height : '500px',
-      background: 'rgba(0,0,0,0.7)',
+      height : '460px',
+      background: 'rgba(0,0,0,0.6)',
       margin : '0 auto',
-      padding : '18px 30px',
+      padding : '40px 30px 14px',
       position : 'relative',
       top: '50%',
       left: '50%',
       marginLeft: '-180px',
-      marginTop: '-250px',
+      marginTop: '-230px',
       textAlign: 'center',
     };
     var imageCenter = {
       margin : '0px auto',
-      marginBottom : '10px',
-      opacity : '0.7'
+      marginBottom : '46px',
+    }
+    var inputWrap = {
+      marginBottom: '15px',
     }
     return (
       <div style={loginStyle}>
-        <img style={imageCenter} src="img/logo1.png" />
         <img style={imageCenter} src="img/logo2.png" />
-        <PhoneInput ref="phoneInput"/>
-        <PasswordInput ref="passwordInput"/>
+        <div style={inputWrap}>
+          <PhoneInput ref="phoneInput"/>
+          <PasswordInput ref="passwordInput"/>
+        </div>
         <LoginButtonn handleLogin={this.handleLogin} toRegister={this.props.toRegister}/>
       </div>
     );
@@ -354,29 +359,32 @@ var RegisterForm = React.createClass({
   render : function(){
     var registerStyle = {
       width : '360px',
-      height : '500px',
-      background: 'rgba(0,0,0,0.7)',
+      height : '460px',
+      background: 'rgba(0,0,0,0.6)',
       margin : '0 auto',
-      padding : '18px 30px',
+      padding : '40px 30px 14px',
       position : 'relative',
       top: '50%',
       left: '50%',
       marginLeft: '-180px',
-      marginTop: '-250px',
+      marginTop: '-230px',
       textAlign: 'center',
     };
     var imageCenter = {
       margin : '0px auto',
-      marginBottom : '10px',
-      opacity : '0.7'
+      marginBottom : '46px',
     };
+    var inputWrap = {
+      marginBottom: '15px',
+    }
     return (
       <div style={registerStyle}>
-        <img style={imageCenter} src="img/logo1.png" />
         <img style={imageCenter} src="img/logo2.png" />
-        <PhoneInput ref="phoneInput"/>
-        <PasswordInput ref="passwordInput"/>
-        <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode}/>
+        <div style={inputWrap}>
+          <PhoneInput ref="phoneInput"/>
+          <PasswordInput ref="passwordInput"/>
+          <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode}/>
+        </div>
         <RegisterButtons handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
       </div>
     );
