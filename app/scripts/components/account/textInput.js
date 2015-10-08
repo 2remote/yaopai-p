@@ -34,6 +34,14 @@ var TextInput = React.createClass({
       return '';
     }
   },
+  isValidated : function(){
+    if(this.props.minLength > 0 && this.state.value.length < this.props.minLength){
+      return false;
+    }else{
+      return true;
+    }
+    return true;
+  },
   handleChange : function(event){
     var textValue = this.refs.input.getValue();
     this.setState({value : textValue});

@@ -161,9 +161,9 @@ var ChooseImages = React.createClass({
     this.uploaderOption.init.UploadProgress = this.onUploadProgress;
     this.uploader = Qiniu.uploader(this.uploaderOption);
   },
-    
   //返回图片列表
-  getImages : function(){
+  getValue : function(){
+    if(this.state.imageItemList.length == 0) return null;
     return this.state.imageItemList;
   },
   //增加图片

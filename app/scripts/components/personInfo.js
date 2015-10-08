@@ -118,6 +118,7 @@ var PersonInfo = React.createClass({
   onAccountChanged : function(data){
     if(data.flag == 'userDetail'){
       if(data.detail){
+        console.log(data.detail);
         this.setState({info : {
           nickName : data.detail.NickName,
           gender : data.detail.Sex,

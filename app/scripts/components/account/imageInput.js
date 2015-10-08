@@ -15,7 +15,7 @@ var ImageInput = React.createClass({
     auto_start: true,
     get_new_uptoken: true,
     init: {
-            'FilesAdded': function(){},
+            'FilesAdded': function(up,files){},
             'BeforeUpload': function(up, file) {},
             'UploadProgress': function(up, file) {},
             'UploadComplete': function() {},
@@ -37,6 +37,7 @@ var ImageInput = React.createClass({
       type : '',  //必须指定图片类型 user, work...
       uid : 'imagePick', //当一个页面引用了多个ImageInput，必须指定不同的uid
       onUpload : function(data){},  //上传成功后回调函数
+      onFileUploaded : function(up, file, info){}
     }
   },
   onFileUploaded : function(up,file,info){
@@ -45,7 +46,7 @@ var ImageInput = React.createClass({
     this.props.onUpload(res.Url); //上传成功后可以回调onUpload函数
   },
 
-  getImage : function(){
+  getValue : function(){
     return this.state.imageUrl;
   },
 
