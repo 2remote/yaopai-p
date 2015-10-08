@@ -204,7 +204,7 @@ var AccountInfo = React.createClass({
     };
     return (
       <div style={style.outer}>
-        <InfoHeader infoTitle="账户信息" infoIconClass="glyphicon glyphicon-user"/>
+        <InfoHeader infoTitle="账户信息" infoIconClass="glyphicon glyphicon-cog"/>
         <form className='form-horizontal'>
           <UserPhone />
           <ModifyPassword />
