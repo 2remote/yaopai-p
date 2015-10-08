@@ -145,7 +145,7 @@ var PersonInfo = React.createClass({
         <InfoHeader infoTitle="个人信息" infoIconClass="glyphicon glyphicon-user"/>
         <form className='form-horizontal'>
           <UserImage defaultImage={this.state.info.avatar}/>
-          <TextInput ref="nickName" labelName="昵称：" defaultValue={this.state.info.nickName} textClassName='col-xs-2'/>
+          <TextInput ref="nickName" labelName="昵称：" defaultValue={this.state.info.nickName} textClassName='col-xs-3'/>
           <UserGender ref="gender" defaultValue={this.state.info.gender}/>
           <button className="btn btn-primary col-xs-offset-2"onClick={this.updateInfo}>保存</button>
         </form>
