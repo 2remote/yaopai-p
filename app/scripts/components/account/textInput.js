@@ -10,7 +10,8 @@ var TextInput = React.createClass({
       textClassName : 'col-sm-8',
       isRequired : true,
       minLength : 0,
-      type : 'text'
+      type : 'text',
+      disabled : false
     }
   },
   getInitialState : function(){
@@ -18,6 +19,8 @@ var TextInput = React.createClass({
       validated : '0',
       value : '',
     }
+  },
+  componentDidMount : function(){
   },
   validatedClass : function(){
     if(this.props.isRequired){
@@ -45,20 +48,25 @@ var TextInput = React.createClass({
   handleChange : function(event){
     var textValue = this.refs.input.getValue();
     this.setState({value : textValue});
+    this.props.updateValue(textValue);
   },
   getValue : function(){
     return this.state.value;
   },
+  setValue : function(value){
+    this.setState({value : value});
+  },
   render : function(){
     return (
-      <Input type={this.props.type} 
+      <Input type={this.props.type}
         ref="input"
-        value = {this.state.value}
+        value={this.props.value}
         onChange={this.handleChange}
-        bsStyle={this.validatedClass()} 
-        label={this.props.labelName} 
-        placeholder={this.props.placeholder} 
-        labelClassName='col-xs-2' 
+        disabled={this.props.disabled}
+        bsStyle={this.validatedClass()}
+        label={this.props.labelName}
+        placeholder={this.props.placeholder}
+        labelClassName='col-xs-2'
         wrapperClassName={this.props.textClassName}
         help={this.props.help}
         hasFeedback />

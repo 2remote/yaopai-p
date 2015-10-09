@@ -12,6 +12,7 @@ PAuthActions.submitAudit.listen(function(data){
 });
 
 PAuthActions.viewAudit.listen(function(data){
+  console.log('begin to get audit data');
   HttpFactory.post(API.PHOTOGRAPHER.viewAudit,data,this.success,this.failed);
 });
 
