@@ -171,15 +171,22 @@ var MultiImageSelect = React.createClass({
     this.props.updateImages(imageUrl);
     this.refs.addImage.setState({imageUrl : ''}); //清空图片
   },
+  onRemove : function(event){
+    var index = event.target.title;
+    this.props.remove(index);
+  },
   render : function(){
     var renderImages ='';
     if(this.props.images.length >0){
       var images = this.props.images.split(',');
       renderImages = images.map(function(image,i){
         return (
-          <img width="120" src={image} />
+          <div>
+            <img width="120" src={image} />
+            <div><span title={i} onClick={this.onRemove}>删除</span></div>
+          </div>
         )
-      });
+      }.bind(this));
     }
     return (
       <div className="form-group">
@@ -288,14 +295,14 @@ var PhotographerAuth = React.createClass({
             pAuthData: pAuthData,
             authState : pAuthData.State,
             IDImages : pAuthData.IdNumberImages.split(','),
-            disabled : false
+            disabled : true
           });
         }else if(pAuthData.State == '1'){
           this.setState({
             pAuthData: pAuthData, 
             authState : pAuthData.State,
             IDImages : pAuthData.IdNumberImages.split(','),
-            disabled : false})
+            disabled : true})
         }else if(pAuthData.State == '2'){
           this.setState({
             pAuthData: pAuthData,
@@ -401,6 +408,30 @@ var PhotographerAuth = React.createClass({
   updateCompanyIntro : function(result){
     var data = this.state.pAuthData;
     data.StudioIntroduction = result;
+  },
+  removeWorks : function(index){
+    var data = this.state.pAuthData;
+    var works = data.Works;
+    if(works && works.length > 0){
+      works = works.split(',');
+      if(index < works.length){
+        works.splice(index,1);
+        data.Works = works.toString();
+        this.setState({pAuthData : data,products : works});
+      }
+    }
+  },
+  removeCompanyImage : function(index){
+    var data = this.state.pAuthData;
+    var companyImages = data.StudioImages;
+    if(companyImages && companyImages.length > 0){
+      companyImages = companyImages.split(',');
+      if(index < companyImages.length){
+        companyImages.splice(index,1);
+        data.StudioImages = companyImages.toString();
+        this.setState({pAuthData : data,companyImages : companyImages});
+      }
+    }
   },
   /*
     验证所有输入是否合法
@@ -526,9 +557,19 @@ var PhotographerAuth = React.createClass({
         color: '#777777',
       },
     };
+    var rightInfo = '未认证';
+    if(this.state.authState == '0'){
+      rightInfo = '未审核';
+    }
+    if(this.state.authState == '1'){
+      rightInfo = '审核通过';
+    }
+    if(this.state.authState == '2'){
+      rightInfo = '审核不通过';
+    }
     return (
           <div style={style.outer}>
-            <InfoHeader infoTitle="摄影师认证" rightInfo="未认证" infoIconClass="glyphicon glyphicon-camera"/>
+            <InfoHeader infoTitle="摄影师认证" rightInfo={rightInfo} infoIconClass="glyphicon glyphicon-camera"/>
             <form className='form-horizontal'>
               <TextInput ref="realName"
                 labelName="姓名："
@@ -598,7 +639,8 @@ var PhotographerAuth = React.createClass({
                 labelName="个人作品："
                 images={this.state.pAuthData.Works}
                 disabled={this.state.disabled}
-                updateImages={this.updateProducts}/>
+                updateImages={this.updateProducts}
+                remove={this.removeWorks}/>
               <HasCompany ref="hasCompany"
                 disabled={this.state.disabled}
                 value={this.state.pAuthData.OwnedStudio}
@@ -622,6 +664,7 @@ var PhotographerAuth = React.createClass({
                 disabled={this.state.disabled}
                 labelName="工作室照片："
                 images={this.state.pAuthData.StudioImages}
+                remove={this.removeCompanyImage}
                 updateImages={this.updateCompanyImages}/>
               <TextInput ref="address"
                 labelName="工作室地址："

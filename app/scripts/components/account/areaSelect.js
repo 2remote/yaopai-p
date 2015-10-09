@@ -68,13 +68,27 @@ var AreaSelect = React.createClass({
         <label className="control-label col-xs-2">
           <span>地区：</span>
         </label>
-        <select ref="province" type="select" className="form-control" style={selectStyle} onChange={this.onProvinceChange}>
+        <select ref="province" 
+          type="select" 
+          disabled={this.props.disabled} 
+          className="form-control" 
+          style={selectStyle} 
+          onChange={this.onProvinceChange}>
           {province}
         </select>
-        <select ref="city" type="select" className="form-control" style={selectStyle} onChange={this.onCityChange}>
+        <select ref="city" 
+          type="select"
+          disabled={this.props.disabled} 
+          className="form-control" 
+          style={selectStyle} 
+          onChange={this.onCityChange}>
           {city}
         </select>
-        <select ref="district" type="select" className="form-control" style={selectStyle} >
+        <select ref="district"
+          type="select"
+          disabled = {this.props.disabled}
+          className="form-control"
+          style={selectStyle} >
           {district}
         </select>
       </div>
