@@ -16,9 +16,11 @@ var Button = require('react-bootstrap').Button;
 var TextInput = require('./account/textInput');
 var ImageInput = require('./account/imageInput');
 var AreaSelect = require('./account/areaSelect');
+var ToolTip = require('./toolTip');
 
 var UserActions = require('../actions/UserActions');
 var PAuthActions = require('../actions/PAuthActions');
+var PAuthStore = require('../stores/PAuthStore');
 
 var AuthHeader = React.createClass({
   render : function(){
@@ -124,31 +126,33 @@ var PersonIDImage = React.createClass({
 });
 
 
-var PersonProduct = React.createClass({
+var MultiImageSelect = React.createClass({
   getDefaultProps : function(){
     return {
-      products : [],
-      updateProducts : function(result){}
+      updateImages : function(result){},
+      labelName : '',
+      images : [],
+      uid : 'multiImageSelect'
     }
   },
   componentDidMount : function() {
   },
   onUpload : function(imageUrl){
-    this.props.updateProducts(imageUrl);
+    this.props.updateImages(imageUrl);
     this.refs.addImage.setState({imageUrl : ''}); //清空图片
   },
   render : function(){
-    var renderProducts = this.props.products.map(function(prod,i){
+    var renderProducts = this.props.images.map(function(prod,i){
       return (
         <img width="120" src={prod.imgUrl} />
       )
     });
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">个人作品：</label>
+        <label className="control-label col-xs-2">{this.props.labelName}</label>
           <div className="col-xs-10">
           {renderProducts}
-          <ImageInput uid="chooseProduct" ref="addImage" defaultImage="img/tianjia.png" onUpload={this.onUpload}/>
+          <ImageInput uid={this.props.uid} ref="addImage" defaultImage="img/tianjia.png" onUpload={this.onUpload}/>
         </div>
       </div>
       )
@@ -178,12 +182,15 @@ var HasCompany = React.createClass({
   }
 });
 var CompanyLogo = React.createClass({
+  getValue : function () {
+    return this.refs.companyLogo.getValue();
+  },
   render : function () {
     return (
       <div className="form-group">
         <label className="control-label col-xs-2">工作室LOGO：</label>
         <div className="col-xs-6">
-          <ImageInput uid="complanyLogo" defaultImage = "img/logo_up.png" type="user"/>
+          <ImageInput uid="companyLogo" ref="companyLogo" defaultImage = "img/logo_up.png" type="user"/>
         </div>
       </div>
       );
@@ -191,10 +198,13 @@ var CompanyLogo = React.createClass({
 });
 
 var CompnayIntro = React.createClass({
+  getValue : function () {
+    return this.refs.companyIntro.getValue();
+  },
   render : function(){
     return (
       <div className="form-group">
-        <Input type="textarea" label="工作室简介：" labelClassName='col-xs-2' wrapperClassName="col-xs-6"/>
+        <Input type="textarea" ref="companyIntro" label="工作室简介：" labelClassName='col-xs-2' wrapperClassName="col-xs-6"/>
       </div>
       );
   }
@@ -212,6 +222,11 @@ var PhotographerAuth = React.createClass({
     var datas = this.state.products;
     datas.push({imgUrl : result});
     this.setState({products : datas});
+  },
+  updateCompanyImages : function(result){
+    var datas = this.state.companyImages;
+    datas.push({imgUrl : result});
+    this.setState({companyImages : datas});
   },
   /*
     验证所有输入是否合法
@@ -269,7 +284,7 @@ var PhotographerAuth = React.createClass({
         message = '请填写工作室的详细地址';
         return message;
       }
-      if(!this.refs.companyIntro.isValidated()){
+      if(!this.refs.companyIntro.getValue()){
         message = '请填写工作室的简介';
         return message;
       }
@@ -280,13 +295,16 @@ var PhotographerAuth = React.createClass({
     }
     return message;
   },
+  showMessage : function(message) {
+    this.refs.toolTip.toShow(message);
+  },
   getWorks : function(){
     var works = '';
     for(var i = 0 ;i < this.state.products.length; i ++){
       if(i == this.state.products.length-1)
-        works = works + this.state.products[i].imageUrl;
+        works = works + this.state.products[i].imgUrl;
       else
-        works =works + this.state.products[i].imageUrl +',';
+        works =works + this.state.products[i].imgUrl +',';
     }
     return works;
   },
@@ -294,9 +312,9 @@ var PhotographerAuth = React.createClass({
     var images = '';
     for(var i = 0 ;i < this.state.companyImages.length; i ++){
       if(i == this.state.companyImages.length-1)
-        images = works + this.state.companyImages[i].imageUrl;
+        images = images + this.state.companyImages[i].imgUrl;
       else
-        images =works + this.state.companyImages[i].imageUrl +',';
+        images =images + this.state.companyImages[i].imgUrl +',';
     }
     return images;
   },
@@ -322,7 +340,7 @@ var PhotographerAuth = React.createClass({
       };
       PAuthActions.submitAudit(data);
     }else{
-      console.log(message);
+      this.showMessage(message);
     }
   },
   render: function() {
@@ -331,22 +349,59 @@ var PhotographerAuth = React.createClass({
           <Panel>
             <AuthHeader />
             <form className='form-horizontal'>
-              <TextInput ref="realName" labelName="姓名：" minLength={2} placeholder="真实姓名2字以上"/>
+              <TextInput ref="realName"
+                labelName="姓名："
+                minLength={2}
+                placeholder="真实姓名2字以上"/>
               <AreaSelect ref="area"/>
-              <TextInput ref="workPhone" labelName="工作电话：" minLength={5} placeholder=""/>
-              <TextInput ref="wechat" labelName="微信：" minLength={3} placeholder=""/>
-              <TextInput ref="qq" labelName="QQ：" minLength={5} placeholder=""/>
-              <TextInput ref="IDNumber" labelName="身份证号码：" minLength={15} placeholder=""/>
+              <TextInput ref="workPhone"
+                labelName="工作电话："
+                minLength={5}
+                placeholder=""/>
+              <TextInput ref="wechat"
+                labelName="微信："
+                minLength={3}
+                placeholder=""/>
+              <TextInput ref="qq"
+                labelName="QQ："
+                minLength={5}
+                placeholder=""/>
+              <TextInput ref="IDNumber"
+                labelName="身份证号码："
+                minLength={15}
+                placeholder=""/>
               <PersonIDImage ref="personIDImage"/>
-              <TextInput ref="personIntro" labelName="个性签名：" minLength={10} placeholder="他很懒什么都没有留下"/>
-              <TextInput ref="workLinks" labelName="个人作品链接：" minLength={15} placeholder=""/>
-              <PersonProduct ref="works" products={this.state.products} updateProducts={this.updateProducts}/>
+              <TextInput ref="personIntro"
+                labelName="个性签名："
+                minLength={10}
+                placeholder="他很懒什么都没有留下"/>
+              <TextInput ref="workLinks"
+                labelName="个人作品链接："
+                minLength={15}
+                placeholder=""/>
+              <MultiImageSelect ref="works"
+                uid = "worksSelect"
+                labelName="个人作品："
+                images={this.state.products}
+                updateImages={this.updateProducts}/>
               <HasCompany ref="hasCompany"/>
-              <TextInput ref="companyName" labelName="工作室名称：" minLength={3} placeholder=""/>
+              <TextInput ref="companyName"
+                labelName="工作室名称："
+                minLength={3}
+                placeholder=""/>
               <CompanyLogo ref="complanyLogo"/>
-              <TextInput ref="address" labelName="工作室地址：" minLength={5} placeholder=""/>
+              <MultiImageSelect ref="companyImages"
+                uid = "companyImagesSelect"
+                labelName="工作室照片："
+                images={this.state.companyImages}
+                updateImages={this.updateCompanyImages}/>
+              <TextInput ref="address"
+                labelName="工作室地址："
+                minLength={5}
+                placeholder=""/>
               <CompnayIntro ref="companyIntro"/>
               <Button bsStyle="primary" onClick={this.handleSubmit}>提交</Button>
+              <ToolTip ref="toolTip" title=""/>
             </form>
           </Panel>
     );
