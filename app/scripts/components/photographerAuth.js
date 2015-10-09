@@ -8,6 +8,7 @@ var validator = require('validator');
 var UserNameInput = require('./user/userNameInput');
 var UserPasswordInput = require('./user/userPasswordInput');
 var AlertBox = require('./user/alertBox');
+var InfoHeader = require('./infoHeader');
 
 var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
@@ -98,21 +99,33 @@ var PersonIDImage = React.createClass({
     }
   },
   render : function(){
+    var style = {
+      imgId: {
+        marginBottom: '14px',
+      },
+      info: {
+        height: '150px',
+        paddingTop: '36px',
+      },
+      label: {
+        lineHeight: '150px',
+      },
+    };
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">身份证正反面：</label>
+        <label className="control-label col-xs-2" style={style.label}>身份证正反面：</label>
         <div className="col-xs-10">
-          <div className="row">
-            <ImageInput uid="IDPicture1" ref="IDPicture1" type="user"/>
-            <ImageInput uid="IDPicture2" ref="IDPicture2" type="user"/>
+          <div className="row" style={style.imgId}>
+            <ImageInput width="200" height="150" defaultImage="img/facecode.png" uid="IDPicture1" ref="IDPicture1" type="user"/>
+            <ImageInput width="200" height="150" defaultImage="img/opposite.png" uid="IDPicture2" ref="IDPicture2" type="user"/>
           </div>
 
           <div className="row">
-            <div className="col-xs-6">
-              <img height="150" src="img/id_shili.png" />
+            <div className="col-xs-4">
+              <img height="150" width="200" src="img/id_shili.png" />
             </div>
-            <div className="col-xs-6">
-              <div>
+            <div className="col-xs-4">
+              <div style={style.info}>
                 1 正反面带头像的清晰照片<br />
                 2 照片大小不超过3M <br />
                 3 仅用于认证请放心上传
@@ -132,7 +145,9 @@ var MultiImageSelect = React.createClass({
       updateImages : function(result){},
       labelName : '',
       images : [],
-      uid : 'multiImageSelect'
+      uid : 'multiImageSelect',
+      width: '150px',
+      height: '150px',
     }
   },
   componentDidMount : function() {
@@ -152,7 +167,7 @@ var MultiImageSelect = React.createClass({
         <label className="control-label col-xs-2">{this.props.labelName}</label>
           <div className="col-xs-10">
           {renderProducts}
-          <ImageInput uid={this.props.uid} ref="addImage" defaultImage="img/tianjia.png" onUpload={this.onUpload}/>
+          <ImageInput width={this.props.width} height={this.props.height} uid={this.props.uid} ref="addImage" defaultImage="img/tianjia.png" onUpload={this.onUpload}/>
         </div>
       </div>
       )
@@ -186,14 +201,19 @@ var CompanyLogo = React.createClass({
     return this.refs.companyLogo.getValue();
   },
   render : function () {
+    var style = {
+      label: {
+        lineHeight: '120px',
+      }
+    };
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">工作室LOGO：</label>
+        <label className="control-label col-xs-2" style={style.label}>工作室LOGO：</label>
         <div className="col-xs-6">
-          <ImageInput uid="companyLogo" ref="companyLogo" defaultImage = "img/logo_up.png" type="user"/>
+          <ImageInput width="200" height="120" uid="companyLogo" ref="companyLogo" defaultImage = "img/logo_up.png" type="user"/>
         </div>
       </div>
-      );
+    );
   }
 });
 
@@ -203,9 +223,7 @@ var CompnayIntro = React.createClass({
   },
   render : function(){
     return (
-      <div className="form-group">
-        <Input type="textarea" ref="companyIntro" label="工作室简介：" labelClassName='col-xs-2' wrapperClassName="col-xs-6"/>
-      </div>
+      <Input type="textarea" ref="companyIntro" label="工作室简介：" labelClassName='col-xs-2' wrapperClassName="col-xs-6"/>
       );
   }
 });
@@ -344,40 +362,53 @@ var PhotographerAuth = React.createClass({
     }
   },
   render: function() {
-
+    var style = {
+      outer: {
+        backgroundColor: '#fff',
+        padding: '40px 60px 70px 60px',
+        color: '#777777',
+      },
+    };
     return (
-          <Panel>
-            <AuthHeader />
+          <div style={style.outer}>
+            <InfoHeader infoTitle="摄影师认证" rightInfo="未认证" infoIconClass="glyphicon glyphicon-camera"/>
             <form className='form-horizontal'>
               <TextInput ref="realName"
                 labelName="姓名："
                 minLength={2}
+                textClassName="col-xs-4"
                 placeholder="真实姓名2字以上"/>
               <AreaSelect ref="area"/>
               <TextInput ref="workPhone"
                 labelName="工作电话："
                 minLength={5}
+                textClassName="col-xs-4"
                 placeholder=""/>
               <TextInput ref="wechat"
                 labelName="微信："
                 minLength={3}
+                textClassName="col-xs-4"
                 placeholder=""/>
               <TextInput ref="qq"
                 labelName="QQ："
                 minLength={5}
+                textClassName="col-xs-4"
                 placeholder=""/>
               <TextInput ref="IDNumber"
                 labelName="身份证号码："
                 minLength={15}
+                textClassName="col-xs-4"
                 placeholder=""/>
               <PersonIDImage ref="personIDImage"/>
               <TextInput ref="personIntro"
                 labelName="个性签名："
                 minLength={10}
+                textClassName="col-xs-4"
                 placeholder="他很懒什么都没有留下"/>
               <TextInput ref="workLinks"
                 labelName="个人作品链接："
                 minLength={15}
+                textClassName="col-xs-4"
                 placeholder=""/>
               <MultiImageSelect ref="works"
                 uid = "worksSelect"
@@ -388,9 +419,12 @@ var PhotographerAuth = React.createClass({
               <TextInput ref="companyName"
                 labelName="工作室名称："
                 minLength={3}
+                textClassName="col-xs-4"
                 placeholder=""/>
               <CompanyLogo ref="complanyLogo"/>
               <MultiImageSelect ref="companyImages"
+                width="100px"
+                height="100px"
                 uid = "companyImagesSelect"
                 labelName="工作室照片："
                 images={this.state.companyImages}
@@ -398,12 +432,13 @@ var PhotographerAuth = React.createClass({
               <TextInput ref="address"
                 labelName="工作室地址："
                 minLength={5}
+                textClassName="col-xs-4"
                 placeholder=""/>
               <CompnayIntro ref="companyIntro"/>
-              <Button bsStyle="primary" onClick={this.handleSubmit}>提交</Button>
+              <Button className="col-xs-offset-2" bsStyle="primary" onClick={this.handleSubmit}>提交</Button>
               <ToolTip ref="toolTip" title=""/>
             </form>
-          </Panel>
+          </div>
     );
   }
 });
