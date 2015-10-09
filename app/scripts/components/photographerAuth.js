@@ -23,70 +23,6 @@ var UserActions = require('../actions/UserActions');
 var PAuthActions = require('../actions/PAuthActions');
 var PAuthStore = require('../stores/PAuthStore');
 
-var AuthHeader = React.createClass({
-  render : function(){
-    return (
-      <div className="row">
-        <div className="col-sm-8">
-          <span><h3>摄影师认证</h3></span>
-        </div>
-        <div className="col-sm-4">
-          <span>未认证</span>
-        </div>
-        <div className="line">
-        </div>
-      </div>
-      )
-  }
-});
-
-
-
-var ContactPhone = React.createClass({
-  render : function(){
-    return(
-      <TextInput labelName="工作电话：" placeholderName=""/>
-
-      );
-  }
-});
-var QQNumber = React.createClass({
-  render : function(){
-    return(
-      <TextInput labelName="QQ：" placeholderName=""/>
-      );
-  }
-});
-
-
-
-var PersonIntro = React.createClass({
-  render : function(){
-    return(
-      <TextInput ref="RealName" labelName="个人简介：" minLength={5} placeholder="他很懒什么都没有留下"/>
-
-      );
-  }
-});
-
-var CompanyName = React.createClass({
-  render : function(){
-    return(
-      <TextInput ref="RealName" labelName="工作室名称：" minLength={5} placeholder=""/>
-
-      );
-  }
-});
-
-var Address = React.createClass({
-  render : function(){
-    return(
-      <TextInput labelName="详细地址：" placeholderName="" minLength={8} />
-
-      );
-  }
-});
-
 /*
   身份证图片上传
 */
@@ -295,7 +231,7 @@ var PhotographerAuth = React.createClass({
             pAuthData: pAuthData,
             authState : pAuthData.State,
             IDImages : pAuthData.IdNumberImages.split(','),
-            disabled : true
+            disabled : false
           });
         }else if(pAuthData.State == '1'){
           this.setState({
@@ -338,9 +274,19 @@ var PhotographerAuth = React.createClass({
     data.RealName = result;
     this.setState({pAuthData : data})
   },
-  updateArea : function(result){
+  onProvinceChange : function(result){
     var data = this.state.pAuthData;
-    data.district = result;
+    data.ProvinceId = result;
+    this.setState({pAuthData : data});
+  },
+  onCityChange : function(result){
+    var data = this.state.pAuthData;
+    data.CityId = result;
+    this.setState({pAuthData:data});
+  },
+  onDistrictChange : function(result){
+    var data = this.state.pAuthData;
+    data.CountyId = result;
     this.setState({pAuthData : data});
   },
   updateWorkPhone : function(result){
@@ -580,6 +526,12 @@ var PhotographerAuth = React.createClass({
                 textClassName="col-xs-4"
                 placeholder="真实姓名2字以上"/>
               <AreaSelect ref="area"
+                province = {this.state.pAuthData.ProvinceId}
+                onProvinceChange={this.onProvinceChange}
+                city = {this.state.pAuthData.CityId}
+                onCityChange = {this.onCityChange}
+                district = {this.state.pAuthData.CountyId}
+                onDistrictChange = {this.onDistrictChange}
                 disabled={this.state.disabled}/>
               <TextInput ref="workPhone"
                 labelName="工作电话："

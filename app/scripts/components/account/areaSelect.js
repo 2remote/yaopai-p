@@ -20,7 +20,7 @@ var AreaSelect = React.createClass({
 
   onGetAreaList : function(data){
     if(data.flag == 'province'){
-      this.setState({provinceList:data.province});  
+      this.setState({provinceList:data.province});
     }
     if(data.flag == 'city'){
       this.setState({cityList : data.city})
@@ -33,11 +33,17 @@ var AreaSelect = React.createClass({
     this.setState({cityList:[],districtList:[]});
     var v = React.findDOMNode(this.refs.province).value;
     AreaActions.getCity({ParentId : v});
+    this.props.onProvinceChange(v);
   },
   onCityChange : function(){
     this.setState({districtList:[]});
     var v = React.findDOMNode(this.refs.city).value;
     AreaActions.getDistrict({ParentId : v});
+    this.props.onCityChange(v);
+  },
+  onDistrictChange : function(){
+    var v = React.findDOMNode(this.refs.district).value;
+    this.props.onDistrictChange(v);
   },
   getValue : function(){
     var p = React.findDOMNode(this.refs.province).value;
@@ -47,6 +53,11 @@ var AreaSelect = React.createClass({
     if(c && c != '0') return c;
     if(p && p != '0') return p;
     return null;
+  },
+  setValue : function(province,city,country){
+    React.findDOMNode(this.refs.province).value = province;
+    React.findDOMNode(this.refs.city).value = city;
+    React.findDOMNode(this.refs.district).value = country
   },
   render : function(){
     var province = this.state.provinceList.map(function(item){

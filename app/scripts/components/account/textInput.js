@@ -11,7 +11,8 @@ var TextInput = React.createClass({
       isRequired : true,
       minLength : 0,
       type : 'text',
-      disabled : false
+      disabled : false,
+      value : ''
     }
   },
   getInitialState : function(){
@@ -24,10 +25,10 @@ var TextInput = React.createClass({
   },
   validatedClass : function(){
     if(this.props.isRequired){
-      if(!this.state.value || this.state.value.length == 0){
+      if(!this.props.value || this.props.value.length == 0){
         return '';
       }else{
-        if(this.props.minLength > 0 && this.state.value.length < this.props.minLength){
+        if(this.props.minLength > 0 && this.props.value.length < this.props.minLength){
           return 'error';
         }else{
           return 'success';
@@ -38,7 +39,7 @@ var TextInput = React.createClass({
     }
   },
   isValidated : function(){
-    if(this.props.minLength > 0 && this.state.value.length < this.props.minLength){
+    if(this.props.minLength > 0 && this.props.value.length < this.props.minLength){
       return false;
     }else{
       return true;
