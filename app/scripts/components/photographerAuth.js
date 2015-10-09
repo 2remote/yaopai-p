@@ -175,9 +175,9 @@ var MultiImageSelect = React.createClass({
     var renderImages ='';
     if(this.props.images.length >0){
       var images = this.props.images.split(',');
-      renderImages = images.map(function(prod,i){
+      renderImages = images.map(function(image,i){
         return (
-          <img width="120" src={prod.imgUrl} />
+          <img width="120" src={image} />
         )
       });
     }
@@ -287,20 +287,20 @@ var PhotographerAuth = React.createClass({
           this.setState({
             pAuthData: pAuthData,
             authState : pAuthData.State,
-            IDImages : pAuthData.IdNumberImages.toString(),
+            IDImages : pAuthData.IdNumberImages.split(','),
             disabled : false
           });
         }else if(pAuthData.State == '1'){
           this.setState({
             pAuthData: pAuthData, 
             authState : pAuthData.State,
-            IDImages : pAuthData.IdNumberImages.toString(),
+            IDImages : pAuthData.IdNumberImages.split(','),
             disabled : false})
         }else if(pAuthData.State == '2'){
           this.setState({
             pAuthData: pAuthData,
             authState : pAuthData.State,
-            IDImages : pAuthData.IdNumberImages.toString(),
+            IDImages : pAuthData.IdNumberImages.split(','),
             disabled : false})
         }
       }
