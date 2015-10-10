@@ -1,6 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
+var History = Router.History;
 var Reflux = require('reflux');
 var UserStore = require('../stores/UserStore');
 
@@ -37,7 +38,7 @@ var PersonIDImage = React.createClass({
   upload1 : function(url){
     this.props.upload1(url);
   },
-  upload1 : function(url){
+  upload2 : function(url){
     this.props.upload2(url);
   },
   render : function(){
@@ -196,7 +197,7 @@ var CompnayIntro = React.createClass({
 });
 
 var PhotographerAuth = React.createClass({
-  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange')],
+  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStore'), History],
   getInitialState: function(){
     return {
       authState : '0',
@@ -205,6 +206,12 @@ var PhotographerAuth = React.createClass({
       IDImages : [],
       disabled : false,
       pAuthData : {}
+    }
+  },
+  handleStoreChange : function(data){
+    if(!data.isLogin){
+      //若未登录跳转到登录界面
+      History.pushState(null,'/');
     }
   },
   handleStoreChange : function(data){
@@ -567,8 +574,8 @@ var PhotographerAuth = React.createClass({
                 placeholder=""/>
               <PersonIDImage ref="personIDImage"
                 value = {this.state.IDImages}
-                updateValue1={this.updateIDImage1}
-                updateValue2={this.updateIDImage2}
+                upload1={this.updateIDImage1}
+                upload2={this.updateIDImage2}
                 disabled={this.state.disabled}/>
               <TextInput ref="personIntro"
                 labelName="个性签名："

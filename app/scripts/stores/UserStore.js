@@ -1,6 +1,5 @@
 var Reflux = require('reflux');
-var UserActions = require('../actions/UserActions')
-var data = [];
+var UserActions = require('../actions/UserActions');
 
 var UserStore = Reflux.createStore({
   userKey : 'yaopai_user',
@@ -20,28 +19,8 @@ var UserStore = Reflux.createStore({
       hintMessage: '',
       flag : ''
     };
-    //从localStorage读取UserData
-    var temp = localStorage.getItem(this.userKey);
-    if(temp){
-      temp = eval('('+temp+')');
-      if(temp.loginToken && temp.loginToken != ''){
-        //得到loginToken，自动登录
-        UserActions.loginWithToken({token : temp.loginToken});
-      }
-    }
     /*
       获取第三方登录的返回值，并得到当前用户
-    */
-    /*
-    var GetQueryString = function (name){
-      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-      var r = window.location.search.substr(1).match(reg);
-      if (r!=null) return unescape(r[2]); return null;
-    };
-    var openLoginState = GetQueryString('state');
-    if(openLoginState == 'y'){
-      UserActions.currentUser();
-    }
     */
     UserActions.currentUser();
     /*
@@ -61,7 +40,17 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.modifyPassword.success,this.onModifyPasswordSuccess);
     this.listenTo(UserActions.modifyPassword.failed,this.onModifyPasswordFailed);
   },
-  
+  getTokenToLogin : function(){
+    //从localStorage读取UserData
+    var temp = localStorage.getItem(this.userKey);
+    if(temp){
+      temp = eval('('+temp+')');
+      if(temp.loginToken && temp.loginToken != ''){
+        //得到loginToken，自动登录
+        UserActions.loginWithToken({token : temp.loginToken});
+      }
+    }
+  },
   onLoginSuccess: function(data) {
     console.log(data);
     //测试本地须转换JSON，集成测试后不需要
@@ -90,11 +79,13 @@ var UserStore = Reflux.createStore({
     if(data.Success){
       console.log(data);
       this.setCurrentUser(data);
+      this.userData.flag = 'currentUser';
+      this.trigger(this.userData);
     }else{
       console.log(data.ErrorMsg);
+      //若未得到当前用户，尝试loginwithtoken
+      this.getTokenToLogin();
     }
-    this.userData.flag = 'currentUser';
-    this.trigger(this.userData);
   },
   onGetCurrentUserFailed : function(data){
     this.userData.hintMessage = '网络出错啦！';
