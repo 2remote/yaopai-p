@@ -21,21 +21,22 @@ var ImageItem = React.createClass({
   
   getDefaultProps : function(){
     return{
-      imageData: {},  
+      index : '',
+      imageData: {},
     }
   },
   
   handleChange : function(event){
-    WorkActions.editImageDes(this.props.imageData,this.refs.description.getValue());
+    WorkActions.editImageDes(this.props.index,event.target.value);
   },
   deleteItem : function(event){
-    WorkActions.removeImage(this.props.imageData);
+    WorkActions.removeImage(this.props.index);
   },
   moveUpItem : function(event){
-    WorkActions.moveUpImage(this.props.imageData);
+    WorkActions.moveUpImage(this.props.index);
   },
   moveDownItem : function(event){
-    WorkActions.moveDownImage(this.props.imageData);
+    WorkActions.moveDownImage(this.props.index);
   },
 
   componentDidMount : function(){
@@ -49,10 +50,10 @@ var ImageItem = React.createClass({
           <span className="glyphicon glyphicon-chevron-down image-button" onClick={this.moveDownItem}></span>
         </div>
         <div className="main-image">
-          <img height="60" width="60" src={this.props.imageData.imageUrl} />
+          <img height="60" width="60" src={this.props.imageData.Url} />
         </div>
         <div className="main-des">
-          <Input type="textarea" ref="description" onChange={this.handleChange} value={this.props.imageData.imageDes} />
+          <Input type="textarea" ref="description" onChange={this.handleChange} value={this.props.imageData.Description} />
         </div>
         <div className="delete-button">
           <span className="glyphicon glyphicon-remove-circle image-button" onClick={this.deleteItem}></span>
@@ -61,8 +62,15 @@ var ImageItem = React.createClass({
       );
   }
 });
-
+/*
+  解释一下ChooseImage的逻辑
+  1. 传入value，用this.props.value渲染ImageItem
+  2. ImageItem 引入WorkAction 实现删除及位置的变换
+  3. ChooseImages 监听WorkStore,将位置及删除结果返回到state，并调用updateValue通知父组件更新状态
+  4. ChooseImages 的状态imageItemList需要记录上传的结果和进度，是否需要渲染出来根据以后的需求
+*/
 var ChooseImages = React.createClass({
+  mixins : [Reflux.listenTo(WorkStore,'onStatusChange')],
   tokenFlag : 'work',
   uploaderOption : {
     runtimes: 'html5,flash,html4',
@@ -101,8 +109,15 @@ var ChooseImages = React.createClass({
       imageItemList : [],
     }
   },
+  getDefaultProps : function(){
+    return {
+      value : [],
+      updateValue : function(data){}
+    }
+  },
   onStatusChange : function(data){
     this.setState({imageItemList : data});
+    this.props.updateValue(data);
   },
 
   /*
@@ -112,7 +127,14 @@ var ChooseImages = React.createClass({
   onAddFiles : function(up, files) {
     plupload.each(files, function(file) {
         console.log(file);
-        var imageItem = {id: file.id,imageFile : file,imageUrl: '', imageDes : '',uploaded:false,progress:0};
+        var imageItem = {
+          id: file.id,
+          imageFile : file,
+          Url: '',
+          Description : '',
+          uploaded:false,
+          progress:0
+        };
         this.addImage(imageItem);
       }.bind(this));
   },
@@ -124,7 +146,7 @@ var ChooseImages = React.createClass({
     var res = JSON.parse(info);
     list.map(function(item){
       if(item.id == file.id){
-        item.imageUrl = res.Url;
+        item.Url = res.Url;
         item.uploaded = true;
       }
     });
@@ -169,13 +191,10 @@ var ChooseImages = React.createClass({
   addImage : function(item){
     WorkActions.addImage(item);
   },
-  handleClick : function(){
-    React.findDOMNode(this.refs.selectImage).click();
-  },
   render :function(){
-    var renderImages = this.state.imageItemList.map(function(imageItem,i){
+    var renderImages = this.props.value.map(function(imageItem,i){
       return(
-        <ImageItem imageData={imageItem} onDelete={this.deleteImage} onMoveUp={this.moveUp} onMoveDown={this.moveDown}/>
+        <ImageItem index={i} imageData={imageItem} onDelete={this.deleteImage} onMoveUp={this.moveUp} onMoveDown={this.moveDown}/>
         );
     }.bind(this));
     return (

@@ -15,18 +15,10 @@ var WorkStore = Reflux.createStore({
     this.images.push(data);
     this.trigger(this.images);
   },
-  onRemoveImage : function(data){
-    var index = -1;
-    for(var i = 0 ; i < this.images.length; i ++){
-      if(data.key == this.images[i].key){
-        index = i ;
-        break;
-      }
-    }
+  onRemoveImage : function(index){
     if(index > -1){
       this.images.splice(index,1);
     }
-    this.refreshKeys();
     this.trigger(this.images);
   },
   swapImage : function(index1,index2){
@@ -34,16 +26,14 @@ var WorkStore = Reflux.createStore({
       this.images[index1] = this.images.splice(index2, 1, this.images[index1])[0];
     }
   },
-  OnMoveUp : function(item){
-    if(item.key == 0)return;
-    this.swapImage(item.key,item.key-1);
-    this.refreshKeys();
+  OnMoveUp : function(index){
+    if(index == 0)return;
+    this.swapImage(index,index-1);
     this.trigger(this.images);
   },
-  OnMoveDown : function(item){
-    if(item.key == this.images.length - 1)return;
-    this.swapImage(item.key,item.key + 1);
-    this.refreshKeys();
+  OnMoveDown : function(index){
+    if(index == this.images.length - 1)return;
+    this.swapImage(index,index + 1);
     this.trigger(this.images);
   },
   refreshKeys : function(){
@@ -51,16 +41,9 @@ var WorkStore = Reflux.createStore({
       this.images[i].key = i;
     }
   },
-  OnEditDes : function(item,desc){
-    var index = -1;
-    for(var i = 0 ; i < this.images.length; i ++){
-      if(item.key == this.images[i].key){
-        index = i ;
-        break;
-      }
-    }
+  OnEditDes : function(index,desc){
     if(index > -1){
-      this.images[index].imageDes =desc;
+      this.images[index].Description =desc;
     }
     this.trigger(this.images);
   }

@@ -40,12 +40,12 @@ var AccountStore = Reflux.createStore({
     }else{
       this.accountData.hintMessage = data.ErrorMsg;
     }
-    this.accountData.flag = 'info';
+    this.accountData.flag = 'updateInfo';
     this.trigger(this.accountData);
   },
   onUpateInfoFailed : function(data){
     this.accountData.hintMessage = '网络错误，请重试！';
-    this.accountData.flag = 'info';
+    this.accountData.flag = 'updateInfo';
     this.trigger(this.accountData);
   },
   onGetUserDetailSuccess : function(data){

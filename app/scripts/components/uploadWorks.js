@@ -90,7 +90,6 @@ var UploadWorks = React.createClass({
 
   },
   render: function() {
-
     return (
       <Panel>
         <AccountHeader titleName="上传作品" titleImage="" />
