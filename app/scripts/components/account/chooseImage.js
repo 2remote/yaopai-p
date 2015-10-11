@@ -18,18 +18,19 @@ var Input = require('react-bootstrap').Input;
   ImageItem 用于显示单条图片信息
 */
 var ImageItem = React.createClass({
-  
   getDefaultProps : function(){
     return{
       index : '',
       imageData: {},
     }
   },
-  
   handleChange : function(event){
     WorkActions.editImageDes(this.props.index,event.target.value);
   },
   deleteItem : function(event){
+    if(this.props.isCover){
+      this.props.onSetCover(-1);
+    }
     WorkActions.removeImage(this.props.index);
   },
   moveUpItem : function(event){
@@ -38,11 +39,19 @@ var ImageItem = React.createClass({
   moveDownItem : function(event){
     WorkActions.moveDownImage(this.props.index);
   },
-
+  setCover : function(event){
+    this.props.onSetCover(this.props.index);
+  },
   componentDidMount : function(){
 
   },
   render : function(){
+    var coverStyle = {
+      color : 'blue'
+    };
+    var nomalStyle = {
+      color : '#000'
+    }
     return (
       <div className="image-item">
         <div className="move-button">
@@ -56,7 +65,15 @@ var ImageItem = React.createClass({
           <Input type="textarea" ref="description" onChange={this.handleChange} value={this.props.imageData.Description} />
         </div>
         <div className="delete-button">
-          <span className="glyphicon glyphicon-remove-circle image-button" onClick={this.deleteItem}></span>
+          <span className="glyphicon glyphicon-remove-circle image-button" 
+            onClick={this.deleteItem}>
+            删除
+          </span>
+          <span className="glyphicon glyphicon-remove-circle image-button" 
+            style={this.props.isCover?coverStyle:nomalStyle} 
+            onClick={this.setCover}>
+            封面
+          </span>
         </div>
       </div>
       );
@@ -112,7 +129,9 @@ var ChooseImages = React.createClass({
   getDefaultProps : function(){
     return {
       value : [],
-      updateValue : function(data){}
+      updateValue : function(data){},
+      cover : '',
+      updateCover : function(data){},
     }
   },
   onStatusChange : function(data){
@@ -194,7 +213,10 @@ var ChooseImages = React.createClass({
   render :function(){
     var renderImages = this.props.value.map(function(imageItem,i){
       return(
-        <ImageItem index={i} imageData={imageItem} onDelete={this.deleteImage} onMoveUp={this.moveUp} onMoveDown={this.moveDown}/>
+        <ImageItem index={i} 
+          isCover={this.props.cover==i} 
+          imageData={imageItem} 
+          onSetCover={this.props.updateCover}/>
         );
     }.bind(this));
     return (

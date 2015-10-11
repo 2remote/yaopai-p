@@ -1,7 +1,7 @@
 var React = require('react');
 var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
-var Validator = require('validator');
+var validator = require('validator');
 var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
 
@@ -62,7 +62,7 @@ var UploadWorks = React.createClass({
       description : '',
       service : '',
       price : 0 ,
-      cover : '',
+      cover : -1,
       photos : [],
       tags : []
     }
@@ -70,6 +70,7 @@ var UploadWorks = React.createClass({
   onStoreChanged : function(data){
     if(data.flag == 'add'){
       //处理提交新相册
+      console.log(data);
     }
     if(data.flag == 'get'){
       //处理get请求结果
@@ -99,6 +100,9 @@ var UploadWorks = React.createClass({
   updatePrice : function(price){
     this.setState({price : price});
   },
+  updateCover : function(cover){
+    this.setState({cover : cover});
+  },
   validate : function(){
     if(this.state.title.length < 5 || this.state.title.length > 25){
       this.showMessage('作品名称必须在5-25字之间');
@@ -120,11 +124,11 @@ var UploadWorks = React.createClass({
       this.showMessage('服务描述必须在15-1000字之间');
       return false;
     }
-    if(this.state.price && !Validator.isInt(this.state.price)){
+    if(this.state.price && !validator.isInt(this.state.price)){
       this.showMessage('如果填写价格，必须为数字');
       return false;
     }
-    if(!this.state.cover){
+    if(this.state.cover < 0 ){
       this.showMessage('请选择一张作品作为封面');
       return false;
     }
@@ -132,14 +136,18 @@ var UploadWorks = React.createClass({
   },
   handleSubmit : function(){
     if(this.validate()){
+      var photos =[];
+      this.state.photos.map(function(photo,i){
+        photos[i] = {Url : photo.Url,Description : photo.Description};
+      });
       var data = {
         Title : this.state.title,
-        Photos : this.state.photos,
+        Photos : photos,
         CategoryId : this.state.category,
         Description : this.state.description,
         Service : this.state.service,
         Price : this.state.price,
-        Cover : this.state.cover
+        Cover : this.state.photos[this.state.cover].Url
       }
       UploadWorksActions.add(data);
     }
@@ -158,7 +166,10 @@ var UploadWorks = React.createClass({
             updateValue = {this.updateTitle}
             minLength={5} 
             placeholder="名称应该在5-25字之间"/>
-          <ChooseImage value={this.state.photos} updateValue={this.updatePhotos} />
+          <ChooseImage value={this.state.photos} 
+            updateValue={this.updatePhotos} 
+            cover={this.state.cover} 
+            updateCover={this.updateCover}/>
           <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
           <ChooseTag value={this.state.tags} updateTags={this.updateTags}/>
           <TextInput ref="workDescription" 
