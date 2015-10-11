@@ -9,14 +9,16 @@ var AccountActions = require("../actions/AccountActions");
 var AccountStore = require("../stores/AccountStore");
 var TextInput = require('./account/textInput');
 var InfoHeader = require('./infoHeader');
+var History = require('react-router').History;
 
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
   componentDidMount : function(){
 
   },
-  onUpload : function(avatorUrl){
-    AccountActions.changeAvatar({Avatar : avatorUrl});
+  onUpload : function(avatarUrl){
+    AccountActions.changeAvatar({Avatar : avatarUrl});
+    this.props.updateAvatar(avatarUrl);
   },
   onUpdateAvatar : function(data){
     if(data.flag == 'avatar'){
@@ -58,9 +60,11 @@ var UserGender = React.createClass({
   */
   beMan : function(){
     this.setState({gender : 1});
+    this.props.updateValue(1);
   },
   beWeman : function(){
     this.setState({gender : 0});
+    this.props.updateValue(0);
   },
   render : function  () {
     var style = {
@@ -71,7 +75,7 @@ var UserGender = React.createClass({
       },
     };
     var buttons;
-    if(this.state.gender == 1){
+    if(this.props.value == 1){
       buttons = (
         <div className="col-xs-4">
           <Button bsStyle="primary" style={style.commonButton} onClick={this.beMan} active>男</Button>
@@ -96,21 +100,19 @@ var UserGender = React.createClass({
 });
 
 var PersonInfo = React.createClass({
-  mixins : [Reflux.listenTo(AccountStore,'onAccountChanged')],
+  mixins : [Reflux.listenTo(AccountStore,'onAccountChanged'),History],
   getInitialState : function(){
     return {
-      info : {
-        id : '',
-        nickName : '',
-        gender : '',
-        avatar : ''
-      }
+      nickName : '',
+      gender : '',
+      avatar : ''
     }
   },
   updateInfo : function(){
-    var nickName = this.refs.nickName.getValue();
-    var gender = this.refs.gender.getValue();
-    AccountActions.updateInfo({NickName:nickName,Sex:gender});
+    AccountActions.updateInfo({
+      NickName:this.state.nickName,
+      Sex:this.state.gender
+    });
   },
   componentDidMount : function(){
     AccountActions.userDetail({Fields:'Id,NickName,Sex,Avatar'});
@@ -119,15 +121,16 @@ var PersonInfo = React.createClass({
     if(data.flag == 'userDetail'){
       if(data.detail){
         console.log(data.detail);
-        this.setState({info : {
+        this.setState({
           nickName : data.detail.NickName,
           gender : data.detail.Sex,
           avatar : data.detail.Avatar
-        }});
+        });
         this.refs.nickName.setState({value : data.detail.NickName});
       }else{
         //未取得userdetail
         console.log(data.hitMessage);
+        this.history.pushState(null,'/');
       }
     }
     if(data.flag == 'updateInfo'){
@@ -135,9 +138,13 @@ var PersonInfo = React.createClass({
     }
   },
   updateNickName : function(v){
-    var data = this.state.info;
-    data.nickName = v;
-    this.setState({info : data});
+    this.setState({nickName : v});
+  },
+  updateGender : function(gender){
+    this.setState({gender : gender});
+  },
+  updateAvatar : function(avatar){
+    this.setState({avatar : avatar});
   },
   render: function() {
     var style = {
@@ -150,13 +157,13 @@ var PersonInfo = React.createClass({
       <div style={style.outer}>
         <InfoHeader infoTitle="个人信息" infoIconClass="glyphicon glyphicon-user"/>
         <form className='form-horizontal'>
-          <UserImage defaultImage={this.state.info.avatar}/>
+          <UserImage defaultImage={this.state.avatar} updateAvatar={this.updateAvatar}/>
           <TextInput ref="nickName" 
             labelName="昵称：" 
-            value={this.state.info.nickName} 
+            value={this.state.nickName} 
             updateValue={this.updateNickName} 
             textClassName='col-xs-3'/>
-          <UserGender ref="gender" defaultValue={this.state.info.gender}/>
+          <UserGender ref="gender" value={this.state.gender} updateValue={this.updateGender}/>
           <button className="btn btn-primary col-xs-offset-2"onClick={this.updateInfo}>保存</button>
         </form>
       </div>

@@ -63,7 +63,6 @@ var ImageItem = React.createClass({
 });
 
 var ChooseImages = React.createClass({
-  mixins: [Reflux.listenTo(WorkStore, 'onStatusChange'),Reflux.listenTo(UploadTokenStore, 'onGetToken')],
   tokenFlag : 'work',
   uploaderOption : {
     runtimes: 'html5,flash,html4',
