@@ -9,6 +9,7 @@ var AccountActions = require("../actions/AccountActions");
 var AccountStore = require("../stores/AccountStore");
 var TextInput = require('./account/textInput');
 var InfoHeader = require('./infoHeader');
+var ToolTip = require('./toolTip');
 var History = require('react-router').History;
 
 var UserImage = React.createClass({
@@ -126,7 +127,6 @@ var PersonInfo = React.createClass({
           gender : data.detail.Sex,
           avatar : data.detail.Avatar
         });
-        this.refs.nickName.setState({value : data.detail.NickName});
       }else{
         //未取得userdetail
         console.log(data.hitMessage);
@@ -134,8 +134,12 @@ var PersonInfo = React.createClass({
       }
     }
     if(data.flag == 'updateInfo'){
-      console.log(data.hitMessage);
+      console.log(data.hintMessage);
+      this.showMessage(data.hintMessage);
     }
+  },
+  showMessage : function(message){
+    this.refs.toolTip.toShow(message);
   },
   updateNickName : function(v){
     this.setState({nickName : v});
@@ -164,7 +168,8 @@ var PersonInfo = React.createClass({
             updateValue={this.updateNickName} 
             textClassName='col-xs-3'/>
           <UserGender ref="gender" value={this.state.gender} updateValue={this.updateGender}/>
-          <button className="btn btn-primary col-xs-offset-2"onClick={this.updateInfo}>保存</button>
+          <button className="btn btn-primary col-xs-offset-2" onClick={this.updateInfo}>保存</button>
+          <ToolTip ref="toolTip" title=""/>
         </form>
       </div>
     );
