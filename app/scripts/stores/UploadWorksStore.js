@@ -6,7 +6,7 @@ var UploadWorksStore = Reflux.createStore({
     flag : '',
     hintMessage : '',
     workData : {}
-  }
+  },
   init: function() {
     console.log('UploadWorksStore initialized');
     this.listenTo(UploadWorksActions.add.success,this.onAddSuccess);

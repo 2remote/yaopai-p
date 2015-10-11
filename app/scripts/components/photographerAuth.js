@@ -68,8 +68,20 @@ var PersonIDImage = React.createClass({
         <label className="control-label col-xs-2" style={style.label}>身份证正反面：</label>
         <div className="col-xs-10">
           <div className="row" style={style.imgId}>
-            <ImageInput width="200" height="150" defaultImage={IDImages[0]} onUpload={this.upload1} uid="IDPicture1" ref="IDPicture1" type="user"/>
-            <ImageInput width="200" height="150" defaultImage={IDImages[1]} onUpload={this.upload2} uid="IDPicture2" ref="IDPicture2" type="user"/>
+            <ImageInput width="200" 
+              height="150" 
+              defaultImage={IDImages[0]} 
+              onUpload={this.upload1} 
+              uid="IDPicture1" 
+              ref="IDPicture1" 
+              type="user"/>
+            <ImageInput width="200" 
+              height="150" 
+              defaultImage={IDImages[1]} 
+              onUpload={this.upload2} 
+              uid="IDPicture2" 
+              ref="IDPicture2" 
+              type="user"/>
           </div>
 
           <div className="row">
@@ -206,12 +218,6 @@ var PhotographerAuth = React.createClass({
       IDImages : [],
       disabled : false,
       pAuthData : {}
-    }
-  },
-  handleStoreChange : function(data){
-    if(!data.isLogin){
-      //若未登录跳转到登录界面
-      History.pushState(null,'/');
     }
   },
   handleStoreChange : function(data){

@@ -1,4 +1,5 @@
 var React = require('react');
+var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
 
 var Panel = require('react-bootstrap').Panel;
@@ -8,6 +9,9 @@ var AccountHeader = require('./account/accountHeader');
 var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
 var ChooseTag = require('./account/chooseTag');
+
+var UploadWorksStore = require('../stores/UploadWorksStore');
+var UploadWorksActions = require('../actions/UploadWorksActions');
 /*
   选择类别组件
 */
@@ -40,6 +44,7 @@ var ChooseCategory = React.createClass({
     TextInput
 */
 var UploadWorks = React.createClass({
+  mixins : [Reflux.listenTo(UploadWorksStore,'onStoreChanged')],
   getInitialState : function(){
     return {
       title : '',
@@ -49,16 +54,28 @@ var UploadWorks = React.createClass({
       price : 0 ,
       cover : '',
       photos : [],
+      tags : []
     }
   },
-  updatePhotos : function(){
-
+  onStoreChanged : function(data){
+    if(data.flag == 'add'){
+      //处理提交新相册
+    }
+    if(data.flag == 'get'){
+      //处理get请求结果
+    }
+    if(data.flag == 'update'){
+      //处理更新后的结果
+    }
+  },
+  updatePhotos : function(photos){
+    this.setState({photos : photos});
   },
   updateCategory : function(cid){
     this.setState({category : cid});
   },
   updateTags : function(tags){
-
+    this.setState({tags : tags});
   },
   updateDescription : function(des){
     this.setState({description : des});
