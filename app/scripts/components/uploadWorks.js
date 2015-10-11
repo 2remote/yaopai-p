@@ -1,7 +1,7 @@
 var React = require('react');
 var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
-
+var Validator = require('validator');
 var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
 
@@ -9,6 +9,7 @@ var AccountHeader = require('./account/accountHeader');
 var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
 var ChooseTag = require('./account/chooseTag');
+var ToolTip = require('./toolTip');
 
 var UploadWorksStore = require('../stores/UploadWorksStore');
 var UploadWorksActions = require('../actions/UploadWorksActions');
@@ -77,6 +78,9 @@ var UploadWorks = React.createClass({
       //处理更新后的结果
     }
   },
+  updateTitle : function(title){
+    this.setState({title: title});
+  },
   updatePhotos : function(photos){
     this.setState({photos : photos});
   },
@@ -95,15 +99,65 @@ var UploadWorks = React.createClass({
   updatePrice : function(price){
     this.setState({price : price});
   },
+  validate : function(){
+    if(this.state.title.length < 5 || this.state.title.length > 25){
+      this.showMessage('作品名称必须在5-25字之间');
+      return false;
+    }
+    if(this.state.photos.length == 0){
+      this.showMessage('请至少上传一张作品');
+      return false;
+    }
+    if(!this.state.category){
+      this.showMessage('请选择作品类别');
+      return false;
+    }
+    if(this.state.description.length < 15 || this.state.description.length > 1000){
+      this.showMessage('作品描述必须在15-1000字之间');
+      return false;
+    }
+    if(this.state.service.length < 15 || this.state.service.length > 1000){
+      this.showMessage('服务描述必须在15-1000字之间');
+      return false;
+    }
+    if(this.state.price && !Validator.isInt(this.state.price)){
+      this.showMessage('如果填写价格，必须为数字');
+      return false;
+    }
+    if(!this.state.cover){
+      this.showMessage('请选择一张作品作为封面');
+      return false;
+    }
+    return true;
+  },
   handleSubmit : function(){
-
+    if(this.validate()){
+      var data = {
+        Title : this.state.title,
+        Photos : this.state.photos,
+        CategoryId : this.state.category,
+        Description : this.state.description,
+        Service : this.state.service,
+        Price : this.state.price,
+        Cover : this.state.cover
+      }
+      UploadWorksActions.add(data);
+    }
+  },
+  showMessage : function(message){
+    this.refs.toolTip.toShow(message);
   },
   render: function() {
     return (
       <Panel>
         <AccountHeader titleName="上传作品" titleImage="" />
         <form className='form-horizontal'>
-          <TextInput ref="workName" labelName="作品名称：" minLength={5} placeholder="名称应该在5-25字之间"/>
+          <TextInput ref="workName" 
+            labelName="作品名称："
+            value = {this.state.title}
+            updateValue = {this.updateTitle}
+            minLength={5} 
+            placeholder="名称应该在5-25字之间"/>
           <ChooseImage value={this.state.photos} updateValue={this.updatePhotos} />
           <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
           <ChooseTag value={this.state.tags} updateTags={this.updateTags}/>
@@ -133,6 +187,7 @@ var UploadWorks = React.createClass({
           <div className="row">
             <Button onClick={this.handleSubmit}>提交</Button>
             <Button>预览</Button>
+            <ToolTip ref="toolTip" title=""/>
           </div>
         </form>
       </Panel>
