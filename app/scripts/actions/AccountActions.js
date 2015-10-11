@@ -9,8 +9,6 @@ var AccountActions = Reflux.createActions({
 });
 
 AccountActions.changeAvatar.listen(function (data) {
-  console.log('begin to change avatar');
-  console.log(data);
   HttpFactory.post(API.USER.changeAvatar ,data,this.success,this.failed);
 });
 
