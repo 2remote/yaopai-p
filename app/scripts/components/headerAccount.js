@@ -4,18 +4,24 @@ var UserStore = require('../stores/UserStore');
 var UserActions = require('../actions/UserActions');
 var Router = require('react-router');
 var Link  = Router.Link;
+var History = Router.History;
 
 var LoginPanel = require('./loginPanel');
 var RegisterPanel = require('./registerPanel');
 
 
 var Acount = React.createClass({
-	mixins: [Reflux.listenTo(UserStore, 'onStatusChange')],
+	mixins: [Reflux.listenTo(UserStore, 'onStatusChange'),History],
 	getInitialState: function () {
       return {currentUser : UserStore.userData};
   },
   onStatusChange: function (data) {
-      this.setState({currentUser : data});
+      if(!data.isLogin){
+        this.history.pushState(null,'/');
+      }else{
+        //如果首页有headerAccount，需要把下面这段放到if外面
+        this.setState({currentUser : data});  
+      }
   },
   componentDidMount: function () {
       this.unsubscribe = UserStore.listen(this.onStatusChange);
