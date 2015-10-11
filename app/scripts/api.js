@@ -18,7 +18,14 @@ var API_CONST = {
   },
   PHOTOGRAPHER :{
     submitAudit : API_URL + 'Photographer.SubmitAudit',
-    viewAudit : API_URL + 'Photographer.ViewAudit'
+    viewAudit : API_URL + 'Photographer.ViewAudit',
+  },
+  ALBUMS : {
+    add : API_URL + 'Albums.Add',
+    update : API_URL + 'Albums.Update',
+    delete : API_URL + 'Albums.Delete',
+    get : API_URL + 'Albums.Get',
+    search : API_URL + 'Albums.Search'
   },
 
   FILE : {
