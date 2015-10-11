@@ -143,7 +143,7 @@ var UploadWorks = React.createClass({
       var data = {
         Title : this.state.title,
         Photos : photos,
-        CategoryId : this.state.category,
+        CategoryId : parseInt(this.state.category),
         Description : this.state.description,
         Service : this.state.service,
         Price : this.state.price,
