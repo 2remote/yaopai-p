@@ -16,18 +16,27 @@ var UploadWorksActions = require('../actions/UploadWorksActions');
   选择类别组件
 */
 var ChooseCategory = React.createClass({
+  getDefaltProps : function(){
+    return {
+      value : 0,
+      onChange : function(data){},
+    }
+  },
+  setCategory : function(event){
+    this.props.onChange(event.target.getAttribute('data-category'));
+  },
   render : function(){
     return (
      <div className="form-group">
         <label className="control-label col-xs-2">类别：</label>
         <div className="col-xs-10">
           <div className="cont-category">
-            <span>亲子</span>
-            <span>旅拍</span>
-            <span>商业</span>
-            <span>人像</span>
-            <span>私房</span>
-            <span>婚纱</span>
+            <Button bsStyle={this.props.value=='1'?'primary':'default'} onClick={this.setCategory} data-category='1'>亲子</Button>
+            <Button bsStyle={this.props.value=='2'?'primary':'default'} onClick={this.setCategory} data-category='2'>旅拍</Button>
+            <Button bsStyle={this.props.value=='3'?'primary':'default'} onClick={this.setCategory} data-category='3'>商业</Button>
+            <Button bsStyle={this.props.value=='4'?'primary':'default'} onClick={this.setCategory} data-category='4'>人像</Button>
+            <Button bsStyle={this.props.value=='5'?'primary':'default'} onClick={this.setCategory} data-category='5'>私房</Button>
+            <Button bsStyle={this.props.value=='6'?'primary':'default'} onClick={this.setCategory} data-category='6'>婚纱</Button>
           </div>
         </div>
       </div>
@@ -96,7 +105,7 @@ var UploadWorks = React.createClass({
         <form className='form-horizontal'>
           <TextInput ref="workName" labelName="作品名称：" minLength={5} placeholder="名称应该在5-25字之间"/>
           <ChooseImage value={this.state.photos} updateValue={this.updatePhotos} />
-          <ChooseCategory value={this.state.category} updateCategory = {this.updateCategory}/>
+          <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
           <ChooseTag value={this.state.tags} updateTags={this.updateTags}/>
           <TextInput ref="workDescription" 
             type="textarea" 

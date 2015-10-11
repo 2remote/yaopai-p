@@ -121,7 +121,7 @@ var MultiImageSelect = React.createClass({
     this.refs.addImage.setState({imageUrl : ''}); //清空图片
   },
   onRemove : function(event){
-    var index = event.target.title;
+    var index = event.target.getAttribute('data-index');
     this.props.remove(index);
   },
   render : function(){
@@ -132,7 +132,7 @@ var MultiImageSelect = React.createClass({
         return (
           <div>
             <img width="120" src={image} />
-            <div><span title={i} onClick={this.onRemove}>删除</span></div>
+            <div><span data-index={i} onClick={this.onRemove}>删除</span></div>
           </div>
         )
       }.bind(this));
