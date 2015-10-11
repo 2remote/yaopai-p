@@ -131,8 +131,13 @@ var PersonInfo = React.createClass({
       }
     }
     if(data.flag == 'updateInfo'){
-
+      console.log(data.hitMessage);
     }
+  },
+  updateNickName : function(v){
+    var data = this.state.info;
+    data.nickName = v;
+    this.setState({info : data});
   },
   render: function() {
     var style = {
@@ -146,7 +151,11 @@ var PersonInfo = React.createClass({
         <InfoHeader infoTitle="个人信息" infoIconClass="glyphicon glyphicon-user"/>
         <form className='form-horizontal'>
           <UserImage defaultImage={this.state.info.avatar}/>
-          <TextInput ref="nickName" labelName="昵称：" defaultValue={this.state.info.nickName} textClassName='col-xs-3'/>
+          <TextInput ref="nickName" 
+            labelName="昵称：" 
+            value={this.state.info.nickName} 
+            updateValue={this.updateNickName} 
+            textClassName='col-xs-3'/>
           <UserGender ref="gender" defaultValue={this.state.info.gender}/>
           <button className="btn btn-primary col-xs-offset-2"onClick={this.updateInfo}>保存</button>
         </form>

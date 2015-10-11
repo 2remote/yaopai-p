@@ -197,7 +197,7 @@ var CompnayIntro = React.createClass({
 });
 
 var PhotographerAuth = React.createClass({
-  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStore'), History],
+  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),History],
   getInitialState: function(){
     return {
       authState : '0',
