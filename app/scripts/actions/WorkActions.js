@@ -6,6 +6,7 @@ var WorkActions = Reflux.createActions([
   'editImageDes',
   'moveUpImage',
   'moveDownImage',
+  'clearImage'
 ]);
 
 module.exports = WorkActions;

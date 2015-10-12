@@ -112,6 +112,8 @@ var UploadWorks = React.createClass({
           photos : [],
           tags : []
         });
+        //同时要清空WorkStore的数据
+        this.refs.chooseImage.clearImage();
       }
     }
     if(data.flag == 'get'){
@@ -236,6 +238,7 @@ var UploadWorks = React.createClass({
             minLength={5}
             placeholder="名称应该在5-25字之间"/>
           <ChooseImage value={this.state.photos}
+            ref="chooseImage"
             updateValue={this.updatePhotos}
             cover={this.state.cover}
             updateCover={this.updateCover}/>
