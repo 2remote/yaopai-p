@@ -330,15 +330,18 @@ var ConfirmOrder = React.createClass({
 var OrderManager = React.createClass({
   render: function () {
     return (
-      <div className="center-content">
-        <div className="col-xs-9">
-          <OrderListTop></OrderListTop>
-          <OrderTitle></OrderTitle>
-          <OrderItem></OrderItem>
-        </div>
-        <div className="col-xs-3">
-          <OrderManagerNav></OrderManagerNav>
-          <ConfirmOrder></ConfirmOrder>
+      <div className="container-fluid no-bgimg gray-bg">
+        <Header />
+        <div className="center-content">
+          <div className="col-xs-9">
+            <OrderListTop></OrderListTop>
+            <OrderTitle></OrderTitle>
+            <OrderItem></OrderItem>
+          </div>
+          <div className="col-xs-3">
+            <OrderManagerNav></OrderManagerNav>
+            <ConfirmOrder></ConfirmOrder>
+          </div>
         </div>
         <Footer />
       </div>
