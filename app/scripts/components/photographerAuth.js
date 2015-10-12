@@ -58,10 +58,11 @@ var PersonIDImage = React.createClass({
     IDImages[0] = 'img/facecode.png';
     IDImages[1] = 'img/opposite.png';
     if(this.props.value){
-      if(this.props.value[0])
-        IDImages[0] = this.props.value[0];
-      if(this.props.value[1])
-        IDImages[1] = this.props.value[1];
+      var tmp = this.props.value.split(',');
+      if(tmp[0])
+        IDImages[0] = tmp[0];
+      if(tmp[1])
+        IDImages[1] = tmp[1];
     }
     return (
       <div className="form-group">
@@ -238,11 +239,18 @@ var PhotographerAuth = React.createClass({
           未处理和审核通过时，该页面不能编辑，审核不通过可以重新提交申请
         */
         var pAuthData = data.pAuth;
+        if(pAuthData.State == null){
+          this.setState({
+            pAuthData: {},
+            authState : null,
+            disabled : false
+          });
+        }
         if(pAuthData.State == '0'){
           this.setState({
             pAuthData: pAuthData,
             authState : pAuthData.State,
-            disabled : false
+            disabled : true
           });
         }else if(pAuthData.State == '1'){
           this.setState({
@@ -512,6 +520,9 @@ var PhotographerAuth = React.createClass({
       },
     };
     var rightInfo = '未认证';
+    if(this.state.authState == null){
+      rightInfo = '未认证';
+    }
     if(this.state.authState == '0'){
       rightInfo = '未审核';
     }
@@ -574,7 +585,7 @@ var PhotographerAuth = React.createClass({
                 textClassName="col-xs-4"
                 placeholder=""/>
               <PersonIDImage ref="personIDImage"
-                value = {this.state.IDImages}
+                value = {this.state.pAuthData.IdNumberImages}
                 upload1={this.updateIDImage1}
                 upload2={this.updateIDImage2}
                 disabled={this.state.disabled}/>

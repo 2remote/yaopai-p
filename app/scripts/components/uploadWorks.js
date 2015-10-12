@@ -10,16 +10,32 @@ var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
 var ToolTip = require('./toolTip');
 
-var UploadWorksStore = require('../stores/UploadWorksStore');
-var UploadWorksActions = require('../actions/UploadWorksActions');
+var AlbumsStore = require('../stores/AlbumsStore');
+var AlbumsActions = require('../actions/AlbumsActions');
 /*
   选择类别组件
 */
 var ChooseCategory = React.createClass({
+  mixins : [Reflux.listenTo(AlbumsStore,'onGetCategories')],
+  getInitialState : function(){
+    return {
+      categories : []
+    }
+  },
   getDefaltProps : function(){
     return {
       value : 0,
       onChange : function(data){},
+    }
+  },
+  componentWillMount : function(){
+    AlbumsActions.getCategories({Fields:'Id,Name,Sorting,Display,Views'});
+  },
+  onGetCategories : function(data){
+    if(data.hintMessage){
+      console.log(data.hintMessage);
+    }else{
+      this.setState({categories : data.categories});
     }
   },
   setCategory : function(event){
@@ -34,17 +50,17 @@ var ChooseCategory = React.createClass({
         marginBottom: '10px',
       }
     }
+
+    //目前没有做排序和是否显示
+    var buttons = this.state.categories.map(function(item,i){
+      return(<Button bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
+    }.bind(this));
     return (
      <div className="form-group">
         <label className="control-label col-xs-2">类别：</label>
         <div className="col-xs-10">
           <div className="cont-category">
-            <Button bsStyle={this.props.value=='1'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='1'>亲子</Button>
-            <Button bsStyle={this.props.value=='2'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='2'>旅拍</Button>
-            <Button bsStyle={this.props.value=='3'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='3'>商业</Button>
-            <Button bsStyle={this.props.value=='4'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='4'>人像</Button>
-            <Button bsStyle={this.props.value=='5'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='5'>私房</Button>
-            <Button bsStyle={this.props.value=='6'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='6'>婚纱</Button>
+            {buttons}
           </div>
         </div>
       </div>
@@ -59,9 +75,13 @@ var ChooseCategory = React.createClass({
   用到通用的用户组件 ./account/*
     AccountHeader 
     TextInput
+  注意事项：
+  1.只有认证为摄影师后才能上传作品，否则上传接口会报错。应该判断用户类型，如果用户不是摄影师，跳转到摄影师认证。
+  2.tags在第一版先不做。
+  3. 在这个界面可以增加，修改相册
 */
 var UploadWorks = React.createClass({
-  mixins : [Reflux.listenTo(UploadWorksStore,'onStoreChanged')],
+  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged')],
   getInitialState : function(){
     return {
       title : '',
@@ -156,7 +176,7 @@ var UploadWorks = React.createClass({
         Price : this.state.price,
         Cover : this.state.photos[this.state.cover].Url
       }
-      UploadWorksActions.add(data);
+      AlbumsActions.add(data);
     }
   },
   showMessage : function(message){
