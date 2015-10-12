@@ -239,6 +239,13 @@ var PhotographerAuth = React.createClass({
           未处理和审核通过时，该页面不能编辑，审核不通过可以重新提交申请
         */
         var pAuthData = data.pAuth;
+        if(pAuthData.State == null){
+          this.setState({
+            pAuthData: {},
+            authState : null,
+            disabled : flase
+          });
+        }
         if(pAuthData.State == '0'){
           this.setState({
             pAuthData: pAuthData,
@@ -513,6 +520,9 @@ var PhotographerAuth = React.createClass({
       },
     };
     var rightInfo = '未认证';
+    if(this.state.authState == null){
+      rightInfo = '未认证';
+    }
     if(this.state.authState == '0'){
       rightInfo = '未审核';
     }

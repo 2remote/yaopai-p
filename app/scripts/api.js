@@ -25,7 +25,8 @@ var API_CONST = {
     update : API_URL + 'Albums.Update',
     delete : API_URL + 'Albums.Delete',
     get : API_URL + 'Albums.Get',
-    search : API_URL + 'Albums.Search'
+    search : API_URL + 'Albums.Search',
+    categories : API_URL + 'AlbumsCategory.Search',
   },
 
   FILE : {

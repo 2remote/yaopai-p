@@ -11,8 +11,8 @@ var ChooseImage = require('./account/chooseImage');
 var ChooseTag = require('./account/chooseTag');
 var ToolTip = require('./toolTip');
 
-var UploadWorksStore = require('../stores/UploadWorksStore');
-var UploadWorksActions = require('../actions/UploadWorksActions');
+var AlbumsStore = require('../stores/AlbumsStore');
+var AlbumsActions = require('../actions/AlbumsActions');
 /*
   选择类别组件
 */
@@ -52,9 +52,13 @@ var ChooseCategory = React.createClass({
   用到通用的用户组件 ./account/*
     AccountHeader 
     TextInput
+  注意事项：
+  1.只有认证为摄影师后才能上传作品，否则上传接口会报错。应该判断用户类型，如果用户不是摄影师，跳转到摄影师认证。
+  2.tags在第一版先不做。
+  3. 在这个界面可以增加，修改相册
 */
 var UploadWorks = React.createClass({
-  mixins : [Reflux.listenTo(UploadWorksStore,'onStoreChanged')],
+  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged')],
   getInitialState : function(){
     return {
       title : '',
@@ -149,7 +153,7 @@ var UploadWorks = React.createClass({
         Price : this.state.price,
         Cover : this.state.photos[this.state.cover].Url
       }
-      UploadWorksActions.add(data);
+      AlbumsActions.add(data);
     }
   },
   showMessage : function(message){

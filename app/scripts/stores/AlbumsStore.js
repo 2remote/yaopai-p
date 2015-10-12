@@ -1,5 +1,5 @@
 var Reflux = require('reflux');
-var UploadWorksActions = require('../actions/UploadWorksActions');
+var AlbumsActions = require('../actions/AlbumsActions');
 
 var UploadWorksStore = Reflux.createStore({
   data : {
@@ -9,16 +9,16 @@ var UploadWorksStore = Reflux.createStore({
   },
   init: function() {
     console.log('UploadWorksStore initialized');
-    this.listenTo(UploadWorksActions.add.success,this.onAddSuccess);
-    this.listenTo(UploadWorksActions.add.failed,this.onFailed);
-    this.listenTo(UploadWorksActions.get.success,this.onGetSuccess);
-    this.listenTo(UploadWorksActions.get.failed,this.onFailed);
-    this.listenTo(UploadWorksActions.update.success,this.onUpdateSuccess);
-    this.listenTo(UploadWorksActions.update.failed,this.onFailed);
-    this.listenTo(UploadWorksActions.delete.success,this.onDeleteSuccess);
-    this.listenTo(UploadWorksActions.delete.failed,this.onFailed);
-    this.listenTo(UploadWorksActions.search.success,this.onSearchSuccess);
-    this.listenTo(UploadWorksActions.search.failed,this.onFailed);
+    this.listenTo(AlbumsActions.add.success,this.onAddSuccess);
+    this.listenTo(AlbumsActions.add.failed,this.onFailed);
+    this.listenTo(AlbumsActions.get.success,this.onGetSuccess);
+    this.listenTo(AlbumsActions.get.failed,this.onFailed);
+    this.listenTo(AlbumsActions.update.success,this.onUpdateSuccess);
+    this.listenTo(AlbumsActions.update.failed,this.onFailed);
+    this.listenTo(AlbumsActions.delete.success,this.onDeleteSuccess);
+    this.listenTo(AlbumsActions.delete.failed,this.onFailed);
+    this.listenTo(AlbumsActions.search.success,this.onSearchSuccess);
+    this.listenTo(AlbumsActions.search.failed,this.onFailed);
   },
   onFailed : function(res){
     this.data.hintMessage = '网络错误';

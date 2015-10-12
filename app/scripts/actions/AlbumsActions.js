@@ -8,6 +8,7 @@ var UploadWorksActions = Reflux.createActions({
   'update':{children : ['success','failed']},
   'delete':{children : ['success','failed']},
   'search':{children : ['success','failed']},
+  'getCategories' :{children:['success','failed']}
   // Here you can list your actions
 });
 
@@ -25,6 +26,9 @@ UploadWorksActions.delete.listen(function(data){
 });
 UploadWorksActions.search.listen(function(data){
   HttpFactory.post(API.ALBUMS.search,data,this.success,this.failed);
+});
+UploadWorksActions.getCategories.listen(function(data){
+  HttpFactory.post(API.ALBUMS.categories,data,this.success,this.failed);
 });
 
 module.exports = UploadWorksActions;
