@@ -27,7 +27,4 @@ UploadWorksActions.search.listen(function(data){
   HttpFactory.post(API.ALBUMS.search,data,this.success,this.failed);
 });
 
-
-
-
 module.exports = UploadWorksActions;
