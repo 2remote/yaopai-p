@@ -81,10 +81,27 @@ var WorksList = React.createClass({
       this.setState({workList : data.workList});
     }
   },
+  componentWillMount : function(){
+    var data ={
+      Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
+      PageIndex : this.props.pageIndex,
+      PageSize : 12,
+    };
+    if(this.props.type == '1'){
+      data.Display = true;
+      AlbumsActions.getMyAlbums(data);
+    }else if(this.props.type == '2'){
+      data.Display = false;
+      AlbumsActions.getMyAlbums(data);
+    }else if(this.props.type == '3'){
+      data.IsPending = true;
+      AlbumsActions.getMyAlbums(data);
+    }
+  },
   componentWillReceiveProps : function(nextProps){
     if(nextProps.type != this.props.type || nextProps.pageIndex != this.props.pageIndex){
       var data ={
-        Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Service,Negotiable,Price,Cover,HomeRecommended,Views,Sales,Collections,Score,IsFoul,IsPending,Photos',
+        Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
         PageIndex : nextProps.pageIndex,
         PageSize : 12,
       };
@@ -122,7 +139,12 @@ var WorksList = React.createClass({
 });
 
 var Profile = React.createClass({
-
+  getInitialState : function(){
+    return {
+      type : '',
+      pageIndex : 1,
+    }
+  },
   render: function() {
 
     return (
@@ -130,7 +152,9 @@ var Profile = React.createClass({
         <Header />
         <div>
           <ProfileHeader />
-          <WorksList type='2'/>
+          <WorksList 
+            type={this.props.params.type =='onSale'?'1':this.props.params.type =='onStore'?'2':this.props.params.type=='fail'?'3':''}
+            pageIndex = {this.state.pageIndex}/>
         </div>
         <Footer />
       </div>

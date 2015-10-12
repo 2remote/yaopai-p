@@ -30,7 +30,7 @@ var routes = (
 				<Route path="upload" component={UploadWorks} />
 			</Route>
 			<Route path="order/:type" component={OrderManager} />
-			<Route path="profile/:category" component={Profile} />
+			<Route path="profile/:type" component={Profile} />
 		</Route>
 	</Router>
 	
