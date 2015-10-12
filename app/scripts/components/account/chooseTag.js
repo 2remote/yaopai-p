@@ -57,24 +57,33 @@ var ConstTags = React.createClass({
     }
   },
   render : function(){
+    var style = {
+      tags： {
+        color: '#4f5a67',
+      }
+    };
+    var name = "";
     var tagsItems =[];
     switch(this.props.cat){
-      case 'theme' : tagsItems = TagsList.theme;
+      case 'theme' : tagsItems = TagsList.theme; name="主题：";
       break;
-      case 'style' : tagsItems = TagsList.style;
+      case 'style' : tagsItems = TagsList.style; name="风格：";
       break;
-      case 'camera' : tagsItems = TagsList.camera;
+      case 'camera' : tagsItems = TagsList.camera; name="器材：";
       break;
-      case 'region' : tagsItems = TagsList.region;
+      case 'region' : tagsItems = TagsList.region; name="地区：";
       break;
     }
 
     var result =  tagsItems.map(function(item,i){
-      return <span onClick={this.props.handleSelectTag}>{item.title}</span>
+      return (
+        <span onClick={this.props.handleSelectTag}>{item.title}</span>
+      );
     }.bind(this));
     return (
-      <div>
-        {result}
+      <div style={style.tags}>
+      <p>{name}</p>
+      <p>{result}</p>
       </div>)
   }
 });

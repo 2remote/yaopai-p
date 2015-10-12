@@ -8,7 +8,6 @@ var Button = require('react-bootstrap').Button;
 var InfoHeader= require('./infoHeader');
 var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
-var ChooseTag = require('./account/chooseTag');
 var ToolTip = require('./toolTip');
 
 var UploadWorksStore = require('../stores/UploadWorksStore');
@@ -27,17 +26,25 @@ var ChooseCategory = React.createClass({
     this.props.onChange(event.target.getAttribute('data-category'));
   },
   render : function(){
+    var style = {
+      button: {
+        width: '90px',
+        height: '32px',
+        marginRight: '9px',
+        marginBottom: '10px',
+      }
+    }
     return (
      <div className="form-group">
         <label className="control-label col-xs-2">类别：</label>
         <div className="col-xs-10">
           <div className="cont-category">
-            <Button bsStyle={this.props.value=='1'?'primary':'default'} onClick={this.setCategory} data-category='1'>亲子</Button>
-            <Button bsStyle={this.props.value=='2'?'primary':'default'} onClick={this.setCategory} data-category='2'>旅拍</Button>
-            <Button bsStyle={this.props.value=='3'?'primary':'default'} onClick={this.setCategory} data-category='3'>商业</Button>
-            <Button bsStyle={this.props.value=='4'?'primary':'default'} onClick={this.setCategory} data-category='4'>人像</Button>
-            <Button bsStyle={this.props.value=='5'?'primary':'default'} onClick={this.setCategory} data-category='5'>私房</Button>
-            <Button bsStyle={this.props.value=='6'?'primary':'default'} onClick={this.setCategory} data-category='6'>婚纱</Button>
+            <Button bsStyle={this.props.value=='1'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='1'>亲子</Button>
+            <Button bsStyle={this.props.value=='2'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='2'>旅拍</Button>
+            <Button bsStyle={this.props.value=='3'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='3'>商业</Button>
+            <Button bsStyle={this.props.value=='4'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='4'>人像</Button>
+            <Button bsStyle={this.props.value=='5'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='5'>私房</Button>
+            <Button bsStyle={this.props.value=='6'?'primary':'default'} style={style.button} onClick={this.setCategory} data-category='6'>婚纱</Button>
           </div>
         </div>
       </div>
@@ -162,6 +169,25 @@ var UploadWorks = React.createClass({
         padding: '40px 60px 70px 60px',
         color: '#777777',
       },
+      submitButton: {
+        width: '20%',
+        height: '50px',
+        marginRight: '70px',
+        border: '1px solid #337ab7',
+        backgroundColor: '#337ab7',
+        color: '#fff',
+        fontSize: '20px',
+      },
+      preview: {
+        width: '20%',
+        height: '50px',
+        border: '1px solid #337ab7',
+        color: '#337ab7',
+        fontSize: '20px',
+      },
+      bottomWrap: {
+        textAlign: 'center',
+      }
     };
     return (
       <div style={style.outer}>
@@ -178,7 +204,6 @@ var UploadWorks = React.createClass({
             cover={this.state.cover}
             updateCover={this.updateCover}/>
           <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
-          <ChooseTag value={this.state.tags} updateTags={this.updateTags}/>
           <TextInput ref="workDescription"
             type="textarea"
             value = {this.state.description}
@@ -199,12 +224,13 @@ var UploadWorks = React.createClass({
             help="服务描述应该在15-1000字之间" />
           <TextInput ref="price"
             labelName="是否定价："
+            textClassName="col-xs-4"
             value={this.state.price}
             updateValue={this.updatePrice}
             placeholder="¥面议"/>
-          <div className="row">
-            <Button onClick={this.handleSubmit}>提交</Button>
-            <Button>预览</Button>
+          <div className="row" style={style.bottomWrap}>
+            <Button style={style.submitButton} onClick={this.handleSubmit}>提交</Button>
+            <Button style={style.preview}>预览</Button>
             <ToolTip ref="toolTip" title=""/>
           </div>
         </form>
