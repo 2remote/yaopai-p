@@ -5,7 +5,8 @@ var UploadWorksStore = Reflux.createStore({
   data : {
     flag : '',
     hintMessage : '',
-    workData : {}
+    workData : {},
+    categories : []
   },
   init: function() {
     console.log('UploadWorksStore initialized');
@@ -19,6 +20,8 @@ var UploadWorksStore = Reflux.createStore({
     this.listenTo(AlbumsActions.delete.failed,this.onFailed);
     this.listenTo(AlbumsActions.search.success,this.onSearchSuccess);
     this.listenTo(AlbumsActions.search.failed,this.onFailed);
+    this.listenTo(AlbumsActions.getCategories.success,this.onGetCategoiesSuccess);
+    this.listenTo(AlbumsActions.getCategories.failed,this.onFailed);
   },
   onFailed : function(res){
     this.data.hintMessage = '网络错误';
@@ -64,7 +67,16 @@ var UploadWorksStore = Reflux.createStore({
   onSearchSuccess : function(res){
     //暂时不做
   },
-
+  onGetCategoiesSuccess : function(res){
+    if(res.Success){
+      this.data.categories = res.Result;
+      this.hintMessage = '';
+    }else{
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'getCategories';
+    this.trigger(this.data);
+  }
 });
 
 module.exports = UploadWorksStore;

@@ -17,27 +17,42 @@ var AlbumsActions = require('../actions/AlbumsActions');
   选择类别组件
 */
 var ChooseCategory = React.createClass({
+  mixins : [Reflux.listenTo(AlbumsStore,'onGetCategories')],
+  getInitialState : function(){
+    return {
+      categories : []
+    }
+  },
   getDefaltProps : function(){
     return {
       value : 0,
       onChange : function(data){},
     }
   },
+  componentWillMount : function(){
+    AlbumsActions.getCategories({Fields:'Id,Name,Sorting,Display,Views'});
+  },
+  onGetCategories : function(data){
+    if(data.hintMessage){
+      console.log(data.hintMessage);
+    }else{
+      this.setState({categories : data.categories});
+    }
+  },
   setCategory : function(event){
     this.props.onChange(event.target.getAttribute('data-category'));
   },
   render : function(){
+    //目前没有做排序和是否显示
+    var buttons = this.state.categories.map(function(item,i){
+      return(<Button bsStyle={this.props.value==item.Id?'primary':'default'} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
+    }.bind(this));
     return (
      <div className="form-group">
         <label className="control-label col-xs-2">类别：</label>
         <div className="col-xs-10">
           <div className="cont-category">
-            <Button bsStyle={this.props.value=='1'?'primary':'default'} onClick={this.setCategory} data-category='1'>亲子</Button>
-            <Button bsStyle={this.props.value=='2'?'primary':'default'} onClick={this.setCategory} data-category='2'>旅拍</Button>
-            <Button bsStyle={this.props.value=='3'?'primary':'default'} onClick={this.setCategory} data-category='3'>商业</Button>
-            <Button bsStyle={this.props.value=='4'?'primary':'default'} onClick={this.setCategory} data-category='4'>人像</Button>
-            <Button bsStyle={this.props.value=='5'?'primary':'default'} onClick={this.setCategory} data-category='5'>私房</Button>
-            <Button bsStyle={this.props.value=='6'?'primary':'default'} onClick={this.setCategory} data-category='6'>婚纱</Button>
+            {buttons}
           </div>
         </div>
       </div>
