@@ -243,7 +243,7 @@ var PhotographerAuth = React.createClass({
           this.setState({
             pAuthData: {},
             authState : null,
-            disabled : flase
+            disabled : false
           });
         }
         if(pAuthData.State == '0'){
