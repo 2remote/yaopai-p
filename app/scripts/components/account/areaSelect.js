@@ -32,13 +32,21 @@ var AreaSelect = React.createClass({
   onProvinceChange : function(){
     this.setState({cityList:[],districtList:[]});
     var v = React.findDOMNode(this.refs.province).value;
-    AreaActions.getCity({ParentId : v});
+    if(v != '0'){
+      AreaActions.getCity({ParentId : v});
+    }else{
+      this.setState({cityList : []});
+    }
     this.props.onProvinceChange(v);
   },
   onCityChange : function(){
     this.setState({districtList:[]});
     var v = React.findDOMNode(this.refs.city).value;
-    AreaActions.getDistrict({ParentId : v});
+    if(v != '0'){
+      AreaActions.getDistrict({ParentId : v});
+    }else{
+      this.setState({districtList : []});
+    }
     this.props.onCityChange(v);
   },
   onDistrictChange : function(){
@@ -85,6 +93,7 @@ var AreaSelect = React.createClass({
           className="form-control" 
           style={selectStyle} 
           onChange={this.onProvinceChange}>
+          <option value={0}>选择省份</option>
           {province}
         </select>
         <select ref="city" 
@@ -93,13 +102,16 @@ var AreaSelect = React.createClass({
           className="form-control" 
           style={selectStyle} 
           onChange={this.onCityChange}>
+          <option value={0}>选择城市</option>
           {city}
         </select>
         <select ref="district"
           type="select"
           disabled = {this.props.disabled}
           className="form-control"
-          style={selectStyle} >
+          style={selectStyle} 
+          onChange={this.onDistrictChange}>
+          <option value={0}>选择区县</option>
           {district}
         </select>
       </div>

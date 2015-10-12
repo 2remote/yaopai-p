@@ -47,7 +47,7 @@ var ImageInput = React.createClass({
   },
 
   getValue : function(){
-    return this.state.imageUrl;
+    return this.props.defaultImage;
   },
 
   componentDidMount : function() {

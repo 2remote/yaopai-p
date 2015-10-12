@@ -177,6 +177,12 @@ var HasCompany = React.createClass({
   }
 });
 var CompanyLogo = React.createClass({
+  getDefaultProps : function(){
+    return {
+      value : '',
+      updateValue : function(data){},
+    }
+  },
   getValue : function () {
     return this.refs.companyLogo.getValue();
   },
@@ -190,21 +196,17 @@ var CompanyLogo = React.createClass({
       <div className="form-group">
         <label className="control-label col-xs-2" style={style.label}>工作室LOGO：</label>
         <div className="col-xs-6">
-          <ImageInput width="200" height="120" uid="companyLogo" ref="companyLogo" defaultImage = "img/logo_up.png" type="user"/>
+          <ImageInput
+            width="200"
+            height="120"
+            uid="companyLogo"
+            ref="companyLogo"
+            defaultImage ={this.props.value?this.props.value:"img/logo_up.png" }
+            onUpload = {this.props.updateValue}
+            type="user"/>
         </div>
       </div>
     );
-  }
-});
-
-var CompnayIntro = React.createClass({
-  getValue : function () {
-    return this.refs.companyIntro.getValue();
-  },
-  render : function(){
-    return (
-      <Input type="textarea" ref="companyIntro" label="工作室简介：" labelClassName='col-xs-2' wrapperClassName="col-xs-6"/>
-      );
   }
 });
 
@@ -213,9 +215,6 @@ var PhotographerAuth = React.createClass({
   getInitialState: function(){
     return {
       authState : '0',
-      products : [],
-      companyImages : [],
-      IDImages : [],
       disabled : false,
       pAuthData : {}
     }
@@ -243,20 +242,17 @@ var PhotographerAuth = React.createClass({
           this.setState({
             pAuthData: pAuthData,
             authState : pAuthData.State,
-            IDImages : pAuthData.IdNumberImages.split(','),
             disabled : false
           });
         }else if(pAuthData.State == '1'){
           this.setState({
             pAuthData: pAuthData, 
             authState : pAuthData.State,
-            IDImages : pAuthData.IdNumberImages.split(','),
             disabled : true})
         }else if(pAuthData.State == '2'){
           this.setState({
             pAuthData: pAuthData,
             authState : pAuthData.State,
-            IDImages : pAuthData.IdNumberImages.split(','),
             disabled : false})
         }
       }
@@ -269,18 +265,22 @@ var PhotographerAuth = React.createClass({
     PAuthActions.viewAudit({Fields:fields});
   },
   updateProducts : function(result){
-    var datas = this.state.products;
-    datas.push({imgUrl : result});
+    var datas = [];
+    if(this.state.pAuthData.Works)
+      datas = this.state.pAuthData.Works.split(',');
+    datas.push(result);
     var pAuthData = this.state.pAuthData;
     pAuthData.Works = datas.toString();
-    this.setState({products : datas,pAuthData:pAuthData});
+    this.setState({pAuthData:pAuthData});
   },
   updateCompanyImages : function(result){
-    var datas = this.state.companyImages;
-    datas.push({imgUrl : result});
+    var datas = [];
+    if(this.state.pAuthData.StudioImages)
+      datas = this.state.pAuthData.StudioImages.split(',');
+    datas.push(result);
     var pAuthData = this.state.pAuthData;
     pAuthData.StudioImages = datas.toString();
-    this.setState({companyImages : datas,pAuthData : pAuthData});
+    this.setState({pAuthData : pAuthData});
   },
   updateRealName : function(result){
     var data = this.state.pAuthData;
@@ -323,16 +323,30 @@ var PhotographerAuth = React.createClass({
     this.setState({pAuthData : data});
   },
   updateIDImage1 : function(result){
-    var IDImages = this.state.IDImages;
+    var IDImages = [];
+    if(this.state.pAuthData.IdNumberImages){
+      IDImages = this.state.pAuthData.IdNumberImages.split(',');
+      IDImages[0] = result;
+    }else{
+      IDImages[0] = result;
+      IDImages[1] = '';
+    }
     var data = this.state.pAuthData;
-    IDImages[0] = result;
-    this.setState({IDImages : IDImages});
+    data.IdNumberImages = IDImages.toString();
+    this.setState({pAuthData : data});
   },
   updateIDImage2 : function(result){
-    var IDImages = this.state.IDImages;
+    var IDImages = [];
+    if(this.state.pAuthData.IdNumberImages){
+      IDImages = this.state.pAuthData.IdNumberImages.split(',');
+      IDImages[1] = result;
+    }else{
+      IDImages[0] = '';
+      IDImages[1] = result;
+    }
     var data = this.state.pAuthData;
-    IDImages[1] = result;
-    this.setState({IDImages : IDImages});
+    data.IdNumberImages = IDImages.toString();
+    this.setState({pAuthData : data});
   },
   updateSign : function(result){
     var data = this.state.pAuthData;
@@ -367,6 +381,7 @@ var PhotographerAuth = React.createClass({
   updateCompanyIntro : function(result){
     var data = this.state.pAuthData;
     data.StudioIntroduction = result;
+    this.setState({pAuthData: data});
   },
   removeWorks : function(index){
     var data = this.state.pAuthData;
@@ -376,7 +391,7 @@ var PhotographerAuth = React.createClass({
       if(index < works.length){
         works.splice(index,1);
         data.Works = works.toString();
-        this.setState({pAuthData : data,products : works});
+        this.setState({pAuthData : data});
       }
     }
   },
@@ -388,7 +403,7 @@ var PhotographerAuth = React.createClass({
       if(index < companyImages.length){
         companyImages.splice(index,1);
         data.StudioImages = companyImages.toString();
-        this.setState({pAuthData : data,companyImages : companyImages});
+        this.setState({pAuthData : data});
       }
     }
   },
@@ -430,7 +445,7 @@ var PhotographerAuth = React.createClass({
       message = '个人简介必须在10字以上';
       return message;
     }
-    if(!this.getWorks()){
+    if(!this.state.pAuthData.Works){
       message = '请至少上传一张个人作品';
       return message;
     }
@@ -448,11 +463,11 @@ var PhotographerAuth = React.createClass({
         message = '请填写工作室的详细地址';
         return message;
       }
-      if(!this.refs.companyIntro.getValue()){
+      if(!this.refs.companyIntro.isValidated()){
         message = '请填写工作室的简介';
         return message;
       }
-      if(!this.getCompanyImages()){
+      if(!this.state.pAuthData.StudioImages){
         message = "请上传工作室的照片";
         return message;
       }
@@ -462,32 +477,12 @@ var PhotographerAuth = React.createClass({
   showMessage : function(message) {
     this.refs.toolTip.toShow(message);
   },
-  getWorks : function(){
-    var works = '';
-    for(var i = 0 ;i < this.state.products.length; i ++){
-      if(i == this.state.products.length-1)
-        works = works + this.state.products[i].imgUrl;
-      else
-        works =works + this.state.products[i].imgUrl +',';
-    }
-    return works;
-  },
-  getCompanyImages : function(){
-    var images = '';
-    for(var i = 0 ;i < this.state.companyImages.length; i ++){
-      if(i == this.state.companyImages.length-1)
-        images = images + this.state.companyImages[i].imgUrl;
-      else
-        images =images + this.state.companyImages[i].imgUrl +',';
-    }
-    return images;
-  },
   handleSubmit : function(){
     var message = this.validate();
     if(!message){
       var data = {
         RealName : this.state.pAuthData.RealName,
-        BusinessLocation : this.state.pAuthData.BusinessLocation,
+        BusinessLocation : this.state.pAuthData.CountyId?this.state.pAuthData.CountyId:this.pAuthData.CityId?this.pAuthData.CityId:this.pAuthData.ProvinceId,
         BusinessPhone : this.state.pAuthData.BusinessPhone,
         Weixin : this.state.pAuthData.Weixin,
         Oicq : this.state.pAuthData.Oicq,
@@ -495,13 +490,13 @@ var PhotographerAuth = React.createClass({
         IdNumberImages : this.state.pAuthData.IdNumberImages,
         Signature : this.state.pAuthData.Signature,
         WorkLinks : this.state.pAuthData.WorkLinks,
-        Works : this.getWorks(),
+        Works : this.state.pAuthData.Works,
         OwnedStudio : this.state.pAuthData.OwnedStudio,
         StudioName : this.state.pAuthData.StudioName,
         StudioLogo : this.state.pAuthData.StudioLogo,
         StudioAddress : this.state.pAuthData.StudioAddress,
         StudioIntroduction : this.state.pAuthData.StudioIntroduction,
-        StudioImages : this.getCompanyImages()
+        StudioImages : this.state.pAuthData.StudioImages
       };
       PAuthActions.submitAudit(data);
     }else{

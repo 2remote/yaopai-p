@@ -16,9 +16,9 @@ var PAuthStore = Reflux.createStore({
   },
   onSubmitAudit : function(data){
     if(data.Success){
-      this.data.hitMessage = null;
+      this.data.hintMessage = null;
     }else{
-      this.data.hitMessage = data.ErrorMsg;
+      this.data.hintMessage = data.ErrorMsg;
     }
     this.data.flag = 'submitAudit';
     this.trigger(this.data);
