@@ -1,9 +1,13 @@
 var React = require('react');
+var Reflux = require('reflux');
 var Router = require('react-router');
 var Link = Router.Link;
 
 var Header = require('./header');
 var Footer = require('./footer');
+
+var AlbumsActions = require('../actions/AlbumsActions');
+var AlbumsStore = require('../stores/AlbumsStore');
 
 var ProfileHeader = React.createClass({
   render : function(){
@@ -51,14 +55,67 @@ var ProfileHeader = React.createClass({
 });
 
 var WorksList = React.createClass({
-  
+  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged')],
+  getInitialState : function(){
+    return {
+      workList : []
+    }
+  },
+  getDefaultProps : function(){
+    /*
+      有三种状态
+      1.上架：Display ＝ true
+      2.下架：Display ＝ false
+      2.待审核 ： IsPending
+      3.违规 ： IsFoul
+    */
+    return {
+      type : '',
+      pageIndex : 1,
+    }
+  },
+  onStoreChanged : function(data){
+    if(data.hintMessage){
+      console.log(data.hintMessage);
+    }else{
+      this.setState({workList : data.workList});
+    }
+  },
+  componentWillReceiveProps : function(nextProps){
+    if(nextProps.type != this.props.type || nextProps.pageIndex != this.props.pageIndex){
+      var data ={
+        Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Service,Negotiable,Price,Cover,HomeRecommended,Views,Sales,Collections,Score,IsFoul,IsPending,Photos',
+        PageIndex : nextProps.pageIndex,
+        PageSize : 12,
+      };
+      if(nextProps.type == '1'){
+        data.Display = true;
+        AlbumsActions.getMyAlbums(data);
+      }else if(nextProps.type == '2'){
+        data.Display = false;
+        AlbumsActions.getMyAlbums(data);
+      }else if(nextProps.type == '3'){
+        data.IsPending = true;
+        AlbumsActions.getMyAlbums(data);
+      }
+    }
+  },
   render : function(){
     var mainStyle = {
 
     };
+    var photoList = this.state.workList.map(function(work,i){
+      return (
+        <div>
+          <img heigth='200' src={work.Cover} />
+          <div>{work.Title}</div>
+          <div>{work.Photos.length}张</div>
+        </div>
+      );
+    }.bind(this));
     return (
       <div style={mainStyle}>
-
+        {photoList}
       </div>
     );
   }
@@ -73,7 +130,7 @@ var Profile = React.createClass({
         <Header />
         <div>
           <ProfileHeader />
-          <WorksList />
+          <WorksList type='2'/>
         </div>
         <Footer />
       </div>

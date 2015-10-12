@@ -6,7 +6,8 @@ var AlbumsStore = Reflux.createStore({
     flag : '',
     hintMessage : '',
     workData : {},
-    categories : []
+    categories : [],
+    workList : [],
   },
   init: function() {
     console.log('UploadWorksStore initialized');
@@ -20,6 +21,8 @@ var AlbumsStore = Reflux.createStore({
     this.listenTo(AlbumsActions.delete.failed,this.onFailed);
     this.listenTo(AlbumsActions.search.success,this.onSearchSuccess);
     this.listenTo(AlbumsActions.search.failed,this.onFailed);
+    this.listenTo(AlbumsActions.getMyAlbums.success,this.onGetMyAlbumsSuccess);
+    this.listenTo(AlbumsActions.getMyAlbums.failed,this.onFailed);
     this.listenTo(AlbumsActions.getCategories.success,this.onGetCategoiesSuccess);
     this.listenTo(AlbumsActions.getCategories.failed,this.onFailed);
   },
@@ -66,6 +69,17 @@ var AlbumsStore = Reflux.createStore({
   },
   onSearchSuccess : function(res){
     //
+  },
+  onGetMyAlbumsSuccess : function(res){
+    if(res.Success){
+      this.data.workList = res.Result;
+      this.data.hintMessage = '';
+    }else{
+      this.data.workList = [];
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'getMyAlbums';
+    this.trigger(this.data);
   },
   onGetCategoiesSuccess : function(res){
     if(res.Success){
