@@ -149,10 +149,10 @@ body {
     margin-left: 5px;
 }
 .image-item {
-    height: 80px;
-    width: 80%;
-    margin-top: 10px;
-    background-color: #eaeaea;
+    height: 95px;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    background-color: #e5e5e5;
 }
 .image-item .move-button {
     float: left;
@@ -162,37 +162,40 @@ body {
     padding-left: 20px;
 }
 .image-item .main-image {
-    float: left;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  float: left;
 }
 .image-item .main-des {
     float: left;
-    width: 70%;
+    width: 60%;
     padding-left: 10px;
-    padding-top: 10px;
 }
 .image-item .main-des textarea{
     width: 95%;
-    height: 60px;
+    height: 75px;
     margin-left: 10px;
     margin-right: 10px;
 }
 .image-item .delete-button {
     float: right;
-    padding-left: 0px;
-    padding-right: 20px;
-    padding-top: 30px;
     text-align: center;
     height: 100%;
-    width: 30px;
-    font-size: 16px;
-
+    margin-right: 2%;
+    font-size: 16px
+}
+.image-item .icon-wrap {
+  text-align: center;
+}
+.right-icon {
+  line-height: 38px;
 }
 .image-button {
-    cursor:pointer;
+  color: #337ab7;
+  cursor:pointer;
+  line-height: 38px;
 }
-
+.uploader-img {
+  margin-bottom: 30px;
+}
 .react-tagsinput {
   background-color: #fff;
   border: 1px solid #ccc;

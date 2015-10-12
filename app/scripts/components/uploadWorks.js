@@ -5,7 +5,7 @@ var validator = require('validator');
 var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
 
-var AccountHeader = require('./account/accountHeader');
+var InfoHeader= require('./infoHeader');
 var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
 var ChooseTag = require('./account/chooseTag');
@@ -160,41 +160,48 @@ var UploadWorks = React.createClass({
     this.refs.toolTip.toShow(message);
   },
   render: function() {
+    var style = {
+      outer: {
+        backgroundColor: '#fff',
+        padding: '40px 60px 70px 60px',
+        color: '#777777',
+      },
+    };
     return (
-      <Panel>
-        <AccountHeader titleName="上传作品" titleImage="" />
+      <div style={style.outer}>
+        <InfoHeader infoTitle="作品上传"infoIconClass="glyphicon glyphicon-picture" titleImage="" />
         <form className='form-horizontal'>
-          <TextInput ref="workName" 
+          <TextInput ref="workName"
             labelName="作品名称："
             value = {this.state.title}
             updateValue = {this.updateTitle}
-            minLength={5} 
+            minLength={5}
             placeholder="名称应该在5-25字之间"/>
-          <ChooseImage value={this.state.photos} 
-            updateValue={this.updatePhotos} 
-            cover={this.state.cover} 
+          <ChooseImage value={this.state.photos}
+            updateValue={this.updatePhotos}
+            cover={this.state.cover}
             updateCover={this.updateCover}/>
           <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
           <ChooseTag value={this.state.tags} updateTags={this.updateTags}/>
-          <TextInput ref="workDescription" 
-            type="textarea" 
+          <TextInput ref="workDescription"
+            type="textarea"
             value = {this.state.description}
             updateValue = {this.updateDescription}
-            labelName="作品简述：" 
-            minLength={15} 
+            labelName="作品简述："
+            minLength={15}
             maxLength={1000}
             placeholder=""
             help="作品描述应该在15-1000字之间" />
-          <TextInput ref="service" 
+          <TextInput ref="service"
             type="textarea"
             value={this.state.service}
             updateValue={this.updateService}
-            labelName="提供服务：" 
-            minLength={15} 
+            labelName="提供服务："
+            minLength={15}
             maxLength={1000}
             placeholder=""
             help="服务描述应该在15-1000字之间" />
-          <TextInput ref="price"  
+          <TextInput ref="price"
             labelName="是否定价："
             value={this.state.price}
             updateValue={this.updatePrice}
@@ -205,7 +212,7 @@ var UploadWorks = React.createClass({
             <ToolTip ref="toolTip" title=""/>
           </div>
         </form>
-      </Panel>
+      </div>
     );
   }
 });

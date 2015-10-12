@@ -55,25 +55,33 @@ var ImageItem = React.createClass({
     return (
       <div className="image-item">
         <div className="move-button">
-          <span className="glyphicon glyphicon-chevron-up image-button" onClick={this.moveUpItem}></span>
-          <span className="glyphicon glyphicon-chevron-down image-button" onClick={this.moveDownItem}></span>
+          <div className="icon-wrap">
+            <span className="glyphicon glyphicon-triangle-top image-button" onClick={this.moveUpItem}></span>
+          </div>
+          <div className="icon-wrap">
+            <span className="glyphicon glyphicon-triangle-bottom image-button" onClick={this.moveDownItem}></span>
+          </div>
         </div>
         <div className="main-image">
-          <img height="60" width="60" src={this.props.imageData.Url} />
+          <img height="75" width="75" src={this.props.imageData.Url} />
         </div>
         <div className="main-des">
           <Input type="textarea" ref="description" onChange={this.handleChange} value={this.props.imageData.Description} />
         </div>
         <div className="delete-button">
-          <span className="glyphicon glyphicon-remove-circle image-button" 
-            onClick={this.deleteItem}>
-            删除
-          </span>
-          <span className="glyphicon glyphicon-remove-circle image-button" 
-            style={this.props.isCover?coverStyle:nomalStyle} 
-            onClick={this.setCover}>
-            封面
-          </span>
+          <div className="right-icon">
+            <span className="glyphicon glyphicon-picture image-button"
+              style={this.props.isCover?coverStyle:nomalStyle}
+              onClick={this.setCover}>
+              封面
+            </span>
+          </div>
+          <div className="right-icon">
+            <span className="glyphicon glyphicon-remove-circle image-button"
+              onClick={this.deleteItem}>
+              删除
+            </span>
+          </div>
         </div>
       </div>
       );
@@ -224,7 +232,7 @@ var ChooseImages = React.createClass({
           <label className="control-label col-xs-2">上传图片：</label>
           <div id="pickfilesCont" className="col-xs-10">
             <div>
-              <img id="pickfiles" className="image-button" width="80" heigth="80" src="img/tianjia.png" />
+              <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
             </div>
             <div>
               {renderImages}
