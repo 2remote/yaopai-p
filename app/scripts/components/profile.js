@@ -124,7 +124,7 @@ var WorksList = React.createClass({
     var photoList = this.state.workList.map(function(work,i){
       return (
         <div>
-          <img heigth='200' src={work.Cover} />
+          <img height='200' src={work.Cover} />
           <div>{work.Title}</div>
           <div>{work.Photos.length}张</div>
         </div>
