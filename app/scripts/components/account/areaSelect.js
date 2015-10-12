@@ -17,7 +17,14 @@ var AreaSelect = React.createClass({
   componentDidMount : function(){
     AreaActions.getProvince();
   },
-
+  componentWillReceiveProps : function(nextProps){
+    if(nextProps.province != this.props.province){
+      AreaActions.getCity({ParentId : nextProps.province});
+    }
+    if(nextProps.city != this.props.city){
+      AreaActions.getDistrict({ParentId : nextProps.city});
+    }
+  },
   onGetAreaList : function(data){
     if(data.flag == 'province'){
       this.setState({provinceList:data.province});
@@ -33,7 +40,7 @@ var AreaSelect = React.createClass({
     this.setState({cityList:[],districtList:[]});
     var v = React.findDOMNode(this.refs.province).value;
     if(v != '0'){
-      AreaActions.getCity({ParentId : v});
+      //AreaActions.getCity({ParentId : v});
     }else{
       this.setState({cityList : []});
     }
@@ -43,7 +50,7 @@ var AreaSelect = React.createClass({
     this.setState({districtList:[]});
     var v = React.findDOMNode(this.refs.city).value;
     if(v != '0'){
-      AreaActions.getDistrict({ParentId : v});
+      //AreaActions.getDistrict({ParentId : v});
     }else{
       this.setState({districtList : []});
     }
@@ -91,7 +98,8 @@ var AreaSelect = React.createClass({
           type="select" 
           disabled={this.props.disabled} 
           className="form-control" 
-          style={selectStyle} 
+          style={selectStyle}
+          value = {this.props.province}
           onChange={this.onProvinceChange}>
           <option value={0}>选择省份</option>
           {province}
@@ -100,7 +108,8 @@ var AreaSelect = React.createClass({
           type="select"
           disabled={this.props.disabled} 
           className="form-control" 
-          style={selectStyle} 
+          style={selectStyle}
+          value ={this.props.city}
           onChange={this.onCityChange}>
           <option value={0}>选择城市</option>
           {city}
@@ -109,7 +118,8 @@ var AreaSelect = React.createClass({
           type="select"
           disabled = {this.props.disabled}
           className="form-control"
-          style={selectStyle} 
+          style={selectStyle}
+          value={this.props.district}
           onChange={this.onDistrictChange}>
           <option value={0}>选择区县</option>
           {district}

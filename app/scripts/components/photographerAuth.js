@@ -226,6 +226,7 @@ var PhotographerAuth = React.createClass({
         this.showMessage(data.hintMessage);
       }else{
         this.showMessage('提交认证成功！');
+        this.getAuditData();
       }
     }
     if(data.flag == 'viewAudit'){
@@ -267,6 +268,9 @@ var PhotographerAuth = React.createClass({
     }
   },
   componentWillMount : function(){
+    this.getAuditData();
+  },
+  getAuditData : function(){
     var fields = 'Id,State,,BusinessPhone,CreationTime,IdNumber,IdNumberImages,Oicq,OwnedStudio,';
     fields = fields +'RealName,Signature,StudioAddress,StudioImages,StudioIntroduction,StudioLogo,';
     fields = fields +'StudioName,Weixin,WorkLinks,Works,ProvinceId,ProvinceName,CityId,CityName,CountyId,CountyName';
