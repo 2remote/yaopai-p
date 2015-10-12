@@ -1,7 +1,7 @@
 var Reflux = require('reflux');
 var AlbumsActions = require('../actions/AlbumsActions');
 
-var UploadWorksStore = Reflux.createStore({
+var AlbumsStore = Reflux.createStore({
   data : {
     flag : '',
     hintMessage : '',
@@ -65,7 +65,7 @@ var UploadWorksStore = Reflux.createStore({
     this.trigger(this.data);
   },
   onSearchSuccess : function(res){
-    //暂时不做
+    //
   },
   onGetCategoiesSuccess : function(res){
     if(res.Success){
@@ -79,4 +79,4 @@ var UploadWorksStore = Reflux.createStore({
   }
 });
 
-module.exports = UploadWorksStore;
+module.exports = AlbumsStore;
