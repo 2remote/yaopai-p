@@ -45,6 +45,11 @@ var ImageItem = React.createClass({
   componentDidMount : function(){
 
   },
+  componentWillReceiveProps : function(nextProps){
+    if(nextProps.imageData.Description != this.props.imageData.Description){
+      this.refs.description.getDOMNode().value= (nextProps.imageData.Description);
+    }
+  },
   render : function(){
     var coverStyle = {
       color : 'blue'
@@ -66,7 +71,7 @@ var ImageItem = React.createClass({
           <img height="75" width="75" src={this.props.imageData.Url} />
         </div>
         <div className="main-des">
-          <Input type="textarea" ref="description" onChange={this.handleChange} value={this.props.imageData.Description} />
+          <textarea type="textarea" ref="description" onChange={this.handleChange}  />
         </div>
         <div className="delete-button">
           <div className="right-icon">
