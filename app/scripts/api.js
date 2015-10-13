@@ -27,6 +27,8 @@ var API_CONST = {
     get : API_URL + 'Albums.Get',
     search : API_URL + 'Albums.Search',
     categories : API_URL + 'AlbumsCategory.Search',
+    offSale : API_URL + 'Albums.SalesOff',
+    onSale : API_URL + 'Albums.SalesOn'
   },
 
   FILE : {
