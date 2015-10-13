@@ -175,7 +175,7 @@ var MultiImageSelect = React.createClass({
       }
     }
     var renderImages ='';
-    if(this.props.images.length >0){
+    if(this.props.images && this.props.images.length >0){
       var images = this.props.images.split(',');
       renderImages = images.map(function(image,i){
         return (
@@ -214,6 +214,7 @@ var HasCompany = React.createClass({
   },
   onChange : function(event){
     this.setState({checked : event.target.checked});
+    this.props.onChange(event.target.checked);
   },
   getValue : function(){
     return this.state.checked;
@@ -222,7 +223,7 @@ var HasCompany = React.createClass({
     return (
       <div className= "form-group">
         <label className="control-label col-xs-2">是否有工作室：</label>
-        <input type="checkbox" ClassName="col-xs-6" onChange={this.onChange}/>
+        <input type="checkbox" ClassName="col-xs-6" onChange={this.onChange} checked={this.props.checked} disabled={this.props.disabled}/>
       </div>
     );
   }
@@ -671,8 +672,8 @@ var PhotographerAuth = React.createClass({
                 remove={this.removeWorks}/>
               <HasCompany ref="hasCompany"
                 disabled={this.state.disabled}
-                value={this.state.pAuthData.OwnedStudio}
-                updateValue={this.updateHasCompany}/>
+                checked={this.state.pAuthData.OwnedStudio}
+                onChange={this.updateHasCompany}/>
               <TextInput ref="companyName"
                 labelName="工作室名称："
                 value = {this.state.pAuthData.StudioName}

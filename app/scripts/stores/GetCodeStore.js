@@ -3,6 +3,9 @@ var Reflux = require('reflux');
 var GetCodeActions = require('../actions/GetCodeActions');
 var data = [];
 
+/*
+  获取验证码store
+*/
 var GetCodeStore = Reflux.createStore({
 
   init: function() {
