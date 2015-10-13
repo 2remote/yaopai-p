@@ -210,23 +210,32 @@ var MultiImageSelect = React.createClass({
 });
 
 var HasCompany = React.createClass({
-  getInitialState : function(){
-    return {
-      checked : false
-    }
+  onNoClick : function(event){
+    this.props.onChange(false);
   },
-  onChange : function(event){
-    this.setState({checked : event.target.checked});
-    this.props.onChange(event.target.checked);
+  onYesClick : function(event){
+    this.props.onChange(true);
   },
   getValue : function(){
-    return this.state.checked;
+    return this.props.checked;
   },
   render : function (){
+    var normalStyle = {
+    };
+    var noSelected = {
+      color : 'blue'
+    };
+    var yesSelected = {
+      color : 'red'
+    };
     return (
       <div className= "form-group">
         <label className="control-label col-xs-2">是否有工作室：</label>
         <input type="checkbox" ClassName="col-xs-6" onChange={this.onChange} checked={this.props.checked} disabled={this.props.disabled}/>
+        <div>
+          <div onClick={this.onNoClick} style={this.props.checked?normalStyle:noSelected}>NO</div>
+          <div onClick={this.onYesClick} style={this.props.checked?yesSelected:normalStyle}>YES</div>
+        </div>
       </div>
     );
   }
