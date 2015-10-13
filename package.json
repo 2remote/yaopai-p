@@ -9,6 +9,7 @@
     "radium": "^0.14.1",
     "react": "~0.13.1",
     "react-bootstrap": "*",
+    "react-masonry-mixin": "^2.0.0",
     "react-router": "~1.0.0-rc1",
     "react-tagsinput": "~1.4.3",
     "reflux": "~0.2.7"

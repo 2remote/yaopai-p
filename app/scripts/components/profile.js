@@ -10,44 +10,91 @@ var AlbumsActions = require('../actions/AlbumsActions');
 var AlbumsStore = require('../stores/AlbumsStore');
 
 var ProfileHeader = React.createClass({
+  getDefaultProps: function () {
+    return {
+      avatarSrc: '../../img/user.png',
+      name: '怪盗基德',
+      area: '郑东新区',
+      introduction: '这个人很懒，什么都没有留下',
+    }
+  },
   render : function(){
     var headerStyle = {
       background : {
         background : 'url(../../img/footer_bg.png) no-repeat center center',
         width : '100%',
-        height : '300px'
+        height : '410px',
+        color: '#ffffff',
+        paddingTop: '50px',
       },
       center : {
         margin : '0 auto',
         width : '40%',
-        paddingTop : '100px',
+        paddingTop : '50px',
         textAlign : 'center',
-        color : '#777777',
-        paddingBottom : '130px',
+        color : '#ffffff',
+      },
+      avatar: {
+        border: '1px solid #8f8f8f',
+        borderRadius: '50%',
+        marginBottom: '10px',
+      },
+      name: {
+        fontSize: '18px',
+      },
+      area: {
+        fontSize: '12px',
+        color: '#c0c0c0',
+        marginBottom: '25px',
+      },
+      introduction: {
+        fontSize: '16px',
       }
     };
     var categoryStyle = {
-      height : '30px',
-      backgroundColor : '#ffffff',
-      textAlign : 'center',
-      width : '100%',
+      wrap: {
+        height : '55px',
+        textAlign : 'center',
+        width : '100%',
+        lineHeight: '55px',
+        background: '#ffffff',
+      },
+      select: {
+        padding: '0 15px',
+        color: '#828997',
+      },
+      activeLink: {
+        padding: '0 15px',
+        color: '#828997',
+      },
+      icon: {
+        color: '#df3b3b',
+        marginLeft: '-10px',
+      }
     };
     return (
-      <div style={headerStyle.background}>
-        <div style={headerStyle.center}>
-          <img src="../../img/user.png" />
-          <span>怪盗基德</span>
+      <div>
+        <div style={headerStyle.background}>
+          <div style={headerStyle.center}>
+            <img style={headerStyle.avatar} width="150" height="150" src={this.props.avatarSrc} />
+            <p style={headerStyle.name}>{this.props.name}</p>
+            <p style={headerStyle.area}>{this.props.area}</p>
+            <p style={headerStyle.introduction}>{this.props.introduction}</p>
+          </div>
         </div>
-        <div style={categoryStyle}>
-          <Link to="/profile/onSale">
-            已上架
-          </Link>
-          <Link to="/profile/onStore">
-            未上架
-          </Link>
-          <Link to="/profile/fail">
-            审核失败
-          </Link>
+        <div>
+          <div style={categoryStyle.wrap}>
+            <Link style={categoryStyle.select} to="/profile/onSale">
+              已上架
+            </Link>
+            <Link style={categoryStyle.activeLink} to="/profile/onStore">
+              未上架
+            </Link>
+            <Link style={categoryStyle.select} to="/profile/fail">
+              审核失败
+            </Link>
+            <span className="glyphicon glyphicon-exclamation-sign" style={categoryStyle.icon} aria-hidden="true"></span>
+          </div>
         </div>
       </div>
     )
