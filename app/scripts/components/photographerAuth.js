@@ -113,6 +113,7 @@ var MultiImageSelect = React.createClass({
       uid : 'multiImageSelect',
       width: '150px',
       height: '150px',
+      maxCount : 4,
     }
   },
   getInitialState: function () {
@@ -178,6 +179,7 @@ var MultiImageSelect = React.createClass({
       }
     }
     var renderImages ='';
+    var canAddImage = true;
     if(this.props.images && this.props.images.length >0){
       var images = this.props.images.split(',');
       renderImages = images.map(function(image,i){
@@ -189,13 +191,20 @@ var MultiImageSelect = React.createClass({
         )
       }.bind(this));
     }
+    //判断当前是否可以增加图片
+    if(this.props.images && this.props.images.length >0){
+      if(this.props.images.length >= this.props.maxCount){
+        canAddImage = false;
+      }
+    }
+    if(this.props.disabled) canAddImage = false;
     return (
       <div className="form-group">
         <label className="control-label col-xs-2" style={style.label}>{this.props.labelName}</label>
           <div className="col-xs-10">
           {renderImages}
           <ImageInput
-            addStyle={style.addImg}
+            addStyle={canAddImage?style.addImg:style.addImgHide}
             colWidth=""
             width={this.props.width}
             height={this.props.height}
@@ -680,6 +689,7 @@ var PhotographerAuth = React.createClass({
                 height="100"
                 images={this.state.pAuthData.Works}
                 disabled={this.state.disabled}
+                maxCount={8}
                 updateImages={this.updateProducts}
                 remove={this.removeWorks}/>
               <HasCompany ref="hasCompany"
@@ -703,6 +713,7 @@ var PhotographerAuth = React.createClass({
                 height="100px"
                 uid = "companyImagesSelect"
                 disabled={this.state.disabled}
+                maxCount={4}
                 labelName="工作室照片："
                 images={this.state.pAuthData.StudioImages}
                 remove={this.removeCompanyImage}
