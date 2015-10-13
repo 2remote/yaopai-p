@@ -101,6 +101,10 @@ var ProfileHeader = React.createClass({
   }
 });
 
+/*
+瀑布流布局
+*/
+
 var WorksList = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged')],
   getInitialState : function(){

@@ -170,6 +170,9 @@ var MultiImageSelect = React.createClass({
         width: '100px',
         height: '100px',
       },
+      addImgHide: {
+        display: 'none',
+      },
       label: {
         lineHeight: '100px',
       }
@@ -180,7 +183,7 @@ var MultiImageSelect = React.createClass({
       renderImages = images.map(function(image,i){
         return (
           <div onMouseEnter={this.handleEnd} onMouseLeave={this.hanldeLeave} style={style.worksWrap}>
-            <img width="100" src={image} />
+            <img width="100" height="100" src={image} />
             <div ref="mask" className="mask" style={style.mask}><span ref="delete" data-index={i} onClick={this.onRemove}>删除</span></div>
           </div>
         )

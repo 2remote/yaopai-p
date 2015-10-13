@@ -2,10 +2,10 @@ html {
   margin: 0;
 }
 body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
-    margin : 0;
+    background: #eaeaea!important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    color: #333!important;
+    margin : 0!important;
 }
 #content {
   height: 100%;
