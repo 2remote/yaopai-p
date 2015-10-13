@@ -165,6 +165,10 @@ var ChooseImages = React.createClass({
         this.addImage(imageItem);
       }.bind(this));
   },
+  //清空图片
+  clearImage : function(){
+    WorkActions.clearImage();
+  },
   /*
     单个文件上传完毕后，返回值info.Url是图片地址
   */

@@ -9,6 +9,7 @@ var WorkStore = Reflux.createStore({
     this.listenTo(WorkActions.moveUpImage, this.OnMoveUp);
     this.listenTo(WorkActions.moveDownImage, this.OnMoveDown);
     this.listenTo(WorkActions.editImageDes, this.OnEditDes);
+    this.listenTo(WorkActions.clearImage,this.onClearImage);
   },
   onAddImage : function(data){
     data.key = this.images.length;
@@ -20,6 +21,9 @@ var WorkStore = Reflux.createStore({
       this.images.splice(index,1);
     }
     this.trigger(this.images);
+  },
+  onClearImage : function(){
+    this.images = [];
   },
   swapImage : function(index1,index2){
     if(index1 > -1  && index1 < this.images.length && index2 > -1 && index2 < this.images.length){

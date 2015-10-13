@@ -96,8 +96,25 @@ var UploadWorks = React.createClass({
   },
   onStoreChanged : function(data){
     if(data.flag == 'add'){
-      //处理提交新相册
       console.log(data);
+      if(data.hintMessage){
+        this.showMessage(data.hintMessage)
+      }else{
+        this.showMessage('上传成功，您可以继续上传');
+        //清空数据
+        this.setState({
+          title : '',
+          category : '',
+          description : '',
+          service : '',
+          price : 0 ,
+          cover : -1,
+          photos : [],
+          tags : []
+        });
+        //同时要清空WorkStore的数据
+        this.refs.chooseImage.clearImage();
+      }
     }
     if(data.flag == 'get'){
       //处理get请求结果
@@ -163,19 +180,20 @@ var UploadWorks = React.createClass({
   },
   handleSubmit : function(){
     if(this.validate()){
-      var photos =[];
-      this.state.photos.map(function(photo,i){
-        photos[i] = {Url : photo.Url,Description : photo.Description};
-      });
       var data = {
         Title : this.state.title,
-        Photos : photos,
         CategoryId : parseInt(this.state.category),
         Description : this.state.description,
         Service : this.state.service,
         Price : this.state.price,
+        Negotiable : this.state.price==0?true:false,
         Cover : this.state.photos[this.state.cover].Url
       }
+      //针对后端要求，序列化数组
+      this.state.photos.map(function(photo,i){
+        data['photos['+i+'].Url'] = photo.Url;
+        data['photos['+i+'].Description'] = photo.Description;
+      });
       AlbumsActions.add(data);
     }
   },
@@ -220,6 +238,7 @@ var UploadWorks = React.createClass({
             minLength={5}
             placeholder="名称应该在5-25字之间"/>
           <ChooseImage value={this.state.photos}
+            ref="chooseImage"
             updateValue={this.updatePhotos}
             cover={this.state.cover}
             updateCover={this.updateCover}/>
