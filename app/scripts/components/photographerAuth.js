@@ -115,6 +115,10 @@ var MultiImageSelect = React.createClass({
       height: '150px',
     }
   },
+  getInitialState: function () {
+    return {
+    }
+  },
   componentDidMount : function() {
   },
   onUpload : function(imageUrl){
@@ -125,25 +129,72 @@ var MultiImageSelect = React.createClass({
     var index = event.target.getAttribute('data-index');
     this.props.remove(index);
   },
+  handleEnd: function (e) {
+    //---除了DOM操作也没有更好办法，或者DOM操作写法是不是这样
+    var mask = e.currentTarget.querySelector('.mask');
+    mask.style.display = 'block';
+  },
+  hanldeLeave: function (e) {
+    var mask = e.currentTarget.querySelector('.mask');
+    mask.style.display = 'none';
+  },
   render : function(){
+    var style = {
+      worksWrap: {
+        position: 'relative',
+        width: '100px',
+        height: '100px',
+        display: 'inline-block',
+        verticalAlign: 'top',
+        marginRight: '5px',
+        marginBottom: '5px',
+      },
+      mask: {
+        position: 'absolute',
+        left: '0',
+        top: '0',
+        width: '100px',
+        height: '100px',
+        background: 'rgba(0,0,0,.1)',
+        lineHeight: '100px',
+        textAlign: 'center',
+        fontSize: '18px',
+        cursor: 'pointer',
+        display: 'none',
+        color: '#fff',
+        transition: '1s',
+      },
+      addImg: {
+        display: 'inline-block',
+        verticalAlign: 'top',
+        width: '100px',
+        height: '100px',
+      },
+      label: {
+        lineHeight: '100px',
+      }
+    }
     var renderImages ='';
     if(this.props.images.length >0){
       var images = this.props.images.split(',');
       renderImages = images.map(function(image,i){
         return (
-          <div>
-            <img width="120" src={image} />
-            <div><span data-index={i} onClick={this.onRemove}>删除</span></div>
+          <div onMouseEnter={this.handleEnd} onMouseLeave={this.hanldeLeave} style={style.worksWrap}>
+            <img width="100" src={image} />
+            <div ref="mask" className="mask" style={style.mask}><span ref="delete" data-index={i} onClick={this.onRemove}>删除</span></div>
           </div>
         )
       }.bind(this));
     }
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">{this.props.labelName}</label>
+        <label className="control-label col-xs-2" style={style.label}>{this.props.labelName}</label>
           <div className="col-xs-10">
           {renderImages}
-          <ImageInput width={this.props.width}
+          <ImageInput
+            addStyle={style.addImg}
+            colWidth=""
+            width={this.props.width}
             height={this.props.height}
             uid={this.props.uid}
             ref="addImage"
@@ -154,7 +205,6 @@ var MultiImageSelect = React.createClass({
       )
   }
 });
-
 
 var HasCompany = React.createClass({
   getInitialState : function(){
@@ -200,6 +250,7 @@ var CompanyLogo = React.createClass({
           <ImageInput
             width="200"
             height="120"
+            colWidth=""
             uid="companyLogo"
             ref="companyLogo"
             defaultImage ={this.props.value?this.props.value:"img/logo_up.png" }
@@ -612,6 +663,8 @@ var PhotographerAuth = React.createClass({
               <MultiImageSelect ref="works"
                 uid = "worksSelect"
                 labelName="个人作品："
+                width="100"
+                height="100"
                 images={this.state.pAuthData.Works}
                 disabled={this.state.disabled}
                 updateImages={this.updateProducts}

@@ -76,7 +76,7 @@ var ImageInput = React.createClass({
     }
 
     return (
-      <div className={this.props.colWidth}>
+      <div style={this.props.addStyle} className={this.props.colWidth}>
         <div>
           {img}
         </div>
