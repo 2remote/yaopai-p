@@ -2,9 +2,7 @@ var React = require('react');
 var Reflux = require('reflux');
 var Router = require('react-router');
 var Link = Router.Link;
-
-var Header = require('./header');
-var Footer = require('./footer');
+var MasonryMixin = require('react-masonry-mixin')(React);
 
 var AlbumsActions = require('../actions/AlbumsActions');
 var AlbumsStore = require('../stores/AlbumsStore');
@@ -23,9 +21,8 @@ var ProfileHeader = React.createClass({
       background : {
         background : 'url(../../img/footer_bg.png) no-repeat center center',
         width : '100%',
-        height : '410px',
+        height : '360px',
         color: '#ffffff',
-        paddingTop: '50px',
       },
       center : {
         margin : '0 auto',
@@ -102,11 +99,16 @@ var ProfileHeader = React.createClass({
 });
 
 /*
-瀑布流布局
+瀑布流布局配置参数
 */
-
+var masonryOptions = {
+  transitionDuration: '2s',
+  gutter: 15,
+  isFitWidth: true,
+};
 var WorksList = React.createClass({
-  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged')],
+  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged'),
+    MasonryMixin('masonryContainer', masonryOptions)],
   getInitialState : function(){
     return {
       workList : []
@@ -170,19 +172,39 @@ var WorksList = React.createClass({
   },
   render : function(){
     var mainStyle = {
-
+      worksWrap: {
+        marginBottom: '15px',
+        position: 'relative',
+      },
+      description: {
+        width: '100%',
+        paddingLeft: '7px',
+        position: 'absolute',
+        left: 0,
+        bottom: 0,
+        background: 'rgba(0,0,0,.1)',
+        color: '#fefff9',
+      },
+      container: {
+        margin: '0 auto',
+      },
+      number: {
+        fontSize: '12px',
+        paddingLeft: '10px',
+      }
     };
     var photoList = this.state.workList.map(function(work,i){
       return (
-        <div>
-          <img height='200' src={work.Cover} />
-          <div>{work.Title}</div>
-          <div>{work.Photos.length}张</div>
+        <div style={mainStyle.worksWrap}>
+          <img width='300' src={work.Cover} />
+          <div style={mainStyle.description}>
+            <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
+          </div>
         </div>
       );
     }.bind(this));
     return (
-      <div style={mainStyle}>
+      <div ref="masonryContainer" style={mainStyle.container}>
         {photoList}
       </div>
     );
@@ -200,14 +222,12 @@ var Profile = React.createClass({
 
     return (
       <div className="container-fluid no-bgimg gray-bg">
-        <Header />
         <div>
           <ProfileHeader />
-          <WorksList 
+          <WorksList
             type={this.props.params.type =='onSale'?'1':this.props.params.type =='onStore'?'2':this.props.params.type=='fail'?'3':''}
             pageIndex = {this.state.pageIndex}/>
         </div>
-        <Footer />
       </div>
     );
   }
