@@ -9,8 +9,9 @@ var AlbumsActions = Reflux.createActions({
   'delete':{children : ['success','failed']},
   'search':{children : ['success','failed']},
   'getMyAlbums' : {children : ['success','failed']},
-  'getCategories' :{children:['success','failed']}
-  // Here you can list your actions
+  'getCategories' :{children:['success','failed']},
+  'onSale' : {children:['success','failed']},
+  'offSale' : {children:['success','failed']}
 });
 
 AlbumsActions.add.listen(function(data){
@@ -34,5 +35,10 @@ AlbumsActions.getMyAlbums.listen(function(data){
 AlbumsActions.getCategories.listen(function(data){
   HttpFactory.post(API.ALBUMS.categories,data,this.success,this.failed);
 });
-
+AlbumsActions.onSale.listen(function(data){
+  HttpFactory.post(API.ALBUMS.onSale,data,this.success,this.failed);
+});
+AlbumsActions.offSale.listen(function(data){
+  HttpFactory.post(API.ALBUMS.offSale,data,this.success,this.failed);
+});
 module.exports = AlbumsActions;
