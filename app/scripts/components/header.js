@@ -23,29 +23,33 @@ var Header = React.createClass({
 								</a>
 							</div>
 							<div className="collapse navbar-collapse">
-								<ul className="nav navbar-nav">
-									<CityLink />
-								</ul>
-								<ul className="nav navbar-nav">
-									<li>
-										<Link to="/">首页</Link>
-									</li>
-									<li>
-										<Link to="/">作品</Link>
-									</li>
-									<li>
-										<Link to="/">摄影师</Link>
-									</li>
-									<li>
-										<Link to="/">访谈</Link>
-									</li>
-									<li>
-										<Link to="/">活动</Link>
-									</li>
-									<li>
-										<Link to="/">城市之美</Link>
-									</li>
-								</ul>
+                {
+                  /*
+                    <ul className="nav navbar-nav">
+                  <CityLink />
+                </ul>
+                <ul className="nav navbar-nav">
+                  <li>
+                    <Link to="/">首页</Link>
+                  </li>
+                  <li>
+                    <Link to="/">作品</Link>
+                  </li>
+                  <li>
+                    <Link to="/">摄影师</Link>
+                  </li>
+                  <li>
+                    <Link to="/">访谈</Link>
+                  </li>
+                  <li>
+                    <Link to="/">活动</Link>
+                  </li>
+                  <li>
+                    <Link to="/">城市之美</Link>
+                  </li>
+                </ul>
+                  */
+                }
 								<Account />
 							</div>
 					</nav>

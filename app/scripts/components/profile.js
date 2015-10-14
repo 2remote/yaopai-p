@@ -3,6 +3,7 @@ var Reflux = require('reflux');
 var Router = require('react-router');
 var Link = Router.Link;
 var MasonryMixin = require('react-masonry-mixin')(React);
+var Header = require('./header');
 
 var AlbumsActions = require('../actions/AlbumsActions');
 var AlbumsStore = require('../stores/AlbumsStore');
@@ -23,6 +24,7 @@ var ProfileHeader = React.createClass({
         width : '100%',
         height : '360px',
         color: '#ffffff',
+        marginTop: '50px',
       },
       center : {
         margin : '0 auto',
@@ -219,9 +221,9 @@ var Profile = React.createClass({
     }
   },
   render: function() {
-
     return (
       <div className="container-fluid no-bgimg gray-bg">
+        <Header />
         <div>
           <ProfileHeader />
           <WorksList
