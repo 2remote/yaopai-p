@@ -4,6 +4,7 @@ var PAuthActions = require('../actions/PAuthActions');
 var PAuthStore = Reflux.createStore({
   data : {
     pAuth : {},
+    photographer : {},
     hitMessage : '',
     flag : '',
   },
@@ -13,6 +14,8 @@ var PAuthStore = Reflux.createStore({
     this.listenTo(PAuthActions.submitAudit.failed,this.onFailed);
     this.listenTo(PAuthActions.viewAudit.success,this.onViewAudit);
     this.listenTo(PAuthActions.viewAudit.failed,this.onFailed);
+    this.listenTo(PAuthActions.get.success,this.onGetSuccess);
+    this.listenTo(PAuthActions.get.failed,this.onFailed);
   },
   onSubmitAudit : function(data){
     if(data.Success){
@@ -32,6 +35,16 @@ var PAuthStore = Reflux.createStore({
       this.data.hitMessage = data.ErrorMsg;
     }
     this.data.flag = 'viewAudit';
+    this.trigger(this.data);
+  },
+  onGetSuccess : function(res){
+    if(res.Success){
+      this.data.photographer = res;
+      this.data.hintMessage = '';
+    }else{
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'get';
     this.trigger(this.data);
   },
   onFailed : function(data){
