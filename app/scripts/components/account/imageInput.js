@@ -71,21 +71,18 @@ var ImageInput = React.createClass({
     return url;
   },
   render : function (){
-    var img ;
-    if(this.props.defaultImage != ''){
-      img = (
-        <img id={this.props.uid}
-        className="image-button"
-        width={this.props.width}
-        height={this.props.height}
-        src={this.parseImageUrl(this.props.defaultImage)} />
-      );
-    }
-
+    var imgStyle ={
+      cursor : 'pointer',
+      borderRadius : this.props.circle?'50%':'0'
+    };
     return (
       <div style={this.props.addStyle} className={this.props.colWidth}>
         <div>
-          {img}
+          <img id={this.props.uid}
+            style={imgStyle}
+            width={this.props.width}
+            height={this.props.height}
+            src={this.parseImageUrl(this.props.defaultImage)} />
         </div>
       </div>
     );

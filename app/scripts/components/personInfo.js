@@ -7,6 +7,7 @@ var Button = require('react-bootstrap').Button;
 var ImageInput = require("./account/imageInput");
 var AccountActions = require("../actions/AccountActions");
 var AccountStore = require("../stores/AccountStore");
+var UserActions = require("../actions/UserActions");
 var TextInput = require('./account/textInput');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
@@ -41,7 +42,7 @@ var UserImage = React.createClass({
         <div className="form-group">
           <label className="control-label col-xs-2" style={style.label}>头像：</label>
           <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput width="150" height="150" uid="uploadAvator" type="user" defaultImage={image} onUpload={this.onUpload}/>
+            <ImageInput width="150" height="150" uid="uploadAvator" type="user" defaultImage={image} onUpload={this.onUpload} circle="1"/>
           </div>
         </div>
       );
@@ -136,6 +137,7 @@ var PersonInfo = React.createClass({
     if(data.flag == 'updateInfo'){
       console.log(data.hintMessage);
       this.showMessage(data.hintMessage);
+      UserActions.currentUser();
     }
   },
   showMessage : function(message){
