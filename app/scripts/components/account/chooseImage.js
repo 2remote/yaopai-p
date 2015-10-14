@@ -1,4 +1,5 @@
 var React = require('react');
+var TextInput = require('./textInput');
 var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
 var WorkStore = require('../../stores/WorkStore');
@@ -52,10 +53,10 @@ var ImageItem = React.createClass({
   },
   render : function(){
     var coverStyle = {
-      color : 'blue'
+      color : '#337ab7',
     };
-    var nomalStyle = {
-      color : '#000'
+    var normalStyle = {
+      color : '#b3b3b3',
     }
     return (
       <div className="image-item">
@@ -71,19 +72,25 @@ var ImageItem = React.createClass({
           <img height="75" width="75" src={this.props.imageData.Url+'?imageMogr2/gravity/Center/thumbnail/!75x75r/crop/75x75/interlace/1'} />
         </div>
         <div className="main-des">
-          <textarea type="textarea" ref="description" onChange={this.handleChange}  />
+          <TextInput
+          textClassName="col-xs-12"
+          type="textarea"
+          ref="description"
+          onChange={this.handleChange}
+          placeholder=""
+        />
         </div>
         <div className="delete-button">
           <div className="right-icon">
             <span className="glyphicon glyphicon-picture image-button"
-              style={this.props.isCover?coverStyle:nomalStyle}
+              style={this.props.isCover?coverStyle:normalStyle}
               onClick={this.setCover}>
               封面
             </span>
           </div>
           <div className="right-icon">
             <span className="glyphicon glyphicon-remove-circle image-button"
-              onClick={this.deleteItem}>
+            style={normalStyle}  onClick={this.deleteItem}>
               删除
             </span>
           </div>
@@ -239,7 +246,7 @@ var ChooseImages = React.createClass({
     return (
         <div className="form-group">
           <label className="control-label col-xs-2">上传图片：</label>
-          <div id="pickfilesCont" className="col-xs-10">
+          <div id="pickfilesCont" className="col-xs-8">
             <div>
               <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
             </div>
