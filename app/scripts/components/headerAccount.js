@@ -65,25 +65,32 @@ var Acount = React.createClass({
         color: '#333',
         whiteSpace: 'nowrap',
         cursor : 'pointer',
+      },
+      avatar : {
+        borderRadius : '50%',
+      },
+      hide : {
+        display : 'none',
       }
     };
 
   	if(this.state.currentUser.isLogin){
 		return (
       <ul className= "nav navbar-nav navbar-right  right-header-nav">
-        <li style={headerStyle.liStyle}>
+        <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
           <Link to="/account/pAuth">
             <img height="20" src="img/camera.png" />
           </Link>
         </li>
-        <li style={headerStyle.liStyle}>
+        <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
           <Link to="/account/upload">
             <img height="20" src="img/shangchuan.png" />
           </Link>
         </li>
         <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <img height="40" src="img/default_user_img_o.png" />
+            <img height="40" style= {headerStyle.avatar}
+              src={this.state.currentUser.avatar? this.state.currentUser.avatar+'?imageMogr2/gravity/Center/thumbnail/!40x40r/crop/40x40/interlace/1' :"img/default_user_img_o.png"} />
           </a>
           <ul className="dropdown-menu">
             <li>

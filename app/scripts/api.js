@@ -19,6 +19,7 @@ var API_CONST = {
   PHOTOGRAPHER :{
     submitAudit : API_URL + 'Photographer.SubmitAudit',
     viewAudit : API_URL + 'Photographer.ViewAudit',
+    get : API_URL + 'Photographer.Get',
   },
   ALBUMS : {
     add : API_URL + 'Albums.Add',
