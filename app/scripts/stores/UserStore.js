@@ -172,11 +172,13 @@ var UserStore = Reflux.createStore({
       this.userData.userName = '';
       this.userData.isLogin = false;
       this.userData.userType = '';
+      this.userData.avatar = '';
       this.userData.userState = '';
     } else {
       this.userData.userId = userData.Id;
       this.userData.userName = userData.Name;
       this.userData.userType = userData.Type;
+      this.userData.avatar = userData.Avatar;
       this.userData.isLogin = true;
       // this.userData.userType = userData.userType;
       // this.userData.userState = userData.userState;

@@ -2,20 +2,52 @@ var React = require('react');
 var Reflux = require('reflux');
 var Router = require('react-router');
 var Link = Router.Link;
+var History = Router.History
 var MasonryMixin = require('react-masonry-mixin')(React);
 var Header = require('./header');
 
 var AlbumsActions = require('../actions/AlbumsActions');
 var AlbumsStore = require('../stores/AlbumsStore');
+var PhotograhperActions = require('../actions/PAuthActions');
+var PhotograhperStore = require('../stores/PAuthStore');
+var UserActions = require('../actions/UserActions');
+var UserStore = require('../stores/UserStore');
 
 var ProfileHeader = React.createClass({
-  getDefaultProps: function () {
+  mixins : [Reflux.listenTo(PhotograhperStore,'onStoreChanged'),Reflux.listenTo(UserStore,'onUserStoreChanged'),History],
+  getInitialState : function(){
     return {
-      avatarSrc: '../../img/user.png',
-      name: '怪盗基德',
-      area: '郑东新区',
+      avatarSrc: 'img/user.png',
+      name: '',
+      area: '',
       introduction: '这个人很懒，什么都没有留下',
     }
+  },
+  onUserStoreChanged : function(data){
+    if(data.isLogin){
+      //获取摄影师信息
+      PhotograhperActions.get({Id : data.userId,Fields : 'Id,Signature,ProvinceName,CityName,CountyName,User.Avatar,User.NickName' });
+    }else{
+      this.history.pushState(null,'/');
+    }
+  },
+  onStoreChanged : function(data){
+    if(data.flag == 'get'){
+      if(data.hintMessage){
+        console.log(data.hintMessage);
+      }else{
+        var info = {
+          avatarSrc : data.photographer.User.Avatar?data.photographer.User.Avatar:'img/user.png',
+          name : data.photographer.User.NickName,
+          area : data.photographer.ProvinceName + '/' +data.photographer.CityName +'/' +data.photographer.CountyName,
+          introduction : data.photographer.Signature?data.photographer.Signature : '这个人很懒，什么都没有留下'
+        };
+        this.setState(info);
+      }
+    }
+  },
+  componentWillMount : function(){
+    UserActions.currentUser();
   },
   render : function(){
     var headerStyle = {
@@ -75,10 +107,10 @@ var ProfileHeader = React.createClass({
       <div>
         <div style={headerStyle.background}>
           <div style={headerStyle.center}>
-            <img style={headerStyle.avatar} width="150" height="150" src={this.props.avatarSrc} />
-            <p style={headerStyle.name}>{this.props.name}</p>
-            <p style={headerStyle.area}>{this.props.area}</p>
-            <p style={headerStyle.introduction}>{this.props.introduction}</p>
+            <img style={headerStyle.avatar} width="150" height="150" src={this.state.avatarSrc+'?imageMogr2/gravity/Center/thumbnail/!150x150r/crop/150x150/interlace/1'} />
+            <p style={headerStyle.name}>{this.state.name}</p>
+            <p style={headerStyle.area}>{this.state.area}</p>
+            <p style={headerStyle.introduction}>{this.state.introduction}</p>
           </div>
         </div>
         <div>
@@ -110,6 +142,7 @@ var masonryOptions = {
 };
 var WorksList = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged'),
+    Reflux.listenTo(UserStore,'onUserStoreChanged'),
     MasonryMixin('masonryContainer', masonryOptions)],
   getInitialState : function(){
     return {
@@ -129,6 +162,14 @@ var WorksList = React.createClass({
       pageIndex : 1,
     }
   },
+  onUserStoreChanged : function(data){
+    if(data.isLogin){
+      //获取摄影师的相册
+      this.getMyAlbums(data.userId);
+    }else{
+      this.history.pushState(null,'/');
+    }
+  },
   onStoreChanged : function(data){
     if(data.hintMessage){
       console.log(data.hintMessage);
@@ -136,11 +177,12 @@ var WorksList = React.createClass({
       this.setState({workList : data.workList});
     }
   },
-  componentWillMount : function(){
+  getMyAlbums : function(id){
     var data ={
       Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
       //PageIndex : this.props.pageIndex,
       //PageSize : 12,
+      UserId : id,
     };
     if(this.props.type == '1'){
       data.Display = true;
@@ -151,25 +193,6 @@ var WorksList = React.createClass({
     }else if(this.props.type == '3'){
       data.IsPending = true;
       AlbumsActions.getMyAlbums(data);
-    }
-  },
-  componentWillReceiveProps : function(nextProps){
-    if(nextProps.type != this.props.type || nextProps.pageIndex != this.props.pageIndex){
-      var data ={
-        Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
-        //PageIndex : nextProps.pageIndex,
-        //PageSize : 12,
-      };
-      if(nextProps.type == '1'){
-        data.Display = true;
-        AlbumsActions.getMyAlbums(data);
-      }else if(nextProps.type == '2'){
-        data.Display = false;
-        AlbumsActions.getMyAlbums(data);
-      }else if(nextProps.type == '3'){
-        data.IsPending = true;
-        AlbumsActions.getMyAlbums(data);
-      }
     }
   },
   render : function(){
@@ -198,7 +221,7 @@ var WorksList = React.createClass({
     var photoList = this.state.workList.map(function(work,i){
       return (
         <div style={mainStyle.worksWrap}>
-          <img width='300' src={work.Cover} />
+          <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
           <div style={mainStyle.description}>
             <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
           </div>

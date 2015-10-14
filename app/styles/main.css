@@ -21,6 +21,7 @@ body {
     opacity:0.95;
     position: fixed;
     z-index: 999;
+    width: 100%;
 }
 .header nav{
     background-color: #1f2f3c;
