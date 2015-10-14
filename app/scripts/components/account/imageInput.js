@@ -55,23 +55,30 @@ var ImageInput = React.createClass({
     this.uploaderOption.init.FileUploaded = this.onFileUploaded;
     this.uploader = Qiniu.uploader(this.uploaderOption);
   },
+  parseImageUrl :function(url){
+    url = url + '?imageMogr2/gravity/Center'
+    if(this.props.width && this.props.height){
+      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height+'r'; //限制短边
+      url = url + '/crop/'+this.props.width + 'x' + this.props.height; //剪裁
+    }
+    if(this.props.width && !this.props.height){
+      url = url + '/thumbnail/'+this.props.width+'x'; //只缩放宽度,不剪裁
+    }
+    if(this.props.height && !this.props.width){
+      url = url + '/thumbnail/x'+this.props.height; //只缩放高度,不剪裁
+    }
+    url = url + '/interface/1'; //渐进
+    return url;
+  },
   render : function (){
     var img ;
-    if(this.state.imageUrl != ''){
-      img = (
-        <img id={this.props.uid}
-          className="image-button"
-          width={this.props.width}
-          height={this.props.height}
-          src={this.state.imageUrl} />
-      );
-    }else{
+    if(this.props.defaultImage != ''){
       img = (
         <img id={this.props.uid}
         className="image-button"
         width={this.props.width}
         height={this.props.height}
-        src={this.props.defaultImage} />
+        src={this.parseImageUrl(this.props.defaultImage)} />
       );
     }
 

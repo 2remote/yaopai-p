@@ -124,7 +124,7 @@ var MultiImageSelect = React.createClass({
   },
   onUpload : function(imageUrl){
     this.props.updateImages(imageUrl);
-    this.refs.addImage.setState({imageUrl : ''}); //清空图片
+    //this.refs.addImage.setState({imageUrl : ''}); //清空图片
   },
   onRemove : function(event){
     var index = event.target.getAttribute('data-index');
@@ -138,6 +138,21 @@ var MultiImageSelect = React.createClass({
   hanldeLeave: function (e) {
     var mask = e.currentTarget.querySelector('.mask');
     mask.style.display = 'none';
+  },
+  parseImageUrl :function(url){
+    url = url + '?imageMogr2/gravity/Center'
+    if(this.props.width && this.props.height){
+      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height+'r'; //限制短边
+      url = url + '/crop/'+this.props.width + 'x' + this.props.height; //剪裁
+    }
+    if(this.props.width && !this.props.height){
+      url = url + '/thumbnail/'+this.props.width+'x'; //只缩放宽度,不剪裁
+    }
+    if(this.props.height && !this.props.width){
+      url = url + '/thumbnail/x'+this.props.height; //只缩放高度,不剪裁
+    }
+    url = url + '/interface/1'; //渐进
+    return url;
   },
   render : function(){
     var style = {
@@ -185,7 +200,7 @@ var MultiImageSelect = React.createClass({
       renderImages = images.map(function(image,i){
         return (
           <div onMouseEnter={this.handleEnd} onMouseLeave={this.hanldeLeave} style={style.worksWrap}>
-            <img width="100" height="100" src={image} />
+            <img width="100" height="100" src={this.parseImageUrl(image)} />
             <div ref="mask" className="mask" style={style.mask}><span ref="delete" data-index={i} onClick={this.onRemove}>删除</span></div>
           </div>
         )
