@@ -245,20 +245,39 @@ var HasCompany = React.createClass({
   },
   render : function (){
     var normalStyle = {
+      width: '78px',
+      lineHeight: '40px',
+      border: '1px solid #e0e0e0',
+      display: 'inline-block',
+      textAlign: 'center',
+      cursor: 'pointer',
     };
     var noSelected = {
-      color : 'blue'
+      background : '#337ab7',
+      width: '78px',
+      lineHeight: '40px',
+      border: '1px solid #e0e0e0',
+      color: '#fff',
+      display: 'inline-block',
+      textAlign: 'center',
+      cursor: 'pointer',
     };
     var yesSelected = {
-      color : 'red'
+      width: '78px',
+      lineHeight: '40px',
+      background : 'red',
+      border: '1px solid #e0e0e0',
+      color: '#fff',
+      display: 'inline-block',
+      textAlign: 'center',
+      cursor: 'pointer',
     };
     return (
       <div className= "form-group">
         <label className="control-label col-xs-2">是否有工作室：</label>
-        <input type="checkbox" ClassName="col-xs-6" onChange={this.onChange} checked={this.props.checked} disabled={this.props.disabled}/>
-        <div>
-          <div onClick={this.onNoClick} style={this.props.checked?normalStyle:noSelected}>NO</div>
-          <div onClick={this.onYesClick} style={this.props.checked?yesSelected:normalStyle}>YES</div>
+        <div className="col-xs-4">
+          <span onClick={this.onNoClick} style={this.props.checked?normalStyle:noSelected}>NO</span>
+        <span onClick={this.onYesClick} style={this.props.checked?yesSelected:normalStyle}>YES</span>
         </div>
       </div>
     );
@@ -715,7 +734,7 @@ var PhotographerAuth = React.createClass({
                 labelName="工作室名称："
                 value = {this.state.pAuthData.StudioName}
                 updateValue = {this.updateCompanyName}
-                minLength={3}
+                minLength={2}
                 disabled={this.state.disabled}
                 textClassName="col-xs-4"
                 placeholder=""/>
@@ -744,15 +763,15 @@ var PhotographerAuth = React.createClass({
               <TextInput ref="companyIntro"
                 type="textarea"
                 disabled={this.state.disabled}
-                labelName="工作室简介:"
+                labelName="工作室简介："
                 value = {this.state.pAuthData.StudioIntroduction}
                 updateValue = {this.updateCompanyIntro}
                 minLength={10}
                 textClassName="col-xs-6"
                 placeholder=""/>
-              <Button className="col-xs-offset-2" 
-                disabled={this.state.disabled} 
-                bsStyle="primary" 
+              <Button className="col-xs-offset-2"
+                disabled={this.state.disabled}
+                bsStyle="primary"
                 onClick={this.handleSubmit}>
                 提交
               </Button>
