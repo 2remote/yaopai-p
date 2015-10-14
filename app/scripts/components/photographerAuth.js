@@ -113,6 +113,7 @@ var MultiImageSelect = React.createClass({
       uid : 'multiImageSelect',
       width: '150px',
       height: '150px',
+      maxCount : 4,
     }
   },
   getInitialState: function () {
@@ -123,7 +124,7 @@ var MultiImageSelect = React.createClass({
   },
   onUpload : function(imageUrl){
     this.props.updateImages(imageUrl);
-    this.refs.addImage.setState({imageUrl : ''}); //清空图片
+    //this.refs.addImage.setState({imageUrl : ''}); //清空图片
   },
   onRemove : function(event){
     var index = event.target.getAttribute('data-index');
@@ -137,6 +138,21 @@ var MultiImageSelect = React.createClass({
   hanldeLeave: function (e) {
     var mask = e.currentTarget.querySelector('.mask');
     mask.style.display = 'none';
+  },
+  parseImageUrl :function(url){
+    url = url + '?imageMogr2/gravity/Center'
+    if(this.props.width && this.props.height){
+      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height+'r'; //限制短边
+      url = url + '/crop/'+this.props.width + 'x' + this.props.height; //剪裁
+    }
+    if(this.props.width && !this.props.height){
+      url = url + '/thumbnail/'+this.props.width+'x'; //只缩放宽度,不剪裁
+    }
+    if(this.props.height && !this.props.width){
+      url = url + '/thumbnail/x'+this.props.height; //只缩放高度,不剪裁
+    }
+    url = url + '/interface/1'; //渐进
+    return url;
   },
   render : function(){
     var style = {
@@ -178,24 +194,32 @@ var MultiImageSelect = React.createClass({
       }
     }
     var renderImages ='';
+    var canAddImage = true;
     if(this.props.images && this.props.images.length >0){
       var images = this.props.images.split(',');
       renderImages = images.map(function(image,i){
         return (
           <div onMouseEnter={this.handleEnd} onMouseLeave={this.hanldeLeave} style={style.worksWrap}>
-            <img width="100" height="100" src={image} />
+            <img width="100" height="100" src={this.parseImageUrl(image)} />
             <div ref="mask" className="mask" style={style.mask}><span ref="delete" data-index={i} onClick={this.onRemove}>删除</span></div>
           </div>
         )
       }.bind(this));
     }
+    //判断当前是否可以增加图片
+    if(this.props.images && this.props.images.length >0){
+      if(this.props.images.length >= this.props.maxCount){
+        canAddImage = false;
+      }
+    }
+    if(this.props.disabled) canAddImage = false;
     return (
       <div className="form-group">
         <label className="control-label col-xs-2" style={style.label}>{this.props.labelName}</label>
           <div className="col-xs-10">
           {renderImages}
           <ImageInput
-            addStyle={style.addImg}
+            addStyle={canAddImage?style.addImg:style.addImgHide}
             colWidth=""
             width={this.props.width}
             height={this.props.height}
@@ -680,6 +704,7 @@ var PhotographerAuth = React.createClass({
                 height="100"
                 images={this.state.pAuthData.Works}
                 disabled={this.state.disabled}
+                maxCount={8}
                 updateImages={this.updateProducts}
                 remove={this.removeWorks}/>
               <HasCompany ref="hasCompany"
@@ -703,6 +728,7 @@ var PhotographerAuth = React.createClass({
                 height="100px"
                 uid = "companyImagesSelect"
                 disabled={this.state.disabled}
+                maxCount={4}
                 labelName="工作室照片："
                 images={this.state.pAuthData.StudioImages}
                 remove={this.removeCompanyImage}

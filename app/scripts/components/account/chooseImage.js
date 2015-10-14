@@ -68,7 +68,7 @@ var ImageItem = React.createClass({
           </div>
         </div>
         <div className="main-image">
-          <img height="75" width="75" src={this.props.imageData.Url} />
+          <img height="75" width="75" src={this.props.imageData.Url+'?imageMogr2/gravity/Center/thumbnail/!75x75r/crop/75x75/interlace/1'} />
         </div>
         <div className="main-des">
           <textarea type="textarea" ref="description" onChange={this.handleChange}  />

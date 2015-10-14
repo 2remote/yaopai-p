@@ -41,7 +41,7 @@ var UserImage = React.createClass({
         <div className="form-group">
           <label className="control-label col-xs-2" style={style.label}>头像：</label>
           <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput uid="uploadAvator" type="user" defaultImage={image} onUpload={this.onUpload}/>
+            <ImageInput width="150" height="150" uid="uploadAvator" type="user" defaultImage={image} onUpload={this.onUpload}/>
           </div>
         </div>
       );

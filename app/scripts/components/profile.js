@@ -139,8 +139,8 @@ var WorksList = React.createClass({
   componentWillMount : function(){
     var data ={
       Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
-      PageIndex : this.props.pageIndex,
-      PageSize : 12,
+      //PageIndex : this.props.pageIndex,
+      //PageSize : 12,
     };
     if(this.props.type == '1'){
       data.Display = true;
@@ -157,8 +157,8 @@ var WorksList = React.createClass({
     if(nextProps.type != this.props.type || nextProps.pageIndex != this.props.pageIndex){
       var data ={
         Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
-        PageIndex : nextProps.pageIndex,
-        PageSize : 12,
+        //PageIndex : nextProps.pageIndex,
+        //PageSize : 12,
       };
       if(nextProps.type == '1'){
         data.Display = true;
