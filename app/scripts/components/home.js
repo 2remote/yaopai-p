@@ -237,7 +237,7 @@ var RegisterButtons = React.createClass({
     }
     return (
       <div>
-        <span style={textStyle}>点登录表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
+        <span style={textStyle}>点注册表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
         <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
         <div style={openLogin}><span>社交账号直接登录</span><img style={imageBtn} onClick={this.openLogin} src="img/wechat.png" /></div>
         <div style={openLogin}><span>已经有账号？<a href="#" onClick={this.props.toLogin}>直接登录</a></span></div>
