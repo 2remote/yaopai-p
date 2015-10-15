@@ -131,7 +131,7 @@ var PersonInfo = React.createClass({
       }else{
         //未取得userdetail
         console.log(data.hitMessage);
-        this.history.pushState(null,'/');
+        //this.history.pushState(null,'/');
       }
     }
     if(data.flag == 'updateInfo'){
