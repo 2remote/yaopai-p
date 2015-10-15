@@ -48,7 +48,13 @@ var UserStore = Reflux.createStore({
       if(temp.loginToken && temp.loginToken != ''){
         //得到loginToken，自动登录
         UserActions.loginWithToken({token : temp.loginToken});
+      }else{
+        this.setCurrentUser(null);
+        this.trigger(this.userData);
       }
+    }else{
+      this.setCurrentUser(null);
+      this.trigger(this.userData);
     }
   },
   onLoginSuccess: function(data) {
@@ -170,6 +176,7 @@ var UserStore = Reflux.createStore({
     if (!userData) {
       this.userData.userId = '';
       this.userData.userName = '';
+      this.userData.local = true;
       this.userData.isLogin = false;
       this.userData.userType = '';
       this.userData.avatar = '';
@@ -179,9 +186,8 @@ var UserStore = Reflux.createStore({
       this.userData.userName = userData.Name;
       this.userData.userType = userData.Type;
       this.userData.avatar = userData.Avatar;
+      this.userData.local = userData.Local;
       this.userData.isLogin = true;
-      // this.userData.userType = userData.userType;
-      // this.userData.userState = userData.userState;
     }
   },
 

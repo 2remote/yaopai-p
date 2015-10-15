@@ -8,6 +8,7 @@ var ImageInput = require("./account/imageInput");
 var AccountActions = require("../actions/AccountActions");
 var AccountStore = require("../stores/AccountStore");
 var UserActions = require("../actions/UserActions");
+var UserStore = require("../stores/UserStore");
 var TextInput = require('./account/textInput');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
@@ -42,7 +43,15 @@ var UserImage = React.createClass({
         <div className="form-group">
           <label className="control-label col-xs-2" style={style.label}>头像：</label>
           <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput width="150" height="150" uid="uploadAvator" type="user" defaultImage={image} onUpload={this.onUpload} circle="1"/>
+            <ImageInput 
+              width="150" 
+              height="150" 
+              uid="uploadAvator" 
+              type="user" 
+              defaultImage={image} 
+              onUpload={this.onUpload}
+              disabled = {this.props.disabled} 
+              circle="1"/>
           </div>
         </div>
       );
@@ -80,15 +89,15 @@ var UserGender = React.createClass({
     if(this.props.value == 1){
       buttons = (
         <div className="col-xs-4">
-          <Button bsStyle="primary" style={style.commonButton} onClick={this.beMan} active>男</Button>
-          <Button style={style.commonButton} onClick={this.beWeman}>女</Button>
+          <Button disabled={this.props.disabled} bsStyle="primary" style={style.commonButton} onClick={this.beMan} active>男</Button>
+          <Button disabled={this.props.disabled} style={style.commonButton} onClick={this.beWeman}>女</Button>
         </div>
       );
     }else{
       buttons = (
         <div className="col-xs-4">
-          <Button style={style.commonButton} onClick={this.beMan} >男</Button>
-          <Button bsStyle="primary" style={style.commonButton} onClick={this.beWeman} active>女</Button>
+          <Button disabled={this.props.disabled} style={style.commonButton} onClick={this.beMan} >男</Button>
+          <Button disabled={this.props.disabled} bsStyle="primary" style={style.commonButton} onClick={this.beWeman} active>女</Button>
         </div>
       )
     }
@@ -102,12 +111,13 @@ var UserGender = React.createClass({
 });
 
 var PersonInfo = React.createClass({
-  mixins : [Reflux.listenTo(AccountStore,'onAccountChanged'),History],
+  mixins : [Reflux.listenTo(AccountStore,'onAccountChanged'), Reflux.listenTo(UserStore,'onUserStoreChange'),History],
   getInitialState : function(){
     return {
       nickName : '',
-      gender : '',
-      avatar : ''
+      gender : 1,
+      avatar : '',
+      editable : true
     }
   },
   updateInfo : function(){
@@ -117,7 +127,22 @@ var PersonInfo = React.createClass({
     });
   },
   componentDidMount : function(){
-    AccountActions.userDetail({Fields:'Id,NickName,Sex,Avatar'});
+    UserActions.currentUser();
+  },
+  onUserStoreChange : function(data){
+    if(data.isLogin){
+      if(data.local){
+        //本地用户，需要读取用户详细信息
+        this.setState({editable : true});
+        AccountActions.userDetail({Fields:'Id,NickName,Sex,Avatar'});
+      }else{
+        //三方登录用户，显示用户信息，不能修改信息
+        this.setState({nickName : data.userName, avatar : data.avatar, editable : false})
+      }
+    }else{
+      //没有登录跳转到首页登录界面
+      this.history.pushState(null,'/');
+    }
   },
   onAccountChanged : function(data){
     if(data.flag == 'userDetail'){
@@ -129,9 +154,7 @@ var PersonInfo = React.createClass({
           avatar : data.detail.Avatar
         });
       }else{
-        //未取得userdetail
-        console.log(data.hitMessage);
-        //this.history.pushState(null,'/');
+        this.showMessage(data.hitMessage);
       }
     }
     if(data.flag == 'updateInfo'){
@@ -163,14 +186,15 @@ var PersonInfo = React.createClass({
       <div style={style.outer}>
         <InfoHeader infoTitle="个人信息" infoIconClass="glyphicon glyphicon-user"/>
         <form className='form-horizontal'>
-          <UserImage defaultImage={this.state.avatar} updateAvatar={this.updateAvatar}/>
+          <UserImage defaultImage={this.state.avatar} updateAvatar={this.updateAvatar} disabled={!this.state.editable}/>
           <TextInput ref="nickName" 
             labelName="昵称：" 
             value={this.state.nickName} 
             updateValue={this.updateNickName} 
-            textClassName='col-xs-3'/>
-          <UserGender ref="gender" value={this.state.gender} updateValue={this.updateGender}/>
-          <button className="btn btn-primary col-xs-offset-2" onClick={this.updateInfo}>保存</button>
+            textClassName='col-xs-3'
+            disabled={!this.state.editable}/>
+          <UserGender ref="gender" value={this.state.gender} updateValue={this.updateGender} disabled={!this.state.editable}/>
+          <button className="btn btn-primary col-xs-offset-2" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
           <ToolTip ref="toolTip" title=""/>
         </form>
       </div>

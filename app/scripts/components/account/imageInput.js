@@ -30,6 +30,7 @@ var ImageInput = React.createClass({
   },
   getDefaultProps : function(){
     return {
+      disabled : false,
       defaultImage : 'img/tianjia.png', //指定未上传时的图片
       colWidth : 'col-xs-4',  //指定所占列宽
       width : '150',  //图片高度
@@ -51,9 +52,11 @@ var ImageInput = React.createClass({
   },
 
   componentDidMount : function() {
-    this.uploaderOption.browse_button = this.props.uid;
-    this.uploaderOption.init.FileUploaded = this.onFileUploaded;
-    this.uploader = Qiniu.uploader(this.uploaderOption);
+    if(!this.props.disabled){
+      this.uploaderOption.browse_button = this.props.uid;
+      this.uploaderOption.init.FileUploaded = this.onFileUploaded;
+      this.uploader = Qiniu.uploader(this.uploaderOption);
+    }
   },
   parseImageUrl :function(url){
     url = url + '?imageMogr2/gravity/Center'
@@ -75,11 +78,24 @@ var ImageInput = React.createClass({
       cursor : 'pointer',
       borderRadius : this.props.circle?'50%':'0'
     };
+    var noStyle = {
+      borderRadius : this.props.circle?'50%':'0'
+    };
+    var hide = {
+      display : 'none'
+    }
     return (
       <div style={this.props.addStyle} className={this.props.colWidth}>
-        <div>
+        <div style={this.props.disabled?hide:{}}>
           <img id={this.props.uid}
-            style={imgStyle}
+            style={this.props.disabled? hide : imgStyle}
+            width={this.props.width}
+            height={this.props.height}
+            src={this.parseImageUrl(this.props.defaultImage)} />
+        </div>
+        <div style={this.props.disabled? {} : hide}>
+          <img
+            style={this.props.disabled? noStyle : hide}
             width={this.props.width}
             height={this.props.height}
             src={this.parseImageUrl(this.props.defaultImage)} />
