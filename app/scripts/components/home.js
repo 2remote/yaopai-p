@@ -246,18 +246,6 @@ var RegisterButtons = React.createClass({
   }
 });
 var LoginForm = React.createClass({
-  mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History],
-  handleLoginResult : function(data){
-    if(data.flag == 'login' || data.flag == 'currentUser' || data.flag == 'loginToken'){
-      if(data.hintMessage){
-        this.props.handleHint(data.hintMessage);
-      }else{
-        //登录成功,跳转到account界面
-        console.log('登录成功');
-        this.history.pushState(null,'/account');
-      }
-    }
-  },
   handleLogin : function(){
     var phone = this.refs.phoneInput.getValue();
     var password = this.refs.passwordInput.getValue();
@@ -392,6 +380,18 @@ var RegisterForm = React.createClass({
 });
 
 var Home = React.createClass({
+  mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History],
+  handleLoginResult : function(data){
+    if(data.flag == 'login' || data.flag == 'currentUser' || data.flag == 'loginToken'){
+      if(data.hintMessage){
+        this.handleHint(data.hintMessage);
+      }else{
+        //登录成功,跳转到account界面
+        console.log('登录成功');
+        this.history.pushState(null,'/account');
+      }
+    }
+  },
   getInitialState : function(){
     return{
       show : 'register',
