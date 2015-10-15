@@ -46,15 +46,18 @@ var Acount = React.createClass({
   getContent : function(){
     var headerStyle= {
       liStyle : {
-        height : '50px',
-        width : '40px',
-        paddingTop : '15px'
+        lineHeight: '50px',
+        padding: '0 10px',
+      },
+      personCenter: {
+        padding: '0 10px',
+        marginRight: '10px',
+        lineHeight: '50px',
       },
       loginBtn : {
         color : '#eeeeee',
         cursor : 'pointer',
         marginRight :'20px',
-        marginTop : '10px',
       },
       logoutBtn : {
         display: 'block',
@@ -74,21 +77,21 @@ var Acount = React.createClass({
       }
     };
 
-  	if(this.state.currentUser.isLogin){
+    if(this.state.currentUser.isLogin){
 		return (
       <ul className= "nav navbar-nav navbar-right  right-header-nav">
         <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
-          <Link to="/account/pAuth">
+          <Link to="/account/pAuth" title="摄影师认证" style={headerStyle.liStyle}>
             <img height="20" src="img/camera.png" />
           </Link>
         </li>
         <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
-          <Link to="/account/upload">
+          <Link to="/account/upload" title="作品上传" style={headerStyle.liStyle}>
             <img height="20" src="img/shangchuan.png" />
           </Link>
         </li>
         <li className="dropdown">
-          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <a href="#" title="个人中心" className="dropdown-toggle" style={headerStyle.personCenter} data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             <img height="40" style= {headerStyle.avatar}
               src={this.state.currentUser.avatar? this.state.currentUser.avatar+'?imageMogr2/gravity/Center/thumbnail/!40x40r/crop/40x40/interlace/1' :"img/default_user_img_o.png"} />
           </a>
@@ -119,8 +122,8 @@ var Acount = React.createClass({
 	}else{
 		return (
 				<ul className= "nav navbar-nav navbar-right">
-					<li style={headerStyle.loginBtn} onClick={this.handleLogin}>
-              <span className="glyphicon glyphicon-log-in" aria-hidden="true"></span>  登录
+					<li style={headerStyle.loginBtn}>
+            <Link to="/" title="登录" style={headerStyle.liStyle}>登录</Link>
           </li>
 				</ul>
 			)
@@ -129,13 +132,12 @@ var Acount = React.createClass({
 	render : function(){
 		return(
 				<div className="right-header-nav">
-  				{
-  					this.getContent()
-  				}
+        {
+          this.getContent()
+        }
           <LoginPanel ref="loginModal" register={this.handleRegister} />
           <RegisterPanel ref="registerModal" login={this.handleLogin}/>
 				</div>
-			
 		);
 	}
 });
