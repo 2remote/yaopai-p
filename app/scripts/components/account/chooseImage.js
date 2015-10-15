@@ -72,13 +72,7 @@ var ImageItem = React.createClass({
           <img height="75" width="75" src={this.props.imageData.Url+'?imageMogr2/gravity/Center/thumbnail/!75x75r/crop/75x75/interlace/1'} />
         </div>
         <div className="main-des">
-          <TextInput
-          textClassName="col-xs-12"
-          type="textarea"
-          ref="description"
-          onChange={this.handleChange}
-          placeholder=""
-        />
+          <Input type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
         </div>
         <div className="delete-button">
           <div className="right-icon">
