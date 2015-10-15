@@ -248,7 +248,7 @@ var RegisterButtons = React.createClass({
 var LoginForm = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History],
   handleLoginResult : function(data){
-    if(data.flag == 'login'){
+    if(data.flag == 'login' || data.flag == 'currentUser' || data.flag == 'loginToken'){
       if(data.hintMessage){
         this.props.handleHint(data.hintMessage);
       }else{
@@ -396,6 +396,9 @@ var Home = React.createClass({
     return{
       show : 'register',
     }
+  },
+  componentDidMount : function(){
+    UserActions.currentUser();
   },
   handleHint: function (title) {
     this.refs.toolTip.toShow(title);
