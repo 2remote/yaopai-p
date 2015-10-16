@@ -401,7 +401,7 @@ var PhotographerAuth = React.createClass({
     if(!message){
       var data = {
         RealName : this.state.pAuthData.RealName,
-        BusinessLocation : this.state.pAuthData.CountyId?this.state.pAuthData.CountyId:this.pAuthData.CityId?this.pAuthData.CityId:this.pAuthData.ProvinceId,
+        BusinessLocation : this.state.pAuthData.CountyId?this.state.pAuthData.CountyId:this.state.pAuthData.CityId?this.state.pAuthData.CityId:this.state.pAuthData.ProvinceId,
         BusinessPhone : this.state.pAuthData.BusinessPhone,
         Weixin : this.state.pAuthData.Weixin,
         Oicq : this.state.pAuthData.Oicq,

@@ -37,7 +37,11 @@ var API_CONST = {
   },
   ORDER : {
     outSearch : API_URL + 'Order.OutSearch',
-    inSearch : API_URL + 'Order.InSearch'
+    inSearch : API_URL + 'Order.InSearch',
+    get : API_URL + 'Order.Get',
+    confirm : API_URL + 'Order.Confirm',
+    add : API_URL + 'Order.Add',
+    close : API_URL + 'Order.Close',
   },
   FILE : {
     getToken : API_URL + 'File.Token',

@@ -221,7 +221,7 @@ var Photographer = React.createClass({
     var message = this.validate();
     if(!message){
       var pdata = {
-        BusinessLocation : this.state.photographer.CountyId?this.state.photographer.CountyId:this.photographer.CityId?this.photographer.CityId:this.photographer.ProvinceId,
+        BusinessLocation : this.state.photographer.CountyId?this.state.photographer.CountyId:this.state.photographer.CityId?this.state.photographer.CityId:this.state.photographer.ProvinceId,
         BusinessPhone : this.state.photographer.BusinessPhone,
         Weixin : this.state.photographer.Weixin,
         Oicq : this.state.photographer.Oicq,
