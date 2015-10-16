@@ -62,6 +62,7 @@ var PAuthStore = Reflux.createStore({
     }else{
       this.data.photographer = null;
       this.data.hintMessage = res.ErrorMsg;
+      console.log('摄影师信息获取失败');
     }
     this.data.flag = 'current';
     this.trigger(this.data);
@@ -82,6 +83,7 @@ var PAuthStore = Reflux.createStore({
     }else{
       this.data.studio = null;
       this.data.hintMessage = res.ErrorMsg;
+      console.log('工作室信息获取失败');
     }
     this.data.flag = 'currentStudio';
     this.trigger(this.data);

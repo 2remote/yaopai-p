@@ -26,7 +26,7 @@ PAuthActions.get.listen(function(data){
 
 PAuthActions.current.listen(function(){
   var data = {
-    Fields : 'Id, BusinessPhone, Oicq, OwnedStudio, RealName, Signature, Weixin, IdNumber,ProvinceId, CityId, CountyId'
+    Fields : 'Id,BusinessPhone,Oicq,OwnedStudio,RealName,Signature,Weixin,IdNumber,ProvinceId,CityId,CountyId'
   };
   HttpFactory.post(API.PHOTOGRAPHER.current,data,this.success,this.failed);
 });
@@ -37,7 +37,7 @@ PAuthActions.change.listen(function(data){
 
 PAuthActions.currentStudio.listen(function(){
   var data = {
-    Fields : 'Id, Address, Images, Introduction, Logo, Name'
+    Fields : 'Id,Address,Images,Introduction,Logo,Name'
   };
   HttpFactory.post(API.PHOTOGRAPHER.currentStudio,data,this.success,this.failed);
 });
