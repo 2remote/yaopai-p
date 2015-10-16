@@ -105,12 +105,26 @@ var PersonIDImage = React.createClass({
 });
 
 var PhotographerAuth = React.createClass({
-  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),History],
+  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStoreChange'),History],
   getInitialState: function(){
     return {
       authState : '0',
       disabled : false,
       pAuthData : {}
+    }
+  },
+  handleUserStoreChange : function(userData){
+    if(userData.isLogin){
+      if(userData.userType == 1){
+        //已经是摄影师用户,跳转摄影师信息
+        this.history.pushState(null,'/account/photographer');
+      }else{
+        //普通用户，拿到认证数据再判断认证状态
+        this.getAuditData();
+      }
+    }else{
+      //没有登录转到登录界面
+      this.history.pushSate(null,'/');
     }
   },
   handleStoreChange : function(data){
@@ -161,7 +175,7 @@ var PhotographerAuth = React.createClass({
     }
   },
   componentWillMount : function(){
-    this.getAuditData();
+    UserActions.currentUser();
   },
   getAuditData : function(){
     var fields = 'Id,State,,BusinessPhone,CreationTime,IdNumber,IdNumberImages,Oicq,OwnedStudio,';
