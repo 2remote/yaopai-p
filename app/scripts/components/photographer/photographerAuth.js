@@ -3,26 +3,25 @@ var Router = require('react-router');
 var Link  = Router.Link;
 var History = Router.History;
 var Reflux = require('reflux');
-var UserStore = require('../stores/UserStore');
+var UserStore = require('../../stores/UserStore');
 
 var validator = require('validator');
-var UserNameInput = require('./user/userNameInput');
-var UserPasswordInput = require('./user/userPasswordInput');
-var AlertBox = require('./user/alertBox');
-var InfoHeader = require('./infoHeader');
+var InfoHeader = require('../infoHeader');
 
 var Panel = require('react-bootstrap').Panel;
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
 
-var TextInput = require('./account/textInput');
-var ImageInput = require('./account/imageInput');
-var AreaSelect = require('./account/areaSelect');
-var ToolTip = require('./toolTip');
-
-var UserActions = require('../actions/UserActions');
-var PAuthActions = require('../actions/PAuthActions');
-var PAuthStore = require('../stores/PAuthStore');
+var TextInput = require('../account/textInput');
+var ImageInput = require('../account/imageInput');
+var AreaSelect = require('../account/areaSelect');
+var ToolTip = require('../toolTip');
+var MultiImageSelect = require('./multiImageSelect');
+var HasCompany = require('./hasCompany');
+var CompanyLogo = require('./companyLogo');
+var UserActions = require('../../actions/UserActions');
+var PAuthActions = require('../../actions/PAuthActions');
+var PAuthStore = require('../../stores/PAuthStore');
 
 /*
   身份证图片上传
@@ -73,13 +72,15 @@ var PersonIDImage = React.createClass({
               height="150" 
               defaultImage={IDImages[0]} 
               onUpload={this.upload1} 
+              disabled={this.props.disabled}
               uid="IDPicture1" 
               ref="IDPicture1" 
               type="user"/>
             <ImageInput width="200" 
               height="150" 
               defaultImage={IDImages[1]} 
-              onUpload={this.upload2} 
+              onUpload={this.upload2}
+              disabled={this.props.disabled}
               uid="IDPicture2" 
               ref="IDPicture2" 
               type="user"/>
@@ -100,221 +101,6 @@ var PersonIDImage = React.createClass({
         </div>
       </div>
       );
-  }
-});
-
-
-var MultiImageSelect = React.createClass({
-  getDefaultProps : function(){
-    return {
-      updateImages : function(result){},
-      labelName : '',
-      images : [],
-      uid : 'multiImageSelect',
-      width: '150px',
-      height: '150px',
-      maxCount : 4,
-    }
-  },
-  getInitialState: function () {
-    return {
-    }
-  },
-  componentDidMount : function() {
-  },
-  onUpload : function(imageUrl){
-    this.props.updateImages(imageUrl);
-    //this.refs.addImage.setState({imageUrl : ''}); //清空图片
-  },
-  onRemove : function(event){
-    var index = event.target.getAttribute('data-index');
-    this.props.remove(index);
-  },
-  handleEnd: function (e) {
-    //---除了DOM操作也没有更好办法，或者DOM操作写法是不是这样
-    var mask = e.currentTarget.querySelector('.mask');
-    mask.style.display = 'block';
-  },
-  hanldeLeave: function (e) {
-    var mask = e.currentTarget.querySelector('.mask');
-    mask.style.display = 'none';
-  },
-  parseImageUrl :function(url){
-    url = url + '?imageMogr2/gravity/Center'
-    if(this.props.width && this.props.height){
-      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height+'r'; //限制短边
-      url = url + '/crop/'+this.props.width + 'x' + this.props.height; //剪裁
-    }
-    if(this.props.width && !this.props.height){
-      url = url + '/thumbnail/'+this.props.width+'x'; //只缩放宽度,不剪裁
-    }
-    if(this.props.height && !this.props.width){
-      url = url + '/thumbnail/x'+this.props.height; //只缩放高度,不剪裁
-    }
-    url = url + '/interface/1'; //渐进
-    return url;
-  },
-  render : function(){
-    var style = {
-      worksWrap: {
-        position: 'relative',
-        width: '100px',
-        height: '100px',
-        display: 'inline-block',
-        verticalAlign: 'top',
-        marginRight: '5px',
-        marginBottom: '5px',
-      },
-      mask: {
-        position: 'absolute',
-        left: '0',
-        top: '0',
-        width: '100px',
-        height: '100px',
-        background: 'rgba(0,0,0,.1)',
-        lineHeight: '100px',
-        textAlign: 'center',
-        fontSize: '18px',
-        cursor: 'pointer',
-        display: 'none',
-        color: '#fff',
-        transition: '1s',
-      },
-      addImg: {
-        display: 'inline-block',
-        verticalAlign: 'top',
-        width: '100px',
-        height: '100px',
-      },
-      addImgHide: {
-        display: 'none',
-      },
-      label: {
-        lineHeight: '100px',
-      }
-    }
-    var renderImages ='';
-    var canAddImage = true;
-    if(this.props.images && this.props.images.length >0){
-      var images = this.props.images.split(',');
-      renderImages = images.map(function(image,i){
-        return (
-          <div onMouseEnter={this.handleEnd} onMouseLeave={this.hanldeLeave} style={style.worksWrap}>
-            <img width="100" height="100" src={this.parseImageUrl(image)} />
-            <div ref="mask" className="mask" style={style.mask}><span ref="delete" data-index={i} onClick={this.onRemove}>删除</span></div>
-          </div>
-        )
-      }.bind(this));
-    }
-    //判断当前是否可以增加图片
-    if(this.props.images && this.props.images.length >0){
-      if(this.props.images.length >= this.props.maxCount){
-        canAddImage = false;
-      }
-    }
-    if(this.props.disabled) canAddImage = false;
-    return (
-      <div className="form-group">
-        <label className="control-label col-xs-2" style={style.label}>{this.props.labelName}</label>
-          <div className="col-xs-10">
-          {renderImages}
-          <ImageInput
-            addStyle={canAddImage?style.addImg:style.addImgHide}
-            colWidth=""
-            width={this.props.width}
-            height={this.props.height}
-            uid={this.props.uid}
-            ref="addImage"
-            defaultImage="img/tianjia.png"
-            onUpload={this.onUpload}/>
-        </div>
-      </div>
-      )
-  }
-});
-
-var HasCompany = React.createClass({
-  onNoClick : function(event){
-    this.props.onChange(false);
-  },
-  onYesClick : function(event){
-    this.props.onChange(true);
-  },
-  getValue : function(){
-    return this.props.checked;
-  },
-  render : function (){
-    var normalStyle = {
-      width: '78px',
-      lineHeight: '40px',
-      border: '1px solid #e0e0e0',
-      display: 'inline-block',
-      textAlign: 'center',
-      cursor: 'pointer',
-    };
-    var noSelected = {
-      background : '#337ab7',
-      width: '78px',
-      lineHeight: '40px',
-      border: '1px solid #e0e0e0',
-      color: '#fff',
-      display: 'inline-block',
-      textAlign: 'center',
-      cursor: 'pointer',
-    };
-    var yesSelected = {
-      width: '78px',
-      lineHeight: '40px',
-      background : 'red',
-      border: '1px solid #e0e0e0',
-      color: '#fff',
-      display: 'inline-block',
-      textAlign: 'center',
-      cursor: 'pointer',
-    };
-    return (
-      <div className= "form-group">
-        <label className="control-label col-xs-2">是否有工作室：</label>
-        <div className="col-xs-4">
-          <span onClick={this.onNoClick} style={this.props.checked?normalStyle:noSelected}>NO</span>
-        <span onClick={this.onYesClick} style={this.props.checked?yesSelected:normalStyle}>YES</span>
-        </div>
-      </div>
-    );
-  }
-});
-var CompanyLogo = React.createClass({
-  getDefaultProps : function(){
-    return {
-      value : '',
-      updateValue : function(data){},
-    }
-  },
-  getValue : function () {
-    return this.refs.companyLogo.getValue();
-  },
-  render : function () {
-    var style = {
-      label: {
-        lineHeight: '120px',
-      }
-    };
-    return (
-      <div className="form-group">
-        <label className="control-label col-xs-2" style={style.label}>工作室LOGO：</label>
-        <div className="col-xs-6">
-          <ImageInput
-            width="200"
-            height="120"
-            colWidth=""
-            uid="companyLogo"
-            ref="companyLogo"
-            defaultImage ={this.props.value?this.props.value:"img/logo_up.png" }
-            onUpload = {this.props.updateValue}
-            type="user"/>
-        </div>
-      </div>
-    );
   }
 });
 
@@ -743,8 +529,8 @@ var PhotographerAuth = React.createClass({
                 updateValue = {this.updateCompanyLogo}
                 disabled={this.state.disabled} />
               <MultiImageSelect ref="companyImages"
-                width="100px"
-                height="100px"
+                width="100"
+                height="100"
                 uid = "companyImagesSelect"
                 disabled={this.state.disabled}
                 maxCount={4}
