@@ -16,6 +16,14 @@ var PAuthStore = Reflux.createStore({
     this.listenTo(PAuthActions.viewAudit.failed,this.onFailed);
     this.listenTo(PAuthActions.get.success,this.onGetSuccess);
     this.listenTo(PAuthActions.get.failed,this.onFailed);
+    this.listenTo(PAuthActions.current.success,this.onCurrentSuccess);
+    this.listenTo(PAuthActions.current.failed,this.onFailed);
+    this.listenTo(PAuthActions.change.success,this.onChangeSuccess);
+    this.listenTo(PAuthActions.change.failed,this.onFailed);
+    this.listenTo(PAuthActions.currentStudio.success,this.onCurrentStudioSuccess);
+    this.listenTo(PAuthActions.currentStudio.failed,this.onFailed);
+    this.listenTo(PAuthActions.changeStudio.success,this.onChangeStuidioSuccess);
+    this.listenTo(PAuthActions.changeStudio.failed,this.onFailed)
   },
   onSubmitAudit : function(data){
     if(data.Success){
@@ -45,6 +53,46 @@ var PAuthStore = Reflux.createStore({
       this.data.hintMessage = res.ErrorMsg;
     }
     this.data.flag = 'get';
+    this.trigger(this.data);
+  },
+  onCurrentSuccess : function(res){
+    if(res.Success){
+      this.data.photographer = res;
+      this.data.hintMessage = '';
+    }else{
+      this.data.photographer = null;
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'current';
+    this.trigger(this.data);
+  },
+  onChangeSuccess : function(res){
+    if(res.Success){
+      this.data.hintMessage = '';
+    }else{
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'chagne';
+    this.trigger(this.data);
+  },
+  onCurrentStudioSuccess : function(res){
+    if(res.Success){
+      this.data.studio = res;
+      this.data.hintMessage = '';
+    }else{
+      this.data.studio = null;
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'currentStudio';
+    this.trigger(this.data);
+  },
+  onChangeStuidioSuccess : function(res){
+    if(res.Success){
+      this.data.hintMessage = '';
+    }else{
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'changeStudio';
     this.trigger(this.data);
   },
   onFailed : function(data){

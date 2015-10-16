@@ -20,6 +20,10 @@ var API_CONST = {
     submitAudit : API_URL + 'Photographer.SubmitAudit',
     viewAudit : API_URL + 'Photographer.ViewAudit',
     get : API_URL + 'Photographer.Get',
+    current : API_URL + 'Photographer.CurrentPhotographer',
+    change : API_URL + 'Photographer.ChangePhotographer',
+    currentStudio : API_URL + 'PhotographerStudio.CurrentStudio',
+    changeStudio : API_URL + 'PhotographerStudio.ChangeStudio',
   },
   ALBUMS : {
     add : API_URL + 'Albums.Add',

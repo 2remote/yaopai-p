@@ -22,3 +22,15 @@ var UserActions = require('../../actions/UserActions');
 var UserStore = require('../../stores/UserStore');
 var PAuthActions = require('../../actions/PAuthActions');
 var PAuthStore = require('../../stores/PAuthStore');
+
+var Photographer = React.creatClass({
+  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStoreChange'),History],
+  getInitialState : function () {
+    return{
+      photographer : {},
+      studio : {}
+    }
+  }
+});
+
+module.exports = Photographer;
