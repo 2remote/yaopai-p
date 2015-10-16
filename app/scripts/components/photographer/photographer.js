@@ -32,6 +32,9 @@ var Photographer = React.createClass({
       studio : {}
     }
   },
+  componentDidMount : function(){
+    UserActions.currentUser();
+  },
   handleUserStoreChange : function(userData){
     if(userData.isLogin){
       if(userData.userType == 1){
@@ -59,6 +62,7 @@ var Photographer = React.createClass({
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
       }else{
+        this.showMessage("更新信息成功");
         PAuthActions.current();
       }
     }
@@ -66,22 +70,23 @@ var Photographer = React.createClass({
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
       }else{
+        this.showMessage("更新信息成功");
         PAuthActions.currentStudio();
       }
     }
   },
   updateCompanyImages : function(result){
     var datas = [];
-    if(this.state.studio.StudioImages)
-      datas = this.state.studio.StudioImages.split(',');
+    if(this.state.studio.Images)
+      datas = this.state.studio.Images.split(',');
     datas.push(result);
     var studio = this.state.studio;
-    studio.StudioImages = datas.toString();
+    studio.Images = datas.toString();
     this.setState({studio : studio});
   },
   removeCompanyImage : function(index){
     var data = this.state.studio;
-    var companyImages = data.StudioImages;
+    var companyImages = data.Images;
     if(companyImages && companyImages.length > 0){
       companyImages = companyImages.split(',');
       if(index < companyImages.length){
@@ -99,11 +104,14 @@ var Photographer = React.createClass({
   onProvinceChange : function(result){
     var data = this.state.photographer;
     data.ProvinceId = result;
+    data.CityId = 0 ;
+    data.CountyId = 0 ;
     this.setState({photographer : data});
   },
   onCityChange : function(result){
     var data = this.state.photographer;
     data.CityId = result;
+    data.CountyId =0;
     this.setState({photographer:data});
   },
   onDistrictChange : function(result){
@@ -138,22 +146,22 @@ var Photographer = React.createClass({
   },
   updateCompanyName : function(result){
     var data = this.state.studio;
-    data.StudioName = result;
+    data.Name = result;
     this.setState({studio : data});
   },
   updateCompanyLogo : function(result){
     var data = this.state.studio;
-    data.StudioLogo = result;
+    data.Logo = result;
     this.setState({studio : data});
   },
   updateCompanyAddress : function(result){
     var data = this.state.studio;
-    data.StudioAddress = result;
+    data.Address = result;
     this.setState({studio : data});
   },
   updateCompanyIntro : function(result){
     var data = this.state.studio;
-    data.StudioIntroduction = result;
+    data.Introduction = result;
     this.setState({studio: data});
   },
   showMessage : function(message){
@@ -202,7 +210,7 @@ var Photographer = React.createClass({
         message = '请填写工作室的简介';
         return message;
       }
-      if(!this.state.studio.StudioImages){
+      if(!this.state.studio.Images){
         message = "请上传工作室的照片";
         return message;
       }
@@ -221,11 +229,11 @@ var Photographer = React.createClass({
         OwnedStudio : this.state.photographer.OwnedStudio,
       };
       var sdata = {
-        StudioName : this.state.studio.StudioName,
-        StudioLogo : this.state.studio.StudioLogo,
-        StudioAddress : this.state.studio.StudioAddress,
-        StudioIntroduction : this.state.studio.StudioIntroduction,
-        StudioImages : this.state.studio.StudioImages
+        Name : this.state.studio.Name,
+        Logo : this.state.studio.Logo,
+        Address : this.state.studio.Address,
+        Introduction : this.state.studio.Introduction,
+        Images : this.state.studio.Images
       };
       PAuthActions.change(pdata);
       PAuthActions.changeStudio(sdata);

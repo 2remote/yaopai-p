@@ -1,5 +1,5 @@
 // var API_URL = 'http://localhost:3000';
-var API_URL = 'http://api.anorangevision.com/?api=';
+var API_URL = 'http://api.aiyaopai.com/?api=';
 var Local_Host = window.location.href;
 
 var API_CONST = {
@@ -35,11 +35,14 @@ var API_CONST = {
     offSale : API_URL + 'Albums.SalesOff',
     onSale : API_URL + 'Albums.SalesOn'
   },
-
+  ORDER : {
+    outSearch : API_URL + 'Order.OutSearch',
+    inSearch : API_URL + 'Order.InSearch'
+  },
   FILE : {
     getToken : API_URL + 'File.Token',
-    user_token_url : 'http://api.anorangevision.com/file/token?type=user',
-    work_token_url : 'http://api.anorangevision.com/file/token?type=work',
+    user_token_url : 'http://api.aiyaopai.com/file/token?type=user',
+    work_token_url : 'http://api.aiyaopai.com/file/token?type=work',
   },
   COMMON : {
     area_list : API_URL + 'Area.List',

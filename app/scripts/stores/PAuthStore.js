@@ -5,6 +5,7 @@ var PAuthStore = Reflux.createStore({
   data : {
     pAuth : {},
     photographer : {},
+    studio : {},
     hitMessage : '',
     flag : '',
   },
@@ -60,7 +61,7 @@ var PAuthStore = Reflux.createStore({
       this.data.photographer = res;
       this.data.hintMessage = '';
     }else{
-      this.data.photographer = null;
+      this.data.photographer = {};
       this.data.hintMessage = res.ErrorMsg;
       console.log('摄影师信息获取失败');
     }
@@ -81,7 +82,7 @@ var PAuthStore = Reflux.createStore({
       this.data.studio = res;
       this.data.hintMessage = '';
     }else{
-      this.data.studio = null;
+      this.data.studio = {};
       this.data.hintMessage = res.ErrorMsg;
       console.log('工作室信息获取失败');
     }
