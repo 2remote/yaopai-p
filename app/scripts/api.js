@@ -45,8 +45,8 @@ var API_CONST = {
   },
   FILE : {
     getToken : API_URL + 'File.Token',
-    user_token_url : 'http://api.aiyaopai.com/file/token?type=user',
-    work_token_url : 'http://api.aiyaopai.com/file/token?type=work',
+    user_token_url : 'http://dev.api.aiyaopai.com/file/token?type=user',
+    work_token_url : 'http://dev.api.aiyaopai.com/file/token?type=work',
   },
   COMMON : {
     area_list : API_URL + 'Area.List',
