@@ -12,7 +12,7 @@ var ToolTip = React.createClass({
         background: 'rgba(154, 35, 35, 0.7)',
         lineHeight: '100px',
         height: '100px',
-        zIndex: '9',
+        zIndex: '999',
         textAlign: 'center',
         color: '#fff',
         transition: 'top 1s',
