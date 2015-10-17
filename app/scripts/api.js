@@ -1,5 +1,5 @@
 // var API_URL = 'http://localhost:3000';
-var API_URL = 'http://api.aiyaopai.com/?api=';
+var API_URL = 'http://dev.api.aiyaopai.com/?api=';
 var Local_Host = window.location.href;
 
 var API_CONST = {

@@ -8,10 +8,11 @@ var OrderStore = Reflux.createStore({
     this.orders = [];
     
     //listen to the OrderActions
-    this.listenTo(OrderActions.listOrders,this.onListOrders);
-    this.listenTo(OrderActions.getOrder,this.onGetOrder);
-    this.listenTo(OrderActions.bookOrder,this.onBookOrder);
-    this.listenTo(OrderActions.comfirmOrder,this.onComfirmOrder);
+    this.listenTo(OrderActions.list,this.onListOrders);
+    this.listenTo(OrderActions.get,this.onGetOrder);
+    this.listenTo(OrderActions.add,this.onBookOrder);
+    this.listenTo(OrderActions.comfirm,this.onComfirmOrder);
+    this.listenTo(OrderActions.close,this.onCloseOrder);
   },
   onListOrders : function(type){
     //从服务器api接口获得定单的列表
@@ -42,6 +43,9 @@ var OrderStore = Reflux.createStore({
   },
   onBookOrder : function(data){
 
+  },
+  onCloseOrder : function(data){
+    
   }
 
 });

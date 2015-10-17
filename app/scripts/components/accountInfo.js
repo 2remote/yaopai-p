@@ -63,18 +63,20 @@ var PasswordInput = React.createClass({
 });
 
 var ModifyPassword = React.createClass({
-  mixins: [Reflux.listenTo(UserStore, 'handleModifyResult')],
+  mixins: [Reflux.listenTo(UserStore, 'handleUserStoreChange')],
   getInitialState : function(){
     return {
       alertMessage : '',
+      phone : '',
     }
   },
   /*
     接收修改密码结果
   */
-  handleModifyResult : function(data){
-    if(data.flag != "modifyPassword")return;
-    this.setState({alertMessage : data.hintMessage});
+  handleUserStoreChange : function(data){
+    this.setState({phone : data.userName});
+    if(data.flag == "modifyPassword")
+      this.setState({alertMessage : data.hintMessage});
   },
   handleModifyPassword : function(){
     var oldPass = this.refs.oldPass.getValue();
