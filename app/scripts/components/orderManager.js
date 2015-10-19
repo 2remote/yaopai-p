@@ -1,12 +1,16 @@
 var React = require('react');
+var Reflux = require('reflux');
 var Router = require('react-router');
 var Link = Router.Link;
+var History = Router.History;
 
 var Header = require('./header');
 var Footer = require('./footer');
 
 var OrderStore = require('../stores/OrderStore');
 var OrderActions = require('../actions/OrderActions');
+var UserStore = require('../stores/UserStore');
+var UserActions = require('../actions/UserActions');
 var Input = require('react-bootstrap').Input;
 
 var ListGroup = require('react-bootstrap').ListGroup;
@@ -36,12 +40,12 @@ var OrderManagerNav = React.createClass({
       <ListGroup style={navStyle.group}>
         <ListGroupItem>
           <span className="glyphicon glyphicon-upload" aria-hidden="true" style={navStyle.itemStyle}></span>
-          预约
+          <Link to={'/order/out/'+this.props.orderState}>预约</Link>
           </ListGroupItem>
         <ListGroupItem>
           <span className="glyphicon glyphicon-download" aria-hidden="true" style={
             navStyle.itemStyle}></span>
-          被预约
+          <Link to={'/order/in/'+this.props.orderState}>被预约</Link>
         </ListGroupItem>
       </ListGroup>
     );
@@ -81,11 +85,18 @@ var OrderListTop = React.createClass({
       <div className="clearfix">
         <p className="pull-left order-way" style={orderListTopStyle.orderWay}>
           <span className="glyphicon glyphicon-download" aria-hidden="true" style={orderListTopStyle.iconTop}></span>
-          <span>被预约</span>
+          <span>{this.state=='in'?'被预约' : '预约'}</span>
         </p>
         <ul className="pull-right order-status" style={orderListTopStyle.ulStyle}>
-          <li className="pull-right" style={orderListTopStyle.liStyle}>进行中</li>
-          <li className="pull-right" style={orderListTopStyle.liStyle}>已完成</li>
+          <li className="pull-right" style={orderListTopStyle.liStyle}>
+            <Link to={'/order/'+this.props.type+'/pending'}>待确认</Link>
+          </li>
+          <li className="pull-right" style={orderListTopStyle.liStyle}>
+            <Link to={'/order/'+this.props.type+'/finished'}>已完成</Link>
+          </li>
+          <li className="pull-right" style={orderListTopStyle.liStyle}>
+            <Link to={'/order/'+this.props.type+'/closed'}>已关闭</Link>
+          </li>
         </ul>
       </div>
     );
@@ -229,33 +240,37 @@ var OrderItem = React.createClass({
     return (
       <div className="item">
         <div className="itemTop" style={itemStyle.topItem}>
-          <span style={itemStyle.orderTime}>2015/10/20 13:25:00</span>
-          <span>订单号：<b>4332785748</b></span>
+          <span style={itemStyle.orderTime}>{this.props.order.CreationTime}</span>
+          <span>订单号：<b>{this.props.order.Id}</b></span>
         </div>
         <div className="row" style={itemStyle.infoWrap}>
           <div style={triangleClass} onClick={this.handleCollapse}></div>
           <div style={itemStyle.uniqueLineHeight} className="col-xs-2">
-            <img style={itemStyle.img} src="img/default_user_img.png" width="60" />
-            <p>电磁猫</p>
+            <img style={itemStyle.img} src={this.props.order.User.Avatar?this.props.order.User.Avatar:'img/default_user_img.png'} width="60" />
+            <p>{this.props.order.User.NickName}</p>
           </div>
           <div className="col-xs-3" style={itemStyle.commonInfo}>
             2015/10/20
+            {this.props.order.AppointedTime}
           </div>
           <div className="col-xs-2" style={itemStyle.commonInfo}>
             周宏晓
+            {this.props.order.BuyerName}
           </div>
           <div className="col-xs-3" style={itemStyle.commonInfo}>
             18538156075
+            {this.props.order.BueryTel}
           </div>
           <div className="col-xs-2" style={itemStyle.price}>
             ￥3000
+            {this.props.order.Price}
           </div>
         </div>
         <Collapse in={this.state.orderInfoShow}>
           <div>
             <div className="order-info row" style={itemStyle.orderInfo}>
               <div className="col-xs-3 col-xs-offset-2">
-                <img src="img/user.png" width="100"/>
+                <img src={this.props.order.Albums.Cover} width="100"/>
               </div>
               <div className="col-xs-5 order-writing clearfix">
                 <div className="writing-left pull-left" style={itemStyle.writingLeft}>
@@ -263,8 +278,8 @@ var OrderItem = React.createClass({
                   <p>包含服务：</p>
                 </div>
                 <div className="writing-right pull-right" style={itemStyle.writingRight}>
-                  <p>欧洲婚礼跟拍</p>
-                  <p>100 张底片全送，15 张精修用户自备服装，女化妆师全程4 小时全程 1 对 1 拍摄，</p>
+                  <p>{this.props.order.Albums.Title}</p>
+                  <p>{this.props.order.Albums.Service}</p>
                 </div>
               </div>
               <div className="col-xs-2">
@@ -328,18 +343,54 @@ var ConfirmOrder = React.createClass({
  * ------------------------------------------------------------------
  */
 var OrderManager = React.createClass({
+  mixins : [Reflux.listenTo(OrderStore,'onOrderStoreChange'),Reflux.listenTo(UserStore,'onUserStoreChanged'),History],
+  getInitialState : function(){
+    return {
+      orders : [],
+    }
+  },
+  onUserStoreChanged : function(data){
+    //判断是否登录
+    if(data.isLogin){
+      OrderActions.list(this.props.params.type,this.props.params.state);
+    }else{
+      this.history.pushSate(null,'/');
+    }
+  },
+  onOrderStoreChange : function(data){
+    console.log(data);
+    if(data.flag == 'list'){
+      if(data.success)
+        this.setState({orders : data.orders});
+      else
+        this.showMessage(data.hintMessage);
+    }else if(data.flag == 'confirm'){
+      this.showMessage(data.hintMessage);
+    }else if(data.flag == 'close'){
+      this.showMessage(data.hintMessage);
+    }
+  },
+  componentDidMount : function(){
+    UserActions.currentUser();
+  },
+  showMessage : function(msg){
+    console.log(msg);
+  },
   render: function () {
+    var orderItems = this.state.orders.map(function(item){
+      <OrderItem order={item} />
+    });
     return (
       <div className="container-fluid no-bgimg gray-bg">
         <Header />
         <div className="center-content">
           <div className="col-xs-9">
-            <OrderListTop></OrderListTop>
+            <OrderListTop type={this.props.params.type}></OrderListTop>
             <OrderTitle></OrderTitle>
-            <OrderItem></OrderItem>
+            {orderItems}
           </div>
           <div className="col-xs-3">
-            <OrderManagerNav></OrderManagerNav>
+            <OrderManagerNav orderState={this.props.params.state}></OrderManagerNav>
             <ConfirmOrder></ConfirmOrder>
           </div>
         </div>

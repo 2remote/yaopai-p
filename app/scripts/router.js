@@ -31,7 +31,7 @@ var routes = (
 				<Route path="info" component={AccountInfo} />
 				<Route path="upload" component={UploadWorks} />
 			</Route>
-			<Route path="order/:type" component={OrderManager} />
+			<Route path="order/:type/:state" component={OrderManager} />
 			<Route path="profile/:type" component={Profile} />
 		</Route>
 	</Router>
