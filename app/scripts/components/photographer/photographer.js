@@ -40,7 +40,6 @@ var Photographer = React.createClass({
       if(userData.userType == 1){
         //摄影师用户,获取摄影师信息
         PAuthActions.current();
-        PAuthActions.currentStudio();
       }else{
         //普通用户转到摄影师认证
         this.history.pushSate(null,'/account/pAuth');
@@ -51,12 +50,18 @@ var Photographer = React.createClass({
     }
   },
   handleStoreChange : function(data){
-    if(data.flag == 'current' || data.flag== 'currentStudio'){
+    if(data.flag == 'current' ){
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
       }else{
-        this.setState({photographer : data.photographer,studio : data.studio})
+        this.setState({photographer : data.photographer});
+        if(data.photographer.OwnedStudio){
+          PAuthActions.currentStudio();
+        }
       }
+    }
+    if(data.flag == 'currentStudio'){
+      this.setState({studio : data.studio});
     }
     if(data.flag == 'change' ){
       if(data.hintMessage){
