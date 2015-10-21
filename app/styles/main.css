@@ -147,6 +147,8 @@ body {
     margin-left: 5px;
 }
 .image-item {
+    display: flex;
+    flex-flow : row;
     height: 95px;
     padding: 10px 0;
     margin-bottom: 10px;
@@ -173,11 +175,11 @@ body {
     margin-right: 10px;
 }
 .image-item .delete-button {
-    float: right;
+    width: 100px;
     text-align: center;
     height: 100%;
     margin-right: 2%;
-    font-size: 16px
+    font-size: 14px
 }
 .image-item .icon-wrap {
   text-align: center;
