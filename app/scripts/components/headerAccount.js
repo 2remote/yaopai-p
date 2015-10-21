@@ -16,12 +16,7 @@ var Acount = React.createClass({
       return {currentUser : UserStore.userData};
   },
   onStatusChange: function (data) {
-      if(!data.isLogin){
-        this.history.pushState(null,'/');
-      }else{
-        //如果首页有headerAccount，需要把下面这段放到if外面
-        this.setState({currentUser : data});  
-      }
+      this.setState({currentUser : data});  
   },
   componentDidMount: function () {
       this.unsubscribe = UserStore.listen(this.onStatusChange);
