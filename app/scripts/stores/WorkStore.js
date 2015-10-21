@@ -6,10 +6,12 @@ var WorkStore = Reflux.createStore({
     this.images = [];
     this.listenTo(WorkActions.addImage, this.onAddImage);
     this.listenTo(WorkActions.removeImage, this.onRemoveImage);
-    this.listenTo(WorkActions.moveUpImage, this.OnMoveUp);
-    this.listenTo(WorkActions.moveDownImage, this.OnMoveDown);
-    this.listenTo(WorkActions.editImageDes, this.OnEditDes);
+    this.listenTo(WorkActions.moveUpImage, this.onMoveUp);
+    this.listenTo(WorkActions.moveDownImage, this.onMoveDown);
+    this.listenTo(WorkActions.updateImageUrl, this.onUpdateImageUrl);
+    this.listenTo(WorkActions.editImageDes,this.OnEditDes);
     this.listenTo(WorkActions.clearImage,this.onClearImage);
+    this.listenTo(WorkActions.setCover,this.onSetCover);
   },
   onAddImage : function(data){
     data.key = this.images.length;
@@ -30,12 +32,22 @@ var WorkStore = Reflux.createStore({
       this.images[index1] = this.images.splice(index2, 1, this.images[index1])[0];
     }
   },
-  OnMoveUp : function(index){
+  onSetCover : function(index){
+    if(index < 0)return;
+    this.images.map(function(item,i){
+      if(item.isCover){
+        item.isCover = false;
+      }
+    });
+    this.images[index].isCover = true;
+    this.trigger(this.images);
+  },
+  onMoveUp : function(index){
     if(index == 0)return;
     this.swapImage(index,index-1);
     this.trigger(this.images);
   },
-  OnMoveDown : function(index){
+  onMoveDown : function(index){
     if(index == this.images.length - 1)return;
     this.swapImage(index,index + 1);
     this.trigger(this.images);
@@ -48,6 +60,14 @@ var WorkStore = Reflux.createStore({
   OnEditDes : function(index,desc){
     if(index > -1){
       this.images[index].Description =desc;
+    }
+    this.trigger(this.images);
+  },
+  onUpdateImageUrl :function(id,url){
+    if(url != ''){
+      this.images.map(function(item){
+        if(item.id == id) item.Url = url;
+      });
     }
     this.trigger(this.images);
   }

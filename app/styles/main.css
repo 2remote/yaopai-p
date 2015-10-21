@@ -164,9 +164,7 @@ body {
 }
 .image-item .main-des {
     float: left;
-    width: 100%;
-    position: absolute;
-    padding: 0 100px 0 139px;
+    width: 320px;
 }
 .image-item .main-des textarea{
     width: 95%;
@@ -278,3 +276,20 @@ body {
   padding-top: 15px;
 }
 
+.workItem-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.workItem-enter.workItem-enter-active {
+  opacity: 1;
+}
+
+.workItem-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.workItem-leave.workItem-leave-active {
+  opacity: 0.01;
+}

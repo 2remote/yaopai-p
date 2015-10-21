@@ -1,8 +1,8 @@
 var React = require('react');
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var TextInput = require('./textInput');
 var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
-var WorkStore = require('../../stores/WorkStore');
 var UploadActions = require('../../actions/UploadActions');
 var UploadTokenStore = require('../../stores/UploadTokenStore');
 
@@ -41,7 +41,7 @@ var ImageItem = React.createClass({
     WorkActions.moveDownImage(this.props.index);
   },
   setCover : function(event){
-    this.props.onSetCover(this.props.index);
+    WorkActions.setCover(this.props.index);
   },
   componentDidMount : function(){
 
@@ -50,6 +50,9 @@ var ImageItem = React.createClass({
     if(nextProps.imageData.Description != this.props.imageData.Description){
       this.refs.description.getDOMNode().value= (nextProps.imageData.Description);
     }
+  },
+  imageMogr2 : function(url){
+    return url+'?imageMogr2/gravity/Center/thumbnail/!75x75r/crop/75x75/interlace/1';
   },
   render : function(){
     var coverStyle = {
@@ -69,15 +72,15 @@ var ImageItem = React.createClass({
           </div>
         </div>
         <div className="main-image">
-          <img height="75" width="75" src={this.props.imageData.Url+'?imageMogr2/gravity/Center/thumbnail/!75x75r/crop/75x75/interlace/1'} />
+          <img height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
         </div>
         <div className="main-des">
-          <Input type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
+          <textarea ref="description" type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
         </div>
         <div className="delete-button">
           <div className="right-icon">
             <span className="glyphicon glyphicon-picture image-button"
-              style={this.props.isCover?coverStyle:normalStyle}
+              style={this.props.imageData.isCover?coverStyle:normalStyle}
               onClick={this.setCover}>
               封面
             </span>
@@ -97,12 +100,11 @@ var ImageItem = React.createClass({
   解释一下ChooseImage的逻辑
   1. 传入value，用this.props.value渲染ImageItem
   2. ImageItem 引入WorkAction 实现删除及位置的变换
-  3. ChooseImages 监听WorkStore,将位置及删除结果返回到state，并调用updateValue通知父组件更新状态
+  3. 父组件 监听WorkStore,将位置及删除结果返回到本组件的props.value
   4. ChooseImages 的状态imageItemList需要记录上传的结果和进度，是否需要渲染出来根据以后的需求
 */
 var ChooseImages = React.createClass({
-  mixins : [Reflux.listenTo(WorkStore,'onStatusChange')],
-  tokenFlag : 'work',
+  items : [],
   uploaderOption : {
     runtimes: 'html5,flash,html4',
     browse_button: 'pickfiles',
@@ -135,22 +137,10 @@ var ChooseImages = React.createClass({
             }
         }
   },
-  getInitialState : function(){
-    return {
-      imageItemList : [],
-    }
-  },
   getDefaultProps : function(){
     return {
       value : [],
-      updateValue : function(data){},
-      cover : '',
-      updateCover : function(data){},
     }
-  },
-  onStatusChange : function(data){
-    this.setState({imageItemList : data});
-    this.props.updateValue(data);
   },
 
   /*
@@ -166,7 +156,8 @@ var ChooseImages = React.createClass({
           Url: '',
           Description : '',
           uploaded:false,
-          progress:0
+          progress:0,
+          isCover : false,
         };
         this.addImage(imageItem);
       }.bind(this));
@@ -179,28 +170,14 @@ var ChooseImages = React.createClass({
     单个文件上传完毕后，返回值info.Url是图片地址
   */
   onFileUploaded : function(up,file,info){
-    var list = this.state.imageItemList;
     var res = JSON.parse(info);
-    list.map(function(item){
-      if(item.id == file.id){
-        item.Url = res.Url;
-        item.uploaded = true;
-      }
-    });
-    this.setState({imageItemList : list});
+    WorkActions.updateImageUrl(file.id,res.Url);
     console.log(info);
   },
   /*
     单个文件的上传进度
   */
   onUploadProgress : function(up,file){
-    var list = this.state.imageItemList;
-    var item = list.map(function(item){
-      if(item.id == file.id){
-        item.progress = file.percent;
-      }
-    });
-    this.setState({imageItemList : list});
   },
 
   onUploadComplete : function(){
@@ -219,11 +196,6 @@ var ChooseImages = React.createClass({
     this.uploaderOption.init.UploadProgress = this.onUploadProgress;
     this.uploader = Qiniu.uploader(this.uploaderOption);
   },
-  //返回图片列表
-  getValue : function(){
-    if(this.state.imageItemList.length == 0) return null;
-    return this.state.imageItemList;
-  },
   //增加图片
   addImage : function(item){
     WorkActions.addImage(item);
@@ -231,11 +203,12 @@ var ChooseImages = React.createClass({
   render :function(){
     var renderImages = this.props.value.map(function(imageItem,i){
       return(
-        <ImageItem index={i} 
-          isCover={this.props.cover==i} 
-          imageData={imageItem} 
-          onSetCover={this.props.updateCover}/>
-        );
+          <ImageItem 
+            key={i}
+            index={i} 
+            imageData={imageItem} 
+            onSetCover={this.props.updateCover}/>
+          );
     }.bind(this));
     return (
         <div className="form-group">
@@ -244,9 +217,9 @@ var ChooseImages = React.createClass({
             <div>
               <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
             </div>
-            <div>
-              {renderImages}
-            </div>
+              <ReactCSSTransitionGroup ref="itemsContainer" transitionName="workItem">
+                {renderImages}
+              </ReactCSSTransitionGroup>
           </div>
         </div>
       );

@@ -12,6 +12,7 @@ var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
 var AlbumsActions = require('../actions/AlbumsActions');
+var WorkStore = require('../stores/WorkStore');
 /*
   选择类别组件
 */
@@ -81,7 +82,7 @@ var ChooseCategory = React.createClass({
   3. 在这个界面可以增加，修改相册
 */
 var UploadWorks = React.createClass({
-  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged')],
+  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged'),Reflux.listenTo(WorkStore,'onWorkStoreChange')],
   getInitialState : function(){
     return {
       title : '',
@@ -122,6 +123,14 @@ var UploadWorks = React.createClass({
     if(data.flag == 'update'){
       //处理更新后的结果
     }
+  },
+  onWorkStoreChange : function(data){
+    //处理封面
+    var cover = -1;
+    for(var i =0 ; i < data.length ; i ++){
+      if(data[i].isCover) cover = i;
+    }
+    this.setState({photos : data,cover : cover});
   },
   updateTitle : function(title){
     this.setState({title: title});
@@ -238,10 +247,7 @@ var UploadWorks = React.createClass({
             minLength={5}
             placeholder="名称应该在5-25字之间"/>
           <ChooseImage value={this.state.photos}
-            ref="chooseImage"
-            updateValue={this.updatePhotos}
-            cover={this.state.cover}
-            updateCover={this.updateCover}/>
+            ref="chooseImage"/>
           <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
           <TextInput ref="workDescription"
             type="textarea"
