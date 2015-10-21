@@ -148,7 +148,11 @@ body {
 }
 .image-item {
     display: flex;
+    display: -webkit-flex;
+    display: -ms-flex;
     flex-flow : row;
+    -webkit-flex-flow : row;
+    -ms-flex-flow : row;
     height: 95px;
     padding: 10px 0;
     margin-bottom: 10px;
