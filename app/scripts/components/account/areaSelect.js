@@ -76,13 +76,13 @@ var AreaSelect = React.createClass({
   },
   render : function(){
     var province = this.state.provinceList.map(function(item){
-      return <option value={item.Id}>{item.Name}</option>
+      return <option key={item.Id} value={item.Id}>{item.Name}</option>
     });
     var city = this.state.cityList.map(function(item){
-      return <option value={item.Id}>{item.Name}</option>
+      return <option key={item.Id} value={item.Id}>{item.Name}</option>
     });
     var district = this.state.districtList.map(function(item){
-      return <option value={item.Id}>{item.Name}</option>
+      return <option key={item.Id} value={item.Id}>{item.Name}</option>
     });
     var selectStyle = {
       width : '16.6667%!important',

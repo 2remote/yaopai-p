@@ -101,7 +101,7 @@ var MultiImageSelect = React.createClass({
       }
       renderImages = images.map(function(image,i){
         return (
-          <div onMouseEnter={this.handleEnd} onMouseLeave={this.hanldeLeave} style={style.worksWrap}>
+          <div key={i} onMouseEnter={this.handleEnd} onMouseLeave={this.hanldeLeave} style={style.worksWrap}>
             <img width="100" height="100" src={this.parseImageUrl(image)} />
             <div ref="mask" className="mask" style={style.mask}><span ref="delete" data-index={i} onClick={this.onRemove}>删除</span></div>
           </div>
