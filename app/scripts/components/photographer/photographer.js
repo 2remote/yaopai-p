@@ -42,11 +42,11 @@ var Photographer = React.createClass({
         PAuthActions.current();
       }else{
         //普通用户转到摄影师认证
-        this.history.pushSate(null,'/account/pAuth');
+        this.history.pushState(null,'/account/pAuth');
       }
     }else{
       //没有登录转到登录界面
-      this.history.pushSate(null,'/');
+      this.history.pushState(null,'/');
     }
   },
   handleStoreChange : function(data){

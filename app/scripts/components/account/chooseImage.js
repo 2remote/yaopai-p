@@ -201,14 +201,15 @@ var ChooseImages = React.createClass({
     WorkActions.addImage(item);
   },
   render :function(){
-    var renderImages = this.props.value.map(function(imageItem,i){
-      return(
+    var renderImages = [];
+    this.props.value.map(function(imageItem,i){
+      renderImages.push(
           <ImageItem 
-            key={i}
+            key={imageItem.id}
             index={i} 
             imageData={imageItem} 
             onSetCover={this.props.updateCover}/>
-          );
+      )
     }.bind(this));
     return (
         <div className="form-group">
@@ -217,7 +218,11 @@ var ChooseImages = React.createClass({
             <div>
               <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
             </div>
-              <ReactCSSTransitionGroup ref="itemsContainer" transitionName="workItem">
+              <ReactCSSTransitionGroup ref="itemsContainer"
+                className="workList"
+                transitionName="workItem" 
+                transitionEnterTimeout={250}
+                transitionLeaveTimeout={250}>
                 {renderImages}
               </ReactCSSTransitionGroup>
           </div>

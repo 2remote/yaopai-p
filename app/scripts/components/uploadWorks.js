@@ -54,7 +54,7 @@ var ChooseCategory = React.createClass({
 
     //目前没有做排序和是否显示
     var buttons = this.state.categories.map(function(item,i){
-      return(<Button bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
+      return(<Button key={i} bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
     }.bind(this));
     return (
      <div className="form-group">

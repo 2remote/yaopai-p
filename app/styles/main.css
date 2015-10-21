@@ -157,6 +157,8 @@ body {
     padding: 10px 0;
     margin-bottom: 10px;
     background-color: #e5e5e5;
+    -webkit-transition: all .25s; /* TODO: make this a move animation */
+    transition: all .25s; /* TODO: make this a move animation */
 }
 .image-item .move-button {
     float: left;
@@ -282,6 +284,9 @@ body {
   padding-top: 15px;
 }
 
+.workList {
+  transition: .5s ease-in;
+}
 .workItem-enter {
   opacity: 0.01;
   transition: opacity .5s ease-in;
@@ -293,7 +298,7 @@ body {
 
 .workItem-leave {
   opacity: 1;
-  transition: opacity .5s ease-in;
+  transition: opacity .5s ease-out;
 }
 
 .workItem-leave.workItem-leave-active {
