@@ -1,5 +1,6 @@
 var React = require('react');
 var History = require('react-router').History;
+var Location = require('react-router').Location;
 var validator = require('validator');
 var Reflux = require('reflux');
 var GetCodeStore = require('../stores/GetCodeStore');
@@ -380,7 +381,7 @@ var RegisterForm = React.createClass({
 });
 
 var Home = React.createClass({
-  mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History],
+  mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History,Location],
   handleLoginResult : function(data){
     if(data.flag == 'login' || data.flag == 'currentUser' || data.flag == 'loginToken'){
       if(data.hintMessage){
@@ -388,7 +389,10 @@ var Home = React.createClass({
       }else{
         //登录成功,跳转到account界面
         console.log('登录成功');
-        this.history.pushState(null,'/account');
+        if(this.props.location.state && this.props.location.state.nextpage)
+            this.history.replaceState(null,this.props.location.state.nextpage);
+        else
+          this.history.replaceState(null,'/account');
       }
     }
   },
@@ -405,9 +409,11 @@ var Home = React.createClass({
   },
   showLogin : function(){
     this.setState({show : 'login'});
+    return false;
   },
   showRegister : function(){
     this.setState({show : 'register'});
+    return false;
   },
   render : function(){
     var bgStyle = {

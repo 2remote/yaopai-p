@@ -2,6 +2,7 @@ var React = require('react');
 var Router = require('react-router');
 var Link  = Router.Link;
 var History = Router.History;
+var Location = Router.Location;
 var Reflux = require('reflux');
 
 var validator = require('validator');
@@ -25,7 +26,7 @@ var PAuthActions = require('../../actions/PAuthActions');
 var PAuthStore = require('../../stores/PAuthStore');
 
 var Photographer = React.createClass({
-  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStoreChange'),History],
+  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStoreChange'),History,Location],
   getInitialState : function () {
     return{
       photographer : {},
@@ -46,7 +47,7 @@ var Photographer = React.createClass({
       }
     }else{
       //没有登录转到登录界面
-      this.history.pushState(null,'/');
+      this.history.pushState({nextpage : this.props.location.pathname},'/');
     }
   },
   handleStoreChange : function(data){
