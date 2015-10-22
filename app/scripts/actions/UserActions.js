@@ -8,7 +8,8 @@ var UserActions = Reflux.createActions({
     'loginWithToken' : {children : ['success','failed']},
 	  'logout' : {children:["success"]},
     'openLogin' : {children:["success","failed"]},
-    'currentUser' : {children:["success","failed"]},
+    'currentServerUser' : {children:['success','failed']},
+    'currentUser' : {children:[]},
     'modifyPassword':{children:["success","failed"]}
 });
 
@@ -42,7 +43,7 @@ UserActions.openLogin.listen(function(data){
 /*
   得到当前用户
 */
-UserActions.currentUser.listen(function(data){
+UserActions.currentServerUser.listen(function(data){
   console.log('get currentUser');
   HttpFactory.post(API.USER.current_user,data,this.success,this.failed);
 });

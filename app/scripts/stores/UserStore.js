@@ -17,7 +17,8 @@ var UserStore = Reflux.createStore({
       userState: '',
       isLogin: false,
       hintMessage: '',
-      flag : ''
+      flag : '',
+      loginDate : '',
     };
     /*
       获取第三方登录的返回值，并得到当前用户
@@ -35,8 +36,9 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.logout.success, this.onLogoutSuccess);
     this.listenTo(UserActions.loginWithToken.success,this.onLoginWithTokenSuccess);
     this.listenTo(UserActions.loginWithToken.failed,this.onLoginWithTokenFailed);
-    this.listenTo(UserActions.currentUser.success,this.onGetCurrentUser);
-    this.listenTo(UserActions.currentUser.failed,this.onGetCurrentUserFailed);
+    this.listenTo(UserActions.currentServerUser.success,this.onGetCurrentUser);
+    this.listenTo(UserActions.currentServerUser.failed,this.onGetCurrentUserFailed);
+    this.listenTo(UserActions.currentUser,this.onCurrentUser);
     this.listenTo(UserActions.modifyPassword.success,this.onModifyPasswordSuccess);
     this.listenTo(UserActions.modifyPassword.failed,this.onModifyPasswordFailed);
   },
@@ -80,6 +82,26 @@ var UserStore = Reflux.createStore({
       this.userData.hintMessage = "网络出错啦！";
       this.userData.flag = "login";
       this.trigger(this.userData);
+  },
+  /*
+    避免重复读取服务器api
+  */
+  onCurrentUser : function(){
+    var now = new Date();
+    var loginDate = this.userData.loginDate;
+    if(this.userData.isLogin && this.userData.loginDate){
+      if(typeof loginDate == 'string'){
+        loginDate = StringToDate(loginDate);
+      }
+      if(parseInt((now - loginDate)/60000) < 10){
+        //小于十分钟之内的登录，不再向服务器请求当前用户
+        this.userData.flag = 'currentUser';
+        return this.trigger(this.userData);
+      }else{
+        return UserActions.currentServerUser();
+      }
+    }
+    UserActions.currentServerUser();
   },
   onGetCurrentUser : function(data){
     if(data.Success){
@@ -180,7 +202,7 @@ var UserStore = Reflux.createStore({
       this.userData.isLogin = false;
       this.userData.userType = '';
       this.userData.avatar = '';
-      this.userData.userState = '';
+      this.userData.loginDate = '';
     } else {
       this.userData.userId = userData.Id;
       this.userData.userName = userData.Name;
@@ -188,6 +210,7 @@ var UserStore = Reflux.createStore({
       this.userData.avatar = userData.Avatar;
       this.userData.local = userData.Local;
       this.userData.isLogin = true;
+      this.userData.loginDate = new Date();
     }
   },
 
