@@ -131,6 +131,7 @@ var UserStore = Reflux.createStore({
       this.userData.loginToken = data.LoginToken;
       localStorage.setItem(this.userKey,JSON.stringify(this.userData));
     }else{
+      console.log('login with token failed');
       this.setCurrentUser(null);
       this.userData.LoginToken = '';
       localStorage.removeItem(this.userKey);

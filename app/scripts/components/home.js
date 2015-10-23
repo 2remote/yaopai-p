@@ -383,12 +383,19 @@ var RegisterForm = React.createClass({
 var Home = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History,Location],
   handleLoginResult : function(data){
-    if(data.flag == 'login' || data.flag == 'currentUser' || data.flag == 'loginToken'){
+    if(data.flag == 'login'){
       if(data.hintMessage){
         this.handleHint(data.hintMessage);
       }else{
-        //登录成功,跳转到account界面
-        console.log('登录成功');
+        //登录成功，需要获取当前用户
+        UserActions.currentUser();
+      }
+    }
+    if(data.flag == 'currentUser'){
+      if(data.hintMessage){
+        this.handleHint(data.hintMessage);
+      }else{
+        //获取当前用户成功，跳转至指定界面
         if(this.props.location.state && this.props.location.state.nextpage)
             this.history.replaceState(null,this.props.location.state.nextpage);
         else
