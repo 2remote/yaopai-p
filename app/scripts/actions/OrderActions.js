@@ -29,7 +29,7 @@ OrderActions.list.listen(function(type,state){
   };
   var data = {
     State : s,
-    Fields : 'Id,UserId,BuyerName,BueryTel,AppointedTime,PhotographerId,IsSpecifiesAlbums,AlbumsId,CreationTime,State,Photographer.UserId,Photographer.NickName,Photographer.Avatar,User.NickName,User.Avatar,User.UserId',
+    Fields : 'Id,UserId,BuyerName,BuyerTel,AppointedTime,PhotographerId,IsSpecifiesAlbums,AlbumsId,CreationTime,State,Photographer.UserId,Photographer.NickName,Photographer.Avatar,User.NickName,User.Avatar,User.UserId,Albums.Title,Albums.Cover,Albums.Service,Albums.Description',
   };
   if(type == 'out')
     HttpFactory.post(API.ORDER.outSearch,data,this.success,this.failed);
@@ -40,7 +40,7 @@ OrderActions.list.listen(function(type,state){
 OrderActions.get.listen(function(id){
   var data = {
     Id : id,
-    Fields : 'Id,UserId,BuyerName,BueryTel,AppointedTime,PhotographerId,IsSpecifiesAlbums,AlbumsId,CreationTime,State,Photographer.UserId,Photographer.NickName,Photographer.Avatar,User.NickName,User.Avatar,User.UserId',
+    Fields : 'Id,UserId,BuyerName,BuyerTel,AppointedTime,PhotographerId,IsSpecifiesAlbums,AlbumsId,CreationTime,State,Photographer.BusinessPhone,Photographer.NickName,Photographer.Avatar,User.NickName,User.Avatar,User.UserId,Albums.Title,Albums.Cover,Albums.Price,Albums.Service,Albums.Description',
   };
   HttpFactory.post(API.ORDER.get,data,this.success,this.failed);
 });
@@ -61,7 +61,11 @@ OrderActions.add.listen(function(data){
 Id  string  Y 订单Id
 AppointedTime datetime  Y 预约时间
 */
-OrderActions.confirm.listen(function(data){
+OrderActions.confirm.listen(function(id,appointeTime){
+  var data={
+    Id : id,
+    AppointedTime : appointeTime
+  };
   HttpFactory.post(API.ORDER.confirm,data,this.success,this.failed);
 });
 

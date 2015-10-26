@@ -18,7 +18,7 @@ var ListGroupItem = require('react-bootstrap').ListGroupItem;
 var Table = require('react-bootstrap').Table;
 
 var Collapse = require('react-bootstrap').Collapse;
-
+var Modal = require('react-bootstrap').Modal;
 /**
  * ------------------------------------------------------------------
  * 右边导航--->ListGroup组件
@@ -149,6 +149,43 @@ var OrderItem = React.createClass({
   handleCollapse: function () {
     this.setState({orderInfoShow: !this.state.orderInfoShow});
   },
+  handleConfirm : function(e){
+    this.props.confirm(this.props.order);
+  },
+  updateDate : function(e){
+    console.log(e.target.value);
+    this.props.updateDate(this.props.order,new Date(e.target.value));
+  },
+  dateFormat : function(date, format) {
+      if(format === undefined){
+          format = date;
+          date = new Date();
+      }
+      var map = {
+          "M": date.getMonth() + 1, //月份 
+          "d": date.getDate(), //日 
+          "h": date.getHours(), //小时 
+          "m": date.getMinutes(), //分 
+          "s": date.getSeconds(), //秒 
+          "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+          "S": date.getMilliseconds() //毫秒 
+      };
+      format = format.replace(/([yMdhmsqS])+/g, function(all, t){
+          var v = map[t];
+          if(v !== undefined){
+              if(all.length > 1){
+                  v = '0' + v;
+                  v = v.substr(v.length-2);
+              }
+              return v;
+          }
+          else if(t === 'y'){
+              return (date.getFullYear() + '').substr(4 - all.length);
+          }
+          return all;
+      });
+      return format;
+  },
   render: function () {
     var itemStyle = {
       topItem: {
@@ -238,7 +275,7 @@ var OrderItem = React.createClass({
     };
     var triangleClass = this.state.orderInfoShow? itemStyle.triangleHide: itemStyle.triangleShow;
     return (
-      <div className="item">
+      <div >
         <div className="itemTop" style={itemStyle.topItem}>
           <span style={itemStyle.orderTime}>{this.props.order.CreationTime}</span>
           <span>订单号：<b>{this.props.order.Id}</b></span>
@@ -246,31 +283,27 @@ var OrderItem = React.createClass({
         <div className="row" style={itemStyle.infoWrap}>
           <div style={triangleClass} onClick={this.handleCollapse}></div>
           <div style={itemStyle.uniqueLineHeight} className="col-xs-2">
-            <img style={itemStyle.img} src={this.props.order.User.Avatar?this.props.order.User.Avatar:'img/default_user_img.png'} width="60" />
+            <img style={itemStyle.img} src={this.props.order.User.Avatar?this.props.order.User.Avatar:'img/default_user_img.png'} width="60" heigth="60"/>
             <p>{this.props.order.User.NickName}</p>
           </div>
           <div className="col-xs-3" style={itemStyle.commonInfo}>
-            2015/10/20
-            {this.props.order.AppointedTime}
+            <input type="date" value={this.dateFormat(new Date(this.props.order.AppointedTime),'yyyy-MM-dd')} onChange={this.updateDate}/>
           </div>
           <div className="col-xs-2" style={itemStyle.commonInfo}>
-            周宏晓
             {this.props.order.BuyerName}
           </div>
           <div className="col-xs-3" style={itemStyle.commonInfo}>
-            18538156075
             {this.props.order.BueryTel}
           </div>
           <div className="col-xs-2" style={itemStyle.price}>
-            ￥3000
-            {this.props.order.Price}
+            {this.props.order.Price?this.props.order.Price : '面议'}
           </div>
         </div>
         <Collapse in={this.state.orderInfoShow}>
           <div>
             <div className="order-info row" style={itemStyle.orderInfo}>
               <div className="col-xs-3 col-xs-offset-2">
-                <img src={this.props.order.Albums.Cover} width="100"/>
+                <img src={this.props.order.Albums? this.props.order.Albums.Cover : ''} width="100"/>
               </div>
               <div className="col-xs-5 order-writing clearfix">
                 <div className="writing-left pull-left" style={itemStyle.writingLeft}>
@@ -278,12 +311,12 @@ var OrderItem = React.createClass({
                   <p>包含服务：</p>
                 </div>
                 <div className="writing-right pull-right" style={itemStyle.writingRight}>
-                  <p>{this.props.order.Albums.Title}</p>
-                  <p>{this.props.order.Albums.Service}</p>
+                  <p>{this.props.order.Albums?this.props.order.Albums.Title : ''}</p>
+                  <p>{this.props.order.Albums?this.props.order.Albums.Service : ''}</p>
                 </div>
               </div>
               <div className="col-xs-2">
-                <button className="btn btn-default btn-sm confirm" style={itemStyle.confirm}>确认</button>
+                <button className="btn btn-default btn-sm confirm" style={itemStyle.confirm} onClick={this.handleConfirm}>确认</button>
               </div>
             </div>
           </div>
@@ -299,12 +332,27 @@ var OrderItem = React.createClass({
  * ------------------------------------------------------------------
  */
 var ConfirmOrder = React.createClass({
+  getInitialState : function() {
+    return { 
+      showModal: false,
+      order : '',
+    };
+  },
+  close : function() {
+    this.setState({ showModal: false, order : '' });
+  },
+
+  open : function(order) {
+    this.setState({ showModal: true, order : order });
+  },
+  confirm : function(e){
+    this.props.confirm(this.state.order);
+    this.close();
+  },
   render: function () {
     var confirmOrderStyle = {
       confirmWrap: {
         backgroundColor: '#fff',
-        height: '412px',
-        marginLeft: '20px',
         paddingLeft: '10%',
         paddingRight: '10%',
         paddingTop: '26px',
@@ -320,20 +368,29 @@ var ConfirmOrder = React.createClass({
         fontWeight: 'normal',
       },
       confirmBtn: {
-        marginTop: '40px',
+        marginTop: '10px',
         backgroundColor: '#1f2f3f',
         color: '#fff',
       }
     };
     return (
-      <div className="confirm-order" style={confirmOrderStyle.confirmWrap}>
-        <span style={confirmOrderStyle.icon} className="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
-        <h4 style={confirmOrderStyle.title}>确认订单</h4>
-        <p>
-          温馨提示：请您确认客户预约的时间和您的工作时间不冲突，您可以和客户沟通之后自行修改预约时间
-        </p>
-        <button className="btn btn-default" style={confirmOrderStyle.confirmBtn}>确认</button>
-      </div>
+      <Modal show={this.state.showModal} onHide={this.close} bsSize="small">
+        <Modal.Header closeButton>
+            <Modal.Title>确定订单</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div style={confirmOrderStyle.confirmWrap}>
+              <span style={confirmOrderStyle.icon} className="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+              <h4 style={confirmOrderStyle.title}>确认订单</h4>
+              <p>
+                温馨提示：请您确认客户预约的时间和您的工作时间不冲突，您可以和客户沟通之后自行修改预约时间
+              </p>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <button className="btn btn-default" style={confirmOrderStyle.confirmBtn} onClick={this.confirm}>确认</button>
+          </Modal.Footer>
+      </Modal>
     );
   }
 });
@@ -354,7 +411,7 @@ var OrderManager = React.createClass({
     if(data.isLogin){
       OrderActions.list(this.props.params.type,this.props.params.state);
     }else{
-      this.history.pushSate(null,'/');
+      this.history.pushState(null,'/');
     }
   },
   onOrderStoreChange : function(data){
@@ -366,8 +423,14 @@ var OrderManager = React.createClass({
         this.showMessage(data.hintMessage);
     }else if(data.flag == 'confirm'){
       this.showMessage(data.hintMessage);
+      OrderActions.list(this.props.params.type,this.props.params.state);
     }else if(data.flag == 'close'){
       this.showMessage(data.hintMessage);
+    }
+  },
+  componentWillReceiveProps : function (nextProps) {
+    if(this.props.params.type != nextProps.params.type || this.props.params.state != nextProps.params.state){
+      OrderActions.list(nextProps.params.type,nextProps.params.state);
     }
   },
   componentDidMount : function(){
@@ -376,10 +439,25 @@ var OrderManager = React.createClass({
   showMessage : function(msg){
     console.log(msg);
   },
+  showConfirmOrder : function(order){
+    this.refs.confirmModal.open(order);
+  },
+  confirmOrder : function(order){
+    OrderActions.confirm(order.Id,order.AppointedTime);
+  },
+  updateDate : function(order,date){
+    var orders = this.state.orders;
+    for(var i = 0 ; i < orders.length ; i ++){
+      if(orders[i].Id == order.Id){
+        orders[i].AppointedTime = date;
+      }
+    }
+    this.setState({orders : orders});
+  },
   render: function () {
     var orderItems = this.state.orders.map(function(item){
-      <OrderItem order={item} />
-    });
+      return <OrderItem key={item.Id} order={item} confirm={this.showConfirmOrder} updateDate={this.updateDate}/>
+    }.bind(this));
     return (
       <div className="container-fluid no-bgimg gray-bg">
         <Header />
@@ -391,7 +469,7 @@ var OrderManager = React.createClass({
           </div>
           <div className="col-xs-3">
             <OrderManagerNav orderState={this.props.params.state}></OrderManagerNav>
-            <ConfirmOrder></ConfirmOrder>
+            <ConfirmOrder ref="confirmModal" confirm={this.confirmOrder}/>
           </div>
         </div>
         <Footer />

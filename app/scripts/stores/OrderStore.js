@@ -6,6 +6,7 @@ var OrderActions = require('../actions/OrderActions');
 var OrderStore = Reflux.createStore({
   data : {
     orders : [],
+    order : {}, //单个订单数据
     hintMessage : '',
     success : false,
     flag : '',
@@ -37,10 +38,21 @@ var OrderStore = Reflux.createStore({
       this.data.hintMessage = data.ErrorMsg;
     }
     this.data.flag = 'list';
-    this.trigger(this.orders);
+    this.trigger(this.data);
   },
-  onGetOrder : function(data){
+  onGetOrder : function(res){
     //从远端拿到订单信息，暂时不做，目前是一次性拿完数据
+    if(res.Success){
+      this.data.order = res;
+      this.data.hintMessage = '';
+      this.data.success = true;
+    }else{
+      this.data.order = {};
+      this.data.hintMessage = res.ErrorMsg;
+      this.data.success = false;
+    }
+    this.data.flag = 'get';
+    this.trigger(this.data);
   },
   onComfirmOrder : function(res){
     if(res.Success){
@@ -56,6 +68,7 @@ var OrderStore = Reflux.createStore({
   onBookOrder : function(res){
     if(res.Success){
       this.data.hintMessage = '预订成功！'
+      this.data.order= {Id : res.Result};
       this.data.success = true;
     }else{
       this.data.hintMessage = res.ErrorMsg;
