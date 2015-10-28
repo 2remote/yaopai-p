@@ -213,6 +213,14 @@ var OrderItem = React.createClass({
         textAlign: 'center',
         lineHeight: '142px',
       },
+      bookDate: {
+        textAlign: 'center',
+        lineHeight: '140px',
+      },
+      dateInput: {
+        border: 0,
+        paddingLeft: '30%',
+      },
       price: {
         textAlign: 'center',
         lineHeight: '142px',
@@ -274,6 +282,43 @@ var OrderItem = React.createClass({
       }
     };
     var triangleClass = this.state.orderInfoShow? itemStyle.triangleHide: itemStyle.triangleShow;
+    var bottomInfo;
+    if (this.props.order.Albums) {
+      bottomInfo = (
+        <div>
+          <div className="col-xs-3 col-xs-offset-2">
+            <img src={this.props.order.Albums? this.props.order.Albums.Cover : ''} width="100"/>
+          </div>
+          <div className="col-xs-5 order-writing clearfix">
+            <div className="writing-left pull-left" style={itemStyle.writingLeft}>
+              <p>作品名称：</p>
+              <p>包含服务：</p>
+            </div>
+            <div className="writing-right pull-right" style={itemStyle.writingRight}>
+              <p>{this.props.order.Albums?this.props.order.Albums.Title : ''}</p>
+              <p>{this.props.order.Albums?this.props.order.Albums.Service : ''}</p>
+            </div>
+          </div>
+        </div>
+      )
+    } else {
+      bottomInfo = (
+        <div>
+          <div className="col-xs-3 col-xs-offset-2">
+          </div>
+          <div className="col-xs-5 order-writing clearfix">
+          </div>
+        </div>
+      )
+    };
+    var ButtonName;
+    if (this.props.order.State == 0) {
+      ButtonName = '待确认';
+    } else if (this.props.order.State == 1) {
+      ButtonName = '已完成';
+    } else {
+      ButtonName = '用户已取消';
+    }
     return (
       <div >
         <div className="itemTop" style={itemStyle.topItem}>
@@ -286,14 +331,14 @@ var OrderItem = React.createClass({
             <img style={itemStyle.img} src={this.props.order.User.Avatar?this.props.order.User.Avatar:'img/default_user_img.png'} width="60" heigth="60"/>
             <p>{this.props.order.User.NickName}</p>
           </div>
-          <div className="col-xs-3" style={itemStyle.commonInfo}>
-            <input type="date" value={this.dateFormat(new Date(this.props.order.AppointedTime),'yyyy-MM-dd')} onChange={this.updateDate}/>
+          <div className="col-xs-3" style={itemStyle.bookDate}>
+            <input style={itemStyle.dateInput} type="date" value={this.dateFormat(new Date(this.props.order.AppointedTime),'yyyy-MM-dd')} onChange={this.updateDate}/>
           </div>
           <div className="col-xs-2" style={itemStyle.commonInfo}>
             {this.props.order.BuyerName}
           </div>
           <div className="col-xs-3" style={itemStyle.commonInfo}>
-            {this.props.order.BueryTel}
+            {this.props.order.BuyerTel}
           </div>
           <div className="col-xs-2" style={itemStyle.price}>
             {this.props.order.Price?this.props.order.Price : '面议'}
@@ -302,21 +347,9 @@ var OrderItem = React.createClass({
         <Collapse in={this.state.orderInfoShow}>
           <div>
             <div className="order-info row" style={itemStyle.orderInfo}>
-              <div className="col-xs-3 col-xs-offset-2">
-                <img src={this.props.order.Albums? this.props.order.Albums.Cover : ''} width="100"/>
-              </div>
-              <div className="col-xs-5 order-writing clearfix">
-                <div className="writing-left pull-left" style={itemStyle.writingLeft}>
-                  <p>作品名称：</p>
-                  <p>包含服务：</p>
-                </div>
-                <div className="writing-right pull-right" style={itemStyle.writingRight}>
-                  <p>{this.props.order.Albums?this.props.order.Albums.Title : ''}</p>
-                  <p>{this.props.order.Albums?this.props.order.Albums.Service : ''}</p>
-                </div>
-              </div>
+              {bottomInfo}
               <div className="col-xs-2">
-                <button className="btn btn-default btn-sm confirm" style={itemStyle.confirm} onClick={this.handleConfirm}>确认</button>
+                <button className="btn btn-default btn-sm confirm" style={itemStyle.confirm} onClick={this.handleConfirm}>{ButtonName}</button>
               </div>
             </div>
           </div>
@@ -430,6 +463,7 @@ var OrderManager = React.createClass({
   },
   componentWillReceiveProps : function (nextProps) {
     if(this.props.params.type != nextProps.params.type || this.props.params.state != nextProps.params.state){
+      console.log(nextProps.params.type,nextProps.params.state);
       OrderActions.list(nextProps.params.type,nextProps.params.state);
     }
   },
