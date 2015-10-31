@@ -9,6 +9,7 @@ var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
 var IndexCover = require('./indexCover');
 var ToolTip = require('./toolTip');
+var Cube = require('./cube');
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -446,6 +447,7 @@ var Home = React.createClass({
     return (
       <div style={bgStyle}>
         <ToolTip ref="toolTip" title=""></ToolTip>
+        <Cube content = '邀拍一起拍啊' />
         {mainFrame}
       </div>
     );
