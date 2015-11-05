@@ -154,8 +154,8 @@ var WorksList = React.createClass({
       有三种状态
       1.上架：Display ＝ true
       2.下架：Display ＝ false
-      2.待审核 ： IsPending
-      3.违规 ： IsFoul
+      2.待审核 ： state = 0
+      3.违规 ： state = 2
     */
     return {
       type : '',
@@ -191,7 +191,7 @@ var WorksList = React.createClass({
       data.Display = false;
       AlbumsActions.getMyAlbums(data);
     }else if(this.props.type == '3'){
-      data.IsPending = true;
+      data.state = 0;
       AlbumsActions.getMyAlbums(data);
     }
   },
