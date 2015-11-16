@@ -141,7 +141,7 @@ var PersonInfo = React.createClass({
       }
     }else{
       //没有登录跳转到首页登录界面
-      this.history.pushState(null,'/');
+      UserActions.logout(true);
     }
   },
   onAccountChanged : function(data){
