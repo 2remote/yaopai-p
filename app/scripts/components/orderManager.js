@@ -287,7 +287,7 @@ var OrderItem = React.createClass({
       bottomInfo = (
         <div>
           <div className="col-xs-3 col-xs-offset-2">
-            <img src={this.props.order.Albums? this.props.order.Albums.Cover : ''} width="100"/>
+            <img src={this.props.order.Albums? this.props.order.Albums.Cover : ''} width="100" height="80" />
           </div>
           <div className="col-xs-5 order-writing clearfix">
             <div className="writing-left pull-left" style={itemStyle.writingLeft}>
