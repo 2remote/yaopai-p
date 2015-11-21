@@ -9,7 +9,7 @@ var Local_Host = window.location.href;
 
 //根据local host切换api
 const re = /dev\./i;
-if(Local_Host.match(re) === null ){
+if( !Local_Host && Local_Host.match(re) === null ){
   DOMAIN = PRODUCTION_ENV;
 }
 const API_URL = DOMAIN + '?api=';
