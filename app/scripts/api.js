@@ -1,18 +1,37 @@
 // var API_URL = 'http://localhost:3000';
-const DEV_ENV = '//dev.api.aiyaopai.com/';
-const PRODUCTION_ENV = '//api.aiyaopai.com/';
+var DEV_ENV = '//dev.api.aiyaopai.com/';
+var PRODUCTION_ENV = '//api.aiyaopai.com/';
 
-let DOMAIN = DEV_ENV;
+
+var DOMAIN = DEV_ENV;
 
 //获取当前网站的根目录
-var Local_Host = window.location.href;
+var Local_Host = window.location.host;
 
 //根据local host切换api
-const re = /dev\./i;
-if( !Local_Host && Local_Host.match(re) === null ){
+function hasHost(host) {
+  return host.length > 0;
+}
+
+function isDevHost(host) {
+  var re = /dev\.|192\.|localhost|0\./i;
+  var founds = host.match(re);
+  if (founds != null) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isProdHost(host) {
+  return !isDevHost(host);
+}
+
+if (hasHost(Local_Host) && isProdHost(Local_Host)) {
   DOMAIN = PRODUCTION_ENV;
 }
-const API_URL = DOMAIN + '?api=';
+
+var API_URL = DOMAIN + '?api=';
 
 var API_CONST = {
   USER : {
