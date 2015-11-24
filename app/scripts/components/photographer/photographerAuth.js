@@ -124,6 +124,7 @@ var PhotographerAuth = React.createClass({
       }
     }else{
       //没有登录转到登录界面
+      UserActions.logout(true);
       this.history.pushState(null,'/');
     }
   },
