@@ -16,7 +16,6 @@ body {
   background-color: #eaeaea;
 }
 .header {
-    overflow: hidden;
     height: 70px;
     opacity:0.95;
     position: fixed;
