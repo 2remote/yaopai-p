@@ -255,6 +255,52 @@ var Photographer = React.createClass({
         color: '#777777',
       },
     };
+    var studio = '';
+    if (this.state.photographer.OwnedStudio) {
+      studio = (
+        <div>
+          <TextInput ref="companyName"
+            labelName="工作室名称："
+            value = {this.state.studio.Name}
+            updateValue = {this.updateCompanyName}
+            minLength={2}
+            disabled={this.state.disabled}
+            textClassName="col-xs-4"
+            placeholder=""/>
+          <CompanyLogo ref="complanyLogo"
+            value = {this.state.studio.Logo}
+            updateValue = {this.updateCompanyLogo}
+            disabled={this.state.disabled} />
+          <MultiImageSelect ref="companyImages"
+            width="100"
+            height="100"
+            uid = "companyImagesSelect"
+            disabled={this.state.disabled}
+            maxCount={4}
+            labelName="工作室照片："
+            images={this.state.studio.Images}
+            remove={this.removeCompanyImage}
+            updateImages={this.updateCompanyImages}/>
+          <TextInput ref="address"
+            labelName="工作室地址："
+            value = {this.state.studio.Address}
+            updateValue = {this.updateCompanyAddress}
+            minLength={5}
+            disabled={this.state.disabled}
+            textClassName="col-xs-4"
+            placeholder=""/>
+          <TextInput ref="companyIntro"
+            type="textarea"
+            disabled={this.state.disabled}
+            labelName="工作室简介："
+            value = {this.state.studio.Introduction}
+            updateValue = {this.updateCompanyIntro}
+            minLength={10}
+            textClassName="col-xs-6"
+            placeholder=""/>
+        </div>
+      );
+    }
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="摄影师信息" rightInfo="已审核" infoIconClass="glyphicon glyphicon-camera"/>
@@ -311,45 +357,7 @@ var Photographer = React.createClass({
             disabled={this.state.disabled}
             checked={this.state.photographer.OwnedStudio}
             onChange={this.updateHasCompany}/>
-          <TextInput ref="companyName"
-            labelName="工作室名称："
-            value = {this.state.studio.Name}
-            updateValue = {this.updateCompanyName}
-            minLength={2}
-            disabled={this.state.disabled}
-            textClassName="col-xs-4"
-            placeholder=""/>
-          <CompanyLogo ref="complanyLogo"
-            value = {this.state.studio.Logo}
-            updateValue = {this.updateCompanyLogo}
-            disabled={this.state.disabled} />
-          <MultiImageSelect ref="companyImages"
-            width="100"
-            height="100"
-            uid = "companyImagesSelect"
-            disabled={this.state.disabled}
-            maxCount={4}
-            labelName="工作室照片："
-            images={this.state.studio.Images}
-            remove={this.removeCompanyImage}
-            updateImages={this.updateCompanyImages}/>
-          <TextInput ref="address"
-            labelName="工作室地址："
-            value = {this.state.studio.Address}
-            updateValue = {this.updateCompanyAddress}
-            minLength={5}
-            disabled={this.state.disabled}
-            textClassName="col-xs-4"
-            placeholder=""/>
-          <TextInput ref="companyIntro"
-            type="textarea"
-            disabled={this.state.disabled}
-            labelName="工作室简介："
-            value = {this.state.studio.Introduction}
-            updateValue = {this.updateCompanyIntro}
-            minLength={10}
-            textClassName="col-xs-6"
-            placeholder=""/>
+            {studio}
           <Button className="col-xs-offset-2"
             disabled={this.state.disabled}
             bsStyle="primary"

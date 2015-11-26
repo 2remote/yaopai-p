@@ -89,7 +89,7 @@ var ModifyPassword = React.createClass({
   handleUserStoreChange : function(data){
     this.setState({phone : data.userName});
     if(data.flag == "modifyPassword")
-      this.setState({alertMessage : data.hintMessage});
+      this.refs.toolTip.toShow(data.hintMessage);
   },
   handleModifyPassword : function(){
     var oldPass = this.refs.oldPass.getValue();
@@ -139,74 +139,74 @@ var ModifyPassword = React.createClass({
   }
 });
 
-var ThirdPartLogin = React.createClass({
-  render : function(){
-    var style = {
-      title: {
-        marginBottom: '40px',
-        marginTop: '60px',
-        textAlign: 'right',
-        borderTop: '1px solid #e8e8e8',
-      },
-      label: {
-        marginLeft: '10px',
-      },
-      words: {
-        paddingLeft: '100px',
-      },
-      /*按钮等宽*/
-      commonButton: {
-        width: '100px',
-      },
-      removeButton: {
-        width: '100px',
-        backgroundColor: '#777777',
-        color: '#fff',
-        marginRight: '15px',
-      },
-      lineH: {
-        lineHeight: '50px',
-        height: '50px',
-      },
-      weibo: {
-        background: 'url(img/weibo.png) no-repeat left center',
-        textIndent: '60px',
-      },
-      wechat: {
-        background: 'url(img/account-wechat.png) no-repeat left center',
-        textIndent: '60px',
-      }
-    };
-    return(
-      <div className="form-group">
-        <div className="row" style={style.title}>
-          <div className="col-xs-2">
-            <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
-            <label className="control-label" style={style.label}>第三方登录</label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-6" style={style.words}>
-            <h5>应用</h5>
-            <p style={[style.weibo, style.lineH]}>新浪微博</p>
-            <p style={[style.wechat, style.lineH]}>微信</p>
-          </div>
-          <div className="col-xs-6">
-            <h5>状态</h5>
-            <p style={style.lineH}>
-              <Button style={style.removeButton}>已绑定</Button>
-              <Button bsStyle="danger" style={style.commonButton}>解绑</Button>
-            </p>
-            <p style={style.lineH}>
-              <Button bsStyle="primary" style={style.commonButton}>绑定</Button>
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-});
-ThirdPartLogin = Radium(ThirdPartLogin);
+// var ThirdPartLogin = React.createClass({
+//   render : function(){
+//     var style = {
+//       title: {
+//         marginBottom: '40px',
+//         marginTop: '60px',
+//         textAlign: 'right',
+//         borderTop: '1px solid #e8e8e8',
+//       },
+//       label: {
+//         marginLeft: '10px',
+//       },
+//       words: {
+//         paddingLeft: '100px',
+//       },
+//       /*按钮等宽*/
+//       commonButton: {
+//         width: '100px',
+//       },
+//       removeButton: {
+//         width: '100px',
+//         backgroundColor: '#777777',
+//         color: '#fff',
+//         marginRight: '15px',
+//       },
+//       lineH: {
+//         lineHeight: '50px',
+//         height: '50px',
+//       },
+//       weibo: {
+//         background: 'url(img/weibo.png) no-repeat left center',
+//         textIndent: '60px',
+//       },
+//       wechat: {
+//         background: 'url(img/account-wechat.png) no-repeat left center',
+//         textIndent: '60px',
+//       }
+//     };
+//     return(
+//       <div className="form-group">
+//         <div className="row" style={style.title}>
+//           <div className="col-xs-2">
+//             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
+//             <label className="control-label" style={style.label}>第三方登录</label>
+//           </div>
+//         </div>
+//         <div className="row">
+//           <div className="col-xs-6" style={style.words}>
+//             <h5>应用</h5>
+//             <p style={[style.weibo, style.lineH]}>新浪微博</p>
+//             <p style={[style.wechat, style.lineH]}>微信</p>
+//           </div>
+//           <div className="col-xs-6">
+//             <h5>状态</h5>
+//             <p style={style.lineH}>
+//               <Button style={style.removeButton}>已绑定</Button>
+//               <Button bsStyle="danger" style={style.commonButton}>解绑</Button>
+//             </p>
+//             <p style={style.lineH}>
+//               <Button bsStyle="primary" style={style.commonButton}>绑定</Button>
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+// });
+// ThirdPartLogin = Radium(ThirdPartLogin);
 var AccountInfo = React.createClass({
 
   render: function() {
@@ -223,7 +223,7 @@ var AccountInfo = React.createClass({
         <form className='form-horizontal'>
           <UserPhone />
           <ModifyPassword />
-          <ThirdPartLogin />
+          {/*<ThirdPartLogin />*/}
         </form>
       </div>
       // <Panel>
