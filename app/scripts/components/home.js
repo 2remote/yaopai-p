@@ -406,7 +406,7 @@ var Home = React.createClass({
   },
   getInitialState : function(){
     return{
-      show : 'register',
+      show : 'login',
     }
   },
   componentDidMount : function(){
