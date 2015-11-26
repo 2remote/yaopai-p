@@ -242,7 +242,9 @@ var Photographer = React.createClass({
         Images : this.state.studio.Images
       };
       PAuthActions.change(pdata);
-      PAuthActions.changeStudio(sdata);
+      if (this.state.photographer.OwnedStudio) {
+        PAuthActions.changeStudio(sdata);
+      }
     }else{
       this.showMessage(message);
     }
