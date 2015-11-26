@@ -13,6 +13,9 @@ var ToolTip = require('./toolTip');
 var AlbumsStore = require('../stores/AlbumsStore');
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
+var UserActions = require("../actions/UserActions");
+var UserStore = require("../stores/UserStore");
+var History = require('react-router').History;
 /*
   选择类别组件
 */
@@ -82,7 +85,7 @@ var ChooseCategory = React.createClass({
   3. 在这个界面可以增加，修改相册
 */
 var UploadWorks = React.createClass({
-  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged'),Reflux.listenTo(WorkStore,'onWorkStoreChange')],
+  mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged'),Reflux.listenTo(WorkStore,'onWorkStoreChange'),Reflux.listenTo(UserStore, 'isLogin'), History],
   getInitialState : function(){
     return {
       title : '',
@@ -93,6 +96,13 @@ var UploadWorks = React.createClass({
       cover : -1,
       photos : [],
       tags : []
+    }
+  },
+  isLogin: function (data) {
+    if (!data.isLogin) {
+      //没有登录跳转到首页登录界面
+      UserActions.logout(true);
+      this.history.pushState(null, '/');
     }
   },
   onStoreChanged : function(data){

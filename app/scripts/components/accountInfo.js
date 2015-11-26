@@ -10,6 +10,7 @@ var UserActions = require('../actions/UserActions');
 var AlertBox = require('./user/alertBox');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
+var History = require('react-router').History;
 
 var UserPhone = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleGetPhone')],
@@ -76,7 +77,7 @@ var PasswordInput = React.createClass({
 });
 
 var ModifyPassword = React.createClass({
-  mixins: [Reflux.listenTo(UserStore, 'handleUserStoreChange')],
+  mixins: [Reflux.listenTo(UserStore, 'handleUserStoreChange'), History],
   getInitialState : function(){
     return {
       alertMessage : '',
@@ -87,9 +88,15 @@ var ModifyPassword = React.createClass({
     接收修改密码结果
   */
   handleUserStoreChange : function(data){
-    this.setState({phone : data.userName});
-    if(data.flag == "modifyPassword")
-      this.refs.toolTip.toShow(data.hintMessage);
+    if (data.isLogin) {
+      this.setState({phone : data.userName});
+      if(data.flag == "modifyPassword")
+        this.refs.toolTip.toShow(data.hintMessage);
+    } else {
+      //没有登录跳转到首页登录界面
+      UserActions.logout(true);
+      this.history.pushState(null, '/');
+    }
   },
   handleModifyPassword : function(){
     var oldPass = this.refs.oldPass.getValue();
