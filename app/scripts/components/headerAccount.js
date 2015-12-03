@@ -11,8 +11,8 @@ var RegisterPanel = require('./registerPanel');
 
 
 var Acount = React.createClass({
-	mixins: [Reflux.listenTo(UserStore, 'onStatusChange'),History],
-	getInitialState: function () {
+  mixins: [Reflux.listenTo(UserStore, 'onStatusChange'),History],
+  getInitialState: function () {
       return {currentUser : UserStore.userData};
   },
   onStatusChange: function (data) {
@@ -72,8 +72,7 @@ var Acount = React.createClass({
       }
     };
 
-    if(this.state.currentUser.isLogin){
-		return (
+    return(
       <ul className= "nav navbar-nav navbar-right  right-header-nav">
         <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
           <Link to="/account/pAuth" title="摄影师认证" style={headerStyle.liStyle}>
@@ -113,28 +112,17 @@ var Acount = React.createClass({
           </ul>
         </li>
       </ul>
-      )
-	}else{
-		return (
-				<ul className= "nav navbar-nav navbar-right">
-					<li style={headerStyle.loginBtn}>
-            <Link to="/" title="登录" style={headerStyle.liStyle}>登录</Link>
-          </li>
-				</ul>
-			)
-	}
+    )
   },
-	render : function(){
-		return(
-				<div className="right-header-nav">
+  render : function(){
+    return(
+      <div className="right-header-nav">
         {
           this.getContent()
         }
-          <LoginPanel ref="loginModal" register={this.handleRegister} />
-          <RegisterPanel ref="registerModal" login={this.handleLogin}/>
-				</div>
-		);
-	}
+      </div>
+    );
+  }
 });
 
 module.exports = Acount;
