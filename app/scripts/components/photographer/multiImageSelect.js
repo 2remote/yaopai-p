@@ -111,8 +111,8 @@ var MultiImageSelect = React.createClass({
     if(this.props.disabled) canAddImage = false;
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2" style={style.label}>{this.props.labelName}</label>
-          <div className="col-xs-10">
+        <label className="control-label col-xs-3" style={style.label}>{this.props.labelName}</label>
+          <div className="col-xs-9">
           {renderImages}
           <ImageInput
             addStyle={canAddImage?style.addImg:style.addImgHide}

@@ -41,7 +41,7 @@ var UserImage = React.createClass({
     }
     return (
         <div className="form-group">
-          <label className="control-label col-xs-2" style={style.label}>头像：</label>
+          <label className="control-label col-xs-3" style={style.label}>头像：</label>
           <div id="uploadAvatorC" className="col-xs-4">
             <ImageInput 
               width="150" 
@@ -88,14 +88,14 @@ var UserGender = React.createClass({
     var buttons;
     if(this.props.value == 1){
       buttons = (
-        <div className="col-xs-4">
+        <div className="col-xs-5">
           <Button disabled={this.props.disabled} bsStyle="primary" style={style.commonButton} onClick={this.beMan} active>男</Button>
           <Button disabled={this.props.disabled} style={style.commonButton} onClick={this.beWeman}>女</Button>
         </div>
       );
     }else{
       buttons = (
-        <div className="col-xs-4">
+        <div className="col-xs-5">
           <Button disabled={this.props.disabled} style={style.commonButton} onClick={this.beMan} >男</Button>
           <Button disabled={this.props.disabled} bsStyle="primary" style={style.commonButton} onClick={this.beWeman} active>女</Button>
         </div>
@@ -103,7 +103,7 @@ var UserGender = React.createClass({
     }
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">性别：</label>
+        <label className="control-label col-xs-3">性别：</label>
           {buttons}
       </div>
     );
@@ -195,7 +195,7 @@ var PersonInfo = React.createClass({
             textClassName='col-xs-3'
             disabled={!this.state.editable}/>
           <UserGender ref="gender" value={this.state.gender} updateValue={this.updateGender} disabled={!this.state.editable}/>
-          <button className="btn btn-primary col-xs-offset-2" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
+          <button className="btn btn-primary col-xs-offset-3" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
           <ToolTip ref="toolTip" title=""/>
         </form>
       </div>

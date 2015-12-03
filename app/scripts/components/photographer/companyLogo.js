@@ -20,7 +20,7 @@ var CompanyLogo = React.createClass({
     };
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2" style={style.label}>工作室LOGO：</label>
+        <label className="control-label col-xs-3" style={style.label}>工作室LOGO：</label>
         <div className="col-xs-6">
           <ImageInput
             width="200"

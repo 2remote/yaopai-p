@@ -308,11 +308,11 @@ var Photographer = React.createClass({
         <InfoHeader infoTitle="摄影师信息" rightInfo="已审核" infoIconClass="glyphicon glyphicon-camera"/>
         <form className='form-horizontal'>
           <FormControls.Static label="姓名：" 
-            labelClassName="col-xs-2" 
+            labelClassName="col-xs-3" 
             wrapperClassName="col-xs-4" 
             value={this.state.photographer.RealName} />
           <FormControls.Static label="身份证号码：" 
-            labelClassName="col-xs-2" 
+            labelClassName="col-xs-3" 
             wrapperClassName="col-xs-4" 
             value={this.state.photographer.IdNumber} />
           <AreaSelect ref="area"
@@ -360,7 +360,7 @@ var Photographer = React.createClass({
             checked={this.state.photographer.OwnedStudio}
             onChange={this.updateHasCompany}/>
             {studio}
-          <Button className="col-xs-offset-2"
+          <Button className="col-xs-offset-3"
             disabled={this.state.disabled}
             bsStyle="primary"
             onClick={this.handleSubmit}>

@@ -91,7 +91,7 @@ var AreaSelect = React.createClass({
     };
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">
+        <label className="control-label col-xs-3">
           <span>地区：</span>
         </label>
         <select ref="province" 

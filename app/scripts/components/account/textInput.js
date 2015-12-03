@@ -70,7 +70,7 @@ var TextInput = React.createClass({
         bsStyle={this.validatedClass()}
         label={this.props.labelName}
         placeholder={this.props.placeholder}
-        labelClassName='col-xs-2'
+        labelClassName='col-xs-3'
         wrapperClassName={this.props.textClassName}
         help={this.props.help}
         hasFeedback />

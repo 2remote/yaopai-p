@@ -213,7 +213,7 @@ var ChooseImages = React.createClass({
     }.bind(this));
     return (
         <div className="form-group">
-          <label className="control-label col-xs-2">上传图片：</label>
+          <label className="control-label col-xs-3">上传图片：</label>
           <div id="pickfilesCont" className="col-xs-8">
             <div>
               <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />

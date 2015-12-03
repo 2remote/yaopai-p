@@ -41,8 +41,8 @@ var HasCompany = React.createClass({
     };
     return (
       <div className= "form-group">
-        <label className="control-label col-xs-2">是否有工作室：</label>
-        <div className="col-xs-4">
+        <label className="control-label col-xs-3">是否有工作室：</label>
+        <div className="col-xs-5">
           <span onClick={this.props.disabled?null:this.onNoClick} style={this.props.checked?normalStyle:noSelected}>NO</span>
         <span onClick={this.props.disabled?null:this.onYesClick} style={this.props.checked?yesSelected:normalStyle}>YES</span>
         </div>

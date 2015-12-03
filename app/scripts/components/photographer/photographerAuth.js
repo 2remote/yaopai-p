@@ -65,8 +65,8 @@ var PersonIDImage = React.createClass({
     }
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2" style={style.label}>身份证正反面：</label>
-        <div className="col-xs-10">
+        <label className="control-label col-xs-3" style={style.label}>身份证正反面：</label>
+        <div className="col-xs-9">
           <div className="row" style={style.imgId}>
             <ImageInput width="200" 
               height="150" 

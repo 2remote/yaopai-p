@@ -39,7 +39,7 @@ var UserPhone = React.createClass({
     }
     return (
       <div className="form-group" style={style.phone}>
-        <div className="col-xs-2" style={style.labelWrap}>
+        <div className="col-xs-3" style={style.labelWrap}>
           <label className="control-label" style={style.label}>昵称</label>
         </div>
         <div className="col-xs-4">
@@ -68,7 +68,7 @@ var PasswordInput = React.createClass({
         bsStyle={this.props.validatedClass}
         label={this.props.labelName}
         placeholder={this.props.placeholderName}
-        labelClassName='col-xs-2'
+        labelClassName='col-xs-3'
         wrapperClassName={this.props.textClassName}
         hasFeedback />
       );
@@ -180,7 +180,7 @@ var ModifyPassword = React.createClass({
 //     return(
 //       <div className="form-group">
 //         <div className="row" style={style.title}>
-//           <div className="col-xs-2">
+//           <div className="col-xs-3">
 //             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
 //             <label className="control-label" style={style.label}>第三方登录</label>
 //           </div>

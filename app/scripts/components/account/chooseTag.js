@@ -102,8 +102,8 @@ var ChooseTag = React.createClass({
   render : function(){
     return(
       <div className="form-group">
-        <label className="control-label col-xs-2">标签：</label>
-        <div className="col-xs-10">
+        <label className="control-label col-xs-3">标签：</label>
+        <div className="col-xs-9">
           <div className="choose-tag">
             <TagsInput ref='tagsInput' placeholder="输入标签回车"/>
             <div className="const-tags">
