@@ -90,7 +90,7 @@ var LoginButtonn = React.createClass({
       color: '#fff',
       fontSize: '20px',
       textAlign : 'center',
-      paddingTop : '10px;',
+      paddingTop : '10px',
       cursor : 'pointer',
       marginBottom: '26px'
     };
