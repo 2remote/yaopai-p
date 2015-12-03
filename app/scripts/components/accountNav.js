@@ -40,7 +40,7 @@ var AccountNav = React.createClass({
           </Link></li>
           <li className="list-group-item"><Link style={style.liStyle} to="/account/info">
             <span className="glyphicon glyphicon-cog" style={style.icon} aria-hidden="true"></span>
-            账户信息
+            修改密码
           </Link></li>
           <li className="list-group-item"><Link style={style.liStyle} to={this.state.isPhotographer?"/account/photographer":"/account/pAuth"}>
             <span className="glyphicon glyphicon-camera" style={style.icon} aria-hidden="true"></span>

@@ -40,8 +40,7 @@ var UserPhone = React.createClass({
     return (
       <div className="form-group" style={style.phone}>
         <div className="col-xs-2" style={style.labelWrap}>
-          <span className="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-          <label className="control-label" style={style.label}>个人名字</label>
+          <label className="control-label" style={style.label}>昵称</label>
         </div>
         <div className="col-xs-4">
           <p style={{marginBottom: '0px',paddingTop: '5px'}}>{this.state.userName}</p>
@@ -130,12 +129,6 @@ var ModifyPassword = React.createClass({
     }
     return (
       <div>
-        <div className="form-group">
-          <div className="col-xs-2" style={style.labelWrap}>
-            <span className="glyphicon glyphicon-lock" aria-hidden="true"></span>
-            <label className="control-label" style={style.label}>修改密码</label>
-          </div>
-        </div>
         <PasswordInput ref="oldPass" labelName="当前密码" />
         <PasswordInput ref="newPass" labelName="新密码" />
         <PasswordInput ref="newPassRepeat" labelName="确认密码" />
@@ -226,7 +219,7 @@ var AccountInfo = React.createClass({
     };
     return (
       <div style={style.outer}>
-        <InfoHeader infoTitle="账户信息" infoIconClass="glyphicon glyphicon-cog"/>
+        <InfoHeader infoTitle="修改密码" infoIconClass="glyphicon glyphicon-cog"/>
         <form className='form-horizontal'>
           <UserPhone />
           <ModifyPassword />
