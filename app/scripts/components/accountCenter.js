@@ -11,11 +11,11 @@ var AccountCenter = React.createClass({
       <div className="container-fluid no-bgimg gray-bg">
         <Header />
         <div className="center-content">
-          <div className="col-xs-10">
+          <div className="col-xs-9">
             {this.props.children}
           </div>
-          <div className="col-xs-2">
-            <AccountNav  />
+          <div className="col-xs-3">
+            <AccountNav />
           </div>
         </div>
       </div>
