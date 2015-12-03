@@ -506,7 +506,6 @@ var OrderManager = React.createClass({
             <ConfirmOrder ref="confirmModal" confirm={this.confirmOrder}/>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
