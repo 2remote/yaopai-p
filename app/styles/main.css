@@ -9,6 +9,7 @@ body {
 }
 #content {
   height: 100%;
+  width: 980px!important;
 }
 .gray-bg {
   width: 100%;
