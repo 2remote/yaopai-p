@@ -43,4 +43,13 @@ PC web For YaoPai
 	聊一聊基于flux的前端系统
 	http://react.nodejs-china.org/t/flux/615
 
+###兼容windows
+    
+    - Failed at the contextify@0.1.15 install script 'node-gyp rebuild'
+        解决方案：
+        下载别人编译的contextify的zip包，https://github.com/Benvie/contextify/zipball/master
+        将内容保存到node_modules目录中，改名为contextify
+    - UNMET PEER DEPENDENCY history@^1.12.0  
+        npm install history
 
+    解决了这2个问题后 直接npm run start就可以了
