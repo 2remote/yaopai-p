@@ -195,7 +195,7 @@ var Photographer = React.createClass({
       return message;
     }
     if(!this.refs.personIntro.isValidated()){
-      message = '个人签名必须在10字以上';
+      message = '个人签名必须在10-100字之间';
       return message;
     }
     if(this.refs.hasCompany.getValue()){
@@ -352,6 +352,7 @@ var Photographer = React.createClass({
             value = {this.state.photographer.Signature}
             updateValue = {this.updateSign}
             minLength={10}
+            maxLength={100}
             disabled={this.state.disabled}
             textClassName="col-xs-4"
             placeholder="他很懒什么都没有留下"/>

@@ -168,7 +168,7 @@ var UploadWorks = React.createClass({
   },
   validate : function(){
     if(this.state.title.length < 5 || this.state.title.length > 25){
-      this.showMessage('作品名称必须在5-25字之间');
+      this.showMessage('作品名称必须在1-20字之间');
       return false;
     }
     if(this.state.photos.length == 0){
@@ -255,7 +255,7 @@ var UploadWorks = React.createClass({
             value = {this.state.title}
             updateValue = {this.updateTitle}
             minLength={5}
-            placeholder="名称应该在5-25字之间"/>
+            placeholder="名称应该在1-20字之间"/>
           <ChooseImage value={this.state.photos}
             ref="chooseImage"/>
           <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>

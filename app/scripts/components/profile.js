@@ -221,10 +221,12 @@ var WorksList = React.createClass({
     var photoList = this.state.workList.map(function(work,i){
       return (
         <div style={mainStyle.worksWrap}>
-          <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
-          <div style={mainStyle.description}>
-            <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
-          </div>
+          <Link style={style.liStyle} to="/account/personInfo">
+            <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
+            <div style={mainStyle.description}>
+              <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
+            </div>
+          </Link>
         </div>
       );
     }.bind(this));
