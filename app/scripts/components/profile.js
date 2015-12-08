@@ -220,8 +220,8 @@ var WorksList = React.createClass({
     };
     var photoList = this.state.workList.map(function(work,i){
       return (
-        <div style={mainStyle.worksWrap}>
-          <Link style={style.liStyle} to="/account/personInfo">
+        <div key={i} style={mainStyle.worksWrap}>
+          <Link to={'/albums/'+work.Id}>
             <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
             <div style={mainStyle.description}>
               <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>

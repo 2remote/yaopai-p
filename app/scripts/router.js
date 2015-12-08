@@ -34,7 +34,7 @@ var routes = (
 			</Route>
 			<Route path="order/:type/:state" component={OrderManager} />
 			<Route path="profile/:type" component={Profile} />
-			<Route path="/albums/:id" component={Albums} />
+			<Route path="albums/:id" component={Albums} />
 		</Route>
 	</Router>
 	
