@@ -41,8 +41,8 @@ var Acount = React.createClass({
   getContent : function(){
     var headerStyle= {
       liStyle : {
-        lineHeight: '50px',
-        padding: '0 10px',
+        // lineHeight: '50px',
+        // padding: '0 10px',
       },
       personCenter: {
         padding: '0 10px',
@@ -55,14 +55,14 @@ var Acount = React.createClass({
         marginRight :'20px',
       },
       logoutBtn : {
-        display: 'block',
-        padding: '3px 20px',
-        clear: 'both',
-        fontWeight: '400',
-        lineHeight: '1.42857143',
-        color: '#333',
-        whiteSpace: 'nowrap',
-        cursor : 'pointer',
+        // display: 'block',
+        // padding: '3px 20px',
+        // clear: 'both',
+        // fontWeight: '400',
+        // lineHeight: '1.42857143',
+        // color: '#333',
+        // whiteSpace: 'nowrap',
+        // cursor : 'pointer',
       },
       avatar : {
         borderRadius : '50%',
@@ -73,15 +73,16 @@ var Acount = React.createClass({
     };
 
     return(
-      <ul className= "nav navbar-nav navbar-right  right-header-nav">
+      <div>
+      <ul className= "nav navbar-nav">
         <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
           <Link to="/account/pAuth" title="摄影师认证" style={headerStyle.liStyle}>
             <img height="20" src="img/camera.png" />
           </Link>
         </li>
         <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
-          <Link to="/account/upload" title="作品上传" style={headerStyle.liStyle}>
-            <img height="20" src="img/shangchuan.png" />
+          <Link to="/account/upload" title="作品上传">
+            <span className='glyphicon glyphicon-upload' aria-hidden='true'/> 作品上传 
           </Link>
         </li>
         <li className="dropdown">

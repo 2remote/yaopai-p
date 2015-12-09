@@ -6,7 +6,7 @@ var PAuthStore = Reflux.createStore({
     pAuth : {},
     photographer : {},
     studio : {},
-    hitMessage : '',
+    hintMessage : '',
     flag : '',
   },
   init: function() {
@@ -39,9 +39,9 @@ var PAuthStore = Reflux.createStore({
     console.log(data);
     if(data.Success){
       this.data.pAuth = data;
-      this.data.hitMessage = null;
+      this.data.hintMessage = null;
     }else{
-      this.data.hitMessage = data.ErrorMsg;
+      this.data.hintMessage = data.ErrorMsg;
     }
     this.data.flag = 'viewAudit';
     this.trigger(this.data);
@@ -74,7 +74,7 @@ var PAuthStore = Reflux.createStore({
     }else{
       this.data.hintMessage = res.ErrorMsg;
     }
-    this.data.flag = 'chagne';
+    this.data.flag = 'change';
     this.trigger(this.data);
   },
   onCurrentStudioSuccess : function(res){

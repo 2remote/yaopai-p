@@ -39,6 +39,10 @@ var TextInput = React.createClass({
     }
   },
   isValidated : function(){
+    if (!this.props.value && this.props.defaultValue){
+      this.setState{value: this.props.defaultValue});
+      this.props.updateValue(this.props.defaultValue); 
+    }
     if(this.props.isRequired){
       if(!this.props.value) return false;
       if((this.props.minLength > 0 && this.props.value.length < this.props.minLength) || (this.props.maxLength > 0 && this.props.value.length > this.props.maxLength)){
