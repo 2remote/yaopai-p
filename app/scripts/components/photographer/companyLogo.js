@@ -32,6 +32,7 @@ var CompanyLogo = React.createClass({
             defaultImage ={this.props.value?this.props.value:"img/logo_up.png" }
             onUpload = {this.props.updateValue}
             type="user"/>
+          <span className='text-info'>温馨提示：单张照片不能超过4M</span>
         </div>
       </div>
     );
