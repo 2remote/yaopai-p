@@ -93,7 +93,7 @@ var PersonIDImage = React.createClass({
             <div className="col-xs-4">
               <div style={style.info}>
                 1 正反面带头像的清晰照片<br />
-                2 照片大小不超过3M <br />
+                2 照片大小不超过4M <br />
                 3 仅用于认证请放心上传
               </div>
             </div>
@@ -120,7 +120,9 @@ var PhotographerAuth = React.createClass({
         this.history.pushState(null,'/account/photographer');
       }else{
         //普通用户，拿到认证数据再判断认证状态
-        this.getAuditData();
+        if (!this.state.authState){
+          this.getAuditData();
+        }
       }
     }else{
       //没有登录转到登录界面
