@@ -40,7 +40,7 @@ gulp.task('scripts', function() {
       var start = new Date();
       log('scripts:bundle');
     }
-    browserify({
+    return browserify({
       entries: [filePath],
       extensions: extensions,
       debug: env === 'dev'
@@ -48,7 +48,6 @@ gulp.task('scripts', function() {
     .bundle()
       .pipe(source('app.js'))
       .pipe(gulp.dest('.tmp/scripts/bundle'))
-      .pipe(gulp.dest('dist/scripts'))
       .pipe($.if(dev, $.tap(function() {
         log('scripts:bundle', start);
         if (!webserver) {
@@ -71,7 +70,7 @@ gulp.task('scripts', function() {
         d.run(bundle);
       }));
   } else {
-    bundle();
+    return bundle();
   }
 });
 
