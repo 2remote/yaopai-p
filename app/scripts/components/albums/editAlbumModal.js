@@ -27,10 +27,10 @@ var EditAlbumModal = React.createClass({
   componentWillMount: function () {
     this.setState({album: this.props.album});
   },
-  showInfoModal() {
+  showInfoModal: function () {
     this.setState({isInfoShow: true});
   },
-  hideInfoModal() {
+  hideInfoModal: function () {
     this.setState({isInfoShow: false});
   },
   updateTitle: function (title) {

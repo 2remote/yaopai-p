@@ -29,10 +29,10 @@ var UploadPhotoModal = React.createClass({
       },
     }
   },
-  showImgModal() {
+  showImgModal: function () {
     this.setState({isImgShow: true});
   },
-  hideImgModal() {
+  hideImgModal: function () {
     this.setState({isImgShow: false});
   },
   handleImgSubmit: function () {
