@@ -2,9 +2,7 @@ var React = require('react');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
 var Header = require('./header');
-var AccountNav = require('./accountNav');
 
-var AccountNav = require('./accountNav');
 var AccountCenter = React.createClass({
   render: function() {
     return (
@@ -13,9 +11,6 @@ var AccountCenter = React.createClass({
         <div className="center-content">
           <div className="col-xs-9">
             {this.props.children}
-          </div>
-          <div className="col-xs-3">
-            <AccountNav />
           </div>
         </div>
       </div>
