@@ -51,6 +51,7 @@ var Photographer = React.createClass({
     }
   },
   handleStoreChange : function(data){
+    console.log(data);
     if(data.flag == 'current' ){
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
@@ -64,7 +65,8 @@ var Photographer = React.createClass({
     if(data.flag == 'currentStudio'){
       this.setState({studio : data.studio});
     }
-    if(data.flag == 'change' ){
+    if(data.flag == 'change'){
+      console.log('flag:change');
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
       }else{
@@ -195,7 +197,7 @@ var Photographer = React.createClass({
       return message;
     }
     if(!this.refs.personIntro.isValidated()){
-      message = '个人签名必须在10字以上';
+      message = '个人签名必须在10-100字之间';
       return message;
     }
     if(this.refs.hasCompany.getValue()){
@@ -348,12 +350,15 @@ var Photographer = React.createClass({
             textClassName="col-xs-4"
             placeholder=""/>
           <TextInput ref="personIntro"
+            type='textarea'
             labelName="个性签名："
             value = {this.state.photographer.Signature}
             updateValue = {this.updateSign}
-            minLength={10}
+            minLength={1}
+            maxLength={100}
             disabled={this.state.disabled}
             textClassName="col-xs-4"
+            defaultValue="他很懒什么都没有留下"
             placeholder="他很懒什么都没有留下"/>
           <HasCompany ref="hasCompany"
             disabled={this.state.disabled}

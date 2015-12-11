@@ -123,6 +123,7 @@ var MultiImageSelect = React.createClass({
             ref="addImage"
             defaultImage="img/tianjia.png"
             onUpload={this.onUpload}/>
+          <span className='text-info' style={{display: 'block'}}>温馨提示：单张照片不能超过4M</span>
         </div>
       </div>
       )

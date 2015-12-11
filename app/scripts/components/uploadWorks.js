@@ -61,8 +61,8 @@ var ChooseCategory = React.createClass({
     }.bind(this));
     return (
      <div className="form-group">
-        <label className="control-label col-xs-2">类别：</label>
-        <div className="col-xs-10">
+        <label className="control-label col-xs-3">类别：</label>
+        <div className="col-xs-9">
           <div className="cont-category">
             {buttons}
           </div>
@@ -167,8 +167,8 @@ var UploadWorks = React.createClass({
     this.setState({cover : cover});
   },
   validate : function(){
-    if(this.state.title.length < 5 || this.state.title.length > 25){
-      this.showMessage('作品名称必须在5-25字之间');
+    if(this.state.title.length < 1 || this.state.title.length > 20){
+      this.showMessage('作品名称必须在1-20字之间');
       return false;
     }
     if(this.state.photos.length == 0){
@@ -254,8 +254,8 @@ var UploadWorks = React.createClass({
             labelName="作品名称："
             value = {this.state.title}
             updateValue = {this.updateTitle}
-            minLength={5}
-            placeholder="名称应该在5-25字之间"/>
+            minLength={1}
+            placeholder="名称应该在1-20字之间"/>
           <ChooseImage value={this.state.photos}
             ref="chooseImage"/>
           <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
