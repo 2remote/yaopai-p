@@ -16,6 +16,7 @@ var AccountInfo = require('./components/accountInfo');
 var UploadWorks = require('./components/uploadWorks');
 var OrderManager = require('./components/orderManager');
 var Profile = require('./components/profile');
+var Albums = require('./components/albums/index');
 
 var routes = (
 	<Router>
@@ -33,6 +34,7 @@ var routes = (
 			</Route>
 			<Route path="order/:type/:state" component={OrderManager} />
 			<Route path="profile/:type" component={Profile} />
+			<Route path="albums/:id" component={Albums} />
 		</Route>
 	</Router>
 	
