@@ -225,7 +225,7 @@ var ChooseImages = React.createClass({
                 transitionLeaveTimeout={250}>
                 {renderImages}
               </ReactCSSTransitionGroup>
-              <span>温馨提示：单张照片不能超过4M</span>
+              <span className='text-info'>温馨提示：单张照片不能超过4M</span>
           </div>
         </div>
       );

@@ -55,14 +55,13 @@ var Acount = React.createClass({
         marginRight :'20px',
       },
       logoutBtn : {
-        display: 'block',
-        padding: '3px 20px',
-        clear: 'both',
-        fontWeight: '400',
-        lineHeight: '1.42857143',
-        color: '#333',
-        whiteSpace: 'nowrap',
-        cursor : 'pointer',
+        // display: 'block',
+        // padding: '3px 20px',
+        // fontWeight: '400',
+        // lineHeight: '1.42857143',
+        // color: '#333',
+        // whiteSpace: 'nowrap',
+        // cursor : 'pointer',
       },
       avatar : {
         borderRadius : '50%',
@@ -72,55 +71,70 @@ var Acount = React.createClass({
       }
     };
 
-    return(
-      <ul className= "nav navbar-nav navbar-right  right-header-nav">
+    if(this.state.currentUser.isLogin){
+    return (
+      <div>
+      <ul className= "nav navbar-nav">
         <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
           <Link to="/account/pAuth" title="摄影师认证" style={headerStyle.liStyle}>
             <img height="20" src="img/camera.png" />
           </Link>
         </li>
         <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
-          <Link to="/account/upload" title="作品上传" style={headerStyle.liStyle}>
-            <img height="20" src="img/shangchuan.png" />
+          <Link to="/account/upload" title="作品上传">
+            <span className="glyphicon glyphicon-upload" aria-hidden="true"></span> 作品上传
           </Link>
         </li>
-        <li className="dropdown">
-          <a href="#" title="个人中心" className="dropdown-toggle" style={headerStyle.personCenter} data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <li>
+          <Link to="/profile/onSale">
+          <span className="glyphicon glyphicon-home" aria-hidden="true"></span>  我的主页
+          </Link>
+        </li>
+        <li>
+          <Link to="/order/in/pending">
+            <span className="glyphicon glyphicon-file" aria-hidden="true"></span>  订单管理
+          </Link>
+        </li>
+        <li>
+          <Link to="/account">
+            <span className="glyphicon glyphicon-cog" aria-hidden="true"></span>  账户设置
+          </Link>
+        </li>
+      </ul>
+      <ul className= "nav navbar-nav navbar-right">
+        <li style={headerStyle.logoutBtn} onClick={this.handleLogout}>
+          <Link to="/">
+            <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span>  登出
+          </Link>
+        </li>
+        <li>
+          <a href="javascript:void(0);" title="个人中心" style={headerStyle.personCenter}>
             <img height="40" style= {headerStyle.avatar}
               src={this.state.currentUser.avatar? this.state.currentUser.avatar+'?imageMogr2/gravity/Center/thumbnail/!40x40r/crop/40x40/interlace/1' :"img/default_user_img_o.png"} />
           </a>
-          <ul className="dropdown-menu">
-            <li>
-              <Link to="/profile/onSale">
-              <span className="glyphicon glyphicon-home" aria-hidden="true"></span>  我的主页
-              </Link>
-            </li>
-            <li>
-              <Link to="/order/in/pending">
-                <span className="glyphicon glyphicon-file" aria-hidden="true"></span>  订单管理
-              </Link>
-            </li>
-            <li>
-              <Link to="/account">
-                <span className="glyphicon glyphicon-cog" aria-hidden="true"></span>  账户设置
-              </Link>
-            </li>
-            <li role="separator" className="divider"></li>
-            <li style={headerStyle.logoutBtn} onClick={this.handleLogout}>
-                <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span>  登出
-            </li>
-          </ul>
         </li>
       </ul>
-    )
+      </div>
+      )
+  }else{
+    return (
+        <ul className= "nav navbar-nav navbar-right">
+          <li style={headerStyle.loginBtn}>
+            <Link to="/" title="登录" style={headerStyle.liStyle}>登录</Link>
+          </li>
+        </ul>
+      )
+  }
   },
   render : function(){
     return(
-      <div className="right-header-nav">
+        <div className="right-header-nav">
         {
           this.getContent()
         }
-      </div>
+          <LoginPanel ref="loginModal" register={this.handleRegister} />
+          <RegisterPanel ref="registerModal" login={this.handleLogin}/>
+        </div>
     );
   }
 });
