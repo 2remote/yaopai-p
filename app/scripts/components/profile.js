@@ -21,6 +21,7 @@ var ProfileHeader = React.createClass({
       name: '',
       area: '',
       introduction: '这个人很懒，什么都没有留下',
+      type:''
     }
   },
   onUserStoreChanged : function(data){
@@ -48,6 +49,12 @@ var ProfileHeader = React.createClass({
   },
   componentWillMount : function(){
     UserActions.currentUser();
+  },
+  componentDidMount: function () {
+    this.setState({type:this.props.type})
+  },
+  componentWillReceiveProps : function (nextProps) {
+    this.setState({type:nextProps.type})
   },
   render : function(){
     var headerStyle = {
@@ -96,7 +103,7 @@ var ProfileHeader = React.createClass({
       },
       activeLink: {
         padding: '0 15px',
-        color: '#828997',
+        color: 'black',
       },
       icon: {
         color: '#df3b3b',
@@ -115,13 +122,13 @@ var ProfileHeader = React.createClass({
         </div>
         <div>
           <div style={categoryStyle.wrap}>
-            <Link style={categoryStyle.select} to="/profile/onSale">
+            <Link style={this.state.type=='onSale'?categoryStyle.activeLink:categoryStyle.select} to="/profile/onSale">
               已上架
             </Link>
-            <Link style={categoryStyle.activeLink} to="/profile/onStore">
+            <Link style={this.state.type=='onStore'?categoryStyle.activeLink:categoryStyle.select} to="/profile/onStore">
               未上架
             </Link>
-            <Link style={categoryStyle.select} to="/profile/fail">
+            <Link style={this.state.type=='fail'?categoryStyle.activeLink:categoryStyle.select} to="/profile/fail">
               审核失败
             </Link>
             <span className="glyphicon glyphicon-exclamation-sign" style={categoryStyle.icon} aria-hidden="true"></span>
@@ -146,6 +153,7 @@ var WorksList = React.createClass({
     MasonryMixin('masonryContainer', masonryOptions)],
   getInitialState : function(){
     return {
+      userId :'',
       workList : []
     }
   },
@@ -164,8 +172,9 @@ var WorksList = React.createClass({
   },
   onUserStoreChanged : function(data){
     if(data.isLogin){
+      this.setState({userId:data.userId})
       //获取摄影师的相册
-      this.getMyAlbums(data.userId);
+      this.getMyAlbums(data.userId,this.props.type);
     }else{
       this.history.pushState(null,'/');
     }
@@ -177,20 +186,23 @@ var WorksList = React.createClass({
       this.setState({workList : data.workList});
     }
   },
-  getMyAlbums : function(id){
+  componentWillReceiveProps : function (nextProps) {
+    this.getMyAlbums(this.state.userId,nextProps.type)
+  },
+  getMyAlbums : function(id,type){
     var data ={
       Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
       //PageIndex : this.props.pageIndex,
       //PageSize : 12,
       UserId : id,
     };
-    if(this.props.type == '1'){
+    if(type == '1'){
       data.Display = true;
       AlbumsActions.getMyAlbums(data);
-    }else if(this.props.type == '2'){
+    }else if(type == '2'){
       data.Display = false;
       AlbumsActions.getMyAlbums(data);
-    }else if(this.props.type == '3'){
+    }else if(type == '3'){
       data.state = 0;
       AlbumsActions.getMyAlbums(data);
     }
@@ -245,14 +257,20 @@ var Profile = React.createClass({
       pageIndex : 1,
     }
   },
+  componentDidMount: function () {
+    this.setState({type:this.props.params.type})
+  },
+  componentWillReceiveProps : function (nextProps) {
+    this.setState({type:nextProps.params.type})
+  },
   render: function() {
     return (
       <div className="container-fluid no-bgimg gray-bg">
         <Header />
         <div>
-          <ProfileHeader />
+          <ProfileHeader type={this.state.type}/>
           <WorksList
-            type={this.props.params.type =='onSale'?'1':this.props.params.type =='onStore'?'2':this.props.params.type=='fail'?'3':''}
+            type={this.state.type =='onSale'?'1':this.state.type =='onStore'?'2':this.state.type=='fail'?'3':''}
             pageIndex = {this.state.pageIndex}/>
         </div>
       </div>
