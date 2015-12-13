@@ -80,14 +80,14 @@ var Acount = React.createClass({
             <img height="20" src="img/camera.png" />
           </Link>
         </li>
-        <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
-          <Link to="/account/upload" title="作品上传">
-            <span className="glyphicon glyphicon-upload" aria-hidden="true"></span> 作品上传
-          </Link>
-        </li>
         <li>
           <Link to="/profile/onSale">
           <span className="glyphicon glyphicon-home" aria-hidden="true"></span>  我的主页
+          </Link>
+        </li>
+        <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
+          <Link to="/account/upload" title="作品上传">
+          <span className="glyphicon glyphicon-upload" aria-hidden="true"></span> 作品上传
           </Link>
         </li>
         <li>
