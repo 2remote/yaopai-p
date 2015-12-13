@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var ProgressBar = require('react-bootstrap').ProgressBar;
 var TextInput = require('./textInput');
 var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
@@ -178,6 +179,7 @@ var ChooseImages = React.createClass({
     单个文件的上传进度
   */
   onUploadProgress : function(up,file){
+    this.percentComplete = file.percent;
   },
 
   onUploadComplete : function(){
@@ -198,6 +200,7 @@ var ChooseImages = React.createClass({
   },
   //增加图片
   addImage : function(item){
+    this.percentComplete = 0;
     WorkActions.addImage(item);
   },
   render :function(){
@@ -224,6 +227,7 @@ var ChooseImages = React.createClass({
                 transitionEnterTimeout={250}
                 transitionLeaveTimeout={250}>
                 {renderImages}
+                <ProgressBar now={this.percentComplete} label="%(percent)s%" />
               </ReactCSSTransitionGroup>
               <span className='text-info'>温馨提示：单张照片不能超过4M</span>
           </div>
