@@ -46,6 +46,7 @@ var PersonIDImage = React.createClass({
         marginBottom: '14px',
       },
       info: {
+        marginLeft: '70px',
         height: '150px',
         paddingTop: '36px',
       },
@@ -90,7 +91,7 @@ var PersonIDImage = React.createClass({
             <div className="col-xs-4">
               <img height="150" width="200" src="img/id_shili.png" />
             </div>
-            <div className="col-xs-4">
+            <div className="col-xs-8">
               <div style={style.info}>
                 1 正反面带头像的清晰照片<br />
                 2 照片大小不超过4M <br />

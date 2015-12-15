@@ -66,18 +66,20 @@ var TextInput = React.createClass({
   },
   render : function(){
     return (
-      <Input type={this.props.type}
-        ref="input"
-        value={this.props.value}
-        onChange={this.handleChange}
-        disabled={this.props.disabled}
-        bsStyle={this.validatedClass()}
-        label={this.props.labelName}
-        placeholder={this.props.placeholder}
-        labelClassName='col-xs-3'
-        wrapperClassName={this.props.textClassName}
-        help={this.props.help}
-        hasFeedback />
+      <div className="form-group">
+        <label className="control-label col-xs-3">{this.props.labelName}</label>
+        <Input type={this.props.type}
+          ref="input"
+          value={this.props.value}
+          onChange={this.handleChange}
+          disabled={this.props.disabled}
+          bsStyle={this.validatedClass()}
+          placeholder={this.props.placeholder}
+          labelClassName='col-xs-3'
+          wrapperClassName={this.props.textClassName}
+          help={this.props.help}
+          hasFeedback />
+      </div>
       );
   }
 });

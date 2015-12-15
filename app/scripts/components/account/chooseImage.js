@@ -20,10 +20,16 @@ var Input = require('react-bootstrap').Input;
   ImageItem 用于显示单条图片信息
 */
 var ImageItem = React.createClass({
+  getInitialState : function(){
+    return {
+      progress : 0
+    }
+  },
   getDefaultProps : function(){
     return{
       index : '',
       imageData: {},
+      progress:0
     }
   },
   handleChange : function(event){
@@ -51,6 +57,7 @@ var ImageItem = React.createClass({
     if(nextProps.imageData.Description != this.props.imageData.Description){
       this.refs.description.getDOMNode().value= (nextProps.imageData.Description);
     }
+    this.setState({ progress:nextProps.progress})
   },
   imageMogr2 : function(url){
     return url+'?imageMogr2/gravity/Center/thumbnail/!75x75r/crop/75x75/interlace/1';
@@ -63,36 +70,39 @@ var ImageItem = React.createClass({
       color : '#b3b3b3',
     }
     return (
-      <div className="image-item">
-        <div className="move-button">
-          <div className="icon-wrap">
-            <span className="glyphicon glyphicon-triangle-top image-button" onClick={this.moveUpItem}></span>
+      <div>
+        <div className="image-item">
+          <div className="move-button">
+            <div className="icon-wrap">
+              <span className="glyphicon glyphicon-triangle-top image-button" onClick={this.moveUpItem}></span>
+            </div>
+            <div className="icon-wrap">
+              <span className="glyphicon glyphicon-triangle-bottom image-button" onClick={this.moveDownItem}></span>
+            </div>
           </div>
-          <div className="icon-wrap">
-            <span className="glyphicon glyphicon-triangle-bottom image-button" onClick={this.moveDownItem}></span>
+          <div className="main-image">
+            <img height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
+          </div>
+          <div className="main-des">
+            <textarea ref="description" type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
+          </div>
+          <div className="delete-button">
+            <div className="right-icon">
+              <span className="glyphicon glyphicon-picture image-button"
+                style={this.props.imageData.isCover?coverStyle:normalStyle}
+                onClick={this.setCover}>
+                封面
+              </span>
+            </div>
+            <div className="right-icon">
+              <span className="glyphicon glyphicon-remove-circle image-button"
+              style={normalStyle}  onClick={this.deleteItem}>
+                删除
+              </span>
+            </div>
           </div>
         </div>
-        <div className="main-image">
-          <img height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
-        </div>
-        <div className="main-des">
-          <textarea ref="description" type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
-        </div>
-        <div className="delete-button">
-          <div className="right-icon">
-            <span className="glyphicon glyphicon-picture image-button"
-              style={this.props.imageData.isCover?coverStyle:normalStyle}
-              onClick={this.setCover}>
-              封面
-            </span>
-          </div>
-          <div className="right-icon">
-            <span className="glyphicon glyphicon-remove-circle image-button"
-            style={normalStyle}  onClick={this.deleteItem}>
-              删除
-            </span>
-          </div>
-        </div>
+        <ProgressBar now={this.state.progress} label={this.state.progress+'%'} />
       </div>
       );
   }
@@ -105,6 +115,11 @@ var ImageItem = React.createClass({
   4. ChooseImages 的状态imageItemList需要记录上传的结果和进度，是否需要渲染出来根据以后的需求
 */
 var ChooseImages = React.createClass({
+  getInitialState : function(){
+    return {
+      reloadTime : 0
+    }
+  },
   items : [],
   uploaderOption : {
     runtimes: 'html5,flash,html4',
@@ -179,7 +194,7 @@ var ChooseImages = React.createClass({
     单个文件的上传进度
   */
   onUploadProgress : function(up,file){
-    this.percentComplete = file.percent;
+    this.setState({reloadTime : ++this.state.reloadTime});
   },
 
   onUploadComplete : function(){
@@ -200,39 +215,38 @@ var ChooseImages = React.createClass({
   },
   //增加图片
   addImage : function(item){
-    this.percentComplete = 0;
     WorkActions.addImage(item);
   },
   render :function(){
     var renderImages = [];
     this.props.value.map(function(imageItem,i){
       renderImages.push(
-          <ImageItem 
+          <ImageItem
             key={imageItem.id}
             index={i} 
             imageData={imageItem} 
-            onSetCover={this.props.updateCover}/>
+            onSetCover={this.props.updateCover}
+            progress={imageItem.imageFile.percent}/>
       )
     }.bind(this));
     return (
-        <div className="form-group">
-          <label className="control-label col-xs-3">上传图片：</label>
-          <div id="pickfilesCont" className="col-xs-8">
-            <div>
-              <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
-            </div>
-              <ReactCSSTransitionGroup ref="itemsContainer"
-                className="workList"
-                transitionName="workItem" 
-                transitionEnterTimeout={250}
-                transitionLeaveTimeout={250}>
-                {renderImages}
-                <ProgressBar now={this.percentComplete} label="%(percent)s%" />
-              </ReactCSSTransitionGroup>
-              <span className='text-info'>温馨提示：单张照片不能超过4M</span>
+      <div className="form-group">
+        <label className="control-label col-xs-3">上传图片：</label>
+        <div id="pickfilesCont" className="col-xs-8">
+          <div>
+            <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
           </div>
+            <ReactCSSTransitionGroup ref="itemsContainer"
+              className="workList"
+              transitionName="workItem"
+              transitionEnterTimeout={250}
+              transitionLeaveTimeout={250}>
+              {renderImages}
+            </ReactCSSTransitionGroup>
+            <span className='text-info'>温馨提示：单张照片不能超过4M</span>
         </div>
-      );
+      </div>
+    );
   }
 });
 
