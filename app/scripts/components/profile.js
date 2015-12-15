@@ -153,7 +153,7 @@ var WorksList = React.createClass({
     MasonryMixin('masonryContainer', masonryOptions)],
   getInitialState : function(){
     return {
-      userId :'',
+      userId :null,
       workList : []
     }
   },
@@ -187,7 +187,9 @@ var WorksList = React.createClass({
     }
   },
   componentWillReceiveProps : function (nextProps) {
-    this.getMyAlbums(this.state.userId,nextProps.type)
+    if(this.state.userId){
+      this.getMyAlbums(this.state.userId,nextProps.type)
+    }
   },
   getMyAlbums : function(id,type){
     var data ={

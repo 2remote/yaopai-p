@@ -12,6 +12,7 @@ var GetCodeStore = Reflux.createStore({
     console.log('GetCodeStore initialized');
     //记录发送验证码的时间
     this.getCode = {
+      timeID : null,
       left : 0,
       result : ''
     }
@@ -23,7 +24,7 @@ var GetCodeStore = Reflux.createStore({
     countLeft = function(){
       this.getCode.left = this.getCode.left -1;
       this.trigger(this.getCode);
-      setTimeout(countLeft, 1000);
+      this.timeID = setTimeout(countLeft, 1000);
     }.bind(this);
     countLeft();
   },
@@ -32,8 +33,15 @@ var GetCodeStore = Reflux.createStore({
     if(data.Success){
       this.getCode.result = '验证码已发送';
     }else{
-      this.getCode.result = '验证码发送失败';
-      this.getCode.left = 0;
+      clearTimeout(this.timeID)
+      this.timeID = null;
+      if(data.ErrorCode == '200002'){
+        this.getCode.result = '该手机号已注册可直接登录';
+        this.getCode.left = 0;
+      }else{
+        this.getCode.result = '验证码发送失败';
+        this.getCode.left = 0;
+      }
     }
     this.trigger(this.getCode);
   },

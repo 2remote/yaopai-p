@@ -143,6 +143,11 @@ var ValidateCodeInput = React.createClass({
   handleResult : function(){
     this.setState({getCode : GetCodeStore.getCode});
   },
+  componentWillUpdate : function () {
+    if(this.state.getCode.left <= 0){
+      this.props.handleHint(this.state.getCode.result);
+    }
+  },
   handleChange : function(event){
     this.setState({value : event.target.value});
   },
@@ -372,7 +377,7 @@ var RegisterForm = React.createClass({
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
-          <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode}/>
+          <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
         </div>
         <RegisterButtons handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
       </div>

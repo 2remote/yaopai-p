@@ -246,6 +246,7 @@ var UploadWorks = React.createClass({
         textAlign: 'center',
       }
     };
+    //<Button style={style.preview}>预览</Button>
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="作品上传"infoIconClass="glyphicon glyphicon-picture" titleImage="" />
@@ -285,7 +286,6 @@ var UploadWorks = React.createClass({
             placeholder="¥面议"/>
           <div className="row" style={style.bottomWrap}>
             <Button style={style.submitButton} onClick={this.handleSubmit}>提交</Button>
-            <Button style={style.preview}>预览</Button>
             <ToolTip ref="toolTip" title=""/>
           </div>
         </form>
