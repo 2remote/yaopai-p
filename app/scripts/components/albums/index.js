@@ -104,7 +104,6 @@ var Albums = React.createClass({
               className="photos"
               margin={10}
               noMarginBottomOnLastRow={true}
-              widthHeightRatio={4/5}
               targetWidth={250}>
               {photoList}
             </ComponentGallery>
