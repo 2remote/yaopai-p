@@ -64,6 +64,7 @@ var ProfileHeader = React.createClass({
         height : '360px',
         color: '#ffffff',
         marginTop: '50px',
+        backgroundRepeat: 'repeat-x',
       },
       center : {
         margin : '0 auto',
