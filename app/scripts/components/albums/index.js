@@ -85,10 +85,12 @@ var Albums = React.createClass({
         }
         return (
           <div key={i}>
-            <span data-index={i} onClick={this.onRemove}>删除</span>
-            {cover}
-            <span data-index={i} onClick={this.onMoveUp}>上</span>
-            <span data-index={i} onClick={this.onMoveDown}>下</span>
+            <div>
+              <span data-index={i} onClick={this.onRemove}>删除</span>
+              {cover}
+              <span data-index={i} onClick={this.onMoveUp}>上</span>
+              <span data-index={i} onClick={this.onMoveDown}>下</span>
+            </div>
             <img key={photo.Id} src={photo.Url}/>
           </div>
         );
@@ -98,17 +100,23 @@ var Albums = React.createClass({
       <div className="container-fluid no-bgimg gray-bg">
         <Header />
 
-        <div style={{marginTop:100}}>
-          <div className="col-md-8">
+        <div style={{marginTop:100}} >
+          <div className="col-md-10">
             <ComponentGallery
-              className="photos"
-              margin={10}
-              noMarginBottomOnLastRow={true}
-              targetWidth={250}>
+              componentStyle={{
+                width: "auto",
+                height: "auto",
+                display: "inline-block",
+                marginRight: "10px",
+                marginBottom: "10px",
+                overflow: "hidden",
+                position: "relative",
+                verticalAlign: "top"
+              }}>
               {photoList}
             </ComponentGallery>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-2">
             <RightAlbumInfo work={this.state.work} uploadHandle={this.loadAlbums}>
             </RightAlbumInfo>
           </div>

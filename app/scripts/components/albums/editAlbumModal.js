@@ -13,7 +13,7 @@ var EditAlbumModal = React.createClass({
   getInitialState: function () {
     return {
       categories: null,
-      isInfoShow: false,
+      show: false,
       album: null,
     }
   },
@@ -24,14 +24,26 @@ var EditAlbumModal = React.createClass({
       },
     }
   },
+  onStoreChanged : function (data) {
+    if(data.flag == 'onSale' || data.flag == 'offSale' ){
+      console.log(data.hintMessage)
+      console.log(data.hintMessage == '')
+      if (data.hintMessage == '') {
+        var album = this.state.album;
+        album.Display = !album.Display
+        this.setState(album)
+      }
+    }
+  },
   componentWillMount: function () {
     this.setState({album: this.props.album});
   },
-  showInfoModal: function () {
-    this.setState({isInfoShow: true});
+  componentWillReceiveProps : function (nextProps) {
+    this.setState({show:nextProps.show})
   },
   hideInfoModal: function () {
-    this.setState({isInfoShow: false});
+    this.setState({show: false});
+    this.props.hideHandle()
   },
   updateTitle: function (title) {
     var album = this.state.album;
@@ -89,14 +101,21 @@ var EditAlbumModal = React.createClass({
       this.hideInfoModal();
     }
   },
+  displayHandle: function (display) {
+    console.log(typeof display)
+    if(this.state.album.Display != display){
+      if(display == 'true'){
+        AlbumsActions.onSale({Id:this.state.album.Id})
+      }else{
+        AlbumsActions.offSale({Id:this.state.album.Id})
+      }
+    }
+  },
   render: function () {
     return (
       <div>
-        <Button bsStyle="primary" onClick={this.showInfoModal}>
-          修改信息
-        </Button>
         <Modal
-          show={this.state.isInfoShow}
+          show={this.state.show}
           onHide={this.hideInfoModal}
           dialogClassName="custom-modal">
           <Modal.Header closeButton>
@@ -136,6 +155,7 @@ var EditAlbumModal = React.createClass({
                          value={this.state.album.Price}
                          updateValue={this.updatePrice}
                          placeholder="¥面议"/>
+              <DisplayCheckbox value={this.state.album.Display} onChange={this.displayHandle}/>
             </form>
           </Modal.Body>
           <Modal.Footer>
@@ -148,3 +168,53 @@ var EditAlbumModal = React.createClass({
 });
 
 module.exports = EditAlbumModal;
+
+/*
+ 选择类别组件
+ */
+var DisplayCheckbox = React.createClass({
+  getInitialState : function(){
+    return {
+      values : [{
+        Id:true,
+        Name:"上架"
+      },{
+        Id:false,
+        Name:"下架"
+      }]
+    }
+  },
+  getDefaltProps : function(){
+    return {
+      value : 0,
+      onChange : function(data){},
+    }
+  },
+  setCategory : function(event){
+    this.props.onChange(event.target.getAttribute('data-value'));
+  },
+  render : function(){
+    var style = {
+      button: {
+        width: '90px',
+        height: '32px',
+        marginRight: '9px',
+        marginBottom: '10px',
+      }
+    }
+
+    //目前没有做排序和是否显示
+    var buttons = this.state.values.map(function(item,i){
+      return(<Button key={i} bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-value={item.Id}>{item.Name}</Button>);
+    }.bind(this));
+    return (
+        <div className="form-group">
+          <div className="col-xs-9">
+            <div className="cont-category">
+              {buttons}
+            </div>
+          </div>
+        </div>
+    );
+  }
+});
