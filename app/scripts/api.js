@@ -39,6 +39,7 @@ var API_CONST = {
     login_with_token : API_URL + 'User.LoginWithToken',
     register : API_URL + 'User.ReceiveTelRegister',
     sendTelRegister : API_URL + "User.SendTelRegister",
+    sendTelRegister2 : API_URL + "User._SendTelRegister",
     modify_password : API_URL + 'User.ChangePassword',
     logout : API_URL + "User.Logout",
     open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Host,
