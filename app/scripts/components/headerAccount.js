@@ -82,14 +82,14 @@ var Acount = React.createClass({
       return (
         <div>
           <ul className="nav navbar-nav">
-            <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
-              <Link to="/account/pAuth">
-                <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 摄影师认证
-              </Link>
-            </li>
             <li>
               <Link to="/profile/onSale">
                 <span className="glyphicon glyphicon-home" aria-hidden="true"></span> 我的主页
+              </Link>
+            </li>
+            <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
+              <Link to="/account/pAuth">
+                <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 摄影师认证
               </Link>
             </li>
             <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
