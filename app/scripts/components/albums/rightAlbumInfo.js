@@ -47,6 +47,43 @@ var RightAlbumInfo = React.createClass({
     return moment(d, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm")
   },
   render: function () {
+    var style = {
+      btndiv: {
+        width: "50%",
+        float: "left",
+        textAlign: "center",
+      },
+      leftdiv: {
+        float: "left",
+        height: "120px",
+        width: "50%",
+        textAlign: "center",
+      },
+      imgdiv: {
+        width: "100px",
+        height: "100px",
+        border: "1px solid #000",
+        borderRadius: "100px",
+        overflow: "hidden",
+      },
+      img: {
+        width: "100px",
+        height: "100px",
+      },
+      right1: {
+        width: "50%",
+        marginTop: "20px",
+        height: "30px",
+        float: "left",
+        textAlign: "center",
+      },
+      right2: {
+        width: "50%",
+        height: "70px",
+        float: "left",
+        textAlign: "center",
+      },
+    }
     if (this.props.work && this.props.work.CategoryId && this.state.categories) {
       var album = this.props.work;
       var category = this.state.categories.find(function (obj) {
@@ -64,17 +101,26 @@ var RightAlbumInfo = React.createClass({
         <div>
           <EditAlbumModal album={album} categories={this.state.categories} show={this.state.isInfoShow} hideHandle={this.hideInfoModal}/>
           <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle} show={this.state.isImgShow} hideHandle={this.hideImgModal}/>
-          <Button bsStyle="primary" onClick={this.showInfoModal}>
-            修改信息
-          </Button>
-          <Button bsStyle="primary" onClick={this.showImgModal}>
-            上传照片
-          </Button>
-          <div>作品名称：{album.Title}</div>
+          <div style={style.btndiv}>
+            <Button bsStyle="primary" onClick={this.showInfoModal}>
+              修改信息
+            </Button>
+          </div>
+          <div style={style.btndiv}>
+            <Button bsStyle="primary" onClick={this.showImgModal}>
+              上传照片
+            </Button>
+          </div>
+          <div style={style.leftdiv}>
+            <div style={style.imgdiv}>
+              <img style={style.img} src={this.props.curuser.avatar}/>
+            </div>
+          </div>
+          <div style={style.right1}><span>{this.props.curuser.userName}</span></div>
+          <div style={style.right2}><span>定 价：{album.Price}</span></div>
           <div>作品简述：{album.Description}</div>
           <div>类 别：{category.Name}</div>
           <div>提供服务：{album.Service}</div>
-          <div>定 价：{album.Price}</div>
           <div>状 态：{status}</div>
           <div>添加时间：{this.moment(album.CreationTime)}</div>
           <div>最后编辑时间：{this.moment(album.EditingTime)}</div>
