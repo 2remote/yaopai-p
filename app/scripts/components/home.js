@@ -77,6 +77,49 @@ var PasswordInput = React.createClass({
     );
   }
 });
+var PinInput = React.createClass({
+  getInitialState : function(){
+    return({
+      value : '',
+      codeOriginSrc : '//api.aiyaopai.com/temp/code',
+      codesrc : '//api.aiyaopai.com/temp/code'
+    });
+  },
+  getValue : function(){
+    return this.state.value;
+  },
+  handleChange : function(event){
+    this.setState({value : event.target.value});
+  },
+  reloadcode : function(event){
+    this.setState({codesrc:this.state.codeOriginSrc+'?'+new Date().getTime()})
+  },
+  render : function(){
+    var codeStyle = {
+      width: '180px',
+      height: '45px',
+      border: '1px solid #FFFFFF',
+      display: 'block',
+      boxSizing: 'border-box',
+      background: 'rgba(0,0,0,0)',
+      marginBottom : '10px',
+      padding : '10px',
+      color : '#8d8d8d',
+      float : 'left'
+    };
+    return (
+        <div>
+          <input ref="phone"
+                 type="text"
+                 value={this.state.value}
+                 placeholder="请输入图片验证码"
+                 style={codeStyle}
+                 onChange={this.handleChange} />
+          <img src={this.state.codesrc}  onClick={this.reloadcode}/>
+        </div>
+    );
+  }
+});
 var LoginButtonn = React.createClass({
   openLogin : function(){
     UserActions.openLogin();
@@ -306,9 +349,10 @@ var RegisterForm = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleRegisterResult')],
   handleGetCode : function(){
     var phone = this.refs.phoneInput.getValue();
+    var pin = this.refs.pinInput.getValue();
     var isMobile = validator.isMobilePhone(phone,'zh-CN')
-    if(isMobile){
-      GetCodeActions.sendTelRegister({tel:phone});
+    if(isMobile && pin.length > 0){
+      GetCodeActions.sendTelRegister2({tel:phone,pin:pin});
     }else{
       this.props.handleHint('请输入正确的手机号码');
     }
@@ -377,6 +421,7 @@ var RegisterForm = React.createClass({
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
+          <PinInput ref="pinInput"/>
           <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
         </div>
         <RegisterButtons handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
