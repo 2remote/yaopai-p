@@ -19,7 +19,8 @@ var UploadPhotoModal = React.createClass({
     return {
       categories: [],
       photos: [],
-      tags: []
+      tags: [],
+      show: false,
     }
   },
   getDefaltProps: function () {
@@ -29,11 +30,12 @@ var UploadPhotoModal = React.createClass({
       },
     }
   },
-  showImgModal: function () {
-    this.setState({isImgShow: true});
+  componentWillReceiveProps : function (nextProps) {
+    this.setState({show:nextProps.show})
   },
   hideImgModal: function () {
-    this.setState({isImgShow: false});
+    this.setState({show: false});
+    this.props.hideHandle()
   },
   handleImgSubmit: function () {
     var data = this.props.album;
@@ -97,11 +99,8 @@ var UploadPhotoModal = React.createClass({
   render: function () {
     return (
       <div>
-        <Button bsStyle="primary" onClick={this.showImgModal}>
-          上传照片
-        </Button>
         <Modal
-          show={this.state.isImgShow}
+          show={this.state.show}
           onHide={this.hideImgModal}
           dialogClassName="custom-modal">
           <Modal.Header closeButton>

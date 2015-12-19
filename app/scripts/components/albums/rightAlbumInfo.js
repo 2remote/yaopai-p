@@ -1,6 +1,8 @@
 var React = require('react');
 var Reflux = require('reflux');
 var validator = require('validator');
+var moment = require('moment');
+var Button = require('react-bootstrap').Button;
 var Header = require('./../header');
 var AlbumsActions = require('../../actions/AlbumsActions');
 var AlbumsStore = require('../../stores/AlbumsStore');
@@ -11,7 +13,9 @@ var RightAlbumInfo = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
   getInitialState: function () {
     return {
-      categories: null
+      isImgShow : false,
+      isInfoShow : false,
+      categories: null,
     }
   },
   onStoreChanged: function (data) {
@@ -26,6 +30,21 @@ var RightAlbumInfo = React.createClass({
       Fields: 'Id,Name'
     };
     AlbumsActions.getCategories(data)
+  },
+  showImgModal: function () {
+    this.setState({isImgShow: true});
+  },
+  hideImgModal: function () {
+    this.setState({isImgShow: false});
+  },
+  showInfoModal: function () {
+    this.setState({isInfoShow: true});
+  },
+  hideInfoModal: function () {
+    this.setState({isInfoShow: false});
+  },
+  moment : function (d) {
+    return moment(d, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm")
   },
   render: function () {
     if (this.props.work && this.props.work.CategoryId && this.state.categories) {
@@ -43,17 +62,22 @@ var RightAlbumInfo = React.createClass({
       }
       return (
         <div>
-          <EditAlbumModal album={album} categories={this.state.categories}/>
-          <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle}/>
-
+          <EditAlbumModal album={album} categories={this.state.categories} show={this.state.isInfoShow} hideHandle={this.hideInfoModal}/>
+          <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle} show={this.state.isImgShow} hideHandle={this.hideImgModal}/>
+          <Button bsStyle="primary" onClick={this.showInfoModal}>
+            修改信息
+          </Button>
+          <Button bsStyle="primary" onClick={this.showImgModal}>
+            上传照片
+          </Button>
           <div>作品名称：{album.Title}</div>
           <div>作品简述：{album.Description}</div>
           <div>类 别：{category.Name}</div>
           <div>提供服务：{album.Service}</div>
           <div>定 价：{album.Price}</div>
           <div>状 态：{status}</div>
-          <div>添加时间：{album.CreationTime}</div>
-          <div>最后编辑时间：{album.EditingTime}</div>
+          <div>添加时间：{this.moment(album.CreationTime)}</div>
+          <div>最后编辑时间：{this.moment(album.EditingTime)}</div>
         </div>
       );
     } else {
