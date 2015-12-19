@@ -5,12 +5,16 @@ var ComponentGallery = require('react-component-gallery');
 var AlbumsActions = require('../../actions/AlbumsActions');
 var AlbumsStore = require('../../stores/AlbumsStore');
 var RightAlbumInfo = require('./rightAlbumInfo');
+var UserStore = require('../../stores/UserStore');
 
 var Albums = React.createClass({
-  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
+  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),UserStore],
   getInitialState: function () {
     return {
       work: null,
+      currentUser: UserStore.userData,
+      currentAlbum: AlbumsStore.data,
+      category: '',
     }
   },
   onStoreChanged: function (data) {
@@ -22,6 +26,13 @@ var Albums = React.createClass({
   },
   componentDidMount: function () {
     this.loadAlbums();
+    //console.log(this.state.currentAlbum);
+    //console.log(this.state.currentAlbum.categories);
+    //this.state.category = this.state.currentAlbum.categories.find(function (obj) {
+    //  console.log(obj.Id);
+    //  console.log(this.state.currentAlbum.workData.CategoryId);
+    //  return obj.Id == this.state.currentAlbum.workData.CategoryId;
+    //})
   },
   onRemove: function (event) {
     var index = event.target.getAttribute('data-index');
@@ -97,11 +108,12 @@ var Albums = React.createClass({
       }.bind(this));
     }
     return (
-      <div className="container-fluid no-bgimg gray-bg">
+      <div className="container-fluid no-bgimg gray-bg" style={{backgroundColor:'black',height:'100%'}}>
         <Header />
-
-        <div style={{marginTop:100}} >
+        <div style={{marginTop:100,color:'#fff'}} >
           <div className="col-md-10">
+            <div style={{float:'left',width:'40px',height:'25px'}}>{this.state.category}</div>
+            <div style={{fontSize:'14px',height:'25px'}}>{this.state.currentAlbum.workData.Title}</div>
             <ComponentGallery
               componentStyle={{
                 width: "auto",
@@ -117,7 +129,7 @@ var Albums = React.createClass({
             </ComponentGallery>
           </div>
           <div className="col-md-2">
-            <RightAlbumInfo work={this.state.work} uploadHandle={this.loadAlbums}>
+            <RightAlbumInfo work={this.state.work} uploadHandle={this.loadAlbums} curuser={this.state.currentUser}>
             </RightAlbumInfo>
           </div>
         </div>
