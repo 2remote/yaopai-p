@@ -8,14 +8,16 @@ var AlbumsActions = require('../../actions/AlbumsActions');
 var AlbumsStore = require('../../stores/AlbumsStore');
 var EditAlbumModal = require('./editAlbumModal');
 var UploadPhotoModal = require('./uploadPhotoModal');
+var UserStore = require('../../stores/UserStore');
 
 var RightAlbumInfo = React.createClass({
-  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
+  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),UserStore],
   getInitialState: function () {
     return {
       isImgShow : false,
       isInfoShow : false,
       categories: null,
+      currentUser: UserStore.userData,
     }
   },
   onStoreChanged: function (data) {
@@ -72,14 +74,15 @@ var RightAlbumInfo = React.createClass({
       },
       right1: {
         width: "50%",
-        marginTop: "20px",
+        marginTop: "30px",
         height: "30px",
         float: "left",
         textAlign: "center",
       },
       right2: {
         width: "50%",
-        height: "70px",
+        marginTop:'-30px',
+        height: "100px",
         float: "left",
         textAlign: "center",
       },
@@ -113,11 +116,23 @@ var RightAlbumInfo = React.createClass({
           </div>
           <div style={style.leftdiv}>
             <div style={style.imgdiv}>
-              <img style={style.img} src={this.props.curuser.avatar}/>
+              <img style={style.img} src={this.state.currentUser.avatar}/>
             </div>
           </div>
-          <div style={style.right1}><span>{this.props.curuser.userName}</span></div>
-          <div style={style.right2}><span>定 价：{album.Price}</span></div>
+          <div style={style.right1}><span>{this.state.currentUser.userName}</span></div>
+          <div style={style.right2}>
+            <div style={{backgroundColor:'#222f3f',height:'40px'}}>
+              <div style={{height:'40px',float:'left'}}>
+                <img style={{marginTop:'5px',marginLeft:'5px'}} src="../../../img/camera.png"/>
+              </div>
+              <div style={{color:'#fff'}}>
+                <div style={{marginTop:'30px'}}>
+                  <div style={{height:'8px'}}></div>
+                  <div style={{fontSize:'20px'}}>{album.Price}</div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div>作品简述：{album.Description}</div>
           <div>类 别：{category.Name}</div>
           <div>提供服务：{album.Service}</div>

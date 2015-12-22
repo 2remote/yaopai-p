@@ -5,14 +5,12 @@ var ComponentGallery = require('react-component-gallery');
 var AlbumsActions = require('../../actions/AlbumsActions');
 var AlbumsStore = require('../../stores/AlbumsStore');
 var RightAlbumInfo = require('./rightAlbumInfo');
-var UserStore = require('../../stores/UserStore');
 
 var Albums = React.createClass({
-  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),UserStore],
+  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
   getInitialState: function () {
     return {
       work: null,
-      currentUser: UserStore.userData,
       currentAlbum: AlbumsStore.data,
       category: '',
     }
@@ -108,16 +106,23 @@ var Albums = React.createClass({
       }.bind(this));
     }
     return (
-      <div className="container-fluid no-bgimg gray-bg" style={{backgroundColor:'black',height:'100%'}}>
+      <div className="container-fluid no-bgimg gray-bg" style={{backgroundColor:'#111822',height:'100%'}}>
         <Header />
         <div style={{marginTop:100,color:'#fff'}} >
           <div className="col-md-10">
-            <div style={{float:'left',width:'40px',height:'25px'}}>{this.state.category}</div>
-            <div style={{fontSize:'14px',height:'25px'}}>{this.state.currentAlbum.workData.Title}</div>
+            <div style={{background:'url(../../../img/tag-bg.png) no-repeat',width:'100px',height:'53px',float:'left'}}>
+              <div style={{height:'13px'}}></div>
+              <div style={{color:'#fff',marginLeft:'15px',fontSize:'20px'}}>生活{this.state.category}</div>
+            </div>
+            <div style={{height:'53px'}}>
+              <div style={{height:'13px'}}></div>
+              <div style={{color:'#fff',fontSize:'20px'}}>{this.state.currentAlbum.workData.Title}</div>
+            </div>
             <ComponentGallery
               componentStyle={{
                 width: "auto",
-                height: "auto",
+                height: "auto%",
+                marginTop: "20px",
                 display: "inline-block",
                 marginRight: "10px",
                 marginBottom: "10px",
@@ -129,7 +134,7 @@ var Albums = React.createClass({
             </ComponentGallery>
           </div>
           <div className="col-md-2">
-            <RightAlbumInfo work={this.state.work} uploadHandle={this.loadAlbums} curuser={this.state.currentUser}>
+            <RightAlbumInfo work={this.state.work} uploadHandle={this.loadAlbums}>
             </RightAlbumInfo>
           </div>
         </div>
