@@ -21,38 +21,6 @@ var Collapse = require('react-bootstrap').Collapse;
 var Modal = require('react-bootstrap').Modal;
 /**
  * ------------------------------------------------------------------
- * 右边导航--->ListGroup组件
- * ------------------------------------------------------------------
- */
-var OrderManagerNav = React.createClass({
-  render: function () {
-    /*吻合UI设计图，所做一些样式覆盖*/
-    var navStyle = {
-      group: {
-        width: '175px',
-        color: '#838383',
-      },
-      itemStyle: {
-        paddingRight: '10px',
-      }
-    }
-    return (
-      <ListGroup style={navStyle.group}>
-        <ListGroupItem>
-          <span className="glyphicon glyphicon-upload" aria-hidden="true" style={navStyle.itemStyle}></span>
-          <Link to={'/order/out/'+this.props.orderState}>预约</Link>
-          </ListGroupItem>
-        <ListGroupItem>
-          <span className="glyphicon glyphicon-download" aria-hidden="true" style={
-            navStyle.itemStyle}></span>
-          <Link to={'/order/in/'+this.props.orderState}>被预约</Link>
-        </ListGroupItem>
-      </ListGroup>
-    );
-  }
-});
-/**
- * ------------------------------------------------------------------
  * 左侧表格栏--->顶部预约状态
  * ------------------------------------------------------------------
  */
@@ -83,19 +51,15 @@ var OrderListTop = React.createClass({
     };
     return (
       <div className="clearfix">
-        <p className="pull-left order-way" style={orderListTopStyle.orderWay}>
-          <span className="glyphicon glyphicon-download" aria-hidden="true" style={orderListTopStyle.iconTop}></span>
-          <span>{this.state=='in'?'被预约' : '预约'}</span>
-        </p>
         <ul className="pull-right order-status" style={orderListTopStyle.ulStyle}>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/pending'}>待确认</Link>
+            <Link to={'/order/'+this.props.type+'/closed'}>已关闭</Link>
           </li>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
             <Link to={'/order/'+this.props.type+'/finished'}>已完成</Link>
           </li>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/closed'}>已关闭</Link>
+            <Link to={'/order/'+this.props.type+'/pending'}>待确认</Link>
           </li>
         </ul>
       </div>
@@ -502,7 +466,6 @@ var OrderManager = React.createClass({
             {orderItems}
           </div>
           <div className="col-xs-3">
-            <OrderManagerNav orderState={this.props.params.state}></OrderManagerNav>
             <ConfirmOrder ref="confirmModal" confirm={this.confirmOrder}/>
           </div>
         </div>
