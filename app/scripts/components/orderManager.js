@@ -286,7 +286,7 @@ var OrderItem = React.createClass({
     return (
       <div >
         <div className="itemTop" style={itemStyle.topItem}>
-          <span style={itemStyle.orderTime}>{this.props.order.CreationTime}</span>
+          <span style={itemStyle.orderTime}>{this.dateFormat(new Date(this.props.order.CreationTime),'yyyy-MM-dd hh:mm:ss')}</span>
           <span>订单号：<b>{this.props.order.Id}</b></span>
         </div>
         <div className="row" style={itemStyle.infoWrap}>
@@ -460,14 +460,12 @@ var OrderManager = React.createClass({
       <div className="container-fluid no-bgimg gray-bg">
         <Header />
         <div className="center-content">
-          <div className="col-xs-9">
+          <div className="col-xs-12">
             <OrderListTop type={this.props.params.type}></OrderListTop>
             <OrderTitle></OrderTitle>
             {orderItems}
           </div>
-          <div className="col-xs-3">
-            <ConfirmOrder ref="confirmModal" confirm={this.confirmOrder}/>
-          </div>
+          <ConfirmOrder ref="confirmModal" confirm={this.confirmOrder}/>
         </div>
       </div>
     );
