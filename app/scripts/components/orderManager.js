@@ -86,6 +86,7 @@ var OrderTitle = React.createClass({
         textAlign: 'center',
         marginLeft: '0px',
         marginRight: '0px',
+        borderBottom: 'rgba(255,255,255,.15) solid 1px'
       },
       title: {
         height: '52px',
@@ -285,16 +286,18 @@ var OrderItem = React.createClass({
     };
     var ButtonName;
     if (this.props.order.State == 0) {
-      ButtonName = '待确认';
+      ButtonName = '确认订单';
     } else if (this.props.order.State == 1) {
       ButtonName = '已完成';
+      itemStyle.confirm.backgroundColor = 'gray';
     } else {
       ButtonName = '用户已取消';
+      itemStyle.confirm.backgroundColor = 'gray';
     }
     return (
       <div >
         <div className="itemTop" style={itemStyle.topItem}>
-          <span style={itemStyle.orderTime}>{this.dateFormat(new Date(this.props.order.CreationTime),'yyyy-MM-dd hh:mm:ss')}</span>
+          <span style={itemStyle.orderTime}>下单时间：{this.dateFormat(new Date(this.props.order.CreationTime),'yyyy-MM-dd hh:mm:ss')}</span>
           <span>订单号：<b>{this.props.order.Id}</b></span>
         </div>
         <div className="row" style={itemStyle.infoWrap}>
