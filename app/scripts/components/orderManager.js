@@ -38,6 +38,12 @@ var OrderListTop = React.createClass({
       ulStyle: {
         listStyle: 'none',
       },
+      select: {
+        color: '#828997',
+      },
+      activeLink: {
+        color: 'black',
+      },
       liStyle: {
         borderBottomWidth: '1px',
         borderBottomStyle: 'solid',
@@ -53,13 +59,13 @@ var OrderListTop = React.createClass({
       <div className="clearfix">
         <ul className="pull-right order-status" style={orderListTopStyle.ulStyle}>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/closed'}>已关闭</Link>
+            <Link style={this.props.state=='closed'?orderListTopStyle.activeLink:orderListTopStyle.select} to={'/order/'+this.props.type+'/closed'}>已关闭</Link>
           </li>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/finished'}>已完成</Link>
+            <Link style={this.props.state=='finished'?orderListTopStyle.activeLink:orderListTopStyle.select} to={'/order/'+this.props.type+'/finished'}>已完成</Link>
           </li>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/pending'}>待确认</Link>
+            <Link style={this.props.state=='pending'?orderListTopStyle.activeLink:orderListTopStyle.select} to={'/order/'+this.props.type+'/pending'}>待确认</Link>
           </li>
         </ul>
       </div>
@@ -114,7 +120,9 @@ var OrderItem = React.createClass({
     this.setState({orderInfoShow: !this.state.orderInfoShow});
   },
   handleConfirm : function(e){
-    this.props.confirm(this.props.order);
+    if (this.props.order.State == 0){
+      this.props.confirm(this.props.order);
+    }
   },
   updateDate : function(e){
     console.log(e.target.value);
@@ -461,7 +469,7 @@ var OrderManager = React.createClass({
         <Header />
         <div className="center-content">
           <div className="col-xs-12">
-            <OrderListTop type={this.props.params.type}></OrderListTop>
+            <OrderListTop type={this.props.params.type} state={this.props.params.state}></OrderListTop>
             <OrderTitle></OrderTitle>
             {orderItems}
           </div>
