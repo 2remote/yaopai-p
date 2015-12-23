@@ -21,38 +21,6 @@ var Collapse = require('react-bootstrap').Collapse;
 var Modal = require('react-bootstrap').Modal;
 /**
  * ------------------------------------------------------------------
- * 右边导航--->ListGroup组件
- * ------------------------------------------------------------------
- */
-var OrderManagerNav = React.createClass({
-  render: function () {
-    /*吻合UI设计图，所做一些样式覆盖*/
-    var navStyle = {
-      group: {
-        width: '175px',
-        color: '#838383',
-      },
-      itemStyle: {
-        paddingRight: '10px',
-      }
-    }
-    return (
-      <ListGroup style={navStyle.group}>
-        <ListGroupItem>
-          <span className="glyphicon glyphicon-upload" aria-hidden="true" style={navStyle.itemStyle}></span>
-          <Link to={'/order/out/'+this.props.orderState}>预约</Link>
-          </ListGroupItem>
-        <ListGroupItem>
-          <span className="glyphicon glyphicon-download" aria-hidden="true" style={
-            navStyle.itemStyle}></span>
-          <Link to={'/order/in/'+this.props.orderState}>被预约</Link>
-        </ListGroupItem>
-      </ListGroup>
-    );
-  }
-});
-/**
- * ------------------------------------------------------------------
  * 左侧表格栏--->顶部预约状态
  * ------------------------------------------------------------------
  */
@@ -70,6 +38,12 @@ var OrderListTop = React.createClass({
       ulStyle: {
         listStyle: 'none',
       },
+      select: {
+        color: '#828997',
+      },
+      activeLink: {
+        color: 'black',
+      },
       liStyle: {
         borderBottomWidth: '1px',
         borderBottomStyle: 'solid',
@@ -83,19 +57,15 @@ var OrderListTop = React.createClass({
     };
     return (
       <div className="clearfix">
-        <p className="pull-left order-way" style={orderListTopStyle.orderWay}>
-          <span className="glyphicon glyphicon-download" aria-hidden="true" style={orderListTopStyle.iconTop}></span>
-          <span>{this.state=='in'?'被预约' : '预约'}</span>
-        </p>
         <ul className="pull-right order-status" style={orderListTopStyle.ulStyle}>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/pending'}>待确认</Link>
+            <Link style={this.props.state=='closed'?orderListTopStyle.activeLink:orderListTopStyle.select} to={'/order/'+this.props.type+'/closed'}>已关闭</Link>
           </li>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/finished'}>已完成</Link>
+            <Link style={this.props.state=='finished'?orderListTopStyle.activeLink:orderListTopStyle.select} to={'/order/'+this.props.type+'/finished'}>已完成</Link>
           </li>
           <li className="pull-right" style={orderListTopStyle.liStyle}>
-            <Link to={'/order/'+this.props.type+'/closed'}>已关闭</Link>
+            <Link style={this.props.state=='pending'?orderListTopStyle.activeLink:orderListTopStyle.select} to={'/order/'+this.props.type+'/pending'}>待确认</Link>
           </li>
         </ul>
       </div>
@@ -116,6 +86,7 @@ var OrderTitle = React.createClass({
         textAlign: 'center',
         marginLeft: '0px',
         marginRight: '0px',
+        borderBottom: 'rgba(255,255,255,.15) solid 1px'
       },
       title: {
         height: '52px',
@@ -150,7 +121,9 @@ var OrderItem = React.createClass({
     this.setState({orderInfoShow: !this.state.orderInfoShow});
   },
   handleConfirm : function(e){
-    this.props.confirm(this.props.order);
+    if (this.props.order.State == 0){
+      this.props.confirm(this.props.order);
+    }
   },
   updateDate : function(e){
     console.log(e.target.value);
@@ -313,16 +286,18 @@ var OrderItem = React.createClass({
     };
     var ButtonName;
     if (this.props.order.State == 0) {
-      ButtonName = '待确认';
+      ButtonName = '确认订单';
     } else if (this.props.order.State == 1) {
       ButtonName = '已完成';
+      itemStyle.confirm.backgroundColor = 'gray';
     } else {
       ButtonName = '用户已取消';
+      itemStyle.confirm.backgroundColor = 'gray';
     }
     return (
       <div >
         <div className="itemTop" style={itemStyle.topItem}>
-          <span style={itemStyle.orderTime}>{this.props.order.CreationTime}</span>
+          <span style={itemStyle.orderTime}>下单时间：{this.dateFormat(new Date(this.props.order.CreationTime),'yyyy-MM-dd hh:mm:ss')}</span>
           <span>订单号：<b>{this.props.order.Id}</b></span>
         </div>
         <div className="row" style={itemStyle.infoWrap}>
@@ -496,15 +471,12 @@ var OrderManager = React.createClass({
       <div className="container-fluid no-bgimg gray-bg">
         <Header />
         <div className="center-content">
-          <div className="col-xs-9">
-            <OrderListTop type={this.props.params.type}></OrderListTop>
+          <div className="col-xs-12">
+            <OrderListTop type={this.props.params.type} state={this.props.params.state}></OrderListTop>
             <OrderTitle></OrderTitle>
             {orderItems}
           </div>
-          <div className="col-xs-3">
-            <OrderManagerNav orderState={this.props.params.state}></OrderManagerNav>
-            <ConfirmOrder ref="confirmModal" confirm={this.confirmOrder}/>
-          </div>
+          <ConfirmOrder ref="confirmModal" confirm={this.confirmOrder}/>
         </div>
       </div>
     );
