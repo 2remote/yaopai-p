@@ -129,9 +129,6 @@ var ProfileHeader = React.createClass({
             <Link style={this.state.type=='onStore'?categoryStyle.activeLink:categoryStyle.select} to="/profile/onStore">
               未上架
             </Link>
-            <Link style={this.state.type=='fail'?categoryStyle.activeLink:categoryStyle.select} to="/profile/fail">
-              审核失败
-            </Link>
             <span className="glyphicon glyphicon-exclamation-sign" style={categoryStyle.icon} aria-hidden="true"></span>
           </div>
         </div>
