@@ -9,6 +9,7 @@ var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
 var IndexCover = require('./indexCover');
 var ToolTip = require('./toolTip');
+var API = require('../api');
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -81,8 +82,8 @@ var PinInput = React.createClass({
   getInitialState : function(){
     return({
       value : '',
-      codeOriginSrc : '//api.aiyaopai.com/temp/code',
-      codesrc : '//api.aiyaopai.com/temp/code'
+      codeOriginSrc : API.DOMAIN + 'temp/code',
+      codesrc : API.DOMAIN + 'temp/code'
     });
   },
   getValue : function(){

@@ -71,6 +71,7 @@ var PersonIDImage = React.createClass({
           <div className="row" style={style.imgId}>
             <ImageInput width="200" 
               height="150" 
+              addStyle={{width:220}}
               defaultImage={IDImages[0]} 
               onUpload={this.upload1} 
               disabled={this.props.disabled}
@@ -79,6 +80,7 @@ var PersonIDImage = React.createClass({
               type="user"/>
             <ImageInput width="200" 
               height="150" 
+              addStyle={{width:220}}
               defaultImage={IDImages[1]} 
               onUpload={this.upload2}
               disabled={this.props.disabled}
@@ -447,6 +449,52 @@ var PhotographerAuth = React.createClass({
     if(this.state.authState == '2'){
       rightInfo = '审核不通过';
     }
+    var studio = '';
+    if (this.state.pAuthData.OwnedStudio) {
+      studio = (
+        <div>
+          <TextInput ref="companyName"
+            labelName="工作室名称："
+            value = {this.state.pAuthData.StudioName}
+            updateValue = {this.updateCompanyName}
+            minLength={2}
+            disabled={this.state.disabled}
+            textClassName="col-xs-5"
+            placeholder="" />
+          <CompanyLogo ref="complanyLogo"
+            value = {this.state.pAuthData.StudioLogo}
+            updateValue = {this.updateCompanyLogo}
+            disabled={this.state.disabled} />
+          <MultiImageSelect ref="companyImages"
+            width="100"
+            height="100"
+            uid = "companyImagesSelect"
+            disabled={this.state.disabled}
+            maxCount={4}
+            labelName="工作室照片："
+            images={this.state.pAuthData.StudioImages}
+            remove={this.removeCompanyImage}
+            updateImages={this.updateCompanyImages}/>
+          <TextInput ref="address"
+            labelName="工作室地址："
+            value = {this.state.pAuthData.StudioAddress}
+            updateValue = {this.updateCompanyAddress}
+            minLength={5}
+            disabled={this.state.disabled}
+            textClassName="col-xs-5"
+            placeholder=""/>
+          <TextInput ref="companyIntro"
+            type="textarea"
+            disabled={this.state.disabled}
+            labelName="工作室简介："
+            value = {this.state.pAuthData.StudioIntroduction}
+            updateValue = {this.updateCompanyIntro}
+            minLength={10}
+            textClassName="col-xs-6"
+            placeholder=""/>
+        </div>
+      );
+    }
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="摄影师认证" rightInfo={rightInfo} infoIconClass="glyphicon glyphicon-camera"/>
@@ -534,46 +582,8 @@ var PhotographerAuth = React.createClass({
             disabled={this.state.disabled}
             checked={this.state.pAuthData.OwnedStudio}
             onChange={this.updateHasCompany}/>
-          <TextInput ref="companyName"
-            labelName="工作室名称："
-            value = {this.state.pAuthData.StudioName}
-            updateValue = {this.updateCompanyName}
-            minLength={2}
-            disabled={this.state.disabled}
-            textClassName="col-xs-5"
-            placeholder=""/>
-          <CompanyLogo ref="complanyLogo"
-            value = {this.state.pAuthData.StudioLogo}
-            updateValue = {this.updateCompanyLogo}
-            disabled={this.state.disabled} />
-          <MultiImageSelect ref="companyImages"
-            width="100"
-            height="100"
-            uid = "companyImagesSelect"
-            disabled={this.state.disabled}
-            maxCount={4}
-            labelName="工作室照片："
-            images={this.state.pAuthData.StudioImages}
-            remove={this.removeCompanyImage}
-            updateImages={this.updateCompanyImages}/>
-          <TextInput ref="address"
-            labelName="工作室地址："
-            value = {this.state.pAuthData.StudioAddress}
-            updateValue = {this.updateCompanyAddress}
-            minLength={5}
-            disabled={this.state.disabled}
-            textClassName="col-xs-5"
-            placeholder=""/>
-          <TextInput ref="companyIntro"
-            type="textarea"
-            disabled={this.state.disabled}
-            labelName="工作室简介："
-            value = {this.state.pAuthData.StudioIntroduction}
-            updateValue = {this.updateCompanyIntro}
-            minLength={10}
-            textClassName="col-xs-6"
-            placeholder=""/>
-          <Button className="col-xs-offset-2"
+          {studio}
+          <Button className="col-xs-offset-3"
             disabled={this.state.disabled}
             bsStyle="primary"
             onClick={this.handleSubmit}>

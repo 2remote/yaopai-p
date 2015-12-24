@@ -364,7 +364,7 @@ var Photographer = React.createClass({
             disabled={this.state.disabled}
             checked={this.state.photographer.OwnedStudio}
             onChange={this.updateHasCompany}/>
-            {studio}
+          {studio}
           <Button className="col-xs-offset-3"
             disabled={this.state.disabled}
             bsStyle="primary"
