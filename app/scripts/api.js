@@ -34,6 +34,7 @@ if (hasHost(Local_Host) && isProdHost(Local_Host)) {
 var API_URL = DOMAIN + '?api=';
 
 var API_CONST = {
+  DOMAIN : DOMAIN, 
   USER : {
     login : API_URL + 'User.Login',
     login_with_token : API_URL + 'User.LoginWithToken',
