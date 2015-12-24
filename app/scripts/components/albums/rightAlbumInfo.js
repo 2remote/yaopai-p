@@ -51,8 +51,8 @@ var RightAlbumInfo = React.createClass({
     var style = {
       btndiv: {
         width: "50%",
-        float: "left",
         textAlign: "center",
+        margin: '0 20px',
       },
       leftdiv: {
         float: "left",
@@ -73,18 +73,20 @@ var RightAlbumInfo = React.createClass({
       },
       right1: {
         width: "50%",
-        marginTop: "30px",
+        fontSize: '2em',
         height: "30px",
         float: "left",
         textAlign: "center",
       },
       right2: {
         width: "50%",
-        marginTop:'-30px',
         height: "100px",
         float: "left",
         textAlign: "center",
       },
+      info: {
+        marginTop: 28,
+      }
     }
     var album = this.props.work;
     var status = "";
@@ -99,40 +101,42 @@ var RightAlbumInfo = React.createClass({
       <div>
         <EditAlbumModal album={album} categories={this.props.categories} show={this.state.isInfoShow} hideHandle={this.hideInfoModal}/>
         <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle} show={this.state.isImgShow} hideHandle={this.hideImgModal}/>
-        <div style={style.btndiv}>
+        <span style={style.btndiv}>
           <Button bsStyle="primary" onClick={this.showInfoModal}>
             修改信息
           </Button>
-        </div>
-        <div style={style.btndiv}>
+        </span>
+        <span style={style.btndiv}>
           <Button bsStyle="primary" onClick={this.showImgModal}>
             上传照片
           </Button>
-        </div>
-        <div style={style.leftdiv}>
-          <div style={style.imgdiv}>
-            <img style={style.img} src={this.state.currentUser.avatar}/>
-          </div>
-        </div>
-        <div style={style.right1}><span>{this.state.currentUser.userName}</span></div>
-        <div style={style.right2}>
-          <div style={{backgroundColor:'#222f3f',height:'40px'}}>
-            <div style={{height:'40px',float:'left'}}>
-              <img style={{marginTop:'5px',marginLeft:'5px'}} src="../../../img/camera.png"/>
+        </span>
+        <div style={style.info}>
+          <div style={style.leftdiv}>
+            <div style={style.imgdiv}>
+              <img style={style.img} src={this.state.currentUser.avatar}/>
             </div>
-            <div style={{color:'#fff'}}>
-              <div style={{marginTop:'30px'}}>
-                <div style={{height:'8px'}}></div>
-                <div style={{fontSize:'20px'}}>{album.Price}</div>
+          </div>
+          <div style={style.right1}><span>{this.state.currentUser.userName}</span></div>
+          <div style={style.right2}>
+            <div style={{backgroundColor:'#222f3f',height:'40px'}}>
+              <div style={{height:'40px',float:'left'}}>
+                <img style={{marginTop:'5px',marginLeft:'5px'}} src="../../../img/camera.png"/>
+              </div>
+              <div style={{color:'#fff'}}>
+                <div style={{marginTop:'30px'}}>
+                  <div style={{height:'8px'}}></div>
+                  <div style={{fontSize:'20px'}}>{album.Price}</div>
+                </div>
               </div>
             </div>
           </div>
+          <div style={{paddingTop:20,clear: 'left'}}>作品简述：<p>{album.Description}</p></div>
+          <div>提供服务：<p>{album.Service}</p></div>
+          <div>状 态：<p>{status}</p></div>
+          <div>添加时间：<p>{this.moment(album.CreationTime)}</p></div>
+          <div>最后编辑时间：<p>{this.moment(album.EditingTime)}</p></div>
         </div>
-        <div>作品简述：{album.Description}</div>
-        <div>提供服务：{album.Service}</div>
-        <div>状 态：{status}</div>
-        <div>添加时间：{this.moment(album.CreationTime)}</div>
-        <div>最后编辑时间：{this.moment(album.EditingTime)}</div>
       </div>
     );
   }
