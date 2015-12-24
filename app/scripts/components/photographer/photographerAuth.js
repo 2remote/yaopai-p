@@ -71,6 +71,7 @@ var PersonIDImage = React.createClass({
           <div className="row" style={style.imgId}>
             <ImageInput width="200" 
               height="150" 
+              addStyle={{width:220}}
               defaultImage={IDImages[0]} 
               onUpload={this.upload1} 
               disabled={this.props.disabled}
@@ -79,6 +80,7 @@ var PersonIDImage = React.createClass({
               type="user"/>
             <ImageInput width="200" 
               height="150" 
+              addStyle={{width:220}}
               defaultImage={IDImages[1]} 
               onUpload={this.upload2}
               disabled={this.props.disabled}
@@ -581,7 +583,7 @@ var PhotographerAuth = React.createClass({
             checked={this.state.pAuthData.OwnedStudio}
             onChange={this.updateHasCompany}/>
           {studio}
-          <Button className="col-xs-offset-2"
+          <Button className="col-xs-offset-3"
             disabled={this.state.disabled}
             bsStyle="primary"
             onClick={this.handleSubmit}>
