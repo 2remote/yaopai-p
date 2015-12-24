@@ -213,7 +213,7 @@ var Albums = React.createClass({
         }.bind(this));
       }
       return (
-          <div className="container-fluid" style={{backgroundColor:'#111822'}}>
+          <div className="container-fluid" style={{backgroundColor:'#111822',minHeight:1000}}>
             <Header />
             <div style={{marginTop:100,color:'#fff'}} >
               <div className="col-md-9">

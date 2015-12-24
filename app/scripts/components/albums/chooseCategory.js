@@ -34,9 +34,9 @@ var ChooseCategory = React.createClass({
     }.bind(this));
     return (
       <div className="form-group">
-        <label className="control-label col-xs-2">类别：</label>
+        <label className="control-label col-xs-3">类别：</label>
 
-        <div className="col-xs-10">
+        <div className="col-xs-9">
           <div className="cont-category">
             {buttons}
           </div>
