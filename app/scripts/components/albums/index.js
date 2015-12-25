@@ -29,6 +29,9 @@ var Albums = React.createClass({
       if(data.flag == 'getCategories'){
         this.setState({categories: data.categories});
       }
+      if(data.flag == 'delete') {
+        this.history.replaceState(null,'/profile/onSale');
+      }
       if (this.state.work && this.state.work.CategoryId && this.state.categories) {
         var album = this.state.work;
         var category = this.state.categories.find(function (obj) {
@@ -56,12 +59,18 @@ var Albums = React.createClass({
   onRemove: function (event) {
     var index = event.target.getAttribute('data-index');
     var album = this.state.work;
-    var removeUrl = album.Photos[index].Url;
-    album.Photos.splice(index, 1);
-    if (removeUrl == album.Cover) {
-      album.Cover = album.Photos[0].Url;
+    if(album.Photos.length <= 1){
+      if(confirm("这是相册的最后一张照片，删除此照片将删除相册。")){
+        AlbumsActions.delete(album);
+      }
+    }else{
+      var removeUrl = album.Photos[index].Url;
+      album.Photos.splice(index, 1);
+      if (removeUrl == album.Cover) {
+        album.Cover = album.Photos[0].Url;
+      }
+      AlbumsActions.update(album);
     }
-    AlbumsActions.update(album);
   },
   onCover: function (event) {
     var index = event.target.getAttribute('data-index');
