@@ -182,7 +182,6 @@ var Albums = React.createClass({
           var coverStyle = {
             transition: 'top 0.2s',
             fontSize: 18,
-            color: 'white',
             textShadow: '0 0 1px rgba(0,0,0,0.6)',
             display: 'inline-block',
             marginTop: 15,
@@ -222,7 +221,7 @@ var Albums = React.createClass({
         }.bind(this));
       }
       return (
-          <div className="container-fluid" style={{backgroundColor:'#111822'}}>
+          <div className="container-fluid" style={{backgroundColor:'#111822',minHeight:1000}}>
             <Header />
             <div style={{marginTop:100,color:'#fff'}} >
               <div className="col-md-9">

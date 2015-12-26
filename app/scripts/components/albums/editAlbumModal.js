@@ -119,7 +119,7 @@ var EditAlbumModal = React.createClass({
           onHide={this.hideInfoModal}
           dialogClassName="custom-modal">
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-lg">Modal heading</Modal.Title>
+            <Modal.Title id="contained-modal-title-lg">修改信息</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form className='form-horizontal'>
@@ -209,8 +209,8 @@ var DisplayCheckbox = React.createClass({
     }.bind(this));
     return (
         <div className="form-group">
-          <div className="col-xs-9">
-            <div className="cont-category">
+          <div className="col-xs-12">
+            <div className="cont-category" style={{textAlign:'center'}}>
               {buttons}
             </div>
           </div>
