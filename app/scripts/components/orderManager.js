@@ -6,6 +6,7 @@ var History = Router.History;
 
 var Header = require('./header');
 var Footer = require('./footer');
+var NoData = require('./noData');
 
 var OrderStore = require('../stores/OrderStore');
 var OrderActions = require('../actions/OrderActions');
@@ -303,8 +304,8 @@ var OrderItem = React.createClass({
         <div className="row" style={itemStyle.infoWrap}>
           <div style={triangleClass} onClick={this.handleCollapse}></div>
           <div style={itemStyle.uniqueLineHeight} className="col-xs-2">
-            <img style={itemStyle.img} src={this.props.order.User.Avatar?this.props.order.User.Avatar:'img/default_user_img.png'} width="60" heigth="60"/>
-            <p>{this.props.order.User.NickName}</p>
+            <img style={itemStyle.img} src={this.props.order.User&&this.props.order.User.Avatar?this.props.order.User.Avatar:'img/default_user_img.png'} width="60" heigth="60"/>
+            <p>{this.props.order.User?this.props.order.User.NickName:''}</p>
           </div>
           <div className="col-xs-3" style={itemStyle.bookDate}>
             <input style={itemStyle.dateInput} type="date" value={this.dateFormat(new Date(this.props.order.AppointedTime),'yyyy-MM-dd')} onChange={this.updateDate}/>
@@ -464,9 +465,12 @@ var OrderManager = React.createClass({
     this.setState({orders : orders});
   },
   render: function () {
-    var orderItems = this.state.orders.map(function(item){
-      return <OrderItem key={item.Id} order={item} confirm={this.showConfirmOrder} updateDate={this.updateDate}/>
-    }.bind(this));
+    var orderItems = <NoData message="您还没有订单，快去上传新作品吧！"/>;
+    if(this.state.orders && this.state.orders.length >0){
+      orderItems = this.state.orders.map(function(item){
+        return <OrderItem key={item.Id} order={item} confirm={this.showConfirmOrder} updateDate={this.updateDate}/>
+      }.bind(this));
+    }
     return (
       <div className="container-fluid no-bgimg gray-bg">
         <Header />

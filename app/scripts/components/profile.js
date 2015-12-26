@@ -5,6 +5,7 @@ var Link = Router.Link;
 var History = Router.History
 var MasonryMixin = require('react-masonry-mixin')(React);
 var Header = require('./header');
+var NoData = require('./noData');
 
 var AlbumsActions = require('../actions/AlbumsActions');
 var AlbumsStore = require('../stores/AlbumsStore');
@@ -230,18 +231,21 @@ var WorksList = React.createClass({
         paddingLeft: '10px',
       }
     };
-    var photoList = this.state.workList.map(function(work,i){
-      return (
-        <div key={i} style={mainStyle.worksWrap}>
-          <Link to={'/albums/'+work.Id}>
-            <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
-            <div style={mainStyle.description}>
-              <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
-            </div>
-          </Link>
-        </div>
-      );
-    }.bind(this));
+    var photoList = <NoData message="您还没有作品，快去上传吧！"/>;
+    if(this.state.workList && this.state.workList.length >0){
+      photoList = this.state.workList.map(function(work,i){
+        return (
+          <div key={i} style={mainStyle.worksWrap}>
+            <Link to={'/albums/'+work.Id}>
+              <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
+              <div style={mainStyle.description}>
+                <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
+              </div>
+            </Link>
+          </div>
+        );
+      }.bind(this));
+    }
     return (
       <div ref="masonryContainer" style={mainStyle.container}>
         {photoList}
