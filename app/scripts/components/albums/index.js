@@ -173,7 +173,6 @@ var Albums = React.createClass({
           var coverStyle = {
             transition: 'top 0.2s',
             fontSize: 18,
-            color: 'white',
             textShadow: '0 0 1px rgba(0,0,0,0.6)',
             display: 'inline-block',
             marginTop: 15,
