@@ -44,16 +44,17 @@ var Albums = React.createClass({
   isLogin: function (data) {
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
-      UserActions.logout(true);
+      //UserActions.logout(true);
       this.history.pushState(null, '/');
+    }else{
+      var data = {
+        Fields: 'Id,Name'
+      };
+      AlbumsActions.getCategories(data)
+      this.loadAlbums();
     }
   },
-  componentDidMount: function () {
-    var data = {
-      Fields: 'Id,Name'
-    };
-    AlbumsActions.getCategories(data)
-    this.loadAlbums();
+  componentWillMount: function () {
     UserActions.currentUser();
   },
   onRemove: function (event) {

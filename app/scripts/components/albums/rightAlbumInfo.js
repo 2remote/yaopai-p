@@ -11,7 +11,7 @@ var UploadPhotoModal = require('./uploadPhotoModal');
 var UserStore = require('../../stores/UserStore');
 
 var RightAlbumInfo = React.createClass({
-  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),UserStore],
+  mixins: [UserStore],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
   getInitialState: function () {
     return {
       isImgShow : false,
