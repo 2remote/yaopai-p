@@ -231,7 +231,9 @@ var WorksList = React.createClass({
         paddingLeft: '10px',
       }
     };
-    var photoList = <NoData message="您还没有作品，快去上传吧！"/>;
+
+    var photoList = '';
+
     if(this.state.workList && this.state.workList.length >0){
       photoList = this.state.workList.map(function(work,i){
         return (
@@ -245,7 +247,14 @@ var WorksList = React.createClass({
           </div>
         );
       }.bind(this));
+    }else{
+      photoList = <NoData message="您还没有作品，快去上传或上架吧！"/>;
+      if(this.props.type == 2){
+        photoList = <NoData message="暂无未上架作品"/>;
+      }
     }
+
+     
     return (
       <div ref="masonryContainer" style={mainStyle.container}>
         {photoList}

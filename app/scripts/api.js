@@ -7,6 +7,7 @@ var DOMAIN = DEV_ENV;
 
 //获取当前网站的根目录
 var Local_Host = window.location.host;
+var Local_Href = window.location.href;
 
 //根据local host切换api
 function hasHost(host) {
@@ -43,7 +44,7 @@ var API_CONST = {
     sendTelRegister2 : API_URL + "User._SendTelRegister",
     modify_password : API_URL + 'User.ChangePassword',
     logout : API_URL + "User.Logout",
-    open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Host,
+    open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Href,
     current_user : API_URL + 'User.CurrentUser',
     currentUserDetail : API_URL + 'User.CurrentUserDetail',
     changeAvatar : API_URL + 'User.ChangeAvatar',
