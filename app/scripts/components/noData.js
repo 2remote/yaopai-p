@@ -12,6 +12,7 @@ var NoData = React.createClass({
   render: function() {
     var layoutStyle = {
       height : '100%',
+      width: 250,
       marginTop: 100,
       textAlign:'center',
     };
