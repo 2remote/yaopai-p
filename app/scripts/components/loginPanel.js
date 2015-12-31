@@ -137,7 +137,6 @@ var LoginForm = React.createClass({
 	        	<RememberMeCheck checkedChange = {this.handleCheckedChange} />
 	        	<LoginButton handleClick={this.handleClick} toRegister={this.props.toRegister}/>
 	        	<AlertBox alertMessage={this.state.alertMessage} />
-	        	<button onClick={this.openLogin}>微信登录</button>
 				</form>
 			</div>
 		);
