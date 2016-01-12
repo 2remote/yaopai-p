@@ -138,7 +138,7 @@ var PhotographerAuth = React.createClass({
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
       }else{
-        this.showMessage('提交认证成功！');
+        this.showMessage('认证资料提交成功！YAOPAI会尽快为您审核！');
         this.getAuditData();
       }
     }
@@ -437,11 +437,10 @@ var PhotographerAuth = React.createClass({
       },
     };
     var rightInfo = '未认证';
-    if(this.state.authState == null){
+    if(typeof this.state.pAuthData.State == 'undefined'){
       rightInfo = '未认证';
-    }
-    if(this.state.authState == '0'){
-      rightInfo = '未审核';
+    }else if(this.state.authState == '0'){
+      rightInfo = '审核中';
     }
     if(this.state.authState == '1'){
       rightInfo = '审核通过';
