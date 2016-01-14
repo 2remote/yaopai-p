@@ -123,9 +123,7 @@ var PhotographerAuth = React.createClass({
         this.history.pushState(null,'/account/photographer');
       }else{
         //普通用户，拿到认证数据再判断认证状态
-        if (!this.state.authState){
-          this.getAuditData();
-        }
+        this.getAuditData();
       }
     }else{
       //没有登录转到登录界面
@@ -145,6 +143,7 @@ var PhotographerAuth = React.createClass({
     if(data.flag == 'viewAudit'){
       if(data.hintMessage){
         //没有提交过认证申请
+        var pAuthData = data.pAuth;
         this.showMessage(data.hintMessage);
       }else{
         /*
