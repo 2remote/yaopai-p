@@ -98,11 +98,6 @@ var Acount = React.createClass({
               </Link>
             </li>
             <li>
-              <Link to="/order/in/pending">
-                <span className="glyphicon glyphicon-file" aria-hidden="true"></span> 订单管理
-              </Link>
-            </li>
-            <li>
               <Link to="/account">
                 <span className="glyphicon glyphicon-cog" aria-hidden="true"></span> 账户设置
               </Link>
