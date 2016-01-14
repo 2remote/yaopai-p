@@ -121,12 +121,12 @@ var RightAlbumInfo = React.createClass({
           <div style={style.right2}>
             <div style={{backgroundColor:'#222f3f',height:'40px'}}>
               <div style={{height:'40px',float:'left'}}>
-                <img style={{marginTop:'5px',marginLeft:'5px'}} src="../../../img/camera.png"/>
+                <img style={{marginTop:'5px',marginLeft:'5px'}} src="../../../img/money.png"/>
               </div>
               <div style={{color:'#fff'}}>
                 <div style={{marginTop:'30px'}}>
                   <div style={{height:'8px'}}></div>
-                  <div style={{fontSize:'20px'}}>{album.Price}</div>
+                  <div style={{fontSize:'20px',lineHeight: 'initial'}}>{album.Price}</div>
                 </div>
               </div>
             </div>
