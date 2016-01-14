@@ -60,7 +60,7 @@ var ProfileHeader = React.createClass({
   render : function(){
     var headerStyle = {
       background : {
-        background : 'url(../../img/footer_bg.png) no-repeat center center',
+        background : 'url(../../img/noName.jpg) no-repeat center center',
         width : '100%',
         height : '360px',
         color: '#ffffff',
