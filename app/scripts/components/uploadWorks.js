@@ -27,15 +27,11 @@ var ChooseCategory = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onGetCategories')],
   getInitialState : function(){
     return {
-      categories : []
+      categories : [],
+      selectedTag: 0, 
     }
   },
-  getDefaltProps : function(){
-    return {
-      value : 0,
-      onChange : function(data){},
-    }
-  },
+
   componentWillMount : function(){
     AlbumsActions.getTagList();
   },
@@ -47,9 +43,12 @@ var ChooseCategory = React.createClass({
       this.setState({tags : data.tags});
     }
   },
-  setCategory : function(event){
-    this.props.onChange(event.target.getAttribute('data-category'));
+  setTag: function (event) {
+      this.setState({selectedTag: event.target.getAttribute('data-category')}, function () {
+        console.log('this.state', this.state);
+      });
   },
+
   render : function(){
     var style = {
       button: {
@@ -59,8 +58,8 @@ var ChooseCategory = React.createClass({
         marginBottom: '10px',
       }
     }
-    var currentId = this.props.value;
-    var onClickButton = this.setCategory;
+    var currentId = this.state.selectedTag;
+    var onClickButton = this.setTag;
     // makeButton
     //
     // make Button component from tag data
