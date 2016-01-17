@@ -5,12 +5,16 @@ var validator = require('validator');
 var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
 
+var assert = require('assert');
+
 var InfoHeader= require('./infoHeader');
 var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
 var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
+// assert(AlbumsStore, 'store is ok'+ AlbumsStore);
+
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
@@ -33,13 +37,14 @@ var ChooseCategory = React.createClass({
     }
   },
   componentWillMount : function(){
-    AlbumsActions.getCategories({Fields:'Id,Name,Sorting,Display,Views'});
+    AlbumsActions.getTagList();
   },
   onGetCategories : function(data){
+    console.log('updated data', data);
     if(data.hintMessage){
       console.log(data.hintMessage);
     }else{
-      this.setState({categories : data.categories});
+      this.setState({tags : data.tags});
     }
   },
   setCategory : function(event){
@@ -55,16 +60,52 @@ var ChooseCategory = React.createClass({
       }
     }
 
+    // makeButton
+    //
+    // make Button component from tag data
+    // tag - obj, {Id: 4, Name: "人像", Display: true}
+    function makeButton (tag, i) {
+      return (<Button key={i} >{tag.Name}</Button>);
+    }
+
+    function makeTagRow (tagRow) {
+      var buttons = tagRow.Tags.map(function (tag, i) {
+        return makeButton(tag, i);
+      });
+      return(
+        <div >
+          <label>{tagRow.Name}</label>
+          {buttons}
+        </div>
+      );
+    }
+
+    function makeTagList (tagList) {
+      var existTagList = (typeof tagList != 'undefined');
+      var tags = (<div className="no tag list"></div>);
+      if(existTagList){
+        assert(typeof tagList != 'undefined', 'tagList must exist');
+        tags = tagList.map(function (list) {
+          return makeTagRow(list);
+        })
+      }
+      return tags;
+    }
+
     //目前没有做排序和是否显示
-    var buttons = this.state.categories.map(function(item,i){
-      return(<Button key={i} bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
-    }.bind(this));
+    
+    // var buttons = this.state.categories.map(function(item,i){
+    //   return(<Button key={i} bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
+    // }.bind(this));
+    
+    var tagList = makeTagList(this.state.tags);
+
     return (
      <div className="form-group">
         <label className="control-label col-xs-3">类别：</label>
         <div className="col-xs-9">
           <div className="cont-category">
-            {buttons}
+            {tagList}
           </div>
         </div>
       </div>
