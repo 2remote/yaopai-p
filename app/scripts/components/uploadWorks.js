@@ -69,7 +69,6 @@ var ChooseCategory = React.createClass({
       }
     }
     var currentTags = this.state.selectedTags;
-    console.log('currentTags:', currentTags);
     var onClickButton = this.setTag;
     // makeButton
     //
@@ -227,9 +226,9 @@ var UploadWorks = React.createClass({
       this.showMessage('请至少上传一张作品');
       return false;
     }
-    if(!this.state.tags){
-      assert(this.state.tags > 0, 'tags id number should bigger than 0, but we have:' + this.state.tags);
+    if(!this.state.tags.length>0){
       this.showMessage('请选择作品类别');
+      assert(this.state.tags.length > 0, 'Number of tags should bigger than 0, but we have:' + this.state.tags);
       return false;
     }
     if(this.state.description.length < 15 || this.state.description.length > 1000){
@@ -260,7 +259,7 @@ var UploadWorks = React.createClass({
         Price : this.state.price,
         Negotiable : this.state.price==0?true:false,
         Cover : this.state.photos[this.state.cover].Url,
-        Tags: this.state.tags
+        Tags: this.state.tags.join(',')
       }
       //针对后端要求，序列化数组
       this.state.photos.map(function(photo,i){
