@@ -44,9 +44,11 @@ var ChooseCategory = React.createClass({
     }
   },
   setTag: function (event) {
-      this.setState({selectedTag: event.target.getAttribute('data-category')}, function () {
+      var tagId = event.target.getAttribute('data-category');
+      this.setState({selectedTag: tagId}, function () {
         console.log('this.state', this.state);
       });
+      this.props.onChange(tagId);
   },
 
   render : function(){
@@ -136,7 +138,7 @@ var UploadWorks = React.createClass({
       price : 0 ,
       cover : -1,
       photos : [],
-      tags : []
+      tags : 0
     }
   },
   isLogin: function (data) {
@@ -190,11 +192,10 @@ var UploadWorks = React.createClass({
   updatePhotos : function(photos){
     this.setState({photos : photos});
   },
-  updateCategory : function(cid){
-    this.setState({category : cid});
-  },
   updateTags : function(tags){
-    this.setState({tags : tags});
+    this.setState({tags : tags}, function () {
+      console.log('updateTags:', this.state.tags);
+    });
   },
   updateDescription : function(des){
     this.setState({description : des});
@@ -217,7 +218,8 @@ var UploadWorks = React.createClass({
       this.showMessage('请至少上传一张作品');
       return false;
     }
-    if(!this.state.category){
+    if(!this.state.tags){
+      assert(this.state.tags > 0, 'tags id number should bigger than 0, but we have:' + this.state.tags);
       this.showMessage('请选择作品类别');
       return false;
     }
@@ -243,12 +245,13 @@ var UploadWorks = React.createClass({
     if(this.validate()){
       var data = {
         Title : this.state.title,
-        CategoryId : parseInt(this.state.category),
+        CategoryId : 3,
         Description : this.state.description,
         Service : this.state.service,
         Price : this.state.price,
         Negotiable : this.state.price==0?true:false,
-        Cover : this.state.photos[this.state.cover].Url
+        Cover : this.state.photos[this.state.cover].Url,
+        Tags: this.state.tags
       }
       //针对后端要求，序列化数组
       this.state.photos.map(function(photo,i){
@@ -301,7 +304,7 @@ var UploadWorks = React.createClass({
             placeholder="名称应该在1-20字之间"/>
           <ChooseImage value={this.state.photos}
             ref="chooseImage"/>
-          <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
+          <ChooseCategory value={this.state.tags} onChange = {this.updateTags}/>
           <TextInput ref="workDescription"
             type="textarea"
             value = {this.state.description}
