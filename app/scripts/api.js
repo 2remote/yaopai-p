@@ -69,6 +69,11 @@ var API_CONST = {
     offSale : API_URL + 'Albums.SalesOff',
     onSale : API_URL + 'Albums.SalesOn'
   },
+
+  TAG: {
+    list: API_URL + 'Tag.List',
+  },
+  
   ORDER : {
     outSearch : API_URL + 'Order.OutSearch',
     inSearch : API_URL + 'Order.InSearch',
