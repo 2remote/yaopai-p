@@ -60,6 +60,7 @@ var ChooseCategory = React.createClass({
       }
     }
     var currentId = this.props.value;
+    var onClickButton = this.setCategory;
     // makeButton
     //
     // make Button component from tag data
@@ -68,7 +69,7 @@ var ChooseCategory = React.createClass({
       return (<Button key={i}
         bsStyle={(tag.Id == currentId) ? 'primary' : 'default'} 
         style={style.button}
-        onClick={this.setCategory}
+        onClick={onClickButton}
         data-category={tag.Id} >
           {tag.Name}
         </Button>);
