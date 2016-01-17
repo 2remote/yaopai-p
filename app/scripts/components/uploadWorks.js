@@ -59,13 +59,19 @@ var ChooseCategory = React.createClass({
         marginBottom: '10px',
       }
     }
-
+    var currentId = this.props.value;
     // makeButton
     //
     // make Button component from tag data
     // tag - obj, {Id: 4, Name: "人像", Display: true}
     function makeButton (tag, i) {
-      return (<Button key={i} >{tag.Name}</Button>);
+      return (<Button key={i}
+        bsStyle={(tag.Id == currentId) ? 'primary' : 'default'} 
+        style={style.button}
+        onClick={this.setCategory}
+        data-category={tag.Id} >
+          {tag.Name}
+        </Button>);
     }
 
     function makeTagRow (tagRow) {
