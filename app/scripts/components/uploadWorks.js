@@ -28,7 +28,7 @@ var ChooseCategory = React.createClass({
   getInitialState : function(){
     return {
       categories : [],
-      selectedTag: 0, 
+      selectedTags: [], 
     }
   },
 
@@ -45,10 +45,18 @@ var ChooseCategory = React.createClass({
   },
   setTag: function (event) {
       var tagId = event.target.getAttribute('data-category');
-      this.setState({selectedTag: tagId}, function () {
-        console.log('this.state', this.state);
-      });
-      this.props.onChange(tagId);
+      tagId = parseInt(tagId);
+      var tags = this.state.selectedTags;
+      var locationOfTagId = tags.indexOf(tagId);
+      var alreadySelected = locationOfTagId >= 0;
+
+      if ( !alreadySelected ){
+        tags.push(tagId);
+      }else{
+        tags.splice(locationOfTagId, 1);
+      }
+      this.setState({selectedTags: tags});
+      this.props.onChange(tags); 
   },
 
   render : function(){
@@ -60,7 +68,8 @@ var ChooseCategory = React.createClass({
         marginBottom: '10px',
       }
     }
-    var currentId = this.state.selectedTag;
+    var currentTags = this.state.selectedTags;
+    console.log('currentTags:', currentTags);
     var onClickButton = this.setTag;
     // makeButton
     //
@@ -68,7 +77,7 @@ var ChooseCategory = React.createClass({
     // tag - obj, {Id: 4, Name: "人像", Display: true}
     function makeButton (tag, i) {
       return (<Button key={i}
-        bsStyle={(tag.Id == currentId) ? 'primary' : 'default'} 
+        bsStyle={(currentTags.indexOf(tag.Id) >=0) ? 'primary' : 'default'} 
         style={style.button}
         onClick={onClickButton}
         data-category={tag.Id} >
