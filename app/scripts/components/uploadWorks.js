@@ -80,8 +80,12 @@ var ChooseCategory = React.createClass({
       });
       return(
         <div >
-          <label>{tagRow.Name}</label>
-          {buttons}
+          <label className="control-label col-xs-3">{tagRow.Name}</label>
+          <div className="col-xs-9">
+            <div className="cont-category">
+              {buttons}
+            </div>
+          </div>
         </div>
       );
     }
@@ -98,24 +102,14 @@ var ChooseCategory = React.createClass({
       return tags;
     }
 
-    //目前没有做排序和是否显示
-    
-    // var buttons = this.state.categories.map(function(item,i){
-    //   return(<Button key={i} bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
-    // }.bind(this));
-    
+    //目前没有做排序和是否显示    
     var tagList = makeTagList(this.state.tags);
 
     return (
-     <div className="form-group">
-        <label className="control-label col-xs-3">类别：</label>
-        <div className="col-xs-9">
-          <div className="cont-category">
-            {tagList}
-          </div>
-        </div>
+      <div className="form-group">
+        {tagList}
       </div>
-      );
+    );
   }
 });
 
