@@ -5,12 +5,16 @@ var validator = require('validator');
 var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
 
+var assert = require('assert');
+
 var InfoHeader= require('./infoHeader');
 var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
 var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
+// assert(AlbumsStore, 'store is ok'+ AlbumsStore);
+
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
@@ -23,28 +27,38 @@ var ChooseCategory = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onGetCategories')],
   getInitialState : function(){
     return {
-      categories : []
+      categories : [],
+      selectedTags: [], 
     }
   },
-  getDefaltProps : function(){
-    return {
-      value : 0,
-      onChange : function(data){},
-    }
-  },
+
   componentWillMount : function(){
-    AlbumsActions.getCategories({Fields:'Id,Name,Sorting,Display,Views'});
+    AlbumsActions.getTagList();
   },
   onGetCategories : function(data){
+    console.log('updated data', data);
     if(data.hintMessage){
       console.log(data.hintMessage);
     }else{
-      this.setState({categories : data.categories});
+      this.setState({tags : data.tags});
     }
   },
-  setCategory : function(event){
-    this.props.onChange(event.target.getAttribute('data-category'));
+  setTag: function (event) {
+      var tagId = event.target.getAttribute('data-category');
+      tagId = parseInt(tagId);
+      var tags = this.state.selectedTags;
+      var locationOfTagId = tags.indexOf(tagId);
+      var alreadySelected = locationOfTagId >= 0;
+
+      if ( !alreadySelected ){
+        tags.push(tagId);
+      }else{
+        tags.splice(locationOfTagId, 1);
+      }
+      this.setState({selectedTags: tags});
+      this.props.onChange(tags); 
   },
+
   render : function(){
     var style = {
       button: {
@@ -54,21 +68,58 @@ var ChooseCategory = React.createClass({
         marginBottom: '10px',
       }
     }
+    var currentTags = this.state.selectedTags;
+    var onClickButton = this.setTag;
+    // makeButton
+    //
+    // make Button component from tag data
+    // tag - obj, {Id: 4, Name: "人像", Display: true}
+    function makeButton (tag, i) {
+      return (<Button key={i}
+        bsStyle={(currentTags.indexOf(tag.Id) >=0) ? 'primary' : 'default'} 
+        style={style.button}
+        onClick={onClickButton}
+        data-category={tag.Id} >
+          {tag.Name}
+        </Button>);
+    }
 
-    //目前没有做排序和是否显示
-    var buttons = this.state.categories.map(function(item,i){
-      return(<Button key={i} bsStyle={this.props.value==item.Id?'primary':'default'} style={style.button} onClick={this.setCategory} data-category={item.Id}>{item.Name}</Button>);
-    }.bind(this));
-    return (
-     <div className="form-group">
-        <label className="control-label col-xs-3">类别：</label>
-        <div className="col-xs-9">
-          <div className="cont-category">
-            {buttons}
+    function makeTagRow (tagRow) {
+      var buttons = tagRow.Tags.map(function (tag, i) {
+        return makeButton(tag, i);
+      });
+      return(
+        <div >
+          <label className="control-label col-xs-3">{tagRow.Name}</label>
+          <div className="col-xs-9">
+            <div className="cont-category">
+              {buttons}
+            </div>
           </div>
         </div>
-      </div>
       );
+    }
+
+    function makeTagList (tagList) {
+      var existTagList = (typeof tagList != 'undefined');
+      var tags = (<div className="no tag list"></div>);
+      if(existTagList){
+        assert(typeof tagList != 'undefined', 'tagList must exist');
+        tags = tagList.map(function (list) {
+          return makeTagRow(list);
+        })
+      }
+      return tags;
+    }
+
+    //目前没有做排序和是否显示    
+    var tagList = makeTagList(this.state.tags);
+
+    return (
+      <div className="form-group">
+        {tagList}
+      </div>
+    );
   }
 });
 
@@ -95,7 +146,7 @@ var UploadWorks = React.createClass({
       price : 0 ,
       cover : -1,
       photos : [],
-      tags : []
+      tags : 0
     }
   },
   isLogin: function (data) {
@@ -149,11 +200,10 @@ var UploadWorks = React.createClass({
   updatePhotos : function(photos){
     this.setState({photos : photos});
   },
-  updateCategory : function(cid){
-    this.setState({category : cid});
-  },
   updateTags : function(tags){
-    this.setState({tags : tags});
+    this.setState({tags : tags}, function () {
+      console.log('updateTags:', this.state.tags);
+    });
   },
   updateDescription : function(des){
     this.setState({description : des});
@@ -176,8 +226,9 @@ var UploadWorks = React.createClass({
       this.showMessage('请至少上传一张作品');
       return false;
     }
-    if(!this.state.category){
+    if(!this.state.tags.length>0){
       this.showMessage('请选择作品类别');
+      assert(this.state.tags.length > 0, 'Number of tags should bigger than 0, but we have:' + this.state.tags);
       return false;
     }
     if(this.state.description.length < 15 || this.state.description.length > 1000){
@@ -202,12 +253,13 @@ var UploadWorks = React.createClass({
     if(this.validate()){
       var data = {
         Title : this.state.title,
-        CategoryId : parseInt(this.state.category),
+        CategoryId : 3,
         Description : this.state.description,
         Service : this.state.service,
         Price : this.state.price,
         Negotiable : this.state.price==0?true:false,
-        Cover : this.state.photos[this.state.cover].Url
+        Cover : this.state.photos[this.state.cover].Url,
+        Tags: this.state.tags.join(',')
       }
       //针对后端要求，序列化数组
       this.state.photos.map(function(photo,i){
@@ -260,7 +312,7 @@ var UploadWorks = React.createClass({
             placeholder="名称应该在1-20字之间"/>
           <ChooseImage value={this.state.photos}
             ref="chooseImage"/>
-          <ChooseCategory value={this.state.category} onChange = {this.updateCategory}/>
+          <ChooseCategory value={this.state.tags} onChange = {this.updateTags}/>
           <TextInput ref="workDescription"
             type="textarea"
             value = {this.state.description}

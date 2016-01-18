@@ -11,7 +11,8 @@ var AlbumsActions = Reflux.createActions({
   'getMyAlbums' : {children : ['success','failed']},
   'getCategories' :{children:['success','failed']},
   'onSale' : {children:['success','failed']},
-  'offSale' : {children:['success','failed']}
+  'offSale' : {children:['success','failed']},
+  'getTagList' : {children:['success','failed']},
 });
 
 AlbumsActions.add.listen(function(data){
@@ -41,4 +42,12 @@ AlbumsActions.onSale.listen(function(data){
 AlbumsActions.offSale.listen(function(data){
   HttpFactory.post(API.ALBUMS.offSale,data,this.success,this.failed);
 });
+
+AlbumsActions.getTagList.listen(function () {
+  var data = {
+    Fields : 'id,name,display,tags.id,tags.name,tags.display'
+  }
+  HttpFactory.post(API.TAG.list,data,this.success,this.failed);
+});
+
 module.exports = AlbumsActions;

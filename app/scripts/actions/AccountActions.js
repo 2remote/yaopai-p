@@ -5,7 +5,7 @@ var API = require('../api');
 var AccountActions = Reflux.createActions({
   'changeAvatar' : {children : ['success','failed']},
   'updateInfo' : {children : ['success','failed']},
-  'userDetail' : {children : ['success','failed']}
+  'userDetail' : {children : ['success','failed']},
 });
 
 AccountActions.changeAvatar.listen(function (data) {
