@@ -1,31 +1,32 @@
 var React = require ('react');
 var API = require('../../api');
+var ProgressBar = require('react-bootstrap').ProgressBar;
 
 var ImageInput = React.createClass({
-  uploader : {},  //七牛上传对象
-  uploaderOption : {
-    runtimes: 'html5,flash,html4',
-    browse_button: '',
-    max_file_size: '10mb',
-    flash_swf_url: 'vendor/Moxie.swf',
-    dragdrop: false,
-    chunk_size: '4mb',
-    uptoken_url: API.FILE.user_token_url,
-    domain: 'http://qiniu-plupload.qiniudn.com/',
-    auto_start: true,
-    get_new_uptoken: true,
-    init: {
-            'FilesAdded': function(up,files){},
-            'BeforeUpload': function(up, file) {},
-            'UploadProgress': function(up, file) {},
-            'UploadComplete': function() {},
-            'FileUploaded': function(up, file, info) {},
-            'Error': function(up, err, errTip) {}
-        }
-  },
   getInitialState : function(){
     return {
-      imageUrl : ''
+      imageUrl : '',
+      progress : 0,
+      uploaderOption : {
+        runtimes: 'html5,flash,html4',
+        browse_button: '',
+        max_file_size: '10mb',
+        flash_swf_url: 'vendor/Moxie.swf',
+        dragdrop: false,
+        chunk_size: '4mb',
+        uptoken_url: API.FILE.user_token_url,
+        domain: 'http://qiniu-plupload.qiniudn.com/',
+        auto_start: true,
+        get_new_uptoken: true,
+        init: {
+          'FilesAdded': function(up,files){},
+          'BeforeUpload': function(up, file) {},
+          'UploadProgress': function(up, file) {},
+          'UploadComplete': function() {},
+          'FileUploaded': function(up, file, info) {},
+          'Error': function(up, err, errTip) {}
+        }
+      },
     }
   },
   getDefaultProps : function(){
@@ -37,8 +38,10 @@ var ImageInput = React.createClass({
       height : '150', //指定图片高度
       type : '',  //必须指定图片类型 user, work...
       uid : 'imagePick', //当一个页面引用了多个ImageInput，必须指定不同的uid
+      progress:0,
       onUpload : function(data){},  //上传成功后回调函数
-      onFileUploaded : function(up, file, info){}
+      //onFileUploaded : function(up, file, info){},
+      //onUploadProgress : function(up, file){}
     }
   },
   onFileUploaded : function(up,file,info){
@@ -46,16 +49,23 @@ var ImageInput = React.createClass({
     this.setState({imageUrl : res.Url});
     this.props.onUpload(res.Url); //上传成功后可以回调onUpload函数
   },
-
+  onUploadProgress : function(up,file){
+    console.log(JSON.stringify(file))
+    this.setState({progress :file.percent});
+    //this.props.progress = file.percent;
+  },
   getValue : function(){
     return this.props.defaultImage;
   },
 
   componentDidMount : function() {
+    var self = this;
     if(!this.props.disabled){
-      this.uploaderOption.browse_button = this.props.uid;
-      this.uploaderOption.init.FileUploaded = this.onFileUploaded;
-      this.uploader = Qiniu.uploader(this.uploaderOption);
+      this.state.uploaderOption.browse_button = this.props.uid;
+      var uploaderOption = this.state.uploaderOption;
+      uploaderOption.init.FileUploaded = this.onFileUploaded;
+      uploaderOption.init.UploadProgress = this.onUploadProgress;
+      Qiniu.uploader(uploaderOption);
     }
   },
   parseImageUrl :function(url){
@@ -84,6 +94,10 @@ var ImageInput = React.createClass({
     var hide = {
       display : 'none'
     }
+    var progressBar = <div></div>;
+    if(this.state.progress> 0 && this.state.progress< 100){
+      progressBar = <ProgressBar now={this.state.progress} label={this.state.progress+'%'} />
+    }
     return (
       <div style={this.props.addStyle} className={this.props.colWidth}>
         <div style={this.props.disabled?hide:{}}>
@@ -100,6 +114,7 @@ var ImageInput = React.createClass({
             height={this.props.height}
             src={this.parseImageUrl(this.props.defaultImage)} />
         </div>
+        {{progressBar}}
       </div>
     );
   }
