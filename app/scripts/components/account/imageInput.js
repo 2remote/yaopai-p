@@ -114,7 +114,7 @@ var ImageInput = React.createClass({
             height={this.props.height}
             src={this.parseImageUrl(this.props.defaultImage)} />
         </div>
-        {{progressBar}}
+        {progressBar}
       </div>
     );
   }
