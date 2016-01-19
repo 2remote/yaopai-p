@@ -204,6 +204,7 @@ var ChooseImages = React.createClass({
     初始化uploader
   */
   componentDidMount : function() {
+    this.clearImage();
     this.initUploader();
   },
   initUploader : function(){
