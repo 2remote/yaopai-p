@@ -117,7 +117,8 @@ var ImageItem = React.createClass({
 var ChooseImages = React.createClass({
   getInitialState : function(){
     return {
-      reloadTime : 0
+      reloadTime : 0,
+      value:[],
     }
   },
   items : [],
@@ -204,8 +205,12 @@ var ChooseImages = React.createClass({
     初始化uploader
   */
   componentDidMount : function() {
+    this.setState({value:this.props.value})
     this.clearImage();
     this.initUploader();
+  },
+  componentWillReceiveProps : function(nextProps){
+    this.setState({value:nextProps.value})
   },
   initUploader : function(){
     this.uploaderOption.init.FilesAdded = this.onAddFiles;
@@ -220,7 +225,7 @@ var ChooseImages = React.createClass({
   },
   render :function(){
     var renderImages = [];
-    this.props.value.map(function(imageItem,i){
+    this.state.value.map(function(imageItem,i){
       renderImages.push(
           <ImageItem
             key={imageItem.id}

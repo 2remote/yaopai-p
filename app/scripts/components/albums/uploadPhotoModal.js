@@ -17,9 +17,7 @@ var UploadPhotoModal = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'), Reflux.listenTo(WorkStore, 'onWorkStoreChange')],
   getInitialState: function () {
     return {
-      categories: [],
       photos: [],
-      tags: [],
       show: false,
     }
   },
@@ -34,7 +32,7 @@ var UploadPhotoModal = React.createClass({
     this.setState({show:nextProps.show})
   },
   hideImgModal: function () {
-    this.setState({show: false});
+    this.setState({photos: [],show: false});
     this.props.hideHandle()
   },
   handleImgSubmit: function () {
@@ -58,34 +56,23 @@ var UploadPhotoModal = React.createClass({
     }
     AlbumsActions.update(data);
     this.props.uploadHandle();
-    this.hideImgModal();
   },
   onStoreChanged: function (data) {
-    if (data.flag == 'add') {
-      if (data.hintMessage) {
-        this.showMessage(data.hintMessage)
-      } else {
+    if (data.hintMessage) {
+      this.showMessage(data.hintMessage)
+    } else {
+      if (data.flag == 'get') {
+        //处理get请求结果
+      }
+      if (data.flag == 'update') {
         this.showMessage('上传成功，您可以继续上传');
         //清空数据
         this.setState({
-          title: '',
-          category: '',
-          description: '',
-          service: '',
-          price: 0,
-          cover: -1,
           photos: [],
-          tags: []
+          show: false,
         });
-        //同时要清空WorkStore的数据
-        this.refs.chooseImage.clearImage();
+        this.hideImgModal();
       }
-    }
-    if (data.flag == 'get') {
-      //处理get请求结果
-    }
-    if (data.flag == 'update') {
-      //处理更新后的结果
     }
   },
   onWorkStoreChange: function (data) {
@@ -95,6 +82,9 @@ var UploadPhotoModal = React.createClass({
       if (data[i].isCover) cover = i;
     }
     this.setState({photos: data, cover: cover});
+  },
+  showMessage : function(message){
+    this.refs.toolTip.toShow(message);
   },
   render: function () {
     return (
