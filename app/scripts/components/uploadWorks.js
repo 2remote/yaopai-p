@@ -146,7 +146,8 @@ var UploadWorks = React.createClass({
       price : 0 ,
       cover : -1,
       photos : [],
-      tags : 0
+      tags : 0,
+      submit: false
     }
   },
   isLogin: function (data) {
@@ -267,6 +268,8 @@ var UploadWorks = React.createClass({
         data['photos['+i+'].Description'] = photo.Description;
       });
       AlbumsActions.add(data);
+
+      this.setState({submit:true});
     }
   },
   showMessage : function(message){
@@ -338,7 +341,7 @@ var UploadWorks = React.createClass({
             updateValue={this.updatePrice}
             placeholder="¥面议"/>
           <div className="row" style={style.bottomWrap}>
-            <Button style={style.submitButton} onClick={this.handleSubmit}>提交</Button>
+            <Button style={style.submitButton} onClick={this.handleSubmit} disabled={this.state.submit}>提交</Button>
             <ToolTip ref="toolTip" title=""/>
           </div>
         </form>
