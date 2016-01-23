@@ -15,6 +15,7 @@ var EditAlbumModal = React.createClass({
       categories: null,
       show: false,
       album: null,
+      submit: false
     }
   },
   getDefaltProps: function () {
@@ -99,6 +100,7 @@ var EditAlbumModal = React.createClass({
       album.Negotiable = this.state.album.Price == 0 ? true : false;
       AlbumsActions.update(album);
       this.hideInfoModal();
+      this.setState({submit:true});
     }
   },
   displayHandle: function (display) {
@@ -159,7 +161,7 @@ var EditAlbumModal = React.createClass({
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.handleSubmit}>提交</Button>
+            <Button onClick={this.handleSubmit} disabled={this.state.submit}>提交</Button>
           </Modal.Footer>
         </Modal>
       </div>
