@@ -319,6 +319,17 @@ var UploadWorks = React.createClass({
       }
     };
     //<Button style={style.preview}>预览</Button>
+    var serviceValue = this.state.service ?　this.state.service:
+      '①原片是否全送 ：\n'+
+      '②原片数量与精修片数量 ：\n'+
+      '③是否提供化妆造型 ：\n'+
+      '④是否提供服装 ：\n'+
+      '⑤拍摄人数 ：\n'+
+      '⑥拍摄几组 ：\n'+
+      '⑦拍摄场景数量 ：\n'+
+      '⑧拍摄时长 ：\n'+
+      '⑨是否有实物产品，请具体说明\n'+
+      '⑩补充说明\n';
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="作品上传"infoIconClass="glyphicon glyphicon-picture" titleImage="" />
@@ -343,7 +354,7 @@ var UploadWorks = React.createClass({
             help="作品描述应该在15-1000字之间" />
           <TextInput ref="service"
             type="textarea"
-            value={this.state.service}
+            value={serviceValue}
             updateValue={this.updateService}
             labelName="提供服务："
             minLength={15}
