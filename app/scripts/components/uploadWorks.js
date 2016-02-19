@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var React = require('react');
 var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
@@ -40,6 +41,7 @@ var ChooseCategory = React.createClass({
     if(data.hintMessage){
       console.log(data.hintMessage);
     }else{
+      console.log(data.tags)
       this.setState({tags : data.tags});
     }
   },
@@ -51,7 +53,21 @@ var ChooseCategory = React.createClass({
       var alreadySelected = locationOfTagId >= 0;
 
       if ( !alreadySelected ){
-        tags.push(tagId);
+        //每个分类下最多设置三个标签
+        var allTags = this.state.tags;
+        var isBreak = false;
+        allTags.forEach(function (item) {
+          var ids = _.map(item.Tags, 'Id');
+          if(ids.indexOf(tagId) > -1){//判断所点击的标签是否是这个分类内的
+            var tmp = _.intersection(ids, tags);//重复的内容
+            if(tmp.length >= 3){
+              isBreak = true;
+            }
+          }
+        })
+        if(!isBreak){
+          tags.push(tagId);
+        }
       }else{
         tags.splice(locationOfTagId, 1);
       }
@@ -303,6 +319,17 @@ var UploadWorks = React.createClass({
       }
     };
     //<Button style={style.preview}>预览</Button>
+    var serviceValue = this.state.service ?　this.state.service:
+      '①原片是否全送 ：\n'+
+      '②原片数量与精修片数量 ：\n'+
+      '③是否提供化妆造型 ：\n'+
+      '④是否提供服装 ：\n'+
+      '⑤拍摄人数 ：\n'+
+      '⑥拍摄几组 ：\n'+
+      '⑦拍摄场景数量 ：\n'+
+      '⑧拍摄时长 ：\n'+
+      '⑨是否有实物产品，请具体说明\n'+
+      '⑩补充说明\n';
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="作品上传"infoIconClass="glyphicon glyphicon-picture" titleImage="" />
@@ -327,7 +354,7 @@ var UploadWorks = React.createClass({
             help="作品描述应该在15-1000字之间" />
           <TextInput ref="service"
             type="textarea"
-            value={this.state.service}
+            value={serviceValue}
             updateValue={this.updateService}
             labelName="提供服务："
             minLength={15}
