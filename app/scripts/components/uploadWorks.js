@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var React = require('react');
 var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
@@ -40,6 +41,7 @@ var ChooseCategory = React.createClass({
     if(data.hintMessage){
       console.log(data.hintMessage);
     }else{
+      console.log(data.tags)
       this.setState({tags : data.tags});
     }
   },
@@ -51,7 +53,21 @@ var ChooseCategory = React.createClass({
       var alreadySelected = locationOfTagId >= 0;
 
       if ( !alreadySelected ){
-        tags.push(tagId);
+        //每个分类下最多设置三个标签
+        var allTags = this.state.tags;
+        var isBreak = false;
+        allTags.forEach(function (item) {
+          var ids = _.map(item.Tags, 'Id');
+          if(ids.indexOf(tagId) > -1){//判断所点击的标签是否是这个分类内的
+            var tmp = _.intersection(ids, tags);//重复的内容
+            if(tmp.length >= 3){
+              isBreak = true;
+            }
+          }
+        })
+        if(!isBreak){
+          tags.push(tagId);
+        }
       }else{
         tags.splice(locationOfTagId, 1);
       }
