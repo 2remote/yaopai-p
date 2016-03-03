@@ -60,8 +60,15 @@ var ChooseCategory = React.createClass({
           var ids = _.map(item.Tags, 'Id');
           if(ids.indexOf(tagId) > -1){//判断所点击的标签是否是这个分类内的
             var tmp = _.intersection(ids, tags);//重复的内容
-            if(tmp.length >= 3){
-              isBreak = true;
+            //类别标签为必选标签且只能选一个；其他分类下最多可设置三个标签
+            if(item.Name=='类别'){
+              if(tmp.length >= 1){
+                isBreak = true;
+              }
+            }else{
+              if(tmp.length >= 3){
+                isBreak = true;
+              }
             }
           }
         })
@@ -351,7 +358,8 @@ var UploadWorks = React.createClass({
             minLength={15}
             maxLength={1000}
             placeholder=""
-            help="作品描述应该在15-1000字之间" />
+            help="作品描述应该在15-1000字之间"
+            style={{'min-height':100}}/>
           <TextInput ref="service"
             type="textarea"
             value={serviceValue}
@@ -360,7 +368,7 @@ var UploadWorks = React.createClass({
             minLength={15}
             maxLength={1000}
             placeholder="服务内容请参考以下项目：①原片是否全送 ②精修片数量 ③是否提供化妆造型 ④是否提供服装 ⑤是否有影棚拍摄 ⑥拍摄几组 ⑦拍摄场景数量 ⑧服务时长 ⑨是否有实物产品，请具体说明 ⑩补充说明"
-            help="服务描述应该在15-1000字之间" />
+            help="服务描述应该在15-1000字之间" style={{'min-height':230}}/>
           <TextInput ref="price"
             labelName="是否定价："
             textClassName="col-xs-4"

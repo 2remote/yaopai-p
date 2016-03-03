@@ -78,7 +78,8 @@ var TextInput = React.createClass({
           labelClassName='col-xs-3'
           wrapperClassName={this.props.textClassName}
           help={this.props.help}
-          hasFeedback />
+          hasFeedback
+          style={this.props.style}/>
       </div>
       );
   }
