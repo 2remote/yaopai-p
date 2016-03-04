@@ -349,7 +349,7 @@ var PhotographerAuth = React.createClass({
       return message;
     }
     if(!this.refs.area.getValue()){
-      message = '请选择地区';
+      message = '请选择常驻地';
       return message;
     }
     if(!this.refs.workPhone.isValidated()){
