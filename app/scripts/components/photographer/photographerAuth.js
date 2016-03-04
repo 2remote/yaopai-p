@@ -36,7 +36,7 @@ var PersonIDImage = React.createClass({
   getValue : function(){
     var v1 = this.refs.IDPicture1.getValue();
     var v2 = this.refs.IDPicture2.getValue();
-    if(v2 && v2 && v1!=this.state.facecodeDefaultImage && v2!=this.state.oppositeDefaultImage){
+    if(v1 && v2 && v1!=this.state.facecodeDefaultImage && v2!=this.state.oppositeDefaultImage){
       return v1+','+v2;
     }else{
       return null;
