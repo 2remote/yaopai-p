@@ -27,9 +27,17 @@ var PAuthStore = require('../../stores/PAuthStore');
   身份证图片上传
 */
 var PersonIDImage = React.createClass({
+  getInitialState: function(){
+    return {
+      facecodeDefaultImage : 'img/facecode.png',
+      oppositeDefaultImage : 'img/opposite.png',
+    }
+  },
   getValue : function(){
-    if(this.refs.IDPicture1.getValue() && this.refs.IDPicture2.getValue()){
-      return this.refs.IDPicture1.getValue()+','+this.refs.IDPicture2.getValue();
+    var v1 = this.refs.IDPicture1.getValue();
+    var v2 = this.refs.IDPicture2.getValue();
+    if(v2 && v2 && v1!=this.state.facecodeDefaultImage && v2!=this.state.oppositeDefaultImage){
+      return v1+','+v2;
     }else{
       return null;
     }
@@ -55,8 +63,8 @@ var PersonIDImage = React.createClass({
       },
     };
     var IDImages = [];
-    IDImages[0] = 'img/facecode.png';
-    IDImages[1] = 'img/opposite.png';
+    IDImages[0] = this.state.facecodeDefaultImage;
+    IDImages[1] = this.state.oppositeDefaultImage;
     if(this.props.value){
       var tmp = this.props.value.split(',');
       if(tmp[0])
@@ -69,23 +77,23 @@ var PersonIDImage = React.createClass({
         <label className="control-label col-xs-3" style={style.label}>身份证正反面：</label>
         <div className="col-xs-9">
           <div className="row" style={style.imgId}>
-            <ImageInput width="200" 
-              height="150" 
+            <ImageInput width="200"
+              height="150"
               addStyle={{width:220}}
-              defaultImage={IDImages[0]} 
-              onUpload={this.upload1} 
+              defaultImage={IDImages[0]}
+              onUpload={this.upload1}
               disabled={this.props.disabled}
-              uid="IDPicture1" 
-              ref="IDPicture1" 
+              uid="IDPicture1"
+              ref="IDPicture1"
               type="user"/>
-            <ImageInput width="200" 
-              height="150" 
+            <ImageInput width="200"
+              height="150"
               addStyle={{width:220}}
-              defaultImage={IDImages[1]} 
+              defaultImage={IDImages[1]}
               onUpload={this.upload2}
               disabled={this.props.disabled}
-              uid="IDPicture2" 
-              ref="IDPicture2" 
+              uid="IDPicture2"
+              ref="IDPicture2"
               type="user"/>
           </div>
 
@@ -167,7 +175,7 @@ var PhotographerAuth = React.createClass({
           });
         }else if(pAuthData.State == '1'){
           this.setState({
-            pAuthData: pAuthData, 
+            pAuthData: pAuthData,
             authState : pAuthData.State,
             disabled : true})
         }else if(pAuthData.State == '2'){
