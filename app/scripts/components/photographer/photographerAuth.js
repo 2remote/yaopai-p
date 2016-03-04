@@ -377,8 +377,8 @@ var PhotographerAuth = React.createClass({
       message = '个人简介必须在10字以上';
       return message;
     }
-    if(!this.state.pAuthData.Works){
-      message = '请至少上传一张个人作品';
+    if(!this.state.pAuthData.Works || this.state.pAuthData.Works.split(',').length < 8 ){
+      message = '请上传8-15张个人作品';
       return message;
     }
     if(this.refs.hasCompany.getValue()){
@@ -583,8 +583,8 @@ var PhotographerAuth = React.createClass({
             height="100"
             images={this.state.pAuthData.Works}
             disabled={this.state.disabled}
-            maxCount={8}
-            placeholder="温馨提示：请上传5-10张不同风格的作品，单张照片不能超过4M"
+            maxCount={15}
+            placeholder="温馨提示：请上传8-15张多种风格的作品，单张照片不能超过4M"
             updateImages={this.updateProducts}
             remove={this.removeWorks}/>
           <HasCompany ref="hasCompany"
