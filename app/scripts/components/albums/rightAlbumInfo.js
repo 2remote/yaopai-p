@@ -131,8 +131,20 @@ var RightAlbumInfo = React.createClass({
               </div>
             </div>
           </div>
-          <div style={{paddingTop:20,clear: 'left'}}>作品简述：<p>{album.Description}</p></div>
-          <div>提供服务：<p>{album.Service}</p></div>
+          <div style={{paddingTop:20,clear: 'left'}}>作品简述：
+            <p>
+              {_.map(album.Description.split('\n'), function (item) {
+                return <div>{item}</div>;
+              })}
+            </p>
+          </div>
+          <div>提供服务：
+            <p>
+              {_.map(album.Service.split('\n'), function (item) {
+                return <div>{item}</div>;
+              })}
+            </p>
+          </div>
           <div>状 态：<p>{status}</p></div>
           <div>添加时间：<p>{this.moment(album.CreationTime)}</p></div>
           <div>最后编辑时间：<p>{this.moment(album.EditingTime)}</p></div>
