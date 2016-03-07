@@ -64,9 +64,7 @@ var AreaSelect = React.createClass({
     var p = React.findDOMNode(this.refs.province).value;
     var c = React.findDOMNode(this.refs.city).value;
     var d = React.findDOMNode(this.refs.district).value;
-    if(d && d != '0') return d;
-    if(c && c != '0') return c;
-    if(p && p != '0') return p;
+    if((d && d != '0') && (c && c != '0') && (p && p != '0')) return p;
     return null;
   },
   setValue : function(province,city,country){
@@ -92,7 +90,7 @@ var AreaSelect = React.createClass({
     return (
       <div className="form-group">
         <label className="control-label col-xs-3">
-          <span>地区：</span>
+          <span>常驻地：</span>
         </label>
         <select ref="province" 
           type="select" 
