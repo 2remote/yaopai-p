@@ -127,7 +127,7 @@ var ChooseImages = React.createClass({
     browse_button: 'pickfiles',
     container: 'pickfilesCont',
     drop_element: 'container',
-    max_file_size: '100mb',
+    max_file_size: '4mb',
     flash_swf_url: 'vendor/Moxie.swf',
     dragdrop: true,
     chunk_size: '4mb',
@@ -201,6 +201,18 @@ var ChooseImages = React.createClass({
   onUploadComplete : function(){
     console.log('all files upload complete.');
   },
+
+  onError : function(up, err, errTip) {
+    //上传出错时,处理相关的事情
+    if(this.props.onError){
+      var max_file_size = plupload.parseSize('4mb');
+      if(err.file.size > max_file_size){
+        this.props.onError('您上传的图片过大，请压缩后再上传');
+      }else{
+        this.props.onError(err.message);
+      }
+    }
+  },
   /*
     初始化uploader
   */
@@ -217,6 +229,7 @@ var ChooseImages = React.createClass({
     this.uploaderOption.init.UploadComplete = this.onUploadComplete;
     this.uploaderOption.init.FileUploaded = this.onFileUploaded;
     this.uploaderOption.init.UploadProgress = this.onUploadProgress;
+    this.uploaderOption.init.Error = this.onError;
     this.uploader = Qiniu.uploader(this.uploaderOption);
   },
   //增加图片

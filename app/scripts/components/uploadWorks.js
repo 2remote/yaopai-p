@@ -348,7 +348,7 @@ var UploadWorks = React.createClass({
             minLength={1}
             placeholder="名称应该在1-20字之间"/>
           <ChooseImage value={this.state.photos}
-            ref="chooseImage"/>
+            ref="chooseImage" onError={this.showMessage}/>
           <ChooseCategory value={this.state.tags} onChange = {this.updateTags}/>
           <TextInput ref="workDescription"
             type="textarea"
