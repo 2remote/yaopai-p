@@ -10,7 +10,7 @@ var ImageInput = React.createClass({
       uploaderOption : {
         runtimes: 'html5,flash,html4',
         browse_button: '',
-        max_file_size: '10mb',
+        max_file_size: '4mb',//文件大小不能超过4M
         flash_swf_url: 'vendor/Moxie.swf',
         dragdrop: false,
         chunk_size: '4mb',
@@ -65,6 +65,17 @@ var ImageInput = React.createClass({
       var uploaderOption = this.state.uploaderOption;
       uploaderOption.init.FileUploaded = this.onFileUploaded;
       uploaderOption.init.UploadProgress = this.onUploadProgress;
+      uploaderOption.init.Error =function(up, err, errTip) {
+        //上传出错时,处理相关的事情
+        if(self.props.onError){
+          var max_file_size = plupload.parseSize('4mb');
+          if(err.file.size > max_file_size){
+            self.props.onError('您上传的图片过大，请压缩后再上传');
+          }else{
+            self.props.onError(err.message);
+          }
+        }
+      },
       Qiniu.uploader(uploaderOption);
     }
   },

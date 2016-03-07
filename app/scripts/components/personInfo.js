@@ -50,6 +50,7 @@ var UserImage = React.createClass({
               type="user" 
               defaultImage={image} 
               onUpload={this.onUpload}
+              onError={this.props.showMessage}
               disabled = {this.props.disabled} 
               circle="1"/>
           </div>
@@ -187,7 +188,7 @@ var PersonInfo = React.createClass({
       <div style={style.outer}>
         <InfoHeader infoTitle="个人信息" infoIconClass="glyphicon glyphicon-user"/>
         <form className='form-horizontal'>
-          <UserImage defaultImage={this.state.avatar} updateAvatar={this.updateAvatar} disabled={!this.state.editable}/>
+          <UserImage defaultImage={this.state.avatar} updateAvatar={this.updateAvatar} disabled={!this.state.editable} showMessage={this.showMessage}/>
           <TextInput ref="nickName" 
             labelName="昵称：" 
             value={this.state.nickName} 
