@@ -79,6 +79,30 @@ var Acount = React.createClass({
       //         src={this.state.currentUser.avatar? this.state.currentUser.avatar+'?imageMogr2/gravity/Center/thumbnail/!40x40r/crop/40x40/interlace/1' :"img/default_user_img_o.png"} />
       //  </a>
       //</li>
+      var uploadWorksLink;
+      var passwordLink;
+      var photographerLink = (<li>
+        <Link to="/account/pAuth">
+          <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 摄影师认证
+        </Link>
+      </li>)
+      if(this.state.currentUser.userType==1){
+        uploadWorksLink = (<li>
+          <Link to="/account/upload" title="作品上传">
+            <span className="glyphicon glyphicon-upload" aria-hidden="true"></span> 作品上传
+          </Link>
+        </li>)
+        passwordLink = (<li >
+          <Link to="/account/info">
+            <span className="glyphicon glyphicon-cog" aria-hidden="true"></span> 修改密码
+          </Link>
+        </li>)
+        photographerLink = (<li>
+          <Link to={"/account/photographer"}>
+            <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 摄影师信息
+          </Link>
+        </li>)
+      }
       return (
         <div>
           <ul className="nav navbar-nav">
@@ -87,16 +111,9 @@ var Acount = React.createClass({
                 <span className="glyphicon glyphicon-home" aria-hidden="true"></span> 我的主页
               </Link>
             </li>
-            <li style={this.state.currentUser.userType==0? headerStyle.liStyle : headerStyle.hide}>
-              <Link to="/account/pAuth">
-                <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 摄影师认证
-              </Link>
-            </li>
-            <li style={this.state.currentUser.userType==1? headerStyle.liStyle : headerStyle.hide}>
-              <Link to="/account/upload" title="作品上传">
-                <span className="glyphicon glyphicon-upload" aria-hidden="true"></span> 作品上传
-              </Link>
-            </li>
+            {uploadWorksLink}
+            {passwordLink}
+            {photographerLink}
             <li>
               <Link to="/account">
                 <span className="glyphicon glyphicon-cog" aria-hidden="true"></span> 账户设置
