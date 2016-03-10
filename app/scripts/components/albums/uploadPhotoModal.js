@@ -19,6 +19,7 @@ var UploadPhotoModal = React.createClass({
     return {
       photos: [],
       show: false,
+      submit:false
     }
   },
   getDefaltProps: function () {
@@ -55,7 +56,7 @@ var UploadPhotoModal = React.createClass({
       data.Cover = coverUrl;
     }
     AlbumsActions.update(data);
-    this.props.uploadHandle();
+    this.setState({submit:true});
   },
   onStoreChanged: function (data) {
     if (data.hintMessage) {
@@ -65,7 +66,11 @@ var UploadPhotoModal = React.createClass({
         //处理get请求结果
       }
       if (data.flag == 'update') {
-        this.showMessage('上传成功，您可以继续上传');
+        if(this.state.submit){
+          this.showMessage('上传成功，您可以继续上传');
+        }
+        this.props.uploadHandle();
+        this.setState({submit:false});
         //清空数据
         this.setState({
           photos: [],

@@ -103,7 +103,7 @@ var RightAlbumInfo = React.createClass({
     }
     return (
       <div>
-        <EditAlbumModal album={album} categories={this.props.categories} show={this.state.isInfoShow} hideHandle={this.hideInfoModal} showMessage={this.showMessage}/>
+        <EditAlbumModal album={album} categories={this.props.categories} uploadHandle={this.props.uploadHandle} show={this.state.isInfoShow} hideHandle={this.hideInfoModal} showMessage={this.showMessage}/>
         <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle} show={this.state.isImgShow} hideHandle={this.hideImgModal} showMessage={this.showMessage}/>
         <span style={style.btndiv}>
           <Button bsStyle="primary" onClick={this.showInfoModal}>

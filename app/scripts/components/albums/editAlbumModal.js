@@ -27,10 +27,10 @@ var EditAlbumModal = React.createClass({
   },
   onStoreChanged : function (data) {
     if(data.flag == 'update' && data.hintMessage == '') {
-      this.loadAlbums(this.state.album.Id)
-    }
-    if(data.flag == 'get') {
-      this.setState({album: data.workData});
+      if(this.state.submit){
+        this.props.showMessage('修改成功');
+      }
+      this.props.uploadHandle();
       this.setState({submit:false});
     }
     if(data.flag == 'onSale' || data.flag == 'offSale' ){
@@ -48,13 +48,6 @@ var EditAlbumModal = React.createClass({
   },
   componentWillReceiveProps : function (nextProps) {
     this.setState({show:nextProps.show,album: nextProps.album})
-  },
-  loadAlbums: function (id) {
-    var data = {
-      Fields: 'Id,Title,UserId,Service,Price,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url,State,CreationTime,EditingTime,Tags.Id,Tags.Name',
-      Id: id,
-    };
-    AlbumsActions.get(data)
   },
   hideInfoModal: function () {
     this.setState({show: false});
@@ -117,6 +110,11 @@ var EditAlbumModal = React.createClass({
   handleSubmit: function () {
     if (this.validate()) {
       var album = this.state.album;
+      if((typeof album.Tags =='object') && album.Tags.constructor==Array){
+        album.Tags = album.Tags.map(function (item) {
+          return item.Id
+        }).join(',')
+      }
       AlbumsActions.update(album);
       this.hideInfoModal();
       this.setState({submit:true});
@@ -160,7 +158,7 @@ var EditAlbumModal = React.createClass({
                          maxLength={1000}
                          placeholder=""
                          help="作品描述应该在15-1000字之间"
-                         style={{'min-height':100}}/>
+                         style={{minHeight:100}}/>
               <TextInput ref="service"
                          type="textarea"
                          value={this.state.album.Service}
@@ -170,7 +168,7 @@ var EditAlbumModal = React.createClass({
                          maxLength={1000}
                          placeholder=""
                          help="服务描述应该在15-1000字之间"
-                         style={{'min-height':230}}/>
+                         style={{minHeight:230}}/>
               <TextInput ref="price"
                          labelName="是否定价："
                          textClassName="col-xs-4"
