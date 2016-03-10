@@ -21,131 +21,7 @@ var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
 var UserStore = require("../stores/UserStore");
 var History = require('react-router').History;
-/*
-  选择类别组件
-*/
-var ChooseCategory = React.createClass({
-  mixins : [Reflux.listenTo(AlbumsStore,'onGetCategories')],
-  getInitialState : function(){
-    return {
-      categories : [],
-      selectedTags: [], 
-    }
-  },
-
-  componentWillMount : function(){
-    AlbumsActions.getTagList();
-  },
-  onGetCategories : function(data){
-    console.log('updated data', data);
-    if(data.hintMessage){
-      console.log(data.hintMessage);
-    }else{
-      console.log(data.tags)
-      this.setState({tags : data.tags});
-    }
-  },
-  setTag: function (event) {
-      var tagId = event.target.getAttribute('data-category');
-      tagId = parseInt(tagId);
-      var tags = this.state.selectedTags;
-      var locationOfTagId = tags.indexOf(tagId);
-      var alreadySelected = locationOfTagId >= 0;
-
-      if ( !alreadySelected ){
-        //每个分类下最多设置三个标签
-        var allTags = this.state.tags;
-        var isBreak = false;
-        allTags.forEach(function (item) {
-          var ids = _.map(item.Tags, 'Id');
-          if(ids.indexOf(tagId) > -1){//判断所点击的标签是否是这个分类内的
-            var tmp = _.intersection(ids, tags);//重复的内容
-            //类别标签为必选标签且只能选一个；其他分类下最多可设置三个标签
-            if(item.Name=='类别'){
-              if(tmp.length >= 1){
-                isBreak = true;
-              }
-            }else{
-              if(tmp.length >= 3){
-                isBreak = true;
-              }
-            }
-          }
-        })
-        if(!isBreak){
-          tags.push(tagId);
-        }
-      }else{
-        tags.splice(locationOfTagId, 1);
-      }
-      this.setState({selectedTags: tags});
-      this.props.onChange(tags); 
-  },
-
-  render : function(){
-    var style = {
-      button: {
-        width: '90px',
-        height: '32px',
-        marginRight: '9px',
-        marginBottom: '10px',
-      }
-    }
-    var currentTags = this.state.selectedTags;
-    var onClickButton = this.setTag;
-    // makeButton
-    //
-    // make Button component from tag data
-    // tag - obj, {Id: 4, Name: "人像", Display: true}
-    function makeButton (tag, i) {
-      return (<Button key={i}
-        bsStyle={(currentTags.indexOf(tag.Id) >=0) ? 'primary' : 'default'} 
-        style={style.button}
-        onClick={onClickButton}
-        data-category={tag.Id} >
-          {tag.Name}
-        </Button>);
-    }
-
-    function makeTagRow (tagRow) {
-      var buttons = tagRow.Tags.map(function (tag, i) {
-        return makeButton(tag, i);
-      });
-      return(
-        <div >
-          <label className="control-label col-xs-3">{tagRow.Name}</label>
-          <div className="col-xs-9">
-            <div className="cont-category">
-              {buttons}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    function makeTagList (tagList) {
-      var existTagList = (typeof tagList != 'undefined');
-      var tags = (<div className="no tag list"></div>);
-      if(existTagList){
-        assert(typeof tagList != 'undefined', 'tagList must exist');
-        tags = tagList.map(function (list) {
-          return makeTagRow(list);
-        })
-      }
-      return tags;
-    }
-
-    //目前没有做排序和是否显示    
-    var tagList = makeTagList(this.state.tags);
-
-    return (
-      <div className="form-group">
-        {tagList}
-      </div>
-    );
-  }
-});
-
+var ChooseTags = require('./chooseTags');
 
 
 /*
@@ -263,7 +139,7 @@ var UploadWorks = React.createClass({
       this.showMessage('服务描述必须在15-1000字之间');
       return false;
     }
-    if(this.state.price && !validator.isInt(this.state.price)){
+    if(!validator.isInt(this.state.price) || parseInt(this.state.price) <= 0){
       this.showMessage('如果填写价格，必须为数字');
       return false;
     }
@@ -290,6 +166,7 @@ var UploadWorks = React.createClass({
         data['photos['+i+'].Url'] = photo.Url;
         data['photos['+i+'].Description'] = photo.Description;
       });
+      console.log(data)
       AlbumsActions.add(data);
 
       this.setState({submit:true});
@@ -349,7 +226,7 @@ var UploadWorks = React.createClass({
             placeholder="名称应该在1-20字之间"/>
           <ChooseImage value={this.state.photos}
             ref="chooseImage" onError={this.showMessage}/>
-          <ChooseCategory value={this.state.tags} onChange = {this.updateTags}/>
+          <ChooseTags value={this.state.tags} onChange = {this.updateTags}/>
           <TextInput ref="workDescription"
             type="textarea"
             value = {this.state.description}
@@ -359,7 +236,7 @@ var UploadWorks = React.createClass({
             maxLength={1000}
             placeholder=""
             help="作品描述应该在15-1000字之间"
-            style={{'min-height':100}}/>
+            style={{minHeight:100}}/>
           <TextInput ref="service"
             type="textarea"
             value={serviceValue}
@@ -368,7 +245,7 @@ var UploadWorks = React.createClass({
             minLength={15}
             maxLength={1000}
             placeholder="服务内容请参考以下项目：①原片是否全送 ②精修片数量 ③是否提供化妆造型 ④是否提供服装 ⑤是否有影棚拍摄 ⑥拍摄几组 ⑦拍摄场景数量 ⑧服务时长 ⑨是否有实物产品，请具体说明 ⑩补充说明"
-            help="服务描述应该在15-1000字之间" style={{'min-height':230}}/>
+            help="服务描述应该在15-1000字之间" style={{minHeight:230}}/>
           <TextInput ref="price"
             labelName="是否定价："
             textClassName="col-xs-4"

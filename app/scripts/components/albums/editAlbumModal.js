@@ -5,7 +5,7 @@ var AlbumsStore = require('../../stores/AlbumsStore');
 var Button = require('react-bootstrap').Button;
 var Modal = require('react-bootstrap').Modal;
 var TextInput = require('../account/textInput');
-var ChooseCategory = require('./chooseCategory');
+var ChooseTags = require('../chooseTags');
 var validator = require('validator');
 
 var EditAlbumModal = React.createClass({
@@ -26,6 +26,13 @@ var EditAlbumModal = React.createClass({
     }
   },
   onStoreChanged : function (data) {
+    if(data.flag == 'update' && data.hintMessage == '') {
+      this.loadAlbums(this.state.album.Id)
+    }
+    if(data.flag == 'get') {
+      this.setState({album: data.workData});
+      this.setState({submit:false});
+    }
     if(data.flag == 'onSale' || data.flag == 'offSale' ){
       console.log(data.hintMessage)
       console.log(data.hintMessage == '')
@@ -40,7 +47,14 @@ var EditAlbumModal = React.createClass({
     this.setState({album: this.props.album});
   },
   componentWillReceiveProps : function (nextProps) {
-    this.setState({show:nextProps.show})
+    this.setState({show:nextProps.show,album: nextProps.album})
+  },
+  loadAlbums: function (id) {
+    var data = {
+      Fields: 'Id,Title,UserId,Service,Price,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url,State,CreationTime,EditingTime,Tags.Id,Tags.Name',
+      Id: id,
+    };
+    AlbumsActions.get(data)
   },
   hideInfoModal: function () {
     this.setState({show: false});
@@ -55,6 +69,12 @@ var EditAlbumModal = React.createClass({
     var album = this.state.album;
     album.CategoryId = cid
     this.setState({album: album});
+  },
+  updateTags : function(tags){
+    var album = this.state.album;
+    album.Tags = tags.join(',')
+    this.setState({album: album});
+    console.log('updateTags:', tags);
   },
   updateDescription: function (des) {
     var album = this.state.album;
@@ -73,23 +93,23 @@ var EditAlbumModal = React.createClass({
   },
   validate: function () {
     if (this.state.album.Title.length < 5 || this.state.album.Title.length > 25) {
-      this.showMessage('作品名称必须在1-20字之间');
+      this.props.showMessage('作品名称必须在1-20字之间');
       return false;
     }
     if (!this.state.album.CategoryId) {
-      this.showMessage('请选择作品类别');
+      this.props.showMessage('请选择作品类别');
       return false;
     }
     if (this.state.album.Description.length < 15 || this.state.album.Description.length > 1000) {
-      this.showMessage('作品描述必须在15-1000字之间');
+      this.props.showMessage('作品描述必须在15-1000字之间');
       return false;
     }
     if (this.state.album.Service.length < 15 || this.state.album.Service.length > 1000) {
-      this.showMessage('服务描述必须在15-1000字之间');
+      this.props.showMessage('服务描述必须在15-1000字之间');
       return false;
     }
-    if (this.state.album.Price && !validator.isInt(this.state.album.Price)) {
-      this.showMessage('如果填写价格，必须为数字');
+    if (!validator.isInt(this.state.album.Price) && parseInt(this.state.album.Price) > 0) {
+      this.props.showMessage('如果填写价格，必须为数字');
       return false;
     }
     return true;
@@ -97,7 +117,6 @@ var EditAlbumModal = React.createClass({
   handleSubmit: function () {
     if (this.validate()) {
       var album = this.state.album;
-      album.Negotiable = this.state.album.Price == 0 ? true : false;
       AlbumsActions.update(album);
       this.hideInfoModal();
       this.setState({submit:true});
@@ -131,8 +150,7 @@ var EditAlbumModal = React.createClass({
                          updateValue={this.updateTitle}
                          minLength={5}
                          placeholder="名称应该在1-20字之间"/>
-              <ChooseCategory value={this.state.album.CategoryId} categories={this.props.categories}
-                              onChange={this.updateCategory}/>
+              <ChooseTags value={this.state.album.Tags} onChange={this.updateTags} categories={this.props.categories}/>
               <TextInput ref="workDescription"
                          type="textarea"
                          value={this.state.album.Description}
