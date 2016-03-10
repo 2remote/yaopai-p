@@ -84,7 +84,7 @@ var UploadPhotoModal = React.createClass({
     this.setState({photos: data, cover: cover});
   },
   showMessage : function(message){
-    this.refs.toolTip.toShow(message);
+    this.props.showMessage(message);
   },
   render: function () {
     return (
@@ -103,9 +103,6 @@ var UploadPhotoModal = React.createClass({
               <ChooseImage value={this.state.photos}
                            ref="chooseImage"/>
 
-              <div className="row">
-                <ToolTip ref="toolTip" title=""/>
-              </div>
             </form>
           </Modal.Body>
           <Modal.Footer>

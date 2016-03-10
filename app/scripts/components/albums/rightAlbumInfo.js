@@ -9,6 +9,7 @@ var AlbumsStore = require('../../stores/AlbumsStore');
 var EditAlbumModal = require('./editAlbumModal');
 var UploadPhotoModal = require('./uploadPhotoModal');
 var UserStore = require('../../stores/UserStore');
+var ToolTip = require('../toolTip');
 
 var RightAlbumInfo = React.createClass({
   mixins: [UserStore],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
@@ -46,6 +47,9 @@ var RightAlbumInfo = React.createClass({
   },
   moment : function (d) {
     return moment(d, "YYYY-MM-DDTHH:mm:ss").format("YYYY-MM-DD HH:mm")
+  },
+  showMessage : function(message){
+    this.refs.toolTip.toShow(message);
   },
   render: function () {
     var style = {
@@ -99,8 +103,8 @@ var RightAlbumInfo = React.createClass({
     }
     return (
       <div>
-        <EditAlbumModal album={album} categories={this.props.categories} show={this.state.isInfoShow} hideHandle={this.hideInfoModal}/>
-        <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle} show={this.state.isImgShow} hideHandle={this.hideImgModal}/>
+        <EditAlbumModal album={album} categories={this.props.categories} show={this.state.isInfoShow} hideHandle={this.hideInfoModal} showMessage={this.showMessage}/>
+        <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle} show={this.state.isImgShow} hideHandle={this.hideImgModal} showMessage={this.showMessage}/>
         <span style={style.btndiv}>
           <Button bsStyle="primary" onClick={this.showInfoModal}>
             修改信息
@@ -133,15 +137,15 @@ var RightAlbumInfo = React.createClass({
           </div>
           <div style={{paddingTop:20,clear: 'left'}}>作品简述：
             <p>
-              {_.map(album.Description.split('\n'), function (item) {
-                return <div>{item}</div>;
+              {_.map(album.Description.split('\n'), function (item,i) {
+                return <div key={i}>{item}</div>;
               })}
             </p>
           </div>
           <div>提供服务：
             <p>
-              {_.map(album.Service.split('\n'), function (item) {
-                return <div>{item}</div>;
+              {_.map(album.Service.split('\n'), function (item,i) {
+                return <div key={i}>{item}</div>;
               })}
             </p>
           </div>
@@ -149,6 +153,7 @@ var RightAlbumInfo = React.createClass({
           <div>添加时间：<p>{this.moment(album.CreationTime)}</p></div>
           <div>最后编辑时间：<p>{this.moment(album.EditingTime)}</p></div>
         </div>
+        <ToolTip ref="toolTip" title=""/>
       </div>
     );
   }
