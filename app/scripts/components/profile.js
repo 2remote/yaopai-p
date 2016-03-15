@@ -13,6 +13,7 @@ var PhotograhperActions = require('../actions/PAuthActions');
 var PhotograhperStore = require('../stores/PAuthStore');
 var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
+var QRCode = require('qrcode.react');
 
 var ProfileHeader = React.createClass({
   mixins : [Reflux.listenTo(PhotograhperStore,'onStoreChanged'),Reflux.listenTo(UserStore,'onUserStoreChanged'),History],
@@ -22,7 +23,8 @@ var ProfileHeader = React.createClass({
       name: '',
       area: '',
       introduction: '这个人很懒，什么都没有留下',
-      type:''
+      type:'',
+      id : '',
     }
   },
   onUserStoreChanged : function(data){
@@ -39,6 +41,7 @@ var ProfileHeader = React.createClass({
         console.log(data.hintMessage);
       }else{
         var info = {
+          id : data.photographer.Id,
           avatarSrc : data.photographer.User.Avatar?data.photographer.User.Avatar:'img/user.png',
           name : data.photographer.User.NickName,
           area : data.photographer.ProvinceName + '/' +data.photographer.CityName +'/' +data.photographer.CountyName,
@@ -60,7 +63,7 @@ var ProfileHeader = React.createClass({
   render : function(){
     var headerStyle = {
       background : {
-        background : 'url(../../img/noName.jpg) no-repeat center center',
+        background : 'url(../../img/noName2.jpg) no-repeat center center',
         width : '100%',
         height : '360px',
         color: '#ffffff',
@@ -89,7 +92,28 @@ var ProfileHeader = React.createClass({
       },
       introduction: {
         fontSize: '16px',
-      }
+      },
+      qrcodes : {
+        height : '160px',
+        width:'500px',
+        marginTop:'-140',
+        marginLeft:'70%',
+        float:'left'
+      },
+      qrcode : {
+        backgroundColor: '#fff',
+        height : '160px',
+        width:'160px',
+        padding : '10px',
+        float:'left'
+      },
+      qrcode2 : {
+        backgroundColor: '#fff',
+        height : '160px',
+        width:'160px',
+        marginLeft:'30px',
+        float:'left'
+      },
     };
     var categoryStyle = {
       wrap: {
@@ -120,6 +144,14 @@ var ProfileHeader = React.createClass({
             <p style={headerStyle.name}>{this.state.name}</p>
             <p style={headerStyle.area}>{this.state.area}</p>
             <p style={headerStyle.introduction}>{this.state.introduction}</p>
+          </div>
+          <div style={headerStyle.qrcodes}>
+            <div style={headerStyle.qrcode}>
+              <QRCode value={'http://m.aiyaopai.com/#/grapherDetail/'+this.state.id} size={140}/>
+            </div>
+            <div style={headerStyle.qrcode2}>
+              <img width="160" height="160" src='../../img/qrcode.jpg'/>
+            </div>
           </div>
         </div>
         <div>

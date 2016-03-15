@@ -10,6 +10,9 @@ var UserStore = require('../stores/UserStore');
 var IndexCover = require('./indexCover');
 var ToolTip = require('./toolTip');
 var API = require('../api');
+var Provision = require('./provision');
+var Router = require('react-router');
+var Link  = Router.Link;
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -159,7 +162,7 @@ var LoginButtonn = React.createClass({
     };
     return (
       <div>
-        <span style={textStyle}>点登录表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
+        <span style={textStyle}>点登录表示您已阅读同意</span><Link to={'/provision'}><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
         
         <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span></div>
@@ -288,7 +291,7 @@ var RegisterButtons = React.createClass({
     }
     return (
       <div>
-        <span style={textStyle}>点注册表示您已阅读同意</span><span style={ruleStyle}>《YAOPAI服务条款》</span>
+        <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'}><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
         
         <div style={openLogin}><span>已经有账号？<a href="#" onClick={this.props.toLogin}>直接登录</a></span></div>
@@ -336,7 +339,7 @@ var LoginForm = React.createClass({
     }
     return (
       <div style={loginStyle}>
-        <img style={imageCenter} src="img/logo2.png" />
+        <img style={imageCenter} src="img/logo3.png" width='280' height='75'/>
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
@@ -426,7 +429,7 @@ var RegisterForm = React.createClass({
     }
     return (
       <div style={registerStyle}>
-        <img style={imageCenter} src="img/logo2.png" />
+        <img style={imageCenter} src="img/logo3.png" width='280' height='75'/>
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
