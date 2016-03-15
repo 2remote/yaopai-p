@@ -63,12 +63,12 @@ var ProfileHeader = React.createClass({
   render : function(){
     var headerStyle = {
       background : {
-        background : 'url(../../img/noName2.jpg) no-repeat center center',
+        background : 'url(../../img/noName2.jpg) no-repeat ',
         width : '100%',
         height : '360px',
         color: '#ffffff',
         marginTop: '50px',
-        backgroundRepeat: 'repeat-x',
+        backgroundSize:'100%'
       },
       center : {
         margin : '0 auto',
@@ -96,7 +96,7 @@ var ProfileHeader = React.createClass({
       qrcodes : {
         height : '160px',
         width:'500px',
-        marginTop:'-140',
+        marginTop:'-170',
         marginLeft:'70%',
         float:'left'
       },
@@ -110,6 +110,31 @@ var ProfileHeader = React.createClass({
       qrcode2 : {
         backgroundColor: '#fff',
         height : '160px',
+        width:'160px',
+        marginLeft:'30px',
+        float:'left'
+      },
+      qrfonts : {
+        marginTop : '-10',
+        height : '40px',
+        width:'500px',
+        marginLeft:'70%',
+        float:'left'
+      },
+      qrfont : {
+        backgroundColor: '#fff',
+        color : '#000',
+        textAlign : 'center',
+        height : '30px',
+        width:'160px',
+        float:'left'
+      },
+      qrfont2 : {
+        backgroundColor: '#fff',
+        color : '#000',
+        fontSize : '10',
+        textAlign : 'center',
+        height : '30px',
         width:'160px',
         marginLeft:'30px',
         float:'left'
@@ -146,13 +171,21 @@ var ProfileHeader = React.createClass({
             <p style={headerStyle.introduction}>{this.state.introduction}</p>
           </div>
           <div style={headerStyle.qrcodes}>
-            <div style={headerStyle.qrcode}>
-              <QRCode value={'http://m.aiyaopai.com/#/grapherDetail/'+this.state.id} size={140}/>
-            </div>
-            <div style={headerStyle.qrcode2}>
-              <img width="160" height="160" src='../../img/qrcode.jpg'/>
-            </div>
+          <div style={headerStyle.qrcode}>
+            <QRCode value={'http://m.aiyaopai.com/#/grapherDetail/'+this.state.id} size={140}/>
           </div>
+          <div style={headerStyle.qrcode2}>
+            <img width="160" height="160" src='../../img/qrcode.jpg'/>
+          </div>
+        </div>
+        <div style={headerStyle.qrfonts}>
+          <div style={headerStyle.qrfont}>
+            微信扫描查看个人主页
+          </div>
+          <div style={headerStyle.qrfont2}>
+            YAOPAI官微查看更多摄影师
+          </div>
+        </div>
         </div>
         <div>
           <div style={categoryStyle.wrap}>
