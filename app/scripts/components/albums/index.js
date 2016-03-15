@@ -8,6 +8,7 @@ var AlbumsStore = require('../../stores/AlbumsStore');
 var RightAlbumInfo = require('./rightAlbumInfo');
 var UserStore = require('../../stores/UserStore');
 var UserActions = require("../../actions/UserActions");
+var _ = require('lodash');
 
 var Albums = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),Reflux.listenTo(UserStore,'isLogin'), History],
@@ -17,6 +18,7 @@ var Albums = React.createClass({
       currentAlbum: AlbumsStore.data,
       categories :null,
       category:null,
+      tags: null,
     }
   },
   onStoreChanged: function (data) {
@@ -29,15 +31,28 @@ var Albums = React.createClass({
       if(data.flag == 'getCategories'){
         this.setState({categories: data.categories});
       }
+      if(data.flag == 'getTagList'){
+        this.setState({tags: data.tags});
+      }
       if(data.flag == 'delete') {
         this.history.replaceState(null,'/profile/onSale');
       }
-      if (this.state.work && this.state.work.CategoryId && this.state.categories) {
+      this.setState({category: {Name:'其他'}});
+      if (this.state.work && this.state.work.Tags && this.state.tags && (typeof this.state.work.Tags =='object') && this.state.work.Tags.constructor==Array) {
         var album = this.state.work;
-        var category = this.state.categories.find(function (obj) {
-          return obj.Id == album.CategoryId;
+        var cateTag = this.state.tags.find(function (obj) {
+          return obj.Name == '类别';
         })
-        this.setState({category: category});
+        if(cateTag && cateTag.Tags){
+          var cateTagIds = _.map(cateTag.Tags, 'Id');
+          var category = album.Tags.find(function (item) {
+            return cateTagIds.indexOf(item.Id)> -1
+          })
+          if(category){
+            this.setState({category: category});
+          }
+        }
+
       }
     }
   },
@@ -47,15 +62,16 @@ var Albums = React.createClass({
       //UserActions.logout(true);
       this.history.pushState(null, '/');
     }else{
-      var data = {
-        Fields: 'Id,Name'
-      };
-      AlbumsActions.getCategories(data)
+      //var data = {
+      //  Fields: 'Id,Name'
+      //};
+      //AlbumsActions.getCategories(data)
       this.loadAlbums();
     }
   },
   componentWillMount: function () {
     UserActions.currentUser();
+    AlbumsActions.getTagList();
   },
   onRemove: function (event) {
     var index = event.target.getAttribute('data-index');

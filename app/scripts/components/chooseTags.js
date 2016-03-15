@@ -22,7 +22,7 @@ var UserActions = require("../actions/UserActions");
 var UserStore = require("../stores/UserStore");
 var History = require('react-router').History;
 /*
- Ñ¡ÔñÀà±ğ×é¼ş
+ é€‰æ‹©ç±»åˆ«ç»„ä»¶
  */
 var ChooseTags = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onGetCategories')],
@@ -35,7 +35,7 @@ var ChooseTags = React.createClass({
 
   componentWillMount : function(){
     AlbumsActions.getTagList();
-    if(this.props.value ){
+    if(this.props.value && this.props.value.constructor==Array){
       this.setState({selectedTags:this.props.value.map(function (item) {
         return item.Id
       })})
@@ -58,15 +58,15 @@ var ChooseTags = React.createClass({
     var alreadySelected = locationOfTagId >= 0;
 
     if ( !alreadySelected ){
-      //Ã¿¸ö·ÖÀàÏÂ×î¶àÉèÖÃÈı¸ö±êÇ©
+      //æ¯ä¸ªåˆ†ç±»ä¸‹æœ€å¤šè®¾ç½®ä¸‰ä¸ªæ ‡ç­¾
       var allTags = this.state.tags;
       var isBreak = false;
       allTags.forEach(function (item) {
         var ids = _.map(item.Tags, 'Id');
-        if(ids.indexOf(tagId) > -1){//ÅĞ¶ÏËùµã»÷µÄ±êÇ©ÊÇ·ñÊÇÕâ¸ö·ÖÀàÄÚµÄ
-          var tmp = _.intersection(ids, tags);//ÖØ¸´µÄÄÚÈİ
-          //Àà±ğ±êÇ©Îª±ØÑ¡±êÇ©ÇÒÖ»ÄÜÑ¡Ò»¸ö£»ÆäËû·ÖÀàÏÂ×î¶à¿ÉÉèÖÃÈı¸ö±êÇ©
-          if(item.Name=='Àà±ğ'){
+        if(ids.indexOf(tagId) > -1){//åˆ¤æ–­æ‰€ç‚¹å‡»çš„æ ‡ç­¾æ˜¯å¦æ˜¯è¿™ä¸ªåˆ†ç±»å†…çš„
+          var tmp = _.intersection(ids, tags);//é‡å¤çš„å†…å®¹
+          //ç±»åˆ«æ ‡ç­¾ä¸ºå¿…é€‰æ ‡ç­¾ä¸”åªèƒ½é€‰ä¸€ä¸ªï¼›å…¶ä»–åˆ†ç±»ä¸‹æœ€å¤šå¯è®¾ç½®ä¸‰ä¸ªæ ‡ç­¾
+          if(item.Name=='ç±»åˆ«'){
             if(tmp.length >= 1){
               isBreak = true;
             }
@@ -101,7 +101,7 @@ var ChooseTags = React.createClass({
     // makeButton
     //
     // make Button component from tag data
-    // tag - obj, {Id: 4, Name: "ÈËÏñ", Display: true}
+    // tag - obj, {Id: 4, Name: "äººåƒ", Display: true}
     function makeButton (tag, i) {
       return (<Button key={i}
                       bsStyle={(currentTags.indexOf(tag.Id) >=0) ? 'primary' : 'default'}
@@ -140,7 +140,7 @@ var ChooseTags = React.createClass({
       return tags;
     }
 
-    //Ä¿Ç°Ã»ÓĞ×öÅÅĞòºÍÊÇ·ñÏÔÊ¾    
+    //ç›®å‰æ²¡æœ‰åšæ’åºå’Œæ˜¯å¦æ˜¾ç¤º
     var tagList = makeTagList(this.state.tags);
 
     return (
