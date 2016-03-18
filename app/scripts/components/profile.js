@@ -273,6 +273,12 @@ var WorksList = React.createClass({
       AlbumsActions.getMyAlbums(data);
     }
   },
+  onMoveUp : function () {
+    console.log('onMoveUp')
+  },
+  onMoveDown : function () {
+    console.log('onMoveDown')
+  },
   render : function(){
     var mainStyle = {
       worksWrap: {
@@ -281,7 +287,6 @@ var WorksList = React.createClass({
       },
       description: {
         width: '100%',
-        paddingLeft: '7px',
         position: 'absolute',
         left: 0,
         bottom: 0,
@@ -294,7 +299,25 @@ var WorksList = React.createClass({
       number: {
         fontSize: '12px',
         paddingLeft: '10px',
-      }
+      },
+      up:{
+        opacity: '0',
+        transition: 'top 0.2s',
+        fontSize: 12,
+        color: 'white',
+        float:"left",
+        textShadow: '0 0 1px rgba(0,0,0,0.6)',
+        marginLift: 10,
+      },
+      down:{
+        opacity: '0',
+        transition: 'top 0.2s',
+        fontSize: 12,
+        color: 'white',
+        float:"right",
+        textShadow: '0 0 1px rgba(0,0,0,0.6)',
+        marginRight: 20,
+      },
     };
 
     var photoList = '';
@@ -302,13 +325,24 @@ var WorksList = React.createClass({
     if(this.state.workList && this.state.workList.length >0){
       photoList = this.state.workList.map(function(work,i){
         return (
-          <div key={i} style={mainStyle.worksWrap}>
+          <div key={i} style={mainStyle.worksWrap} className='component-wrapper'>
             <Link to={'/albums/'+work.Id}>
               <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
-              <div style={mainStyle.description}>
-                <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
-              </div>
             </Link>
+            <div style={mainStyle.description}>
+              <p>
+                <span className='imghover' style={mainStyle.up} onClick={this.onMoveUp} >
+                  <span style={{fontSize:18,marginRight:-18}} className="glyphicon glyphicon-triangle-left" />
+                </span>
+                <span style={{paddingLeft: '27px'}}>
+                  <span>{work.Title}</span>
+                  <span style={mainStyle.number}>{work.Photos.length}张</span>
+                </span>
+                <span className='imghover' style={mainStyle.down} onClick={this.onMoveDown} >
+                  <span style={{fontSize:18,marginRight:-18}} className="glyphicon glyphicon-triangle-right" />
+                </span>
+              </p>
+            </div>
           </div>
         );
       }.bind(this));
