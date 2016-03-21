@@ -14,7 +14,7 @@ var PhotograhperStore = require('../stores/PAuthStore');
 var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
 var QRCode = require('qrcode.react');
-
+var _ = require('lodash');
 var ProfileHeader = React.createClass({
   mixins : [Reflux.listenTo(PhotograhperStore,'onStoreChanged'),Reflux.listenTo(UserStore,'onUserStoreChanged'),History],
   getInitialState : function(){
@@ -247,7 +247,12 @@ var WorksList = React.createClass({
     if(data.hintMessage){
       console.log(data.hintMessage);
     }else{
-      this.setState({workList : data.workList});
+      if(data.flag == 'sorting'){
+        this.getMyAlbums(this.state.userId,this.props.type)
+      }else{
+        var ids = _.map(data.workList, 'Id');
+        this.setState({workList : data.workList,workIds:ids});
+      }
     }
   },
   componentWillReceiveProps : function (nextProps) {
@@ -273,11 +278,21 @@ var WorksList = React.createClass({
       AlbumsActions.getMyAlbums(data);
     }
   },
-  onMoveUp : function () {
-    console.log('onMoveUp')
+  onMoveUp : function (id,index) {
+    var workIds = this.state.workIds;
+    if(index>0){
+      workIds.splice(index, 1);
+      workIds.splice(index-1, 0, id);
+    }
+    AlbumsActions.sorting(workIds.join(','));
   },
-  onMoveDown : function () {
-    console.log('onMoveDown')
+  onMoveDown : function (id,index) {
+    var workIds = this.state.workIds;
+    if(index<workIds.length-1){
+      workIds.splice(index, 1);
+      workIds.splice(index+1, 0, id);
+    }
+    AlbumsActions.sorting(workIds.join(','));
   },
   render : function(){
     var mainStyle = {
@@ -331,14 +346,14 @@ var WorksList = React.createClass({
             </Link>
             <div style={mainStyle.description}>
               <p>
-                <span className='imghover' style={mainStyle.up} onClick={this.onMoveUp} >
+                <span className='imghover' style={mainStyle.up} onClick={this.onMoveUp.bind(this,work.Id,i)} >
                   <span style={{fontSize:18,marginRight:-18}} className="glyphicon glyphicon-triangle-left" />
                 </span>
                 <span style={{paddingLeft: '27px'}}>
                   <span>{work.Title}</span>
                   <span style={mainStyle.number}>{work.Photos.length}张</span>
                 </span>
-                <span className='imghover' style={mainStyle.down} onClick={this.onMoveDown} >
+                <span className='imghover' style={mainStyle.down} onClick={this.onMoveDown.bind(this,work.Id,i)} >
                   <span style={{fontSize:18,marginRight:-18}} className="glyphicon glyphicon-triangle-right" />
                 </span>
               </p>
