@@ -14,7 +14,7 @@ var PhotograhperStore = require('../stores/PAuthStore');
 var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
 var QRCode = require('qrcode.react');
-
+var _ = require('lodash');
 var ProfileHeader = React.createClass({
   mixins : [Reflux.listenTo(PhotograhperStore,'onStoreChanged'),Reflux.listenTo(UserStore,'onUserStoreChanged'),History],
   getInitialState : function(){
@@ -124,6 +124,7 @@ var ProfileHeader = React.createClass({
       qrfont : {
         backgroundColor: '#fff',
         color : '#000',
+        fontSize : '10',
         textAlign : 'center',
         height : '30px',
         width:'160px',
@@ -247,7 +248,12 @@ var WorksList = React.createClass({
     if(data.hintMessage){
       console.log(data.hintMessage);
     }else{
-      this.setState({workList : data.workList});
+      if(data.flag == 'sorting'){
+        this.getMyAlbums(this.state.userId,this.props.type)
+      }else{
+        var ids = _.map(data.workList, 'Id');
+        this.setState({workList : data.workList,workIds:ids});
+      }
     }
   },
   componentWillReceiveProps : function (nextProps) {
@@ -273,6 +279,22 @@ var WorksList = React.createClass({
       AlbumsActions.getMyAlbums(data);
     }
   },
+  onMoveUp : function (id,index) {
+    var workIds = this.state.workIds;
+    if(index>0){
+      workIds.splice(index, 1);
+      workIds.splice(index-1, 0, id);
+    }
+    AlbumsActions.sorting(workIds.join(','));
+  },
+  onMoveDown : function (id,index) {
+    var workIds = this.state.workIds;
+    if(index<workIds.length-1){
+      workIds.splice(index, 1);
+      workIds.splice(index+1, 0, id);
+    }
+    AlbumsActions.sorting(workIds.join(','));
+  },
   render : function(){
     var mainStyle = {
       worksWrap: {
@@ -281,7 +303,6 @@ var WorksList = React.createClass({
       },
       description: {
         width: '100%',
-        paddingLeft: '7px',
         position: 'absolute',
         left: 0,
         bottom: 0,
@@ -294,7 +315,25 @@ var WorksList = React.createClass({
       number: {
         fontSize: '12px',
         paddingLeft: '10px',
-      }
+      },
+      up:{
+        opacity: '0',
+        transition: 'top 0.2s',
+        fontSize: 12,
+        color: 'white',
+        float:"left",
+        textShadow: '0 0 1px rgba(0,0,0,0.6)',
+        marginLift: 10,
+      },
+      down:{
+        opacity: '0',
+        transition: 'top 0.2s',
+        fontSize: 12,
+        color: 'white',
+        float:"right",
+        textShadow: '0 0 1px rgba(0,0,0,0.6)',
+        marginRight: 20,
+      },
     };
 
     var photoList = '';
@@ -302,13 +341,24 @@ var WorksList = React.createClass({
     if(this.state.workList && this.state.workList.length >0){
       photoList = this.state.workList.map(function(work,i){
         return (
-          <div key={i} style={mainStyle.worksWrap}>
+          <div key={i} style={mainStyle.worksWrap} className='component-wrapper'>
             <Link to={'/albums/'+work.Id}>
               <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
-              <div style={mainStyle.description}>
-                <p><span>{work.Title}</span><span style={mainStyle.number}>{work.Photos.length}张</span></p>
-              </div>
             </Link>
+            <div style={mainStyle.description}>
+              <p>
+                <span className='imghover' style={mainStyle.up} onClick={this.onMoveUp.bind(this,work.Id,i)} >
+                  <span style={{fontSize:18,marginRight:-18}} className="glyphicon glyphicon-triangle-left" />
+                </span>
+                <span style={{paddingLeft: '27px'}}>
+                  <span>{work.Title}</span>
+                  <span style={mainStyle.number}>{work.Photos.length}张</span>
+                </span>
+                <span className='imghover' style={mainStyle.down} onClick={this.onMoveDown.bind(this,work.Id,i)} >
+                  <span style={{fontSize:18,marginRight:-18}} className="glyphicon glyphicon-triangle-right" />
+                </span>
+              </p>
+            </div>
           </div>
         );
       }.bind(this));

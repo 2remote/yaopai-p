@@ -13,6 +13,7 @@ var AlbumsActions = Reflux.createActions({
   'onSale' : {children:['success','failed']},
   'offSale' : {children:['success','failed']},
   'getTagList' : {children:['success','failed']},
+  'sorting' : {children:['success','failed']},
 });
 
 AlbumsActions.add.listen(function(data){
@@ -41,6 +42,9 @@ AlbumsActions.onSale.listen(function(data){
 });
 AlbumsActions.offSale.listen(function(data){
   HttpFactory.post(API.ALBUMS.offSale,data,this.success,this.failed);
+});
+AlbumsActions.sorting.listen(function(data){
+  HttpFactory.post(API.ALBUMS.sorting,{Ids:data},this.success,this.failed);
 });
 
 AlbumsActions.getTagList.listen(function () {

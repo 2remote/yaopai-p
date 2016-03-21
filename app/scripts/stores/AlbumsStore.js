@@ -36,6 +36,8 @@ var AlbumsStore = Reflux.createStore({
     this.listenTo(AlbumsActions.offSale.failed,this.onFailed);
     this.listenTo(AlbumsActions.getTagList.success,this.onTagListSuccess);
     this.listenTo(AlbumsActions.getTagList.failed,this.onFailed);
+    this.listenTo(AlbumsActions.sorting.success,this.onSortingSuccess);
+    this.listenTo(AlbumsActions.sorting.failed,this.onFailed);
   },
   onFailed : function(res){
     this.data.hintMessage = '网络错误';
@@ -143,6 +145,16 @@ var AlbumsStore = Reflux.createStore({
       this.data.hintMessage = res.ErrorMsg;
     }
     this.data.flag = 'offSale';
+    this.trigger(this.data);
+  },
+  onSortingSuccess : function(res){
+    console.log(res)
+    if(res.Success){
+      this.data.hintMessage = '';
+    }else{
+      this.data.hintMessage = res.ErrorMsg;
+    }
+    this.data.flag = 'sorting';
     this.trigger(this.data);
   },
 });
