@@ -124,6 +124,7 @@ var ProfileHeader = React.createClass({
       qrfont : {
         backgroundColor: '#fff',
         color : '#000',
+        fontSize : '10',
         textAlign : 'center',
         height : '30px',
         width:'160px',
