@@ -162,7 +162,7 @@ var LoginButtonn = React.createClass({
     };
     return (
       <div>
-        <span style={textStyle}>点登录表示您已阅读同意</span><Link to={'/provision'}><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
+        <span style={textStyle}>点登录表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
         
         <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span></div>
@@ -291,7 +291,7 @@ var RegisterButtons = React.createClass({
     }
     return (
       <div>
-        <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'}><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
+        <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
         
         <div style={openLogin}><span>已经有账号？<a href="#" onClick={this.props.toLogin}>直接登录</a></span></div>
@@ -457,11 +457,13 @@ var Home = React.createClass({
       if(data.hintMessage){
         this.handleHint(data.hintMessage);
       }else{
-        //获取当前用户成功，跳转至指定界面
-        if(this.props.location.state && this.props.location.state.nextpage)
+        if(data.isLogin){
+          //获取当前用户成功，跳转至指定界面
+          if(this.props.location.state && this.props.location.state.nextpage)
             this.history.replaceState(null,this.props.location.state.nextpage);
-        else
-          this.history.replaceState(null,'/profile/onSale');
+          else
+            this.history.replaceState(null,'/profile/onSale');
+        }
       }
     }
   },
