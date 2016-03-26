@@ -9,6 +9,8 @@ var UploadTokenStore = require('../../stores/UploadTokenStore');
 
 var API = require('../../api');
 var Input = require('react-bootstrap').Input;
+var  SmartCrop = require('smartcrop');
+var  QiniuTools = require('../../qiniu-tools');
 /*
   data structure
   {
@@ -20,6 +22,7 @@ var Input = require('react-bootstrap').Input;
   ImageItem 用于显示单条图片信息
 */
 var ImageItem = React.createClass({
+  mixins : [Reflux.listenTo(UploadTokenStore,'onUploadStoreChanged')],
   getInitialState : function(){
     return {
       progress : 0
@@ -31,6 +34,19 @@ var ImageItem = React.createClass({
       imageData: {},
       progress:0
     }
+  },
+  onUploadStoreChanged : function(data){
+      if(data.errorCode){
+        console.log(data.errorMessage);
+      }else{
+        var token = data.token;
+        QiniuTools.putb64(token,this.state.cropCover, function (res) {
+          console.log(res)
+          if(res.Success){
+            WorkActions.setCoverUrl(res.Url);
+          }
+        })
+      }
   },
   handleChange : function(event){
     WorkActions.editImageDes(this.props.index,event.target.value);
@@ -48,7 +64,43 @@ var ImageItem = React.createClass({
     WorkActions.moveDownImage(this.props.index);
   },
   setCover : function(event){
+    if(this.props.imageData.isCover){
+      return
+    }
     WorkActions.setCover(this.props.index);
+    var flag = true;
+    while(flag){
+      if(this.state.progress==100){
+        this.crop(this.props.imageData.Url);
+        flag = false;
+      }
+    }
+  },
+  crop : function (src) {
+    this.setState({cropCover:''})
+    var self = this;
+    var img = new window.Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = src;
+    img.onload = function(){
+      SmartCrop.crop(img,{
+        width: 400,
+        height: 225
+      },function(result){
+        console.log(result);
+        var crop = result.topCrop;
+        var canvas = self.refs['image2_'+self.props.index].getDOMNode();
+        var ctx = canvas.getContext('2d')
+        canvas.width = crop.width;
+        canvas.height = crop.height;
+        ctx.drawImage(img, crop.x, crop.y, crop.width, crop.height, 0, 0, canvas.width, canvas.height);
+        var base64 = canvas.toDataURL();
+        // 需要将前缀去掉
+        var startIndex = base64.indexOf('base64,');
+        self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
+        UploadActions.getToken({type:'work'});
+      });
+    };
   },
   componentDidMount : function(){
 
@@ -81,7 +133,8 @@ var ImageItem = React.createClass({
             </div>
           </div>
           <div className="main-image">
-            <img height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
+            <canvas ref={'image2_'+this.props.index} style={{display:'none'}}></canvas>
+            <img ref={'image_'+this.props.index} height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
           </div>
           <div className="main-des">
             <textarea ref="description" type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />

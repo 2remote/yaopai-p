@@ -18,6 +18,7 @@ var UploadPhotoModal = React.createClass({
   getInitialState: function () {
     return {
       photos: [],
+      coverUrl:'',
       show: false,
       submit:false
     }
@@ -53,7 +54,7 @@ var UploadPhotoModal = React.createClass({
       data['photos[' + photoindex + '].Description'] = photo.Description;
     });
     if (coverUrl != '') {
-      data.Cover = coverUrl;
+      data.Cover = this.state.coverUrl?this.state.coverUrl:coverUrl;
     }
     AlbumsActions.update(data);
     this.setState({submit:true});
@@ -74,6 +75,7 @@ var UploadPhotoModal = React.createClass({
         //清空数据
         this.setState({
           photos: [],
+          coverUrl:'',
           show: false,
         });
         this.hideImgModal();
@@ -81,12 +83,16 @@ var UploadPhotoModal = React.createClass({
     }
   },
   onWorkStoreChange: function (data) {
-    //处理封面
-    var cover = -1;
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].isCover) cover = i;
+    if(data.flag == 'setCoverUrl'){
+      this.setState({coverUrl : data.url});
+    }else {
+      //处理封面
+      var cover = -1;
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].isCover) cover = i;
+      }
+      this.setState({photos: data, cover: cover});
     }
-    this.setState({photos: data, cover: cover});
   },
   showMessage : function(message){
     this.props.showMessage(message);

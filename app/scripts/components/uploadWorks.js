@@ -44,6 +44,7 @@ var UploadWorks = React.createClass({
       service : '',
       price : 0 ,
       cover : -1,
+      coverUrl : '',
       photos : [],
       tags : 0,
       submit: false
@@ -71,6 +72,7 @@ var UploadWorks = React.createClass({
           service : '',
           price : 0 ,
           cover : -1,
+          coverUrl : '',
           photos : [],
           tags : []
         });
@@ -87,12 +89,16 @@ var UploadWorks = React.createClass({
     }
   },
   onWorkStoreChange : function(data){
-    //处理封面
-    var cover = -1;
-    for(var i =0 ; i < data.length ; i ++){
-      if(data[i].isCover) cover = i;
+    if(data.flag == 'setCoverUrl'){
+      this.setState({coverUrl : data.url});
+    }else{
+      //处理封面
+      var cover = -1;
+      for(var i =0 ; i < data.length ; i ++){
+        if(data[i].isCover) cover = i;
+      }
+      this.setState({photos : data,cover : cover});
     }
-    this.setState({photos : data,cover : cover});
   },
   updateTitle : function(title){
     this.setState({title: title});
@@ -158,7 +164,7 @@ var UploadWorks = React.createClass({
         Service : this.state.service,
         Price : this.state.price,
         Negotiable : this.state.price==0?true:false,
-        Cover : this.state.photos[this.state.cover].Url,
+        Cover : this.state.coverUrl?this.state.coverUrl:this.state.photos[this.state.cover].Url,
         Tags: this.state.tags.join(',')
       }
       //针对后端要求，序列化数组

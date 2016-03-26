@@ -3,7 +3,7 @@ var UploadActions = require('../actions/UploadActions');
 
 var data = [];
 var UploadTokenStore = Reflux.createStore({
-  tokens : [],
+  tokens : {},
   errorCode : '',
   errorMessage : '',
 
@@ -17,8 +17,10 @@ var UploadTokenStore = Reflux.createStore({
     console.log(data);
     if(data.Success){
       // this.tokens[data.Type] = data.Token;
-      this.tokens['work'] = data.Token;
-      this.tokens['flag'] = 'work';
+      //this.tokens['work'] = data.Token;
+      //this.tokens['flag'] = 'work';
+      this.tokens['token'] = data.Token;
+      this.tokens['type'] = data.Type;
       this.errorCode = '';
       this.errorMessage = '';
     }else{
