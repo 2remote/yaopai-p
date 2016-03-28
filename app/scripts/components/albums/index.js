@@ -8,10 +8,14 @@ var AlbumsStore = require('../../stores/AlbumsStore');
 var RightAlbumInfo = require('./rightAlbumInfo');
 var UserStore = require('../../stores/UserStore');
 var UserActions = require("../../actions/UserActions");
+var UploadActions = require('../../actions/UploadActions');
+var UploadTokenStore = require('../../stores/UploadTokenStore');
+var  SmartCrop = require('smartcrop');
+var  QiniuTools = require('../../qiniu-tools');
 var _ = require('lodash');
 
 var Albums = React.createClass({
-  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),Reflux.listenTo(UserStore,'isLogin'), History],
+  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),Reflux.listenTo(UserStore,'isLogin'),Reflux.listenTo(UploadTokenStore,'onUploadStoreChanged'), History],
   getInitialState: function () {
     return {
       work: null,
@@ -56,6 +60,22 @@ var Albums = React.createClass({
       }
     }
   },
+  onUploadStoreChanged : function(data){
+    if(data.errorCode){
+      console.log(data.errorMessage);
+    }else{
+      var token = data.token;
+      var self = this;
+      QiniuTools.putb64(token,this.state.cropCover, function (res) {
+        console.log(res)
+        if(res.Success){
+          var album = self.state.work;
+          album.Cover = res.Url;
+          AlbumsActions.update(album);
+        }
+      })
+    }
+  },
   isLogin: function (data) {
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
@@ -84,16 +104,42 @@ var Albums = React.createClass({
       var removeUrl = album.Photos[index].Url;
       album.Photos.splice(index, 1);
       if (removeUrl == album.Cover) {
-        album.Cover = album.Photos[0].Url;
+        this.setState({work:album});
+        this.crop(album.Photos[0].Url);
+      }else{
+        AlbumsActions.update(album);
       }
-      AlbumsActions.update(album);
     }
   },
   onCover: function (event) {
     var index = event.target.getAttribute('data-index');
-    var album = this.state.work;
-    album.Cover = this.state.work.Photos[index].Url;
-    AlbumsActions.update(album);
+    this.crop(this.state.work.Photos[index].Url);
+  },
+  crop : function (src) {
+    this.setState({cropCover:''})
+    var self = this;
+    var img = new window.Image();
+    img.crossOrigin = 'Anonymous';
+    img.src = src;
+    img.onload = function(){
+      SmartCrop.crop(img,{
+        width: 400,
+        height: 225
+      },function(result){
+        console.log(result);
+        var crop = result.topCrop;
+        var canvas = self.refs['image2'].getDOMNode();
+        var ctx = canvas.getContext('2d')
+        canvas.width = crop.width;
+        canvas.height = crop.height;
+        ctx.drawImage(img, crop.x, crop.y, crop.width, crop.height, 0, 0, canvas.width, canvas.height);
+        var base64 = canvas.toDataURL();
+        // 需要将前缀去掉
+        var startIndex = base64.indexOf('base64,');
+        self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
+        UploadActions.getToken({type:'work'});
+      });
+    };
   },
   onMoveUp: function (event) {
     var index = event.target.getAttribute('data-index');
@@ -240,6 +286,7 @@ var Albums = React.createClass({
       return (
           <div className="container-fluid" style={{backgroundColor:'#111822',minHeight:1000}}>
             <Header />
+            <canvas ref='image2' style={{display:'none'}}></canvas>
             <div style={{marginTop:100,color:'#fff'}} >
               <div className="col-md-9">
                 <div style={{width: 600, margin: 'auto'}}>
