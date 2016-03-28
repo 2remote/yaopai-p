@@ -13,6 +13,7 @@ var UploadTokenStore = require('../../stores/UploadTokenStore');
 var  SmartCrop = require('smartcrop');
 var  QiniuTools = require('../../qiniu-tools');
 var _ = require('lodash');
+var ToolTip = require('../toolTip');
 
 var Albums = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),Reflux.listenTo(UserStore,'isLogin'),Reflux.listenTo(UploadTokenStore,'onUploadStoreChanged'), History],
@@ -41,6 +42,12 @@ var Albums = React.createClass({
       if(data.flag == 'delete') {
         this.history.replaceState(null,'/profile/onSale');
       }
+      if(data.flag == 'update') {
+        if(this.state.cropCover){
+          this.showMessage('封面设置成功');
+          this.setState({cropCover:''})
+        }
+      }
       this.setState({category: {Name:'其他'}});
       if (this.state.work && this.state.work.Tags && this.state.tags && (typeof this.state.work.Tags =='object') && this.state.work.Tags.constructor==Array) {
         var album = this.state.work;
@@ -67,7 +74,6 @@ var Albums = React.createClass({
       var token = data.token;
       var self = this;
       QiniuTools.putb64(token,this.state.cropCover, function (res) {
-        console.log(res)
         if(res.Success){
           var album = self.state.work;
           album.Cover = res.Url;
@@ -123,8 +129,8 @@ var Albums = React.createClass({
     img.src = src;
     img.onload = function(){
       SmartCrop.crop(img,{
-        width: 400,
-        height: 225
+        width: 750,
+        height: 420
       },function(result){
         console.log(result);
         var crop = result.topCrop;
@@ -162,6 +168,9 @@ var Albums = React.createClass({
       album.Photos.splice(index, 1, photo2);
       AlbumsActions.update(album);
     }
+  },
+  showMessage : function(message){
+    this.refs.toolTip2.toShow(message);
   },
   loadAlbums: function () {
     var id = this.props.params.id;
@@ -317,6 +326,7 @@ var Albums = React.createClass({
                 <RightAlbumInfo work={this.state.work} uploadHandle={this.loadAlbums} categories={this.state.categories}>
                 </RightAlbumInfo>
               </div>
+              <ToolTip ref="toolTip2" title=""/>
             </div>
           </div>
       );
