@@ -136,14 +136,19 @@ var Albums = React.createClass({
         var crop = result.topCrop;
         var canvas = self.refs['image2'].getDOMNode();
         var ctx = canvas.getContext('2d')
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-        ctx.drawImage(img, crop.x, crop.y, crop.width, crop.height, 0, 0, canvas.width, canvas.height);
-        var base64 = canvas.toDataURL();
-        // 需要将前缀去掉
-        var startIndex = base64.indexOf('base64,');
-        self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
-        UploadActions.getToken({type:'work'});
+        canvas.width = 600
+        canvas.height = 336;
+        var img2 = new window.Image();
+        img2.crossOrigin = 'Anonymous';
+        img2.src = src + '?imageMogr2/crop/!'+crop.width+'x'+crop.height+'a'+crop.x+'a'+crop.y+'/thumbnail/!600x336r';
+        img2.onload = function(){
+          ctx.drawImage(img2, 0,0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+          var base64 = canvas.toDataURL();
+          // 需要将前缀去掉
+          var startIndex = base64.indexOf('base64,');
+          self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
+          UploadActions.getToken({type:'work'});
+        }
       });
     };
   },

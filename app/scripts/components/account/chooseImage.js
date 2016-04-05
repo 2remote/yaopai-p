@@ -84,21 +84,26 @@ var ImageItem = React.createClass({
     img.src = src;
     img.onload = function(){
       SmartCrop.crop(img,{
-        width: 400,
-        height: 225
+        width: 750,
+        height: 420
       },function(result){
         console.log(result);
         var crop = result.topCrop;
-        var canvas = self.refs['image2_'+self.props.index].getDOMNode();
+        var canvas = self.refs['image2'].getDOMNode();
         var ctx = canvas.getContext('2d')
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-        ctx.drawImage(img, crop.x, crop.y, crop.width, crop.height, 0, 0, canvas.width, canvas.height);
-        var base64 = canvas.toDataURL();
-        // 需要将前缀去掉
-        var startIndex = base64.indexOf('base64,');
-        self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
-        UploadActions.getToken({type:'work'});
+        canvas.width = 600;
+        canvas.height = 336;
+        var img2 = new window.Image();
+        img2.crossOrigin = 'Anonymous';
+        img2.src = src + '?imageMogr2/crop/!'+crop.width+'x'+crop.height+'a'+crop.x+'a'+crop.y+'/thumbnail/!600x336r';
+        img2.onload = function() {
+          ctx.drawImage(img2, 0,0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+          var base64 = canvas.toDataURL();
+          // 需要将前缀去掉
+          var startIndex = base64.indexOf('base64,');
+          self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
+          UploadActions.getToken({type:'work'});
+        }
       });
     };
   },
@@ -124,6 +129,7 @@ var ImageItem = React.createClass({
     return (
       <div>
         <div className="image-item">
+          <canvas ref='image2' style={{display:'none'}}></canvas>
           <div className="move-button">
             <div className="icon-wrap">
               <span className="glyphicon glyphicon-triangle-top image-button" onClick={this.moveUpItem}></span>
@@ -133,7 +139,6 @@ var ImageItem = React.createClass({
             </div>
           </div>
           <div className="main-image">
-            <canvas ref={'image2_'+this.props.index} style={{display:'none'}}></canvas>
             <img ref={'image_'+this.props.index} height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
           </div>
           <div className="main-des">
