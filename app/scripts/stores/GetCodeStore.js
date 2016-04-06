@@ -16,6 +16,7 @@ var GetCodeStore = Reflux.createStore({
       left : 0,
       result : ''
     }
+    this.listenTo(GetCodeActions.sendTelRegister,this.onBeginTelRegister);
     this.listenTo(GetCodeActions.sendTelRegister.success,this.onTelRegisterSucess);
     this.listenTo(GetCodeActions.sendTelRegister2,this.onBeginTelRegister);
     this.listenTo(GetCodeActions.sendTelRegister2.success,this.onTelRegister2Success);
