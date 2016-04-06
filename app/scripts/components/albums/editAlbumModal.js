@@ -85,7 +85,7 @@ var EditAlbumModal = React.createClass({
     this.setState({album: album});
   },
   validate: function () {
-    if (this.state.album.Title.length < 5 || this.state.album.Title.length > 25) {
+    if (this.state.album.Title.length < 1 || this.state.album.Title.length > 20) {
       this.props.showMessage('作品名称必须在1-20字之间');
       return false;
     }

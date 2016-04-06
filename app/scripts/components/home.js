@@ -191,9 +191,9 @@ var ValidateCodeInput = React.createClass({
     this.setState({getCode : GetCodeStore.getCode});
   },
   componentDidUpdate : function () {
-    if(this.state.getCode.left == 0){
+    if(this.state.getCode.left == 0 && this.state.getCode.result){
       this.props.handleHint(this.state.getCode.result);
-      this.props.pinReload();
+      //this.props.pinReload();
     }
   },
   handleChange : function(event){
@@ -354,14 +354,11 @@ var RegisterForm = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleRegisterResult')],
   handleGetCode : function(){
     var phone = this.refs.phoneInput.getValue();
-    var pin = this.refs.pinInput.getValue();
     var isMobile = validator.isMobilePhone(phone,'zh-CN')
-    if(isMobile && pin.length > 0){
-      GetCodeActions.sendTelRegister2({tel:phone,pin:pin});
+    if(isMobile> 0){
+      GetCodeActions.sendTelRegister({tel:phone});
     }else if(phone.length == 0){
       this.props.handleHint('请输入手机号码');
-    }else if(pin.length == 0){
-      this.props.handleHint('请输入图片验证码');
     }else{
       this.props.handleHint('请输入正确的手机号码');
     }
@@ -403,9 +400,6 @@ var RegisterForm = React.createClass({
       }
     }
   },
-  reloadpin : function(){
-    this.refs.pinInput.reloadcode();
-  },
   render : function(){
     var registerStyle = {
       width : '360px',
@@ -433,8 +427,7 @@ var RegisterForm = React.createClass({
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
-          <PinInput ref="pinInput"/>
-          <ValidateCodeInput ref="codeInput" pinReload = {this.reloadpin} handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
+          <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
         </div>
         <RegisterButtons handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
       </div>
