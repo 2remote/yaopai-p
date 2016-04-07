@@ -146,7 +146,7 @@ var EditAlbumModal = React.createClass({
                          labelName="作品名称："
                          value={this.state.album.Title}
                          updateValue={this.updateTitle}
-                         minLength={5}
+                         minLength={1}
                          placeholder="名称应该在1-20字之间"/>
               <ChooseTags value={this.state.album.Tags} onChange={this.updateTags} categories={this.props.categories}/>
               <TextInput ref="workDescription"
