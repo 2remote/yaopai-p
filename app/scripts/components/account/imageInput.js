@@ -50,7 +50,7 @@ var ImageInput = React.createClass({
     this.props.onUpload(res.Url); //上传成功后可以回调onUpload函数
   },
   onUploadProgress : function(up,file){
-    console.log(JSON.stringify(file))
+    //console.log(JSON.stringify(file))
     this.setState({progress :file.percent});
     //this.props.progress = file.percent;
   },

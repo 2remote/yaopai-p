@@ -295,6 +295,9 @@ var WorksList = React.createClass({
     }
     AlbumsActions.sorting(workIds.join(','));
   },
+  onImgError: function (obj) {
+    obj.target.src="../../../img/loaderror.png";
+  },
   render : function(){
     var mainStyle = {
       worksWrap: {
@@ -343,7 +346,7 @@ var WorksList = React.createClass({
         return (
           <div key={i} style={mainStyle.worksWrap} className='component-wrapper'>
             <Link to={'/albums/'+work.Id}>
-              <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} />
+              <img width='300' src={work.Cover+'?imageView2/2/w/300/interlace/1'} onError={this.onImgError}/>
             </Link>
             <div style={mainStyle.description}>
               <p>
