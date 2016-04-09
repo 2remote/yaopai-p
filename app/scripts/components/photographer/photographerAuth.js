@@ -154,7 +154,7 @@ var PhotographerAuth = React.createClass({
       if(data.hintMessage){
         //没有提交过认证申请
         var pAuthData = data.pAuth;
-        this.showMessage(data.hintMessage);
+        //this.showMessage(data.hintMessage);
       }else{
         /*
           提交过认证申请，根据state字段判断审核状态
