@@ -90,6 +90,9 @@ var API_CONST = {
   },
   COMMON : {
     area_list : API_URL + 'Area.List',
+  },
+  LOG : {
+    log : DOMAIN + 'temp/log',
   }
 }
 
