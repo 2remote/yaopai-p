@@ -4,6 +4,7 @@ var ProgressBar = require('react-bootstrap').ProgressBar;
 var TextInput = require('./textInput');
 var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
+var LogActions  = require('../../actions/LogActions');
 var API = require('../../api');
 var Input = require('react-bootstrap').Input;
 var  Tools = require('../../tools');
@@ -213,6 +214,10 @@ var ChooseImages = React.createClass({
   },
 
   onError : function(up, err, errTip) {
+    LogActions.log({
+      title: 'chooseImage',
+      msg: JSON.stringify(err)
+    });
     //上传出错时,处理相关的事情
     if(this.props.onError){
       var max_file_size = plupload.parseSize('4mb');
