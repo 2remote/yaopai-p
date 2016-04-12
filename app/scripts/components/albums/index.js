@@ -8,15 +8,12 @@ var AlbumsStore = require('../../stores/AlbumsStore');
 var RightAlbumInfo = require('./rightAlbumInfo');
 var UserStore = require('../../stores/UserStore');
 var UserActions = require("../../actions/UserActions");
-var UploadActions = require('../../actions/UploadActions');
-var UploadTokenStore = require('../../stores/UploadTokenStore');
-var  SmartCrop = require('smartcrop');
-var  QiniuTools = require('../../qiniu-tools');
+var  Tools = require('../../tools');
 var _ = require('lodash');
 var ToolTip = require('../toolTip');
 
 var Albums = React.createClass({
-  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),Reflux.listenTo(UserStore,'isLogin'),Reflux.listenTo(UploadTokenStore,'onUploadStoreChanged'), History],
+  mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),Reflux.listenTo(UserStore,'isLogin'), History],
   getInitialState: function () {
     return {
       work: null,
@@ -67,21 +64,6 @@ var Albums = React.createClass({
       }
     }
   },
-  onUploadStoreChanged : function(data){
-    if(data.errorCode){
-      console.log(data.errorMessage);
-    }else{
-      var token = data.token;
-      var self = this;
-      QiniuTools.putb64(token,this.state.cropCover, function (res) {
-        if(res.Success){
-          var album = self.state.work;
-          album.Cover = res.Url;
-          AlbumsActions.update(album);
-        }
-      })
-    }
-  },
   isLogin: function (data) {
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
@@ -118,39 +100,15 @@ var Albums = React.createClass({
     }
   },
   onCover: function (event) {
-    var index = event.target.getAttribute('data-index');
-    this.crop(this.state.work.Photos[index].Url);
-  },
-  crop : function (src) {
-    this.setState({cropCover:''})
     var self = this;
-    var img = new window.Image();
-    img.crossOrigin = 'Anonymous';
-    img.src = src;
-    img.onload = function(){
-      SmartCrop.crop(img,{
-        width: 750,
-        height: 420
-      },function(result){
-        console.log(result);
-        var crop = result.topCrop;
-        var canvas = self.refs['image2'].getDOMNode();
-        var ctx = canvas.getContext('2d')
-        canvas.width = 600
-        canvas.height = 336;
-        var img2 = new window.Image();
-        img2.crossOrigin = 'Anonymous';
-        img2.src = src + '?imageMogr2/crop/!'+crop.width+'x'+crop.height+'a'+crop.x+'a'+crop.y+'/thumbnail/!600x336r';
-        img2.onload = function(){
-          ctx.drawImage(img2, 0,0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
-          var base64 = canvas.toDataURL();
-          // 需要将前缀去掉
-          var startIndex = base64.indexOf('base64,');
-          self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
-          UploadActions.getToken({type:'work'});
-        }
-      });
-    };
+    var index = event.target.getAttribute('data-index');
+    var src = this.state.work.Photos[index].Url;
+    Tools.crop(src, function (cut) {
+      var album = self.state.work;
+      album.Cut = JSON.stringify(cut);
+      album.Cover = src;
+      AlbumsActions.update(album);
+    });
   },
   onMoveUp: function (event) {
     var index = event.target.getAttribute('data-index');

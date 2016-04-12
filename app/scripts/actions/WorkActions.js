@@ -5,7 +5,7 @@ var WorkActions = Reflux.createActions([
   'removeImage',
   'editImageDes',
   'setCover',
-  'setCoverUrl',
+  'setCut',
   'updateImageUrl',
   'moveUpImage',
   'moveDownImage',
