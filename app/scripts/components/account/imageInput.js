@@ -1,6 +1,7 @@
 var React = require ('react');
 var API = require('../../api');
 var ProgressBar = require('react-bootstrap').ProgressBar;
+var LogActions  = require('../../actions/LogActions');
 
 var ImageInput = React.createClass({
   getInitialState : function(){
@@ -55,6 +56,10 @@ var ImageInput = React.createClass({
     //this.props.progress = file.percent;
   },
   onError : function(up, err, errTip) {
+    LogActions.log({
+      title: 'imageInput',
+      msg: JSON.stringify(err)
+    });
     //上传出错时,处理相关的事情
     if(this.props.onError){
       var max_file_size = plupload.parseSize('4mb');
