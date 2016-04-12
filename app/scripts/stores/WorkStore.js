@@ -12,7 +12,7 @@ var WorkStore = Reflux.createStore({
     this.listenTo(WorkActions.editImageDes,this.OnEditDes);
     this.listenTo(WorkActions.clearImage,this.onClearImage);
     this.listenTo(WorkActions.setCover,this.onSetCover);
-    this.listenTo(WorkActions.setCoverUrl,this.onSetCoverUrl);
+    this.listenTo(WorkActions.setCut,this.onSetCut);
   },
   onAddImage : function(data){
     data.key = this.images.length;
@@ -43,10 +43,10 @@ var WorkStore = Reflux.createStore({
     this.images[index].isCover = true;
     this.trigger(this.images);
   },
-  onSetCoverUrl : function (url) {
+  onSetCut : function (cut) {
     this.trigger({
-      flag:'setCoverUrl',
-      url:url
+      flag:'onSetCut',
+      cut:cut
     });
   },
   onMoveUp : function(index){

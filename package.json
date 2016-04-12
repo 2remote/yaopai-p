@@ -52,7 +52,8 @@
     "request": "^2.69.0",
     "lodash": "^4.5.0",
     "qrcode.react": "^0.6.0",
-    "smartcrop":"*"
+    "smartcrop":"*",
+    "async": "^1.5.2"
   },
   "engines": {
     "node": "0.12.7"

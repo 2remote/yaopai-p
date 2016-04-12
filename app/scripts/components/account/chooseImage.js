@@ -4,13 +4,9 @@ var ProgressBar = require('react-bootstrap').ProgressBar;
 var TextInput = require('./textInput');
 var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
-var UploadActions = require('../../actions/UploadActions');
-var UploadTokenStore = require('../../stores/UploadTokenStore');
-
 var API = require('../../api');
 var Input = require('react-bootstrap').Input;
-var  SmartCrop = require('smartcrop');
-var  QiniuTools = require('../../qiniu-tools');
+var  Tools = require('../../tools');
 /*
   data structure
   {
@@ -22,7 +18,6 @@ var  QiniuTools = require('../../qiniu-tools');
   ImageItem 用于显示单条图片信息
 */
 var ImageItem = React.createClass({
-  mixins : [Reflux.listenTo(UploadTokenStore,'onUploadStoreChanged')],
   getInitialState : function(){
     return {
       progress : 0
@@ -34,19 +29,6 @@ var ImageItem = React.createClass({
       imageData: {},
       progress:0
     }
-  },
-  onUploadStoreChanged : function(data){
-      if(data.errorCode){
-        console.log(data.errorMessage);
-      }else{
-        var token = data.token;
-        QiniuTools.putb64(token,this.state.cropCover, function (res) {
-          console.log(res)
-          if(res.Success){
-            WorkActions.setCoverUrl(res.Url);
-          }
-        })
-      }
   },
   handleChange : function(event){
     WorkActions.editImageDes(this.props.index,event.target.value);
@@ -71,41 +53,13 @@ var ImageItem = React.createClass({
     var flag = true;
     while(flag){
       if(this.state.progress==100){
-        this.crop(this.props.imageData.Url);
+        var src = this.props.imageData.Url;
+        Tools.crop(src, function (cut) {
+          WorkActions.setCut(cut);
+        });
         flag = false;
       }
     }
-  },
-  crop : function (src) {
-    this.setState({cropCover:''})
-    var self = this;
-    var img = new window.Image();
-    img.crossOrigin = 'Anonymous';
-    img.src = src;
-    img.onload = function(){
-      SmartCrop.crop(img,{
-        width: 750,
-        height: 420
-      },function(result){
-        console.log(result);
-        var crop = result.topCrop;
-        var canvas = self.refs['image2'].getDOMNode();
-        var ctx = canvas.getContext('2d')
-        canvas.width = 600;
-        canvas.height = 336;
-        var img2 = new window.Image();
-        img2.crossOrigin = 'Anonymous';
-        img2.src = src + '?imageMogr2/crop/!'+crop.width+'x'+crop.height+'a'+crop.x+'a'+crop.y+'/thumbnail/!600x336r';
-        img2.onload = function() {
-          ctx.drawImage(img2, 0,0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
-          var base64 = canvas.toDataURL();
-          // 需要将前缀去掉
-          var startIndex = base64.indexOf('base64,');
-          self.setState({cropCover:base64.slice(startIndex + 7)});//'base64,'.length === 7
-          UploadActions.getToken({type:'work'});
-        }
-      });
-    };
   },
   componentDidMount : function(){
 
@@ -224,7 +178,6 @@ var ChooseImages = React.createClass({
   */
   onAddFiles : function(up, files) {
     plupload.each(files, function(file) {
-        console.log(file);
         var imageItem = {
           id: file.id,
           imageFile : file,
@@ -247,7 +200,6 @@ var ChooseImages = React.createClass({
   onFileUploaded : function(up,file,info){
     var res = JSON.parse(info);
     WorkActions.updateImageUrl(file.id,res.Url);
-    console.log(info);
   },
   /*
     单个文件的上传进度

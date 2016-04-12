@@ -18,7 +18,7 @@ var UploadPhotoModal = React.createClass({
   getInitialState: function () {
     return {
       photos: [],
-      coverUrl:'',
+      cut:'',
       show: false,
       submit:false
     }
@@ -44,17 +44,16 @@ var UploadPhotoModal = React.createClass({
       data['photos[' + i + '].Description'] = photo.Description;
     })
     var photocount = this.props.album.Photos.length;
-    var coverUrl = '';
     this.state.photos.map(function (photo, i) {
       if (photo.isCover) {
-        coverUrl = photo.Url;
+        data.Cover = photo.Url;
       }
       var photoindex = photocount + i;
       data['photos[' + photoindex + '].Url'] = photo.Url;
       data['photos[' + photoindex + '].Description'] = photo.Description;
     });
-    if (coverUrl != '') {
-      data.Cover = this.state.coverUrl?this.state.coverUrl:coverUrl;
+    if (this.state.cut) {
+      data.Cut = this.state.cut;
     }
     AlbumsActions.update(data);
     this.setState({submit:true});
@@ -83,8 +82,8 @@ var UploadPhotoModal = React.createClass({
     }
   },
   onWorkStoreChange: function (data) {
-    if(data.flag == 'setCoverUrl'){
-      this.setState({coverUrl : data.url});
+    if(data.flag == 'onSetCut'){
+      this.setState({cut : data.cut});
     }else {
       //处理封面
       var cover = -1;
