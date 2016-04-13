@@ -5,6 +5,8 @@ var TextInput = require('./textInput');
 var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
 var LogActions  = require('../../actions/LogActions');
+var UserActions = require("../../actions/UserActions");
+var UserStore = require("../../stores/UserStore");
 var API = require('../../api');
 var Input = require('react-bootstrap').Input;
 var  Tools = require('../../tools');
@@ -128,6 +130,7 @@ var ImageItem = React.createClass({
   4. ChooseImages 的状态imageItemList需要记录上传的结果和进度，是否需要渲染出来根据以后的需求
 */
 var ChooseImages = React.createClass({
+  mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange')],
   getInitialState : function(){
     return {
       reloadTime : 0,
@@ -144,7 +147,6 @@ var ChooseImages = React.createClass({
     flash_swf_url: 'vendor/Moxie.swf',
     dragdrop: true,
     chunk_size: '4mb',
-    uptoken_url: API.FILE.work_token_url,
     domain: 'http://qiniu-plupload.qiniudn.com/',
     get_new_uptoken: true,
     auto_start: true,
@@ -170,6 +172,17 @@ var ChooseImages = React.createClass({
   getDefaultProps : function(){
     return {
       value : [],
+    }
+  },
+  onUserStoreChange: function (data) {
+    if (!data.isLogin) {
+      //没有登录跳转到首页登录界面
+      UserActions.logout(true);
+      this.history.pushState(null, '/');
+    }else{
+      if(data.flag == 'currentUser'){
+        this.initUploader(data.sessionToken);
+      }
     }
   },
 
@@ -234,12 +247,13 @@ var ChooseImages = React.createClass({
   componentDidMount : function() {
     this.setState({value:this.props.value})
     this.clearImage();
-    this.initUploader();
+    UserActions.currentUser();
   },
   componentWillReceiveProps : function(nextProps){
     this.setState({value:nextProps.value})
   },
-  initUploader : function(){
+  initUploader : function(sessionToken){
+    this.uploaderOption.uptoken_url = API.FILE.work_token_url+'&tokenid='+sessionToken;
     this.uploaderOption.init.FilesAdded = this.onAddFiles;
     this.uploaderOption.init.UploadComplete = this.onUploadComplete;
     this.uploaderOption.init.FileUploaded = this.onFileUploaded;

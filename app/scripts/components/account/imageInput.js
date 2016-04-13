@@ -1,9 +1,13 @@
 var React = require ('react');
+var Reflux = require('reflux');
 var API = require('../../api');
 var ProgressBar = require('react-bootstrap').ProgressBar;
 var LogActions  = require('../../actions/LogActions');
+var UserActions = require("../../actions/UserActions");
+var UserStore = require("../../stores/UserStore");
 
 var ImageInput = React.createClass({
+  mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange')],
   getInitialState : function(){
     return {
       imageUrl : '',
@@ -45,6 +49,17 @@ var ImageInput = React.createClass({
       //onUploadProgress : function(up, file){}
     }
   },
+  onUserStoreChange: function (data) {
+    if (!data.isLogin) {
+      //没有登录跳转到首页登录界面
+      UserActions.logout(true);
+      this.history.pushState(null, '/');
+    }else{
+      if(data.flag == 'currentUser'){
+        this.initUploader(data.sessionToken);
+      }
+    }
+  },
   onFileUploaded : function(up,file,info){
     var res = JSON.parse(info);
     this.setState({imageUrl : res.Url});
@@ -73,17 +88,19 @@ var ImageInput = React.createClass({
   getValue : function(){
     return this.props.defaultImage;
   },
-
-  componentDidMount : function() {
-    var self = this;
+  initUploader: function (sessionToken) {
     if(!this.props.disabled){
       this.state.uploaderOption.browse_button = this.props.uid;
       var uploaderOption = this.state.uploaderOption;
+      uploaderOption.uptoken_url = API.FILE.work_token_url+'&tokenid='+sessionToken;
       uploaderOption.init.FileUploaded = this.onFileUploaded;
       uploaderOption.init.UploadProgress = this.onUploadProgress;
       uploaderOption.init.Error = this.onError,
       Qiniu.uploader(uploaderOption);
     }
+  },
+  componentDidMount : function() {
+    UserActions.currentUser();
   },
   parseImageUrl :function(url){
     url = url + '?imageMogr2/gravity/Center'
