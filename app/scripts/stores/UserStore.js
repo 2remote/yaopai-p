@@ -19,6 +19,7 @@ var UserStore = Reflux.createStore({
       hintMessage: '',
       flag : '',
       loginDate : '',
+      sessionToken : '',
     };
     /*
       获取第三方登录的返回值，并得到当前用户
@@ -204,6 +205,7 @@ var UserStore = Reflux.createStore({
       this.userData.userType = '';
       this.userData.avatar = '';
       this.userData.loginDate = '';
+      this.userData.sessionToken = '';
     } else {
       this.userData.userId = userData.Id;
       this.userData.userName = userData.Name;
@@ -212,6 +214,7 @@ var UserStore = Reflux.createStore({
       this.userData.local = userData.Local;
       this.userData.isLogin = true;
       this.userData.loginDate = new Date();
+      this.userData.sessionToken = userData.SessionToken;
     }
   },
 

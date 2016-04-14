@@ -122,10 +122,22 @@ var PersonInfo = React.createClass({
     }
   },
   updateInfo : function(){
-    AccountActions.updateInfo({
-      NickName:this.state.nickName,
-      Sex:this.state.gender
-    });
+    var message = this.validate();
+    if(!message) {
+      AccountActions.updateInfo({
+        NickName: this.state.nickName,
+        Sex: this.state.gender
+      });
+    }else{
+      this.showMessage(message);
+    }
+  },
+  validate : function() {
+    var message = '';
+    if (!this.refs.nickName.isValidated()) {
+      message = '昵称最少2个字';
+      return message;
+    }
   },
   componentDidMount : function(){
     UserActions.currentUser();
@@ -194,6 +206,7 @@ var PersonInfo = React.createClass({
             value={this.state.nickName} 
             updateValue={this.updateNickName} 
             textClassName='col-xs-3'
+            minLength={2}
             disabled={!this.state.editable}/>
           <UserGender ref="gender" value={this.state.gender} updateValue={this.updateGender} disabled={!this.state.editable}/>
           <button className="btn btn-primary col-xs-offset-3" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
