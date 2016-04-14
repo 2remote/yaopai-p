@@ -1,9 +1,13 @@
 var React = require ('react');
+var Reflux = require('reflux');
 var API = require('../../api');
 var ProgressBar = require('react-bootstrap').ProgressBar;
 var LogActions  = require('../../actions/LogActions');
+var UserActions = require("../../actions/UserActions");
+var UserStore = require("../../stores/UserStore");
 
 var ImageInput = React.createClass({
+  mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange')],
   getInitialState : function(){
     return {
       imageUrl : '',
@@ -15,7 +19,6 @@ var ImageInput = React.createClass({
         flash_swf_url: 'vendor/Moxie.swf',
         dragdrop: false,
         chunk_size: '4mb',
-        uptoken_url: API.FILE.user_token_url,
         domain: 'http://qiniu-plupload.qiniudn.com/',
         auto_start: true,
         get_new_uptoken: true,
@@ -43,6 +46,17 @@ var ImageInput = React.createClass({
       onUpload : function(data){},  //上传成功后回调函数
       //onFileUploaded : function(up, file, info){},
       //onUploadProgress : function(up, file){}
+    }
+  },
+  onUserStoreChange: function (data) {
+    if (!data.isLogin) {
+      //没有登录跳转到首页登录界面
+      UserActions.logout(true);
+      this.history.pushState(null, '/');
+    }else{
+      if(data.flag == 'currentUser'){
+        this.initUploader(data.sessionToken);
+      }
     }
   },
   onFileUploaded : function(up,file,info){
@@ -73,16 +87,20 @@ var ImageInput = React.createClass({
   getValue : function(){
     return this.props.defaultImage;
   },
-
-  componentDidMount : function() {
-    var self = this;
-    if(!this.props.disabled){
+  initUploader: function (sessionToken) {
+    if(this.state.uploaderOption.browse_button != this.props.uid){
       this.state.uploaderOption.browse_button = this.props.uid;
       var uploaderOption = this.state.uploaderOption;
+      uploaderOption.uptoken_url = API.FILE.user_token_url +'&tokenid='+sessionToken;
       uploaderOption.init.FileUploaded = this.onFileUploaded;
       uploaderOption.init.UploadProgress = this.onUploadProgress;
-      uploaderOption.init.Error = this.onError,
+      uploaderOption.init.Error = this.onError;
       Qiniu.uploader(uploaderOption);
+    }
+  },
+  componentDidMount : function() {
+    if(!this.props.disabled) {
+      UserActions.currentUser();
     }
   },
   parseImageUrl :function(url){
