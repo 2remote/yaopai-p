@@ -19,7 +19,6 @@ var ImageInput = React.createClass({
         flash_swf_url: 'vendor/Moxie.swf',
         dragdrop: false,
         chunk_size: '4mb',
-        uptoken_url: API.FILE.user_token_url,
         domain: 'http://qiniu-plupload.qiniudn.com/',
         auto_start: true,
         get_new_uptoken: true,
@@ -89,18 +88,20 @@ var ImageInput = React.createClass({
     return this.props.defaultImage;
   },
   initUploader: function (sessionToken) {
-    if(!this.props.disabled){
+    if(this.state.uploaderOption.browse_button != this.props.uid){
       this.state.uploaderOption.browse_button = this.props.uid;
       var uploaderOption = this.state.uploaderOption;
-      uploaderOption.uptoken_url = API.FILE.work_token_url+'&tokenid='+sessionToken;
+      uploaderOption.uptoken_url = API.FILE.user_token_url +'&tokenid='+sessionToken;
       uploaderOption.init.FileUploaded = this.onFileUploaded;
       uploaderOption.init.UploadProgress = this.onUploadProgress;
-      uploaderOption.init.Error = this.onError,
+      uploaderOption.init.Error = this.onError;
       Qiniu.uploader(uploaderOption);
     }
   },
   componentDidMount : function() {
-    UserActions.currentUser();
+    if(!this.props.disabled) {
+      UserActions.currentUser();
+    }
   },
   parseImageUrl :function(url){
     url = url + '?imageMogr2/gravity/Center'
