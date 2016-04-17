@@ -143,31 +143,39 @@ var ChooseImages = React.createClass({
     browse_button: 'pickfiles',
     container: 'pickfilesCont',
     drop_element: 'container',
-    max_file_size: '4mb',
     flash_swf_url: 'vendor/Moxie.swf',
     dragdrop: true,
-    chunk_size: '4mb',
+    //chunk_size: '4mb',
     domain: 'http://qiniu-plupload.qiniudn.com/',
     get_new_uptoken: true,
     auto_start: true,
     init: {
-            'FilesAdded': function(){},
-            'BeforeUpload': function(up, file) {
-                var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
-                if (up.runtime === 'html5' && chunk_size) {
-                    // progress.setChunkProgess(chunk_size);
-                    console.log(chunk_size);
-                }
-            },
-            'UploadProgress': function(up, file) {},
-            'UploadComplete': function() {},
-            'FileUploaded': function(up, file, info) {},
-            'Error': function(up, err, errTip) {
-                // var progress = new FileProgress(err.file, 'fsUploadProgress');
-                // progress.setError();
-                // progress.setStatus(errTip);
-            }
+      'FilesAdded': function(){},
+      'BeforeUpload': function(up, file) {
+        //var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+        //if (up.runtime === 'html5' && chunk_size) {
+        //    // progress.setChunkProgess(chunk_size);
+        //    console.log(chunk_size);
+        //}
+        console.log(file.name+"::"+file.origSize);
+
+        if(file.origSize >= 1 * 1024 * 1024){
+          console.log("resize 1M: 95");
+          up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:95});
+        }else{
+          console.log("resize desabled");
+          up.setOption('resize',false);
         }
+      },
+      'UploadProgress': function(up, file) {},
+      'UploadComplete': function() {},
+      'FileUploaded': function(up, file, info) {},
+      'Error': function(up, err, errTip) {
+        // var progress = new FileProgress(err.file, 'fsUploadProgress');
+        // progress.setError();
+        // progress.setStatus(errTip);
+      }
+    }
   },
   getDefaultProps : function(){
     return {
@@ -192,17 +200,17 @@ var ChooseImages = React.createClass({
   */
   onAddFiles : function(up, files) {
     plupload.each(files, function(file) {
-        var imageItem = {
-          id: file.id,
-          imageFile : file,
-          Url: '',
-          Description : '',
-          uploaded:false,
-          progress:0,
-          isCover : false,
-        };
-        this.addImage(imageItem);
-      }.bind(this));
+      var imageItem = {
+        id: file.id,
+        imageFile : file,
+        Url: '',
+        Description : '',
+        uploaded:false,
+        progress:0,
+        isCover : false,
+      };
+      this.addImage(imageItem);
+    }.bind(this));
   },
   //清空图片
   clearImage : function(){
@@ -233,19 +241,20 @@ var ChooseImages = React.createClass({
     });
     //上传出错时,处理相关的事情
     if(this.props.onError){
-      var max_file_size = plupload.parseSize('4mb');
-      if(err.file.size > max_file_size){
-        this.props.onError('您上传的图片过大，请压缩后再上传');
-      }else{
-        this.props.onError(err.message);
-      }
+      //var max_file_size = plupload.parseSize('4mb');
+      //if(err.file.size > max_file_size){
+      //  this.props.onError('您上传的图片过大，请压缩后再上传');
+      //}else{
+      //  this.props.onError(err.message);
+      //}
+      this.props.onError(err.message);
     }
   },
   /*
     初始化uploader
   */
   componentDidMount : function() {
-    this.setState({value:this.props.value})
+    this.setState({value:this.props.value,initQiniu:false});
     this.clearImage();
     UserActions.currentUser();
   },
@@ -253,13 +262,16 @@ var ChooseImages = React.createClass({
     this.setState({value:nextProps.value})
   },
   initUploader : function(sessionToken){
-    this.uploaderOption.uptoken_url = API.FILE.work_token_url+'&tokenid='+sessionToken;
-    this.uploaderOption.init.FilesAdded = this.onAddFiles;
-    this.uploaderOption.init.UploadComplete = this.onUploadComplete;
-    this.uploaderOption.init.FileUploaded = this.onFileUploaded;
-    this.uploaderOption.init.UploadProgress = this.onUploadProgress;
-    this.uploaderOption.init.Error = this.onError;
-    this.uploader = Qiniu.uploader(this.uploaderOption);
+    if(!this.state.initQiniu){
+      this.uploaderOption.uptoken_url = API.FILE.work_token_url+'&tokenid='+sessionToken;
+      this.uploaderOption.init.FilesAdded = this.onAddFiles;
+      this.uploaderOption.init.UploadComplete = this.onUploadComplete;
+      this.uploaderOption.init.FileUploaded = this.onFileUploaded;
+      this.uploaderOption.init.UploadProgress = this.onUploadProgress;
+      this.uploaderOption.init.Error = this.onError;
+      this.uploader = Qiniu.uploader(this.uploaderOption);
+      this.setState({initQiniu:true})
+    }
   },
   //增加图片
   addImage : function(item){
@@ -269,12 +281,12 @@ var ChooseImages = React.createClass({
     var renderImages = [];
     this.state.value.map(function(imageItem,i){
       renderImages.push(
-          <ImageItem
-            key={imageItem.id}
-            index={i}
-            imageData={imageItem}
-            onSetCover={this.props.updateCover}
-            progress={imageItem.imageFile.percent}/>
+        <ImageItem
+          key={imageItem.id}
+          index={i}
+          imageData={imageItem}
+          onSetCover={this.props.updateCover}
+          progress={imageItem.imageFile.percent}/>
       )
     }.bind(this));
     return (

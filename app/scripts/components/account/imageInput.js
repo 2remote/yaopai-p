@@ -15,16 +15,27 @@ var ImageInput = React.createClass({
       uploaderOption : {
         runtimes: 'html5,flash,html4',
         browse_button: '',
-        max_file_size: '4mb',//文件大小不能超过4M
         flash_swf_url: 'vendor/Moxie.swf',
         dragdrop: false,
-        chunk_size: '4mb',
         domain: 'http://qiniu-plupload.qiniudn.com/',
         auto_start: true,
         get_new_uptoken: true,
         init: {
           'FilesAdded': function(up,files){},
-          'BeforeUpload': function(up, file) {},
+          'BeforeUpload': function(up, file) {
+            console.log(file.name+"::"+file.origSize);
+
+            if(file.origSize >= 4 * 1024 * 1024){
+              console.log("resize 4M: 98");
+              up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:98});
+            }else if(file.origSize >= 1 * 1024 * 1024){
+              console.log("resize 1M: 93");
+              up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:93});
+            }else{
+              console.log("resize desabled");
+              up.setOption('resize',false);
+            }
+          },
           'UploadProgress': function(up, file) {},
           'UploadComplete': function() {},
           'FileUploaded': function(up, file, info) {},
@@ -76,12 +87,13 @@ var ImageInput = React.createClass({
     });
     //上传出错时,处理相关的事情
     if(this.props.onError){
-      var max_file_size = plupload.parseSize('4mb');
-      if(err.file.size > max_file_size){
-        this.props.onError('您上传的图片过大，请压缩后再上传');
-      }else{
-        this.props.onError(err.message);
-      }
+      //var max_file_size = plupload.parseSize('4mb');
+      //if(err.file.size > max_file_size){
+      //  this.props.onError('您上传的图片过大，请压缩后再上传');
+      //}else{
+      //  this.props.onError(err.message);
+      //}
+      this.props.onError(err.message);
     }
   },
   getValue : function(){
