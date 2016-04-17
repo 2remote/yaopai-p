@@ -33,7 +33,6 @@ var CompanyLogo = React.createClass({
             onUpload = {this.props.updateValue}
             onError={this.props.showMessage}
             type="user"/>
-          <span className='text-info'>温馨提示：单张照片不能超过4M</span>
         </div>
       </div>
     );

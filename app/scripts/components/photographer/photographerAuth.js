@@ -106,8 +106,7 @@ var PersonIDImage = React.createClass({
             <div className="col-xs-8">
               <div style={style.info}>
                 1 正反面带头像的清晰照片<br />
-                2 照片大小不超过4M <br />
-                3 仅用于认证请放心上传
+                2 仅用于认证请放心上传
               </div>
             </div>
           </div>
@@ -589,7 +588,7 @@ var PhotographerAuth = React.createClass({
             images={this.state.pAuthData.Works}
             disabled={this.state.disabled}
             maxCount={15}
-            placeholder="温馨提示：请上传8-15张多种风格的作品，单张照片不能超过4M"
+            placeholder="温馨提示：请上传8-15张多种风格的作品"
             updateImages={this.updateProducts}
             showMessage={this.showMessage}
             remove={this.removeWorks}/>
