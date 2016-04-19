@@ -18,7 +18,6 @@ var ImageInput = require('../account/imageInput');
 var AreaSelect = require('../account/areaSelect');
 var ToolTip = require('../toolTip');
 var MultiImageSelect = require('./multiImageSelect');
-var HasCompany = require('./hasCompany');
 var CompanyLogo = require('./companyLogo');
 var UserActions = require('../../actions/UserActions');
 var UserStore = require('../../stores/UserStore');
@@ -40,7 +39,9 @@ var Photographer = React.createClass({
     if(userData.isLogin){
       if(userData.userType == 1){
         //摄影师用户,获取摄影师信息
-        PAuthActions.current();
+        if(!this.state.photographer.Id){
+          PAuthActions.current();
+        }
       }else{
         //普通用户转到摄影师认证
         this.history.pushState(null,'/account/pAuth');
@@ -99,7 +100,7 @@ var Photographer = React.createClass({
       companyImages = companyImages.split(',');
       if(index < companyImages.length){
         companyImages.splice(index,1);
-        data.StudioImages = companyImages.toString();
+        data.Images = companyImages.toString();
         this.setState({studio : data});
       }
     }
@@ -145,11 +146,6 @@ var Photographer = React.createClass({
   updateSign : function(result){
     var data = this.state.photographer;
     data.Signature = result;
-    this.setState({photographer : data});
-  },
-  updateHasCompany : function(result){
-    var data = this.state.photographer;
-    data.OwnedStudio = result;
     this.setState({photographer : data});
   },
   updateCompanyName : function(result){
@@ -200,7 +196,7 @@ var Photographer = React.createClass({
       message = '个人签名必须在10-100字之间';
       return message;
     }
-    if(this.refs.hasCompany.getValue()){
+    if(this.state.photographer.OwnedStudio){
       //如果有工作室，需要填全所有工作室的信息
       if(!this.refs.companyName.isValidated()){
         message = '请填写您的工作室名称';
@@ -362,10 +358,6 @@ var Photographer = React.createClass({
             textClassName="col-xs-4"
             defaultValue="他很懒什么都没有留下"
             placeholder="他很懒什么都没有留下"/>
-          <HasCompany ref="hasCompany"
-            disabled={this.state.disabled}
-            checked={this.state.photographer.OwnedStudio}
-            onChange={this.updateHasCompany}/>
           {studio}
           <Button className="col-xs-offset-3"
             disabled={this.state.disabled}
