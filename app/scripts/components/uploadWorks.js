@@ -22,12 +22,13 @@ var UserActions = require("../actions/UserActions");
 var UserStore = require("../stores/UserStore");
 var History = require('react-router').History;
 var ChooseTags = require('./chooseTags');
+var Switch = require('./tools/switch');
 
 
 /*
   上传作品组件
   用到通用的用户组件 ./account/*
-    AccountHeader 
+    AccountHeader
     TextInput
   注意事项：
   1.只有认证为摄影师后才能上传作品，否则上传接口会报错。应该判断用户类型，如果用户不是摄影师，跳转到摄影师认证。
@@ -43,6 +44,13 @@ var UploadWorks = React.createClass({
       description : '',
       service : '',
       price : 0 ,
+      plateCount : 0 ,
+      truingCount : 0 ,
+      costumeCount : 0 ,
+      unitCount : 0 ,
+      sceneCount : 0 ,
+      peopleCount : 0 ,
+      seatCount : 0 ,
       cover : -1,
       cut : '',
       photos : [],
@@ -71,6 +79,13 @@ var UploadWorks = React.createClass({
           description : '',
           service : '',
           price : 0 ,
+          plateCount : 0 ,
+          truingCount : 0 ,
+          costumeCount : 0 ,
+          unitCount : 0 ,
+          sceneCount : 0 ,
+          peopleCount : 0 ,
+          seatCount : 0 ,
           cover : -1,
           cut : '',
           photos : [],
@@ -123,6 +138,45 @@ var UploadWorks = React.createClass({
   updateCover : function(cover){
     this.setState({cover : cover});
   },
+  updateOriginalSupport : function(originalSupport){
+    this.setState({originalSupport : originalSupport});
+  },
+  updatePhysicalSupport : function(physicalSupport){
+    this.setState({physicalSupport : physicalSupport});
+  },
+  updatePlateCount : function(plateCount){
+    this.setState({plateCount : plateCount});
+  },
+  updateTruingCount : function(truingCount){
+    this.setState({truingCount : truingCount});
+  },
+  updateMakeUpSupport : function(makeUpSupport){
+    this.setState({makeUpSupport : makeUpSupport});
+  },
+  updateCostumeCount : function(costumeCount){
+    this.setState({costumeCount : costumeCount});
+  },
+  updatePeopleCount : function(peopleCount){
+    this.setState({peopleCount : peopleCount});
+  },
+  updateUnitCount : function(unitCount){
+    this.setState({unitCount : unitCount});
+  },
+  updateSceneCount : function(sceneCount){
+    this.setState({sceneCount : sceneCount});
+  },
+  updateDuration : function(duration){
+    this.setState({duration : duration});
+  },
+  updatePhysicalDetail : function(physicalDetail){
+    this.setState({physicalDetail : physicalDetail});
+  },
+  updateSeatCount : function(seatCount){
+    this.setState({seatCount : seatCount});
+  },
+  updatePlaceType : function(placeType){
+    this.setState({placeType : placeType});
+  },
   validate : function(){
     if(this.state.title.length < 1 || this.state.title.length > 20){
       this.showMessage('作品名称必须在1-20字之间');
@@ -141,12 +195,40 @@ var UploadWorks = React.createClass({
       this.showMessage('作品描述必须在15-1000字之间');
       return false;
     }
-    if(this.state.service.length < 15 || this.state.service.length > 1000){
-      this.showMessage('服务描述必须在15-1000字之间');
-      return false;
-    }
+    //if(this.state.service.length < 15 || this.state.service.length > 1000){
+    //  this.showMessage('服务描述必须在15-1000字之间');
+    //  return false;
+    //}
     if(!validator.isInt(this.state.price) || parseInt(this.state.price) <= 0){
       this.showMessage('如果填写价格，必须为数字');
+      return false;
+    }
+    if(!validator.isInt(this.state.plateCount) || parseInt(this.state.plateCount) <= 0){
+      this.showMessage('如果填写底片张数，必须为数字');
+      return false;
+    }
+    if(!validator.isInt(this.state.truingCount) || parseInt(this.state.truingCount) <= 0){
+      this.showMessage('如果填写精修张数，必须为数字');
+      return false;
+    }
+    if(!validator.isInt(this.state.costumeCount) || parseInt(this.state.costumeCount) <= 0){
+      this.showMessage('如果填写服装数目，必须为数字');
+      return false;
+    }
+    if(!validator.isInt(this.state.unitCount) || parseInt(this.state.unitCount) <= 0){
+      this.showMessage('如果填写拍摄几组，必须为数字');
+      return false;
+    }
+    if(!validator.isInt(this.state.sceneCount) || parseInt(this.state.sceneCount) <= 0){
+      this.showMessage('如果填写拍摄场景数量，必须为数字');
+      return false;
+    }
+    if(!validator.isInt(this.state.peoplpeCount) || parseInt(this.state.peoplpeCount) <= 0){
+      this.showMessage('如果填写被拍摄人数，必须为数字');
+      return false;
+    }
+    if(!validator.isInt(this.state.seatCount) || parseInt(this.state.seatCount) <= 0){
+      this.showMessage('如果填写拍摄机位，必须为数字');
       return false;
     }
     if(this.state.cover < 0 ){
@@ -166,7 +248,20 @@ var UploadWorks = React.createClass({
         Negotiable : this.state.price==0?true:false,
         Cover : this.state.photos[this.state.cover].Url,
         Cut: this.state.cut?this.state.cut:'',
-        Tags: this.state.tags.join(',')
+        Tags: this.state.tags.join(','),
+        'Detail.Duration': this.state.duration,//拍摄时长
+        'Detail.PlateCount': this.state.plateCount,//底片张数
+        'Detail.TruingCount': this.state.truingCount,//精修张数
+        'Detail.CostumeCount': this.state.costumeCount,//服装数目
+        'Detail.MakeUpSupport': this.state.makeUpSupport,//化妆造型
+        'Detail.OriginalSupport': this.state.originalSupport,//送原片
+        'Detail.PhysicalSupport': this.state.physicalSupport,//拍摄时长
+        'Detail.PhysicalDetail': this.state.physicalDetail,//拍摄时长
+        'Detail.UnitCount': this.state.unitCount,//拍摄时长
+        'Detail.SceneCount': this.state.sceneCount,//拍摄时长
+        'Detail.PeopleCount': this.state.peopleCount,//拍摄时长
+        'Detail.SeatCount': this.state.seatCount,//拍摄时长
+        'Detail.PlaceType': this.state.placeType//拍摄场地
       }
       //针对后端要求，序列化数组
       this.state.photos.map(function(photo,i){
@@ -207,20 +302,44 @@ var UploadWorks = React.createClass({
       },
       bottomWrap: {
         textAlign: 'center',
-      }
+      },
+      normalStyle: {
+        width: '78px',
+        lineHeight: '40px',
+        border: '1px solid #e0e0e0',
+        display: 'inline-block',
+        textAlign: 'center',
+        cursor: 'pointer',
+      },
+      noSelected: {
+        background : 'gray',
+        width: '78px',
+        lineHeight: '40px',
+        border: '1px solid #e0e0e0',
+        color: '#fff',
+        display: 'inline-block',
+        textAlign: 'center',
+        cursor: 'pointer',
+      },
+      yesSelected: {
+        width: '78px',
+        lineHeight: '40px',
+        background : '#337ab7',
+        border: '1px solid #e0e0e0',
+        color: '#fff',
+        display: 'inline-block',
+        textAlign: 'center',
+        cursor: 'pointer',
+      },
     };
     //<Button style={style.preview}>预览</Button>
-    var serviceValue = this.state.service ?　this.state.service:
-      '①原片是否全送 ：\n'+
-      '②原片数量与精修片数量 ：\n'+
-      '③是否提供化妆造型 ：\n'+
-      '④是否提供服装 ：\n'+
-      '⑤拍摄人数 ：\n'+
-      '⑥拍摄几组 ：\n'+
-      '⑦拍摄场景数量 ：\n'+
-      '⑧拍摄时长 ：\n'+
-      '⑨是否有实物产品，请具体说明\n'+
-      '⑩补充说明\n';
+    var physicalDetail = this.state.physicalSupport ?
+          (<TextInput ref="physicalDetail"
+              labelName="实体产品提供详情："
+              textClassName="col-xs-4"
+              value={this.state.physicalDetail}
+          updateValue={this.updatePhysicalDetail}
+          placeholder=""/>):'';
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="作品上传"infoIconClass="glyphicon glyphicon-picture" titleImage="" />
@@ -235,30 +354,102 @@ var UploadWorks = React.createClass({
             ref="chooseImage" onError={this.showMessage}/>
           <ChooseTags value={this.state.tags} onChange = {this.updateTags}/>
           <TextInput ref="workDescription"
-            type="textarea"
-            value = {this.state.description}
-            updateValue = {this.updateDescription}
-            labelName="作品简述："
-            minLength={15}
-            maxLength={1000}
-            placeholder=""
-            help="作品描述应该在15-1000字之间"
-            style={{minHeight:100}}/>
+                     type="textarea"
+                     value = {this.state.description}
+                     updateValue = {this.updateDescription}
+                     labelName="作品简述："
+                     minLength={15}
+                     maxLength={1000}
+                     placeholder=""
+                     help="作品描述应该在15-1000字之间"
+                     style={{minHeight:100}}/>
+          <TextInput ref="duration"
+                     labelName="拍摄时长："
+                     textClassName="col-xs-4"
+                     value={this.state.duration}
+                     updateValue={this.updateDuration}
+                     placeholder=""/>
+          <TextInput ref="plateCount"
+                     labelName="底片张数："
+                     textClassName="col-xs-4"
+                     value={this.state.plateCount}
+                     updateValue={this.updatePlateCount}
+                     placeholder=""/>
+          <TextInput ref="truingCount"
+                     labelName="精修张数："
+                     textClassName="col-xs-4"
+                     value={this.state.truingCount}
+                     updateValue={this.updateTruingCount}
+                     placeholder=""/>
+          <TextInput ref="costumeCount"
+                     labelName="服装数目："
+                     textClassName="col-xs-4"
+                     value={this.state.costumeCount}
+                     updateValue={this.updateCostumeCount}
+                     placeholder=""/>
+          <Switch ref="makeUpSupport"
+                  label='化妆造型'
+                  textOn='提供'
+                  textOff='不提供'
+                  checked={this.state.makeUpSupport}
+                  onChange={this.updateMakeUpSupport}/>
+          <Switch ref="originalSupport"
+                  label='原片'
+                  textOn='全送'
+                  textOff='不送'
+                  checked={this.state.originalSupport}
+                  onChange={this.updateOriginalSupport}/>
+          <Switch ref="physicalSupport"
+                  label='实体产品'
+                  textOn='提供'
+                  textOff='不提供'
+                  checked={this.state.physicalSupport}
+                  onChange={this.updatePhysicalSupport}/>
+          {physicalDetail}
+          <TextInput ref="unitCount"
+                     labelName="拍摄几组："
+                     textClassName="col-xs-4"
+                     value={this.state.unitCount}
+                     updateValue={this.updateUnitCount}
+                     placeholder=""/>
+          <TextInput ref="sceneCount"
+                     labelName="拍摄场景数量："
+                     textClassName="col-xs-4"
+                     value={this.state.sceneCount}
+                     updateValue={this.updateSceneCount}
+                     placeholder=""/>
+          <TextInput ref="peopleCount"
+                     labelName="被拍摄人数："
+                     textClassName="col-xs-4"
+                     value={this.state.peopleCount}
+                     updateValue={this.updatePeopleCount}
+                     placeholder=""/>
+          <TextInput ref="seatCount"
+                     labelName="拍摄机位："
+                     textClassName="col-xs-4"
+                     value={this.state.seatCount}
+                     updateValue={this.updateSeatCount}
+                     placeholder=""/>
+          <TextInput ref="placeType"
+                     labelName="拍摄场地："
+                     textClassName="col-xs-4"
+                     value={this.state.placeType}
+                     updateValue={this.updatePlaceType}
+                     placeholder=""/>
           <TextInput ref="service"
-            type="textarea"
-            value={serviceValue}
-            updateValue={this.updateService}
-            labelName="提供服务："
-            minLength={15}
-            maxLength={1000}
-            placeholder="服务内容请参考以下项目：①原片是否全送 ②精修片数量 ③是否提供化妆造型 ④是否提供服装 ⑤是否有影棚拍摄 ⑥拍摄几组 ⑦拍摄场景数量 ⑧服务时长 ⑨是否有实物产品，请具体说明 ⑩补充说明"
-            help="服务描述应该在15-1000字之间" style={{minHeight:230}}/>
+                     type="textarea"
+                     value={this.state.service}
+                     updateValue={this.updateService}
+                     labelName="补充说明："
+                     minLength={15}
+                     maxLength={1000}
+                     help="服务描述应该在15-1000字之间" style={{minHeight:100}}/>
           <TextInput ref="price"
-            labelName="是否定价："
-            textClassName="col-xs-4"
-            value={this.state.price}
-            updateValue={this.updatePrice}
-            placeholder="¥面议"/>
+                     labelName="是否定价："
+                     textClassName="col-xs-4"
+                     value={this.state.price}
+                     updateValue={this.updatePrice}
+                     placeholder="¥面议"/>
           <div className="row" style={style.bottomWrap}>
             <Button style={style.submitButton} onClick={this.handleSubmit} disabled={this.state.submit}>提交</Button>
             <ToolTip ref="toolTip" title=""/>
