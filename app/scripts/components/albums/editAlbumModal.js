@@ -87,68 +87,67 @@ var EditAlbumModal = React.createClass({
   },
   updateOriginalSupport : function(originalSupport){
     var album = this.state.album;
-    album['Detail.OriginalSupport'] = originalSupport;
+    album.Detail.OriginalSupport = originalSupport;
     this.setState({album: album});
   },
   updatePhysicalSupport : function(physicalSupport){
-    this.setState({physicalSupport : physicalSupport});
     var album = this.state.album;
-    album['Detail.PhysicalSupport'] = physicalSupport;
+    album.Detail.PhysicalSupport = physicalSupport;
     this.setState({album: album});
   },
   updatePlateCount : function(plateCount){
     var album = this.state.album;
-    album['Detail.PlateCount'] = plateCount;
+    album.Detail.PlateCount = plateCount;
     this.setState({album: album});
   },
   updateTruingCount : function(truingCount){
     var album = this.state.album;
-    album['Detail.TruingCount'] = truingCount;
+    album.Detail.TruingCount = truingCount;
     this.setState({album: album});
   },
   updateMakeUpSupport : function(makeUpSupport){
     var album = this.state.album;
-    album['Detail.MakeUpSupport'] = makeUpSupport;
+    album.Detail.MakeUpSupport = makeUpSupport;
     this.setState({album: album});
   },
   updateCostumeCount : function(costumeCount){
     var album = this.state.album;
-    album['Detail.CostumeCount'] = costumeCount;
+    album.Detail.CostumeCount = costumeCount;
     this.setState({album: album});
   },
   updatePeopleCount : function(peopleCount){
     var album = this.state.album;
-    album['Detail.PeopleCount'] = peopleCount;
+    album.Detail.PeopleCount = peopleCount;
     this.setState({album: album});
   },
   updateUnitCount : function(unitCount){
     var album = this.state.album;
-    album['Detail.UnitCount'] = unitCount;
+    album.Detail.UnitCount = unitCount;
     this.setState({album: album});
   },
   updateSceneCount : function(sceneCount){
     var album = this.state.album;
-    album['Detail.SceneCount'] = sceneCount;
+    album.Detail.SceneCount = sceneCount;
     this.setState({album: album});
   },
   updateDuration : function(duration){
     var album = this.state.album;
-    album['Detail.Duration'] = duration;
+    album.Detail.Duration = duration;
     this.setState({album: album});
   },
   updatePhysicalDetail : function(physicalDetail){
     var album = this.state.album;
-    album['Detail.PhysicalDetail'] = physicalDetail;
+    album.Detail.PhysicalDetail = physicalDetail;
     this.setState({album: album});
   },
   updateSeatCount : function(seatCount){
     var album = this.state.album;
-    album['Detail.SeatCount'] = seatCount;
+    album.Detail.SeatCount = seatCount;
     this.setState({album: album});
   },
   updatePlaceType : function(placeType){
     var album = this.state.album;
-    album['Detail.PlaceType'] = placeType;
+    album.Detail.PlaceType = placeType;
     this.setState({album: album});
   },
   validate: function () {
@@ -236,74 +235,74 @@ var EditAlbumModal = React.createClass({
               <TextInput ref="duration"
                          labelName="拍摄时长："
                          textClassName="col-xs-4"
-                         value={this.state.album.Duration}
+                         value={this.state.album.Detail.Duration}
                          updateValue={this.updateDuration}
                          placeholder=""/>
               <TextInput ref="plateCount"
                          labelName="底片张数："
                          textClassName="col-xs-4"
-                         value={this.state.album.PlateCount}
+                         value={this.state.album.Detail.PlateCount}
                          updateValue={this.updatePlateCount}
                          placeholder=""/>
               <TextInput ref="truingCount"
                          labelName="精修张数："
                          textClassName="col-xs-4"
-                         value={this.state.album.TruingCount}
+                         value={this.state.album.Detail.TruingCount}
                          updateValue={this.updateTruingCount}
                          placeholder=""/>
               <TextInput ref="costumeCount"
                          labelName="服装数目："
                          textClassName="col-xs-4"
-                         value={this.state.album.CostumeCount}
+                         value={this.state.album.Detail.CostumeCount}
                          updateValue={this.updateCostumeCount}
                          placeholder=""/>
               <Switch ref="makeUpSupport"
                       label='化妆造型'
                       textOn='提供'
                       textOff='不提供'
-                      checked={this.state.album.MakeUpSupport}
+                      checked={this.state.album.Detail.MakeUpSupport}
                       onChange={this.updateMakeUpSupport}/>
               <Switch ref="originalSupport"
                       label='原片'
                       textOn='全送'
                       textOff='不送'
-                      checked={this.state.album.OriginalSupport}
+                      checked={this.state.album.Detail.OriginalSupport}
                       onChange={this.updateOriginalSupport}/>
               <Switch ref="physicalSupport"
                       label='实体产品'
                       textOn='提供'
                       textOff='不提供'
-                      checked={this.state.album.PhysicalSupport}
+                      checked={this.state.album.Detail.PhysicalSupport}
                       onChange={this.updatePhysicalSupport}/>
               {physicalDetail}
               <TextInput ref="unitCount"
                          labelName="拍摄几组："
                          textClassName="col-xs-4"
-                         value={this.state.album.UnitCount}
+                         value={this.state.album.Detail.UnitCount}
                          updateValue={this.updateUnitCount}
                          placeholder=""/>
               <TextInput ref="sceneCount"
                          labelName="拍摄场景数量："
                          textClassName="col-xs-4"
-                         value={this.state.album.SceneCount}
+                         value={this.state.album.Detail.SceneCount}
                          updateValue={this.updateSceneCount}
                          placeholder=""/>
               <TextInput ref="peopleCount"
                          labelName="被拍摄人数："
                          textClassName="col-xs-4"
-                         value={this.state.album.PeopleCount}
+                         value={this.state.album.Detail.PeopleCount}
                          updateValue={this.updatePeopleCount}
                          placeholder=""/>
               <TextInput ref="seatCount"
                          labelName="拍摄机位："
                          textClassName="col-xs-4"
-                         value={this.state.album.SeatCount}
+                         value={this.state.album.Detail.SeatCount}
                          updateValue={this.updateSeatCount}
                          placeholder=""/>
               <TextInput ref="placeType"
                          labelName="拍摄场地："
                          textClassName="col-xs-4"
-                         value={this.state.album.PlaceType}
+                         value={this.state.album.Detail.PlaceType}
                          updateValue={this.updatePlaceType}
                          placeholder=""/>
               <TextInput ref="service"

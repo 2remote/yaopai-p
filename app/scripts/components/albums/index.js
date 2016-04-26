@@ -138,7 +138,9 @@ var Albums = React.createClass({
   loadAlbums: function () {
     var id = this.props.params.id;
     var data = {
-      Fields: 'Id,Title,UserId,Service,Price,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url,State,CreationTime,EditingTime,Tags.Id,Tags.Name',
+      Fields: 'Id,Title,UserId,Service,Price,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url,State,CreationTime,EditingTime,Tags.Id,Tags.Name,'+
+      'Detail.Duration,Detail.PlateCount,Detail.TruingCount,Detail.CostumeCount,Detail.MakeUpSupport,Detail.OriginalSupport,Detail.PhysicalSupport,Detail.UnitCount,Detail.SceneCount,'+
+      'Detail.PeopleCount,Detail.SeatCount,Detail.PlaceType',
       Id: id,
     };
     AlbumsActions.get(data)
