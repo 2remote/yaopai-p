@@ -142,11 +142,22 @@ var RightAlbumInfo = React.createClass({
               })}
             </p>
           </div>
-          <div>提供服务：
-            <p>
-              {_.map(album.Service.split('\n'), function (item,i) {
-                return <div key={i}>{item}</div>;
-              })}
+          <div>
+            <p>提供服务：
+              <div>1. 拍摄时长：{album.Detail.Duration}</div>
+              <div>2. 底片张数：{album.Detail.PlateCount}</div>
+              <div>3. 精修张数：{album.Detail.TruingCount}</div>
+              <div>4. 服装数目：{album.Detail.CostumeCount}</div>
+              <div>5. 化妆造型：{album.Detail.MakeUpSupport?'提供':'不提供'}</div>
+              <div>6. 原片：{album.Detail.OriginalSupport?'全送':'不送'}</div>
+              <div>7. 实体产品：{album.Detail.MakeUpSupport?'提供':'不提供'}</div>
+              <div>8. 实体产品提供详情：<p>{album.Detail.PhysicalDetail}</p></div>
+              <div>9. 拍摄几组：{album.Detail.UnitCount}</div>
+              <div>10. 拍摄场景数量：{album.Detail.SceneCount}</div>
+              <div>11. 被拍摄人数： {album.Detail.PeopleCount}</div>
+              <div>12. 拍摄机位：  {album.Detail.SeatCount}</div>
+              <div>13. 拍摄场地：{album.Detail.PlaceType && album.Detail.PlaceType != 'Null' ? album.Detail.PlaceType : ''}</div>
+              <div>14. 补充说明：<p>{album.Service}</p></div>
             </p>
           </div>
           <div>状 态：<p>{status}</p></div>
