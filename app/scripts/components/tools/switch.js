@@ -1,6 +1,13 @@
 var React = require('react');
 
-var HasCompany = React.createClass({
+var Switch = React.createClass({
+  getDefaultProps : function(){
+    return {
+      label :'',
+      textOff : '',
+      textOn : '',
+    }
+  },
   onNoClick : function(event){
     this.props.onChange(false);
   },
@@ -41,13 +48,13 @@ var HasCompany = React.createClass({
     };
     return (
       <div className= "form-group">
-        <label className="control-label col-xs-3">是否有工作室：</label>
+        <label className="control-label col-xs-3">{this.props.label}：</label>
         <div className="col-xs-5">
-          <span onClick={this.props.disabled?null:this.onNoClick} style={this.props.checked?normalStyle:noSelected}>NO</span>
-        <span onClick={this.props.disabled?null:this.onYesClick} style={this.props.checked?yesSelected:normalStyle}>YES</span>
+          <span onClick={this.props.disabled?null:this.onNoClick} style={this.props.checked?normalStyle:noSelected}>{this.props.textOff}</span>
+          <span onClick={this.props.disabled?null:this.onYesClick} style={this.props.checked?yesSelected:normalStyle}>{this.props.textOn}</span>
         </div>
       </div>
     );
   }
 });
-module.exports = HasCompany;
+module.exports = Switch;
