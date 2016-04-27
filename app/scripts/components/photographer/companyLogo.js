@@ -28,6 +28,7 @@ var CompanyLogo = React.createClass({
             colWidth=""
             uid="companyLogo"
             ref="companyLogo"
+            multi_selection={false}
             disabled = {this.props.disabled}
             defaultImage ={this.props.value?this.props.value:"img/logo_up.png" }
             onUpload = {this.props.updateValue}
