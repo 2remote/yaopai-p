@@ -249,34 +249,21 @@ var UploadWorks = React.createClass({
         Cover : this.state.photos[this.state.cover].Url,
         Cut: this.state.cut?this.state.cut:'',
         Tags: this.state.tags.join(','),
-        'Detail.Duration': this.state.duration,//拍摄时长
-        'Detail.PlateCount': this.state.plateCount,//底片张数
-        'Detail.TruingCount': this.state.truingCount,//精修张数
-        'Detail.CostumeCount': this.state.costumeCount,//服装数目
-        'Detail.MakeUpSupport': this.state.makeUpSupport,//化妆造型
-        'Detail.OriginalSupport': this.state.originalSupport,//送原片
-        'Detail.PhysicalSupport': this.state.physicalSupport,//拍摄时长
-        'Detail.PhysicalDetail': this.state.physicalDetail,//拍摄时长
-        'Detail.UnitCount': this.state.unitCount,//拍摄时长
-        'Detail.SceneCount': this.state.sceneCount,//拍摄时长
-        'Detail.PeopleCount': this.state.peopleCount,//拍摄时长
-        'Detail.SeatCount': this.state.seatCount,//拍摄时长
-        'Detail.PlaceType': this.state.placeType//拍摄场地
-        //Detail: {
-        //  Duration: this.state.duration,//拍摄时长
-        //  PlateCount: this.state.plateCount,//底片张数
-        //  TruingCount: this.state.truingCount,//精修张数
-        //  CostumeCount: this.state.costumeCount,//服装数目
-        //  MakeUpSupport: this.state.makeUpSupport,//化妆造型
-        //  OriginalSupport: this.state.originalSupport,//送原片
-        //  PhysicalSupport: this.state.physicalSupport,//拍摄时长
-        //  PhysicalDetail: this.state.physicalDetail,//拍摄时长
-        //  UnitCount: this.state.unitCount,//拍摄时长
-        //  SceneCount: this.state.sceneCount,//拍摄时长
-        //  PeopleCount: this.state.peopleCount,//拍摄时长
-        //  SeatCount: this.state.seatCount,//拍摄时长
-        //  PlaceType: this.state.placeType//拍摄场地
-        //}
+        Detail: {
+          Duration: this.state.duration,//拍摄时长
+          PlateCount: this.state.plateCount,//底片张数
+          TruingCount: this.state.truingCount,//精修张数
+          CostumeCount: this.state.costumeCount,//服装数目
+          MakeUpSupport: this.state.makeUpSupport,//化妆造型
+          OriginalSupport: this.state.originalSupport,//送原片
+          PhysicalSupport: this.state.physicalSupport,//提供实体产品
+          PhysicalDetail: this.state.physicalDetail,//实体产品提供详情
+          UnitCount: this.state.unitCount,//拍摄几组
+          SceneCount: this.state.sceneCount,//拍摄场景数量
+          PeopleCount: this.state.peopleCount,//被拍摄人数
+          SeatCount: this.state.seatCount,//拍摄机位
+          PlaceType: this.state.placeType//拍摄场地
+        }
       }
       //针对后端要求，序列化数组
       this.state.photos.map(function(photo,i){
