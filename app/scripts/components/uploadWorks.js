@@ -460,7 +460,8 @@ var UploadWorks = React.createClass({
                      textClassName="col-xs-4"
                      value={this.state.price}
                      updateValue={this.updatePrice}
-                     placeholder="¥面议"/>
+                     placeholder="¥面议"
+                     help="单位:元"/>
           <div className="row" style={style.bottomWrap}>
             <Button style={style.submitButton} onClick={this.handleSubmit} disabled={this.state.submit}>提交</Button>
             <ToolTip ref="toolTip" title=""/>

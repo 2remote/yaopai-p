@@ -102,6 +102,9 @@ var RightAlbumInfo = React.createClass({
       status = "审核失败";
     }
     var placeType = '';
+    if(album.Detail.PlaceType && album.Detail.PlaceType.constructor==Array){
+      album.Detail.PlaceType = album.Detail.PlaceType.join();
+    }
     if(album.Detail.PlaceType && album.Detail.PlaceType.length>0){
       placeType = album.Detail.PlaceType.replace('Studio','影棚').replace('Exterior','外景').replace('Interior','室内').replace('Null','无');
     }else{
