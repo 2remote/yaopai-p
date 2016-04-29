@@ -101,6 +101,12 @@ var RightAlbumInfo = React.createClass({
     } else if (album.State == 2) {
       status = "审核失败";
     }
+    var placeType = '';
+    if(album.Detail.PlaceType && album.Detail.PlaceType.length>0){
+      placeType = album.Detail.PlaceType.replace('Studio','影棚').replace('Exterior','外景').replace('Interior','室内').replace('Null','无');
+    }else{
+      placeType = '无';
+    }
     return (
       <div>
         <EditAlbumModal album={album} categories={this.props.categories} uploadHandle={this.props.uploadHandle} show={this.state.isInfoShow} hideHandle={this.hideInfoModal} showMessage={this.showMessage}/>
@@ -156,7 +162,7 @@ var RightAlbumInfo = React.createClass({
               <div>10. 拍摄场景数量：{album.Detail.SceneCount}</div>
               <div>11. 被拍摄人数： {album.Detail.PeopleCount}</div>
               <div>12. 拍摄机位：  {album.Detail.SeatCount}</div>
-              <div>13. 拍摄场地：{album.Detail.PlaceType && album.Detail.PlaceType != 'Null' ? album.Detail.PlaceType : ''}</div>
+              <div>13. 拍摄场地：{placeType}</div>
               <div>14. 补充说明：<p>{album.Service}</p></div>
             </p>
           </div>

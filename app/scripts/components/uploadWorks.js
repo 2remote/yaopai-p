@@ -23,6 +23,7 @@ var UserStore = require("../stores/UserStore");
 var History = require('react-router').History;
 var ChooseTags = require('./chooseTags');
 var Switch = require('./tools/switch');
+var Checkbox = require('./tools/checkbox');
 
 
 /*
@@ -195,14 +196,15 @@ var UploadWorks = React.createClass({
       this.showMessage('作品描述必须在15-1000字之间');
       return false;
     }
-    //if(this.state.service.length < 15 || this.state.service.length > 1000){
-    //  this.showMessage('服务描述必须在15-1000字之间');
-    //  return false;
-    //}
+    if(this.state.service && this.state.service.length > 1000){
+      this.showMessage('补充说明不超过1000字');
+      return false;
+    }
     if(!validator.isInt(this.state.price) || parseInt(this.state.price) <= 0){
       this.showMessage('如果填写价格，必须为数字');
       return false;
     }
+    /*
     if(!validator.isInt(this.state.plateCount) || parseInt(this.state.plateCount) <= 0){
       this.showMessage('如果填写底片张数，必须为数字');
       return false;
@@ -231,6 +233,7 @@ var UploadWorks = React.createClass({
       this.showMessage('如果填写拍摄机位，必须为数字');
       return false;
     }
+    */
     if(this.state.cover < 0 ){
       this.showMessage('请选择一张作品作为封面');
       return false;
@@ -262,7 +265,7 @@ var UploadWorks = React.createClass({
           SceneCount: this.state.sceneCount,//拍摄场景数量
           PeopleCount: this.state.peopleCount,//被拍摄人数
           SeatCount: this.state.seatCount,//拍摄机位
-          PlaceType: this.state.placeType//拍摄场地
+          PlaceType: this.state.placeType&&this.state.placeType.length>0?this.state.placeType.join():''//拍摄场地
         }
       }
       //针对后端要求，序列化数组
@@ -335,6 +338,18 @@ var UploadWorks = React.createClass({
       },
     };
     //<Button style={style.preview}>预览</Button>
+    var placeTypeData = [
+      {
+        key:'Studio',
+        value:'影棚'
+      },{
+        key:'Exterior',
+        value:'外景'
+      },{
+        key:'Interior',
+        value:'室内'
+      }
+    ]
     var physicalDetail = this.state.physicalSupport ?
           (<TextInput ref="physicalDetail"
               labelName="实体产品提供详情："
@@ -432,22 +447,16 @@ var UploadWorks = React.createClass({
                      value={this.state.seatCount}
                      updateValue={this.updateSeatCount}
                      placeholder=""/>
-          <TextInput ref="placeType"
-                     labelName="拍摄场地："
-                     textClassName="col-xs-4"
-                     value={this.state.placeType}
-                     updateValue={this.updatePlaceType}
-                     placeholder=""/>
+          <Checkbox labelName="拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
           <TextInput ref="service"
                      type="textarea"
                      value={this.state.service}
                      updateValue={this.updateService}
                      labelName="补充说明："
-                     minLength={15}
                      maxLength={1000}
-                     help="服务描述应该在15-1000字之间" style={{minHeight:100}}/>
+                     help="补充说明不超过1000字" style={{minHeight:100}}/>
           <TextInput ref="price"
-                     labelName="是否定价："
+                     labelName="套系价格："
                      textClassName="col-xs-4"
                      value={this.state.price}
                      updateValue={this.updatePrice}

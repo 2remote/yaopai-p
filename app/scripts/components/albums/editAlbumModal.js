@@ -8,6 +8,7 @@ var TextInput = require('../account/textInput');
 var ChooseTags = require('../chooseTags');
 var validator = require('validator');
 var Switch = require('../tools/switch');
+var Checkbox = require('../tools/checkbox');
 
 var EditAlbumModal = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
@@ -163,8 +164,8 @@ var EditAlbumModal = React.createClass({
       this.props.showMessage('作品描述必须在15-1000字之间');
       return false;
     }
-    if (this.state.album.Service.length < 15 || this.state.album.Service.length > 1000) {
-      this.props.showMessage('服务描述必须在15-1000字之间');
+    if (this.state.album.Service && this.state.album.Service.length > 1000) {
+      this.props.showMessage('补充说明不超过1000字');
       return false;
     }
     if (!validator.isInt(this.state.album.Price) && parseInt(this.state.album.Price) > 0) {
@@ -197,6 +198,22 @@ var EditAlbumModal = React.createClass({
     }
   },
   render: function () {
+    var placeType = this.state.album.Detail.PlaceType;
+    if(typeof this.state.album.Detail.PlaceType =='string') {
+      placeType = this.state.album.Detail.PlaceType.split(',');
+    }
+    var placeTypeData = [
+      {
+        key:'Studio',
+        value:'影棚'
+      },{
+        key:'Exterior',
+        value:'外景'
+      },{
+        key:'Interior',
+        value:'室内'
+      }
+    ]
     var physicalDetail = this.state.physicalSupport ?
       (<TextInput ref="physicalDetail"
                   labelName="实体产品提供详情："
@@ -299,24 +316,18 @@ var EditAlbumModal = React.createClass({
                          value={this.state.album.Detail.SeatCount}
                          updateValue={this.updateSeatCount}
                          placeholder=""/>
-              <TextInput ref="placeType"
-                         labelName="拍摄场地："
-                         textClassName="col-xs-4"
-                         value={this.state.album.Detail.PlaceType}
-                         updateValue={this.updatePlaceType}
-                         placeholder=""/>
+              <Checkbox labelName="拍摄场地：" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
               <TextInput ref="service"
                          type="textarea"
                          value={this.state.album.Service}
                          updateValue={this.updateService}
                          labelName="补充说明："
-                         minLength={15}
                          maxLength={1000}
                          placeholder=""
-                         help="服务描述应该在15-1000字之间"
+                         help="补充说明不超过1000字"
                          style={{minHeight:100}}/>
               <TextInput ref="price"
-                         labelName="是否定价："
+                         labelName="套系价格："
                          textClassName="col-xs-4"
                          value={this.state.album.Price}
                          updateValue={this.updatePrice}
