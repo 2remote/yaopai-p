@@ -241,13 +241,12 @@ var ChooseImages = React.createClass({
     });
     //上传出错时,处理相关的事情
     if(this.props.onError){
-      //var max_file_size = plupload.parseSize('4mb');
-      //if(err.file.size > max_file_size){
-      //  this.props.onError('您上传的图片过大，请压缩后再上传');
-      //}else{
-      //  this.props.onError(err.message);
-      //}
-      this.props.onError(err.message);
+      var max_file_size = plupload.parseSize('4mb');
+      if(err.file.size > max_file_size){
+        this.props.onError('您上传的图片过大，请压缩后再上传');
+      }else{
+        this.props.onError(err.message);
+      }
     }
   },
   /*

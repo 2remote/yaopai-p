@@ -14,7 +14,6 @@ var Button = require('react-bootstrap').Button;
 var FormControls = require('react-bootstrap').FormControls;
 
 var TextInput = require('../account/textInput');
-var ImageInput = require('../account/imageInput');
 var AreaSelect = require('../account/areaSelect');
 var ToolTip = require('../toolTip');
 var MultiImageSelect = require('./multiImageSelect');

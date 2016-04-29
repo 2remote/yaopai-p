@@ -46,6 +46,7 @@ var ImageInput = React.createClass({
   },
   getDefaultProps : function(){
     return {
+      multi_selection : true,
       disabled : false,
       defaultImage : 'img/tianjia.png', //指定未上传时的图片
       colWidth : 'col-xs-4',  //指定所占列宽
@@ -87,13 +88,12 @@ var ImageInput = React.createClass({
     });
     //上传出错时,处理相关的事情
     if(this.props.onError){
-      //var max_file_size = plupload.parseSize('4mb');
-      //if(err.file.size > max_file_size){
-      //  this.props.onError('您上传的图片过大，请压缩后再上传');
-      //}else{
-      //  this.props.onError(err.message);
-      //}
-      this.props.onError(err.message);
+      var max_file_size = plupload.parseSize('4mb');
+      if(err.file.size > max_file_size){
+        this.props.onError('您上传的图片过大，请压缩后再上传');
+      }else{
+        this.props.onError(err.message);
+      }
     }
   },
   getValue : function(){
@@ -103,6 +103,7 @@ var ImageInput = React.createClass({
     if(this.state.uploaderOption.browse_button != this.props.uid){
       this.state.uploaderOption.browse_button = this.props.uid;
       var uploaderOption = this.state.uploaderOption;
+      uploaderOption.multi_selection = this.props.multi_selection;
       uploaderOption.uptoken_url = API.FILE.user_token_url +'&tokenid='+sessionToken;
       uploaderOption.init.FileUploaded = this.onFileUploaded;
       uploaderOption.init.UploadProgress = this.onUploadProgress;

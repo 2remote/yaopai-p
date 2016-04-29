@@ -7,6 +7,8 @@ var Modal = require('react-bootstrap').Modal;
 var TextInput = require('../account/textInput');
 var ChooseTags = require('../chooseTags');
 var validator = require('validator');
+var Switch = require('../tools/switch');
+var Checkbox = require('../tools/checkbox');
 
 var EditAlbumModal = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
@@ -84,6 +86,71 @@ var EditAlbumModal = React.createClass({
     album.Price = price
     this.setState({album: album});
   },
+  updateOriginalSupport : function(originalSupport){
+    var album = this.state.album;
+    album.Detail.OriginalSupport = originalSupport;
+    this.setState({album: album});
+  },
+  updatePhysicalSupport : function(physicalSupport){
+    var album = this.state.album;
+    album.Detail.PhysicalSupport = physicalSupport;
+    this.setState({album: album});
+  },
+  updatePlateCount : function(plateCount){
+    var album = this.state.album;
+    album.Detail.PlateCount = plateCount;
+    this.setState({album: album});
+  },
+  updateTruingCount : function(truingCount){
+    var album = this.state.album;
+    album.Detail.TruingCount = truingCount;
+    this.setState({album: album});
+  },
+  updateMakeUpSupport : function(makeUpSupport){
+    var album = this.state.album;
+    album.Detail.MakeUpSupport = makeUpSupport;
+    this.setState({album: album});
+  },
+  updateCostumeCount : function(costumeCount){
+    var album = this.state.album;
+    album.Detail.CostumeCount = costumeCount;
+    this.setState({album: album});
+  },
+  updatePeopleCount : function(peopleCount){
+    var album = this.state.album;
+    album.Detail.PeopleCount = peopleCount;
+    this.setState({album: album});
+  },
+  updateUnitCount : function(unitCount){
+    var album = this.state.album;
+    album.Detail.UnitCount = unitCount;
+    this.setState({album: album});
+  },
+  updateSceneCount : function(sceneCount){
+    var album = this.state.album;
+    album.Detail.SceneCount = sceneCount;
+    this.setState({album: album});
+  },
+  updateDuration : function(duration){
+    var album = this.state.album;
+    album.Detail.Duration = duration;
+    this.setState({album: album});
+  },
+  updatePhysicalDetail : function(physicalDetail){
+    var album = this.state.album;
+    album.Detail.PhysicalDetail = physicalDetail;
+    this.setState({album: album});
+  },
+  updateSeatCount : function(seatCount){
+    var album = this.state.album;
+    album.Detail.SeatCount = seatCount;
+    this.setState({album: album});
+  },
+  updatePlaceType : function(placeType){
+    var album = this.state.album;
+    album.Detail.PlaceType = placeType;
+    this.setState({album: album});
+  },
   validate: function () {
     if (this.state.album.Title.length < 1 || this.state.album.Title.length > 20) {
       this.props.showMessage('作品名称必须在1-20字之间');
@@ -97,8 +164,8 @@ var EditAlbumModal = React.createClass({
       this.props.showMessage('作品描述必须在15-1000字之间');
       return false;
     }
-    if (this.state.album.Service.length < 15 || this.state.album.Service.length > 1000) {
-      this.props.showMessage('服务描述必须在15-1000字之间');
+    if (this.state.album.Service && this.state.album.Service.length > 1000) {
+      this.props.showMessage('补充说明不超过1000字');
       return false;
     }
     if (!validator.isInt(this.state.album.Price) && parseInt(this.state.album.Price) > 0) {
@@ -131,6 +198,36 @@ var EditAlbumModal = React.createClass({
     }
   },
   render: function () {
+    var placeType = this.state.album.Detail.PlaceType;
+    if(typeof this.state.album.Detail.PlaceType =='string') {
+      placeType = this.state.album.Detail.PlaceType.split(',');
+      //去掉前后空格
+      placeType = placeType.map(function (item) {
+        item=item.replace(/(^\s*)|(\s*$)/g, "");
+        console.log(item)
+        return item;
+      });
+      //end
+    }
+    var placeTypeData = [
+      {
+        key:'Studio',
+        value:'影棚'
+      },{
+        key:'Exterior',
+        value:'外景'
+      },{
+        key:'Interior',
+        value:'室内'
+      }
+    ]
+    var physicalDetail = this.state.album.Detail.PhysicalSupport ?
+      (<TextInput ref="physicalDetail"
+                  labelName="实体产品提供详情："
+                  textClassName="col-xs-4"
+                  value={this.state.album.Detail.PhysicalDetail}
+                  updateValue={this.updatePhysicalDetail}
+                  placeholder=""/>):'';
     return (
       <div>
         <Modal
@@ -159,22 +256,90 @@ var EditAlbumModal = React.createClass({
                          placeholder=""
                          help="作品描述应该在15-1000字之间"
                          style={{minHeight:100}}/>
+              <TextInput ref="duration"
+                         labelName="拍摄时长："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.Duration}
+                         updateValue={this.updateDuration}
+                         placeholder=""/>
+              <TextInput ref="plateCount"
+                         labelName="底片张数："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.PlateCount}
+                         updateValue={this.updatePlateCount}
+                         placeholder=""/>
+              <TextInput ref="truingCount"
+                         labelName="精修张数："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.TruingCount}
+                         updateValue={this.updateTruingCount}
+                         placeholder=""/>
+              <TextInput ref="costumeCount"
+                         labelName="服装数目："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.CostumeCount}
+                         updateValue={this.updateCostumeCount}
+                         placeholder=""/>
+              <Switch ref="makeUpSupport"
+                      label='化妆造型'
+                      textOn='提供'
+                      textOff='不提供'
+                      checked={this.state.album.Detail.MakeUpSupport}
+                      onChange={this.updateMakeUpSupport}/>
+              <Switch ref="originalSupport"
+                      label='原片'
+                      textOn='全送'
+                      textOff='不送'
+                      checked={this.state.album.Detail.OriginalSupport}
+                      onChange={this.updateOriginalSupport}/>
+              <Switch ref="physicalSupport"
+                      label='实体产品'
+                      textOn='提供'
+                      textOff='不提供'
+                      checked={this.state.album.Detail.PhysicalSupport}
+                      onChange={this.updatePhysicalSupport}/>
+              {physicalDetail}
+              <TextInput ref="unitCount"
+                         labelName="拍摄几组："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.UnitCount}
+                         updateValue={this.updateUnitCount}
+                         placeholder=""/>
+              <TextInput ref="sceneCount"
+                         labelName="拍摄场景数量："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.SceneCount}
+                         updateValue={this.updateSceneCount}
+                         placeholder=""/>
+              <TextInput ref="peopleCount"
+                         labelName="被拍摄人数："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.PeopleCount}
+                         updateValue={this.updatePeopleCount}
+                         placeholder=""/>
+              <TextInput ref="seatCount"
+                         labelName="拍摄机位："
+                         textClassName="col-xs-4"
+                         value={this.state.album.Detail.SeatCount}
+                         updateValue={this.updateSeatCount}
+                         placeholder=""/>
+              <Checkbox labelName="拍摄场地：" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
               <TextInput ref="service"
                          type="textarea"
                          value={this.state.album.Service}
                          updateValue={this.updateService}
-                         labelName="提供服务："
-                         minLength={15}
+                         labelName="补充说明："
                          maxLength={1000}
                          placeholder=""
-                         help="服务描述应该在15-1000字之间"
-                         style={{minHeight:230}}/>
+                         help="补充说明不超过1000字"
+                         style={{minHeight:100}}/>
               <TextInput ref="price"
-                         labelName="是否定价："
+                         labelName="套系价格："
                          textClassName="col-xs-4"
                          value={this.state.album.Price}
                          updateValue={this.updatePrice}
-                         placeholder="¥面议"/>
+                         placeholder="¥面议"
+                         help="单位:元"/>
               <DisplayCheckbox value={this.state.album.Display} onChange={this.displayHandle}/>
             </form>
           </Modal.Body>
