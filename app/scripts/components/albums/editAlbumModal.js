@@ -201,6 +201,13 @@ var EditAlbumModal = React.createClass({
     var placeType = this.state.album.Detail.PlaceType;
     if(typeof this.state.album.Detail.PlaceType =='string') {
       placeType = this.state.album.Detail.PlaceType.split(',');
+      //去掉前后空格
+      placeType = placeType.map(function (item) {
+        item=item.replace(/(^\s*)|(\s*$)/g, "");
+        console.log(item)
+        return item;
+      });
+      //end
     }
     var placeTypeData = [
       {
@@ -214,11 +221,11 @@ var EditAlbumModal = React.createClass({
         value:'室内'
       }
     ]
-    var physicalDetail = this.state.physicalSupport ?
+    var physicalDetail = this.state.album.Detail.PhysicalSupport ?
       (<TextInput ref="physicalDetail"
                   labelName="实体产品提供详情："
                   textClassName="col-xs-4"
-                  value={this.state.physicalDetail}
+                  value={this.state.album.Detail.PhysicalDetail}
                   updateValue={this.updatePhysicalDetail}
                   placeholder=""/>):'';
     return (
@@ -331,7 +338,8 @@ var EditAlbumModal = React.createClass({
                          textClassName="col-xs-4"
                          value={this.state.album.Price}
                          updateValue={this.updatePrice}
-                         placeholder="¥面议"/>
+                         placeholder="¥面议"
+                         help="单位:元"/>
               <DisplayCheckbox value={this.state.album.Display} onChange={this.displayHandle}/>
             </form>
           </Modal.Body>

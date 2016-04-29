@@ -44,7 +44,6 @@ var Checkbox = React.createClass({
       }
     }
     var currentValue = this.state.selectedValues;
-    console.log(currentValue)
     var onClickButton = this.setValue;
     // makeButton
     // make Button component from tag data
