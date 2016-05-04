@@ -149,6 +149,11 @@ var ChooseImages = React.createClass({
     domain: 'http://qiniu-plupload.qiniudn.com/',
     get_new_uptoken: true,
     auto_start: true,
+    filters : {
+      mime_types: [
+        {title : "Image files", extensions : "jpg,png"}, // 限定jpg,png后缀上传
+      ]
+    },
     init: {
       'FilesAdded': function(){},
       'BeforeUpload': function(up, file) {
@@ -245,7 +250,11 @@ var ChooseImages = React.createClass({
       if(err.file.size > max_file_size){
         this.props.onError('您上传的图片过大，请压缩后再上传');
       }else{
-        this.props.onError(err.message);
+        if(err.code == -601){
+          this.props.onError('图片格式错误');
+        }else{
+          this.props.onError(err.message);
+        }
       }
     }
   },
