@@ -30,7 +30,13 @@ var uploaderOption = {
     drop_element: 'container',        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
     chunk_size: '4mb',                //分块上传时，每片的体积
     // auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
-    init: {
+    filters : {
+      mime_types: [
+        {title : "Image files", extensions : "jpg,png"}, // 限定jpg,png后缀上传
+      ]
+    },
+
+  init: {
         'FilesAdded': function(up, files) {
             plupload.each(files, function(file) {
                 // 文件添加进队列后,处理相关的事情
@@ -38,6 +44,13 @@ var uploaderOption = {
         },
         'BeforeUpload': function(up, file) {
                // 每个文件上传前,处理相关的事情
+          if(file.origSize >= 1 * 1024 * 1024){
+            console.log("resize 1M: 95");
+            up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:95});
+          }else{
+            console.log("resize desabled");
+            up.setOption('resize',false);
+          }
         },
         'UploadProgress': function(up, file) {
                // 每个文件上传时,处理相关的事情
