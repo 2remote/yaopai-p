@@ -32,7 +32,7 @@ var uploaderOption = {
     // auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
     filters : {
       mime_types: [
-        {title : "Image files", extensions : "jpg,png"}, // 限定jpg,png后缀上传
+        {title : "Image files", extensions : "jpg,png,jpeg"}, // 限定jpg,png后缀上传
       ]
     },
 

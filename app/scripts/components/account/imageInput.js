@@ -22,7 +22,7 @@ var ImageInput = React.createClass({
         get_new_uptoken: true,
         filters : {
           mime_types: [
-            {title : "Image files", extensions : "jpg,png"}, // 限定jpg,png后缀上传
+            {title : "Image files", extensions : "jpg,png,jpeg"}, // 限定jpg,png后缀上传
           ]
         },
         init: {
