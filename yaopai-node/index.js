@@ -69,11 +69,15 @@ if(secretId && secretKey && cdnurl){
     method: 'GET',
     serviceType:'cdn',
   })
-  qcloud.request({
+  var params = {
     Region: 'gz',
     Action: 'RefreshCdnUrl',
-    'urls.0': cdnurl,
-  }, function(error, data) {
+  };
+  var cdnurls = cdnurl.split(',');
+  cdnurls.forEach(function (item,index) {
+    params['urls.'+ index] = item;
+  })
+  qcloud.request(params, function(error, data) {
     console.log('Qcloud RefreshCdn result : ' + data);
   })
 }
