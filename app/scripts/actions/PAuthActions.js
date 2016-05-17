@@ -8,8 +8,8 @@ var PAuthActions = Reflux.createActions({
   'get' : {children : ['success','failed']},
   'current' : {children : ['success','failed']},
   'change' : {children : ['success','failed']},
-  'currentStudio' : {children : ['success','failed']},
-  'changeStudio' : {children : ['success','failed']}
+  //'currentStudio' : {children : ['success','failed']},
+  //'changeStudio' : {children : ['success','failed']}
 });
 
 PAuthActions.submitAudit.listen(function(data){
@@ -26,7 +26,8 @@ PAuthActions.get.listen(function(data){
 
 PAuthActions.current.listen(function(){
   var data = {
-    Fields : 'Id,BusinessPhone,Oicq,OwnedStudio,RealName,Signature,Weixin,IdNumber,ProvinceId,CityId,CountyId'
+    //Fields : 'Id,BusinessPhone,Oicq,OwnedStudio,RealName,Signature,Weixin,IdNumber,ProvinceId,CityId,CountyId'
+    Fields : 'Id,NickName,OwnedStudio,StudioName,StudioAddress,Contracted,Views,Marks,JoiningTime,ProvinceName,CityName,CountyName'
   };
   HttpFactory.post(API.PHOTOGRAPHER.current,data,this.success,this.failed);
 });
@@ -35,15 +36,15 @@ PAuthActions.change.listen(function(data){
   HttpFactory.post(API.PHOTOGRAPHER.change,data,this.success,this.failed);
 });
 
-PAuthActions.currentStudio.listen(function(){
-  var data = {
-    Fields : 'Id,Address,Images,Introduction,Logo,Name'
-  };
-  HttpFactory.post(API.PHOTOGRAPHER.currentStudio,data,this.success,this.failed);
-});
-
-PAuthActions.changeStudio.listen(function(data){
-  HttpFactory.post(API.PHOTOGRAPHER.changeStudio,data,this.success,this.failed);
-});
+//PAuthActions.currentStudio.listen(function(){
+//  var data = {
+//    Fields : 'Id,Address,Images,Introduction,Logo,Name'
+//  };
+//  HttpFactory.post(API.PHOTOGRAPHER.currentStudio,data,this.success,this.failed);
+//});
+//
+//PAuthActions.changeStudio.listen(function(data){
+//  HttpFactory.post(API.PHOTOGRAPHER.changeStudio,data,this.success,this.failed);
+//});
 
 module.exports = PAuthActions;

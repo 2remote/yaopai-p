@@ -13,6 +13,8 @@ var TextInput = require('./account/textInput');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
 var History = require('react-router').History;
+var AreaSelect = require('./account/areaSelect');
+var FormControls = require('react-bootstrap').FormControls;
 
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
@@ -116,9 +118,9 @@ var PersonInfo = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onAccountChanged'), Reflux.listenTo(UserStore,'onUserStoreChange'),History],
   getInitialState : function(){
     return {
-      nickName : '',
-      gender : 1,
-      avatar : '',
+      //nickName : '',
+      //gender : 1,
+      //avatar : '',
       editable : true
     }
   },
@@ -126,8 +128,15 @@ var PersonInfo = React.createClass({
     var message = this.validate();
     if(!message) {
       AccountActions.updateInfo({
-        NickName: this.state.nickName,
-        Sex: this.state.gender
+        NickName: this.state.NickName,
+        Sex: this.state.Sex,
+        Location: this.state.CountyId || this.state.CityId || this.state.ProvinceId,
+        Signature: this.state.Signature
+      });
+      AccountActions.changeContactDetail({
+        ContactOicq: this.state.Account.ContactOicq,
+        ContactWeibo: this.state.Account.ContactWeibo,
+        ContactWeixin: this.state.Account.ContactWeixin
       });
     }else{
       this.showMessage(message);
@@ -148,10 +157,10 @@ var PersonInfo = React.createClass({
       if(data.local){
         //本地用户，需要读取用户详细信息
         this.setState({editable : true});
-        AccountActions.userDetail({Fields:'Id,NickName,Sex,Avatar'});
+        AccountActions.userDetail({Fields:'Id,NickName,Sex,Avatar,Signature,ProvinceId,CityId,CountyId,Account.ContactWeibo,Account.ContactWeixin,Account.ContactOicq,Account.Tel'});
       }else{
         //三方登录用户，显示用户信息，不能修改信息
-        this.setState({nickName : data.userName, avatar : data.avatar, editable : false})
+        this.setState({NickName : data.userName, Avatar : data.avatar, editable : false})
       }
     }else{
       //没有登录跳转到首页登录界面
@@ -162,12 +171,13 @@ var PersonInfo = React.createClass({
   onAccountChanged : function(data){
     if(data.flag == 'userDetail'){
       if(data.detail){
-        console.log(data.detail);
-        this.setState({
-          nickName : data.detail.NickName,
-          gender : data.detail.Sex,
-          avatar : data.detail.Avatar
-        });
+        //this.setState({
+        //  nickName : data.detail.NickName,
+        //  gender : data.detail.Sex,
+        //  avatar : data.detail.Avatar
+        //});
+        this.setState(data.detail);
+
       }else{
         this.showMessage(data.hitMessage);
       }
@@ -182,13 +192,49 @@ var PersonInfo = React.createClass({
     this.refs.toolTip.toShow(message);
   },
   updateNickName : function(v){
-    this.setState({nickName : v});
+    this.setState({NickName : v});
   },
   updateGender : function(gender){
-    this.setState({gender : gender});
+    this.setState({Sex : gender});
   },
   updateAvatar : function(avatar){
-    this.setState({avatar : avatar});
+    this.setState({Avatar : avatar});
+  },
+  onProvinceChange : function(result){
+    var data = this.state.Account;
+    data.ProvinceId = result;
+    data.CityId = 0 ;
+    data.CountyId = 0 ;
+    this.setState({ProvinceId : result,CityId : 0,CountyId : 0});
+  },
+  onCityChange : function(result){
+    this.setState({CityId:result,CountyId :0});
+  },
+  onDistrictChange : function(result){
+    this.setState({CountyId : result});
+  },
+  //updateWorkPhone : function(result){
+  //  var data = this.state.Account;
+  //  data.Tel = result;
+  //  this.setState({Account : data});
+  //},
+  updateWechat : function(result){
+    var data = this.state.Account;
+    data.ContactWeixin = result;
+    this.setState({Account : data});
+  },
+  updateWeibo : function(result){
+    var data = this.state.Account;
+    data.ContactWeibo = result;
+    this.setState({Account : data});
+  },
+  updateQQ : function(result){
+    var data = this.state.Account;
+    data.ContactOicq = result;
+    this.setState({Account : data});
+  },
+  updateSign : function(result){
+    this.setState({Signature : result});
   },
   render: function() {
     var style = {
@@ -201,15 +247,62 @@ var PersonInfo = React.createClass({
       <div style={style.outer}>
         <InfoHeader infoTitle="个人信息" infoIconClass="glyphicon glyphicon-user"/>
         <form className='form-horizontal'>
-          <UserImage defaultImage={this.state.avatar} updateAvatar={this.updateAvatar} disabled={!this.state.editable} showMessage={this.showMessage}/>
+          <UserImage defaultImage={this.state.Avatar} updateAvatar={this.updateAvatar} disabled={!this.state.editable} showMessage={this.showMessage}/>
+          <FormControls.Static label="电话："
+             labelClassName="col-xs-3"
+             wrapperClassName="col-xs-4"
+             value={this.state.Account?this.state.Account.Tel:''} />
           <TextInput ref="nickName" 
             labelName="昵称：" 
-            value={this.state.nickName} 
+            value={this.state.NickName}
             updateValue={this.updateNickName} 
             textClassName='col-xs-3'
             minLength={2}
             disabled={!this.state.editable}/>
-          <UserGender ref="gender" value={this.state.gender} updateValue={this.updateGender} disabled={!this.state.editable}/>
+          <UserGender ref="gender" value={this.state.Sex} updateValue={this.updateGender} disabled={!this.state.editable}/>
+          <AreaSelect ref="area"
+          province = {this.state.ProvinceId}
+          onProvinceChange={this.onProvinceChange}
+          city = {this.state.CityId}
+          onCityChange = {this.onCityChange}
+          district = {this.state.CountyId}
+          onDistrictChange = {this.onDistrictChange}
+          disabled={this.state.disabled}/>
+          <TextInput ref="wechat"
+           labelName="微信："
+           value = {this.state.Account?this.state.Account.ContactWeixin:''}
+           updateValue = {this.updateWechat}
+           minLength={3}
+           disabled={this.state.disabled}
+           textClassName="col-xs-4"
+           placeholder=""/>
+          <TextInput ref="qq"
+           labelName="QQ："
+           value = {this.state.Account?this.state.Account.ContactOicq:''}
+           updateValue = {this.updateQQ}
+           minLength={5}
+           disabled={this.state.disabled}
+           textClassName="col-xs-4"
+           placeholder=""/>
+          <TextInput ref="qq"
+           labelName="微博："
+           value = {this.state.Account?this.state.Account.ContactWeibo:''}
+           updateValue = {this.updateWeibo}
+           minLength={5}
+           disabled={this.state.disabled}
+           textClassName="col-xs-4"
+           placeholder=""/>
+          <TextInput ref="personIntro"
+           type='textarea'
+           labelName="个性签名："
+           value = {this.state.Signature}
+           updateValue = {this.updateSign}
+           minLength={1}
+           maxLength={100}
+           disabled={this.state.disabled}
+           textClassName="col-xs-4"
+           defaultValue="他很懒什么都没有留下"
+           placeholder="他很懒什么都没有留下"/>
           <button className="btn btn-primary col-xs-offset-3" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
           <ToolTip ref="toolTip" title=""/>
         </form>

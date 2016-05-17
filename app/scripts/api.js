@@ -47,6 +47,7 @@ var API_CONST = {
     open_login : API_URL + "openuser.login&serviceid=openweixin&redirecturl="+Local_Href,
     current_user : API_URL + 'User.CurrentUser',
     currentUserDetail : API_URL + 'User.CurrentUserDetail',
+    changeContactDetail : API_URL + 'User.ChangeContactDetail',
     changeAvatar : API_URL + 'User.ChangeAvatar',
     updateInfo : API_URL + 'User.ChangeInfo',
   },
@@ -56,8 +57,8 @@ var API_CONST = {
     get : API_URL + 'Photographer.Get',
     current : API_URL + 'Photographer.CurrentPhotographer',
     change : API_URL + 'Photographer.ChangePhotographer',
-    currentStudio : API_URL + 'PhotographerStudio.CurrentStudio',
-    changeStudio : API_URL + 'PhotographerStudio.ChangeStudio',
+    //currentStudio : API_URL + 'PhotographerStudio.CurrentStudio',
+    //changeStudio : API_URL + 'PhotographerStudio.ChangeStudio',
   },
   ALBUMS : {
     add : API_URL + 'Albums.Add',
