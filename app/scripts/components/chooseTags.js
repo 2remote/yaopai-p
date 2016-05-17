@@ -113,7 +113,9 @@ var ChooseTags = React.createClass({
     }
 
     function makeTagRow (tagRow,rowIndex) {
-      var buttons = tagRow.Tags.map(function (tag, i) {
+      var buttons = tagRow.Tags
+        .sort(function(a,b){return a.Sorting>b.Sorting?1:-1})
+        .map(function (tag, i) {
         return makeButton(tag, i);
       });
       return(

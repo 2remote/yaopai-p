@@ -49,7 +49,7 @@ AlbumsActions.sorting.listen(function(data){
 
 AlbumsActions.getTagList.listen(function () {
   var data = {
-    Fields : 'id,name,display,tags.id,tags.name,tags.display'
+    Fields : 'id,name,display,tags.id,tags.name,tags.display,tags.sorting'
   }
   HttpFactory.post(API.TAG.list,data,this.success,this.failed);
 });
