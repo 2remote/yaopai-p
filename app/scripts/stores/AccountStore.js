@@ -19,6 +19,8 @@ var AccountStore = Reflux.createStore({
     this.listenTo(AccountActions.userDetail.failed,this.onGetUserDetailFailed);
     this.listenTo(AccountActions.changeContactDetail.success,this.onChangeContactDetailSuccess);
     this.listenTo(AccountActions.changeContactDetail.failed,this.onChangeContactDetailFailed);
+    this.listenTo(AccountActions.changeRealName.success,this.onChangeRealNameSuccess);
+    this.listenTo(AccountActions.changeRealName.failed,this.onChangeRealNameFailed);
   },
 
   onChangeAvatarSuccess : function(data){
@@ -80,6 +82,22 @@ var AccountStore = Reflux.createStore({
     console.log(data);
     this.accountData.hintMessage = '网络错误，请重试！';
     this.accountData.flag = 'changeContactDetail';
+    this.trigger(this.accountData);
+  },
+  onChangeRealNameSuccess : function(data){
+    if(data.Success){
+      this.accountData.detail = data;
+    }else{
+      this.accountData.detail = null;
+      this.accountData.hintMessage = data.ErrorMsg;
+    }
+    this.accountData.flag = 'changeRealName';
+    this.trigger(this.accountData);
+  },
+  onChangeRealNameFailed : function(data){
+    console.log(data);
+    this.accountData.hintMessage = '网络错误，请重试！';
+    this.accountData.flag = 'changeRealName';
     this.trigger(this.accountData);
   },
 });

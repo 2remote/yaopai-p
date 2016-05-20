@@ -7,6 +7,7 @@ var AccountActions = Reflux.createActions({
   'updateInfo' : {children : ['success','failed']},
   'userDetail' : {children : ['success','failed']},
   'changeContactDetail' : {children : ['success','failed']},
+  'changeRealName' : {children : ['success','failed']},
 });
 
 AccountActions.changeAvatar.listen(function (data) {
@@ -23,6 +24,10 @@ AccountActions.userDetail.listen(function(data){
 
 AccountActions.changeContactDetail.listen(function(data){
   HttpFactory.post(API.USER.changeContactDetail,data,this.success,this.failed);
+});
+
+AccountActions.changeRealName.listen(function(data){
+  HttpFactory.post(API.USER.changeRealName,data,this.success,this.failed);
 });
 
 module.exports = AccountActions;

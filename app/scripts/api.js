@@ -48,6 +48,7 @@ var API_CONST = {
     current_user : API_URL + 'User.CurrentUser',
     currentUserDetail : API_URL + 'User.CurrentUserDetail',
     changeContactDetail : API_URL + 'User.ChangeContactDetail',
+    changeRealName : API_URL + 'User.ChangeRealName',
     changeAvatar : API_URL + 'User.ChangeAvatar',
     updateInfo : API_URL + 'User.ChangeInfo',
   },
