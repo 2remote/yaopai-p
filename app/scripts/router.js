@@ -4,6 +4,7 @@ var Router = ReactRouter.Router
 var Route = ReactRouter.Route
 var Link = ReactRouter.Link;
 var IndexRoute = ReactRouter.IndexRoute;
+const IndexRedirect = ReactRouter.IndexRedirect;
 var Layout = require('./components/layout');
 var Home = require('./components/home');
 var Login = require('./components/loginPanel');
@@ -19,6 +20,10 @@ var Profile = require('./components/profile');
 var Albums = require('./components/albums/index');
 var Provision = require('./components/provision');
 
+var AuthBasic =  require('./components/photographer/AuthBasic')
+var AuthRealName = require('./components/photographer/AuthRealName')
+var AuthSubmitAudit = require('./components/photographer/AuthSubmitAudit')
+
 var routes = (
 	<Router>
 		<Route path="/" component={Layout}>
@@ -28,7 +33,12 @@ var routes = (
 			<Route path="/account" component={AccountCenter} >
 				<IndexRoute component={PersonInfo} />
 				<Route path="personInfo" component={PersonInfo} />
-				<Route path="pAuth" component={PhotographerAuth} />
+				<Route path="pAuth" component={PhotographerAuth}>
+          <IndexRedirect to="basic" />
+          <Route path="basic" component={AuthBasic} />
+          <Route path="realname" component={AuthRealName} />
+          <Route path="submitaudit" component={AuthSubmitAudit} />
+        </Route>
 				<Route path="photographer" component={Photographer} />
 				<Route path="info" component={AccountInfo} />
 				<Route path="upload" component={UploadWorks} />
@@ -39,10 +49,10 @@ var routes = (
 			<Route path="provision" component={Provision} />
 		</Route>
 	</Router>
-	
+
 );
 
 exports.start = function() {
-  
+
 		React.render(routes, document.getElementById('content'));
 }

@@ -16,7 +16,7 @@ var TextInput = require('../account/textInput');
 var ImageInput = require('../account/imageInput');
 var AreaSelect = require('../account/areaSelect');
 var ToolTip = require('../toolTip');
-var MultiImageSelect = require('./multiImageSelect');
+
 var Switch = require('../tools/switch');
 var CompanyLogo = require('./companyLogo');
 var UserActions = require('../../actions/UserActions');
@@ -24,101 +24,6 @@ var PAuthActions = require('../../actions/PAuthActions');
 var PAuthStore = require('../../stores/PAuthStore');
 var AccountActions = require("../../actions/AccountActions");
 var AccountStore = require("../../stores/AccountStore");
-
-/*
-  身份证图片上传
-*/
-var PersonIDImage = React.createClass({
-  getInitialState: function(){
-    return {
-      facecodeDefaultImage : 'img/facecode.png',
-      oppositeDefaultImage : 'img/opposite.png',
-    }
-  },
-  getValue : function(){
-    var v1 = this.refs.IDPicture1.getValue();
-    var v2 = this.refs.IDPicture2.getValue();
-    if(v1 && v2 && v1!=this.state.facecodeDefaultImage && v2!=this.state.oppositeDefaultImage){
-      return v1+','+v2;
-    }else{
-      return null;
-    }
-  },
-  upload1 : function(url){
-    this.props.upload1(url);
-  },
-  upload2 : function(url){
-    this.props.upload2(url);
-  },
-  render : function(){
-    var style = {
-      imgId: {
-        marginBottom: '14px',
-      },
-      info: {
-        marginLeft: '70px',
-        height: '150px',
-        paddingTop: '36px',
-      },
-      label: {
-        lineHeight: '150px',
-      },
-    };
-    var IDImages = [];
-    IDImages[0] = this.state.facecodeDefaultImage;
-    IDImages[1] = this.state.oppositeDefaultImage;
-    if(this.props.value){
-      var tmp = this.props.value.split(',');
-      if(tmp[0])
-        IDImages[0] = tmp[0];
-      if(tmp[1])
-        IDImages[1] = tmp[1];
-    }
-    return (
-      <div className="form-group">
-        <label className="control-label col-xs-3" style={style.label}>身份证正反面：</label>
-        <div className="col-xs-9">
-          <div className="row" style={style.imgId}>
-            <ImageInput width="200"
-              height="150"
-              addStyle={{width:220}}
-              defaultImage={IDImages[0]}
-              onUpload={this.upload1}
-              onError={this.props.showMessage}
-              disabled={this.props.disabled}
-              multi_selection={false}
-              uid="IDPicture1"
-              ref="IDPicture1"
-              type="user"/>
-            <ImageInput width="200"
-              height="150"
-              addStyle={{width:220}}
-              defaultImage={IDImages[1]}
-              onUpload={this.upload2}
-              onError={this.props.showMessage}
-              disabled={this.props.disabled}
-              multi_selection={false}
-              uid="IDPicture2"
-              ref="IDPicture2"
-              type="user"/>
-          </div>
-
-          <div className="row">
-            <div className="col-xs-4">
-              <img height="150" width="200" src="img/id_shili.png" />
-            </div>
-            <div className="col-xs-8">
-              <div style={style.info}>
-                1 正反面带头像的清晰照片<br />
-                2 仅用于认证请放心上传
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      );
-  }
-});
 
 var PhotographerAuth = React.createClass({
   mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStoreChange'),Reflux.listenTo(AccountStore,'onAccountChanged'),History],
@@ -221,15 +126,7 @@ var PhotographerAuth = React.createClass({
     PAuthActions.viewAudit({Fields:fields});
     AccountActions.userDetail({Fields:'Id,Account.RealName,Account.IdNumber,Account.IdNumberImages,Account.IsCertification'});
   },
-  updateProducts : function(result){
-    var datas = [];
-    if(this.state.pAuthData.Works)
-      datas = this.state.pAuthData.Works.split(',');
-    datas.push(result);
-    var pAuthData = this.state.pAuthData;
-    pAuthData.Works = datas.toString();
-    this.setState({pAuthData:pAuthData});
-  },
+
   //updateCompanyImages : function(result){
   //  var datas = [];
   //  if(this.state.pAuthData.StudioImages)
@@ -239,11 +136,7 @@ var PhotographerAuth = React.createClass({
   //  pAuthData.StudioImages = datas.toString();
   //  this.setState({pAuthData : pAuthData});
   //},
-  updateRealName : function(result){
-    var data = this.state.pAuthData;
-    data.RealName = result;
-    this.setState({pAuthData : data})
-  },
+
   //onProvinceChange : function(result){
   //  var data = this.state.pAuthData;
   //  data.ProvinceId = result;
@@ -274,37 +167,6 @@ var PhotographerAuth = React.createClass({
   //  data.Oicq = result;
   //  this.setState({pAuthData : data});
   //},
-  updatePersonID : function(result){
-    var data = this.state.pAuthData;
-    data.IdNumber = result;
-    this.setState({pAuthData : data});
-  },
-  updateIDImage1 : function(result){
-    var IDImages = [];
-    if(this.state.pAuthData.IdNumberImages){
-      IDImages = this.state.pAuthData.IdNumberImages.split(',');
-      IDImages[0] = result;
-    }else{
-      IDImages[0] = result;
-      IDImages[1] = '';
-    }
-    var data = this.state.pAuthData;
-    data.IdNumberImages = IDImages.toString();
-    this.setState({pAuthData : data});
-  },
-  updateIDImage2 : function(result){
-    var IDImages = [];
-    if(this.state.pAuthData.IdNumberImages){
-      IDImages = this.state.pAuthData.IdNumberImages.split(',');
-      IDImages[1] = result;
-    }else{
-      IDImages[0] = '';
-      IDImages[1] = result;
-    }
-    var data = this.state.pAuthData;
-    data.IdNumberImages = IDImages.toString();
-    this.setState({pAuthData : data});
-  },
   //updateSign : function(result){
   //  var data = this.state.pAuthData;
   //  data.Signature = result;
@@ -489,75 +351,42 @@ var PhotographerAuth = React.createClass({
     if(this.state.authState == '2'){
       rightInfo = '审核不通过';
     }
-    var studio = '';
-    if (this.state.pAuthData.OwnedStudio) {
-      studio = (
-        <div>
-          <TextInput ref="companyName"
-            labelName="工作室名称："
-            value = {this.state.pAuthData.StudioName}
-            updateValue = {this.updateCompanyName}
-            minLength={2}
-            disabled={this.state.disabled}
-            textClassName="col-xs-5"
-            placeholder="" />
-          <TextInput ref="address"
-            labelName="工作室地址："
-            value = {this.state.pAuthData.StudioAddress}
-            updateValue = {this.updateCompanyAddress}
-            minLength={5}
-            disabled={this.state.disabled}
-            textClassName="col-xs-5"
-            placeholder=""/>
-        </div>
-      );
-    }
+    console.log('Attention!', this.props);
+    const pathname = this.props.location.pathname;
+    const stepperInactiveStyle = {
+      background: '#afa',
+      padding: '10px 15px',
+    };
+    const stepperActiveStyle = Object.assign({}, stepperInactiveStyle, {
+      background: '#f60'
+    });
     return (
       <div style={style.outer}>
-        <InfoHeader infoTitle="摄影师认证" rightInfo={rightInfo} infoIconClass="glyphicon glyphicon-camera"/>
-        <form className='form-horizontal'>
-          <TextInput ref="realName"
-            labelName="姓名："
-            value = {this.state.pAuthData.RealName}
-            updateValue = {this.updateRealName}
-            minLength={2}
-            disabled={this.state.disabled}
-            textClassName="col-xs-5"
-            placeholder="请输入您的真实姓名"/>
-          <TextInput ref="IDNumber"
-            labelName="身份证号码："
-            value = {this.state.pAuthData.IdNumber}
-            updateValue = {this.updatePersonID}
-            minLength={15}
-            disabled={this.state.disabled}
-            textClassName="col-xs-5"
-            placeholder=""/>
-          <PersonIDImage ref="personIDImage"
-            value = {this.state.pAuthData.IdNumberImages}
-            upload1={this.updateIDImage1}
-            upload2={this.updateIDImage2}
-            showMessage={this.showMessage}
-            disabled={this.state.disabled}/>
-          <MultiImageSelect ref="works"
-            uid = "worksSelect"
-            labelName="个人作品："
-            width="100"
-            height="100"
-            images={this.state.pAuthData.Works}
-            disabled={this.state.disabled}
-            maxCount={15}
-            placeholder="温馨提示：请上传8-15张多种风格的作品"
-            updateImages={this.updateProducts}
-            showMessage={this.showMessage}
-            remove={this.removeWorks}/>
-          <Switch ref="hasCompany"
-            label='是否有工作室'
-            textOn='是'
-            textOff='否'
-            disabled={this.state.disabled}
-            checked={this.state.pAuthData.OwnedStudio}
-            onChange={this.updateHasCompany}/>
-          {studio}
+        <InfoHeader
+          infoTitle="摄影师认证"
+          rightInfo={rightInfo}
+          infoIconClass="glyphicon glyphicon-camera"
+        />
+        <div className="row">
+          <div className="col-xs-4"
+            style={ pathname === '/account/pAuth/basic' ? stepperActiveStyle : stepperInactiveStyle }
+          >
+            第一步：基本信息必需填写= =
+          </div>
+          <div className="col-xs-4"
+            style={ pathname === '/account/pAuth/realname' ? stepperActiveStyle : stepperInactiveStyle }
+          >
+            第二步：实名认证你懂的^ ^
+          </div>
+          <div className="col-xs-4"
+            style={ pathname === '/account/pAuth/submitaudit' ? stepperActiveStyle : stepperInactiveStyle }
+          >
+            第三步：上传作品看好你哦！
+          </div>
+        </div>
+        { this.props.children }
+        <hr />
+        {/*<form className='form-horizontal'>
           <Button className="col-xs-offset-3"
             disabled={this.state.disabled}
             bsStyle="primary"
@@ -565,7 +394,7 @@ var PhotographerAuth = React.createClass({
             提交
           </Button>
           <ToolTip ref="toolTip" title=""/>
-        </form>
+        </form>*/}
       </div>
     );
   }
