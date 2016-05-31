@@ -31,6 +31,7 @@ var uploaderOption = {
     chunk_size: '4mb',                //分块上传时，每片的体积
     // auto_start: true,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
     filters : {
+      max_file_size: '10mb',
       mime_types: [
         {title : "Image files", extensions : "jpg,png,jpeg"}, // 限定jpg,png后缀上传
       ]
@@ -46,7 +47,7 @@ var uploaderOption = {
                // 每个文件上传前,处理相关的事情
           if(file.origSize >= 1 * 1024 * 1024){
             console.log("resize 1M: 95");
-            up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:95});
+            up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:85});
           }else{
             console.log("resize desabled");
             up.setOption('resize',false);
