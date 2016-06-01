@@ -36,7 +36,6 @@ var PAuthStore = Reflux.createStore({
     this.trigger(this.data);
   },
   onViewAudit : function(data){
-    console.log(data);
     if(data.Success){
       this.data.pAuth = data;
       this.data.hintMessage = null;

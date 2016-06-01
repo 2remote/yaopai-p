@@ -45,16 +45,16 @@ var UserImage = React.createClass({
         <div className="form-group">
           <label className="control-label col-xs-3" style={style.label}>头像：</label>
           <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput 
-              width="150" 
-              height="150" 
-              uid="uploadAvator" 
+            <ImageInput
+              width="150"
+              height="150"
+              uid="uploadAvator"
               type="user"
               multi_selection={false}
-              defaultImage={image} 
+              defaultImage={image}
               onUpload={this.onUpload}
               onError={this.props.showMessage}
-              disabled = {this.props.disabled} 
+              disabled = {this.props.disabled}
               circle="1"/>
           </div>
         </div>
@@ -252,10 +252,10 @@ var PersonInfo = React.createClass({
              labelClassName="col-xs-3"
              wrapperClassName="col-xs-4"
              value={this.state.Account?this.state.Account.Tel:''} />
-          <TextInput ref="nickName" 
-            labelName="昵称：" 
+          <TextInput ref="nickName"
+            labelName="昵称："
             value={this.state.NickName}
-            updateValue={this.updateNickName} 
+            updateValue={this.updateNickName}
             textClassName='col-xs-3'
             minLength={2}
             disabled={!this.state.editable}/>
