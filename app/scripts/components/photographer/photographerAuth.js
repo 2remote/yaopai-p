@@ -124,7 +124,7 @@ var PhotographerAuth = React.createClass({
   getAuditData : function(){
     var fields = 'Id,State,CreationTime,Works,Reason,AuditManagerId,AuditTime';
     PAuthActions.viewAudit({Fields:fields});
-    AccountActions.userDetail({Fields:'Id,Account.RealName,Account.IdNumber,Account.IdNumberImages,Account.IsCertification'});
+    // AccountActions.userDetail({Fields:'Id,Account.RealName,Account.IdNumber,Account.IdNumberImages,Account.IsCertification'});
   },
 
   //updateCompanyImages : function(result){
@@ -351,14 +351,17 @@ var PhotographerAuth = React.createClass({
     if(this.state.authState == '2'){
       rightInfo = '审核不通过';
     }
-    console.log('Attention!', this.props);
     const pathname = this.props.location.pathname;
+    const stepperContainerStyle = {
+      marginTop: -39, // hacks InfoHeader marginBottom 40
+    };
     const stepperInactiveStyle = {
-      background: '#afa',
+      background: '#EFEFEF',
       padding: '10px 15px',
     };
     const stepperActiveStyle = Object.assign({}, stepperInactiveStyle, {
-      background: '#f60'
+      background: '#337AB7',
+      color: 'white',
     });
     return (
       <div style={style.outer}>
@@ -367,7 +370,7 @@ var PhotographerAuth = React.createClass({
           rightInfo={rightInfo}
           infoIconClass="glyphicon glyphicon-camera"
         />
-        <div className="row">
+      <div className="row" style={stepperContainerStyle}>
           <div className="col-xs-4"
             style={ pathname === '/account/pAuth/basic' ? stepperActiveStyle : stepperInactiveStyle }
           >
