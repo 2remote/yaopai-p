@@ -172,15 +172,9 @@ var ChooseImages = React.createClass({
           up.setOption('resize',false);
         }
       },
-      'UploadProgress': function(up, file) {
-        console.log("UP::"+file);
-      },
-      'UploadComplete': function(up, file) {
-        console.log(file.name+"::"+file.origSize);
-      },
-      'FileUploaded': function(up, file, info) {
-        console.log(file.name+"::"+file.origSize);
-      },
+      'UploadProgress': function(up, file) {},
+      'UploadComplete': function() {},
+      'FileUploaded': function(up, file, info) {},
       'Error': function(up, err, errTip) {
         // var progress = new FileProgress(err.file, 'fsUploadProgress');
         // progress.setError();
@@ -240,7 +234,6 @@ var ChooseImages = React.createClass({
   */
   onUploadProgress : function(up,file){
     this.setState({reloadTime : ++this.state.reloadTime});
-    console.log('===', file.origSize, file.size);
   },
 
   onUploadComplete : function(){
