@@ -26,7 +26,7 @@ var AccountActions = require("../../actions/AccountActions");
 var AccountStore = require("../../stores/AccountStore");
 
 var PhotographerAuth = React.createClass({
-  mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStoreChange'),Reflux.listenTo(AccountStore,'onAccountChanged'),History],
+  // mixins: [Reflux.listenTo(PAuthStore, 'handleStoreChange'),Reflux.listenTo(UserStore,'handleUserStoreChange'),Reflux.listenTo(AccountStore,'onAccountChanged'),History],
   getInitialState: function(){
     return {
       authState : '0',
@@ -354,6 +354,7 @@ var PhotographerAuth = React.createClass({
     const pathname = this.props.location.pathname;
     const stepperContainerStyle = {
       marginTop: -39, // hacks InfoHeader marginBottom 40
+      marginBottom: 20,
     };
     const stepperInactiveStyle = {
       background: '#EFEFEF',

@@ -9,20 +9,12 @@ var UserActions = require("../../actions/UserActions");
 var AccountStore = require('../../stores/AccountStore');
 var UserStore = require("../../stores/UserStore");
 var History = require('react-router').History;
+var ToolTip = require('../toolTip');
 
 var UserImage = React.createClass({
-  mixins: [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
-  componentDidMount: function() {
-
-  },
   onUpload: function(avatarUrl) {
     AccountActions.changeAvatar({Avatar : avatarUrl});
     this.props.updateAvatar(avatarUrl);
-  },
-  onUpdateAvatar: function(data) {
-    if(data.flag == 'avatar') {
-      console.log(data);
-    }
   },
   render: function() {
     var image = 'img/default_user_img.png';
@@ -30,7 +22,7 @@ var UserImage = React.createClass({
       label: {
         lineHeight: '150px',
         verticalAlign: 'top',
-      }
+      },
     };
     if(this.props.defaultImage) {
       image = this.props.defaultImage;
@@ -143,17 +135,18 @@ const AuthBasic = React.createClass({
     }
   },
   updateAvatar: function(avatar) {
-    console.log('updating avatar in AuthBasic...');
     this.setState({ avatar });
   },
   updateInfo: function(e) {
-    console.log('updating...', this.state);
     var { nickname, gender, location } = this.state;
     // TODO: 条件限制
     AccountActions.updateInfo({
       NickName: nickname,
       Sex: gender,
       Location: location.district || location.city || location.province, // 地区 > 城市 > 省份
+      ProvinceId: location.province,
+      CityId: location.city,
+      CountyId: location.district,
     });
     // TODO: 这里去更新一下UserStore（WTF）
     e.preventDefault();
@@ -195,7 +188,7 @@ const AuthBasic = React.createClass({
     });
   },
   showMessage: function(msg) {
-    console.log('[ShowMessage @ AuthBasic]', msg);
+    this.refs.toolTip.toShow(msg);
   },
   render: function() {
     return (
@@ -216,7 +209,9 @@ const AuthBasic = React.createClass({
           value={ this.state.nickname }
           updateValue={ this.updateNickName }
           textClassName='col-xs-3'
-          minLength={ 2 }
+          isRequired = { true }
+          minLength={ 1 }
+          maxLength={ 10 }
           disabled={ !this.state.editable }
         />
         <AreaSelect ref="area"
@@ -233,7 +228,7 @@ const AuthBasic = React.createClass({
             <button type="submit" className="btn btn-primary">下一步</button>
           </div>
         </div>
-        <Link to="/account/pAuth/realname">下一步</Link>
+        <ToolTip ref="toolTip" title=""/>
       </form>
     )
   },

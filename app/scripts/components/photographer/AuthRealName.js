@@ -1,19 +1,25 @@
 var React = require('react');
+var Reflux = require('reflux');
 var { Link } = require('react-router');
+var History = require('react-router').History;
+var TextInput = require('../account/textInput');
 var ImageInput = require('../account/imageInput');
 var ToolTip = require('../toolTip');
+var AccountActions = require("../../actions/AccountActions");
+var AccountStore = require('../../stores/AccountStore');
+var UserStore = require("../../stores/UserStore");
 
 /*
   身份证图片上传
 */
 var PersonIDImage = React.createClass({
-  getInitialState: function(){
+  getInitialState: function() {
     return {
       facecodeDefaultImage : 'img/facecode.png',
       oppositeDefaultImage : 'img/opposite.png',
     }
   },
-  getValue : function(){
+  getValue: function() {
     var v1 = this.refs.IDPicture1.getValue();
     var v2 = this.refs.IDPicture2.getValue();
     if(v1 && v2 && v1!=this.state.facecodeDefaultImage && v2!=this.state.oppositeDefaultImage){
@@ -22,13 +28,13 @@ var PersonIDImage = React.createClass({
       return null;
     }
   },
-  upload1 : function(url){
+  upload1: function(url) {
     this.props.upload1(url);
   },
-  upload2 : function(url){
+  upload2: function(url) {
     this.props.upload2(url);
   },
-  render : function(){
+  render: function() {
     var style = {
       imgId: {
         marginBottom: '14px',
@@ -80,7 +86,6 @@ var PersonIDImage = React.createClass({
               ref="IDPicture2"
               type="user"/>
           </div>
-
           <div className="row">
             <div className="col-xs-4">
               <img height="150" width="200" src="img/id_shili.png" />
@@ -94,19 +99,50 @@ var PersonIDImage = React.createClass({
           </div>
         </div>
       </div>
-      );
+    );
   }
 });
 
 var AuthRealName = React.createClass({
-  getInitialState: function(){
+  mixins: [
+    /* 用户基本信息只需要调用User.CurrentUser */
+    /* 下面那个AccountStore里有个User.CurrentUserDetail相关的action */
+    Reflux.listenTo(UserStore, 'onUserStoreChange'),
+    Reflux.listenTo(AccountStore, 'onchangeRealNameComplete'),
+    History
+  ],
+  onUserStoreChange: function() {
+
+  },
+  onchangeRealNameComplete: function(msg) {
+    if(msg.flag === 'changeRealName') { // 这才是真的updateInfo结果
+      if(msg.changeSuccess) {
+        this.history.replaceState(null, '/account/pAuth/submitaudit');
+      } else {
+        // TODO: 报错
+        this.showMessage(msg.hintMessage);
+        // alert(msg.hintMessage);
+      }
+    }
+  },
+  getInitialState: function() {
     return {
       authState : '0',
       disabled : false,
       pAuthData : {}
     }
   },
-  updateIDImage1 : function(result){
+  updateRealName: function(result) {
+    var data = this.state.pAuthData;
+    data.RealName = result;
+    this.setState({pAuthData : data})
+  },
+  updatePersonID: function(result) {
+    var data = this.state.pAuthData;
+    data.IdNumber = result;
+    this.setState({pAuthData : data});
+  },
+  updateIDImage1: function(result) {
     var IDImages = [];
     if(this.state.pAuthData.IdNumberImages){
       IDImages = this.state.pAuthData.IdNumberImages.split(',');
@@ -119,7 +155,7 @@ var AuthRealName = React.createClass({
     data.IdNumberImages = IDImages.toString();
     this.setState({pAuthData : data});
   },
-  updateIDImage2 : function(result){
+  updateIDImage2: function(result) {
     var IDImages = [];
     if(this.state.pAuthData.IdNumberImages){
       IDImages = this.state.pAuthData.IdNumberImages.split(',');
@@ -132,12 +168,37 @@ var AuthRealName = React.createClass({
     data.IdNumberImages = IDImages.toString();
     this.setState({pAuthData : data});
   },
-  showMessage : function(message) {
+  showMessage: function(message) {
     this.refs.toolTip.toShow(message);
+  },
+  onSubmit: function(e) {
+    AccountActions.changeRealName({
+      RealName:this.state.pAuthData.RealName,
+      IdNumber:this.state.pAuthData.IdNumber,
+      IdNumberImages:this.state.pAuthData.IdNumberImages,
+    });
+    // console.log('[pAuthData]', this.state.pAuthData);
+    e.preventDefault();
   },
   render: function() {
     return (
-      <div>
+      <form className="form-horizontal" onSubmit={ this.onSubmit }>
+        <TextInput ref="realName"
+          labelName="姓名："
+          value = {this.state.pAuthData.RealName}
+          updateValue = {this.updateRealName}
+          minLength={2}
+          disabled={this.state.disabled}
+          textClassName="col-xs-5"
+          placeholder="请输入您的真实姓名"/>
+        <TextInput ref="IDNumber"
+          labelName="身份证号码："
+          value = {this.state.pAuthData.IdNumber}
+          updateValue = {this.updatePersonID}
+          minLength={15}
+          disabled={this.state.disabled}
+          textClassName="col-xs-5"
+          placeholder="请输入您的身份证号码"/>
         <PersonIDImage ref = "personIDImage"
           value = {this.state.pAuthData.IdNumberImages}
           upload1 = {this.updateIDImage1}
@@ -145,9 +206,13 @@ var AuthRealName = React.createClass({
           showMessage = {this.showMessage}
           disabled = {this.state.disabled}
         />
-        <Link to="/account/pAuth/submitaudit">下一步</Link>
+        <div className="form-group">
+          <div className="col-xs-offset-3 col-xs-9">
+            <button type="submit" className="btn btn-primary">下一步</button>
+          </div>
+        </div>
         <ToolTip ref="toolTip" title=""/>
-      </div>
+      </form>
     );
   },
 });
