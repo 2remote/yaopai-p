@@ -10,12 +10,30 @@ var AccountActions = Reflux.createActions({
   'changeRealName': {children: ['success', 'failed']},
 });
 
+var mockFunc = function(originalFunc, data) {
+  return function(respData) {
+    originalFunc(respData, data);
+  };
+};
+
 AccountActions.changeAvatar.listen(function (data) {
-  HttpFactory.post(API.USER.changeAvatar, data, this.success, this.failed);
+  const self = this;
+  HttpFactory.post(
+    API.USER.changeAvatar,
+    data,
+    mockFunc(self.success, data),
+    this.failed
+  );
 });
 
 AccountActions.updateInfo.listen(function(data){
-  HttpFactory.post(API.USER.updateInfo, data, this.success, this.failed);
+  const self = this;
+  HttpFactory.post(
+    API.USER.updateInfo,
+    data,
+    mockFunc(self.success, data),
+    this.failed
+  );
 });
 
 AccountActions.userDetail.listen(function(data){
