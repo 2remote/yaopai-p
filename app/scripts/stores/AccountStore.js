@@ -88,8 +88,10 @@ var AccountStore = Reflux.createStore({
   onChangeRealNameSuccess: function(data) {
     if(data.Success) {
       this.accountData.detail = data;
+      this.accountData.changeSuccess = true;
     } else {
       this.accountData.detail = null;
+      this.accountData.changeSuccess = false;
       this.accountData.hintMessage = data.ErrorMsg;
     }
     this.accountData.flag = 'changeRealName';
@@ -97,6 +99,7 @@ var AccountStore = Reflux.createStore({
   },
   onChangeRealNameFailed: function(data) {
     console.log(data);
+    this.accountData.changeSuccess = false;
     this.accountData.hintMessage = '网络错误，请重试！';
     this.accountData.flag = 'changeRealName';
     this.trigger(this.accountData);
