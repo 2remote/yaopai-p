@@ -62,6 +62,7 @@
     "serverup": "node yaopai-node/index.js",
     "start": "gulp serve",
     "test": "./node_modules/jest-cli/bin/jest.js",
+    "preinstall": "npm install --save history@1.17.0",
     "build": "gulp build ",
     "server": "npm run build && npm run serverup"
   },
