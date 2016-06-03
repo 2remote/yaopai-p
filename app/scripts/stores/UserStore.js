@@ -1,5 +1,6 @@
 var Reflux = require('reflux');
 var UserActions = require('../actions/UserActions');
+var AccountActions = require('../actions/AccountActions');
 
 var UserStore = Reflux.createStore({
   userKey : 'yaopai_user',
@@ -41,6 +42,8 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.currentUser,this.onCurrentUser);
     this.listenTo(UserActions.modifyPassword.success,this.onModifyPasswordSuccess);
     this.listenTo(UserActions.modifyPassword.failed,this.onModifyPasswordFailed);
+    this.listenTo(AccountActions.changeAvatar.success, this.updateUser);
+    this.listenTo(AccountActions.updateInfo.success, this.updateUser);
   },
   getTokenToLogin: function() {
     //从localStorage读取UserData
@@ -231,7 +234,33 @@ var UserStore = Reflux.createStore({
       this.userData.gender = userData.Sex;
     }
   },
-
+  /**
+   * 更新当前用户的信息，用于解决AccountAction更新数据后这边不同步的情况。
+   * 此方法为临时解决方案，日后会重构UserStore和AccountStore
+  **/
+  updateUser: function(respData, data) {
+    var loadedData = {};
+    /* converts data to this.userData style */
+    if(data.Avatar) {
+      loadedData.avatar = data.Avatar;
+    }
+    if(data.ProvinceId || data.ProvinceId === 0) {
+      loadedData.provinceId = data.ProvinceId;
+    }
+    if(data.CityId || data.CityId === 0) {
+      loadedData.cityId = data.CityId;
+    }
+    if(data.CountyId || data.CountyId === 0) {
+      loadedData.countyId = data.CountyId;
+    }
+    if(data.NickName) {
+      loadedData.userName = data.NickName;
+    }
+    if(respData.Success) { // then merge
+      this.userData = Object.assign({}, this.userData, loadedData);
+      this.trigger(this.userData);
+    }
+  },
 });
 
 module.exports = UserStore;
