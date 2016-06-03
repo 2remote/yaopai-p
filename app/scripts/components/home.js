@@ -164,7 +164,7 @@ var LoginButtonn = React.createClass({
       <div>
         <span style={textStyle}>点登录表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
-        
+
         <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span></div>
       </div>
     );
@@ -293,7 +293,7 @@ var RegisterButtons = React.createClass({
       <div>
         <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
-        
+
         <div style={openLogin}><span>已经有账号？<a href="#" onClick={this.props.toLogin}>直接登录</a></span></div>
       </div>
     );
@@ -333,6 +333,8 @@ var LoginForm = React.createClass({
     var imageCenter = {
       margin : '0px auto',
       marginBottom : '46px',
+      width: '100%',
+      height: 'auto',
     }
     var inputWrap = {
       marginBottom: '15px',
