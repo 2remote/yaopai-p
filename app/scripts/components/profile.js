@@ -184,7 +184,7 @@ var ProfileHeader = React.createClass({
             <QRCode value={'http://m.aiyaopai.com/#/grapherDetail/'+this.state.id} size={140}/>
           </div>
           <div style={headerStyle.qrcode2}>
-            <img width="160" height="160" src='../../img/qrcode.jpg'/>
+            <img width="160" height="160" src='../../img/qrcode_dingyue.jpg'/>
           </div>
         </div>
         <div style={headerStyle.qrfonts}>
@@ -380,7 +380,7 @@ var WorksList = React.createClass({
       }
     }
 
-     
+
     return (
       <div ref="masonryContainer" style={mainStyle.container}>
         {photoList}
