@@ -1,24 +1,10 @@
 var React = require('react');
-var Router = require('react-router');
-var Link  = Router.Link;
-var History = Router.History;
 var Reflux = require('reflux');
 var UserStore = require('../../stores/UserStore');
 
 var validator = require('validator');
 var InfoHeader = require('../infoHeader');
 
-var Panel = require('react-bootstrap').Panel;
-var Input = require('react-bootstrap').Input;
-var Button = require('react-bootstrap').Button;
-
-var TextInput = require('../account/textInput');
-var ImageInput = require('../account/imageInput');
-var AreaSelect = require('../account/areaSelect');
-var ToolTip = require('../toolTip');
-
-var Switch = require('../tools/switch');
-var CompanyLogo = require('./companyLogo');
 var UserActions = require('../../actions/UserActions');
 var PAuthActions = require('../../actions/PAuthActions');
 var PAuthStore = require('../../stores/PAuthStore');
@@ -127,56 +113,6 @@ var PhotographerAuth = React.createClass({
     // AccountActions.userDetail({Fields:'Id,Account.RealName,Account.IdNumber,Account.IdNumberImages,Account.IsCertification'});
   },
 
-  //updateCompanyImages : function(result){
-  //  var datas = [];
-  //  if(this.state.pAuthData.StudioImages)
-  //    datas = this.state.pAuthData.StudioImages.split(',');
-  //  datas.push(result);
-  //  var pAuthData = this.state.pAuthData;
-  //  pAuthData.StudioImages = datas.toString();
-  //  this.setState({pAuthData : pAuthData});
-  //},
-
-  //onProvinceChange : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.ProvinceId = result;
-  //  this.setState({pAuthData : data});
-  //},
-  //onCityChange : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.CityId = result;
-  //  this.setState({pAuthData:data});
-  //},
-  //onDistrictChange : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.CountyId = result;
-  //  this.setState({pAuthData : data});
-  //},
-  //updateWorkPhone : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.BusinessPhone = result;
-  //  this.setState({pAuthData : data});
-  //},
-  //updateWechat : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.Weixin = result;
-  //  this.setState({pAuthData : data});
-  //},
-  //updateQQ : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.Oicq = result;
-  //  this.setState({pAuthData : data});
-  //},
-  //updateSign : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.Signature = result;
-  //  this.setState({pAuthData : data});
-  //},
-  //updateWorkLinks : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.WorkLinks = result;
-  //  this.setState({pAuthData : data});
-  //},
   updateHasCompany : function(result){
     var data = this.state.pAuthData;
     data.OwnedStudio = result;
@@ -187,21 +123,11 @@ var PhotographerAuth = React.createClass({
     data.StudioName = result;
     this.setState({pAuthData : data});
   },
-  //updateCompanyLogo : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.StudioLogo = result;
-  //  this.setState({pAuthData : data});
-  //},
   updateCompanyAddress : function(result){
     var data = this.state.pAuthData;
     data.StudioAddress = result;
     this.setState({pAuthData : data});
   },
-  //updateCompanyIntro : function(result){
-  //  var data = this.state.pAuthData;
-  //  data.StudioIntroduction = result;
-  //  this.setState({pAuthData: data});
-  //},
   removeWorks : function(index){
     var data = this.state.pAuthData;
     var works = data.Works;
@@ -214,18 +140,6 @@ var PhotographerAuth = React.createClass({
       }
     }
   },
-  //removeCompanyImage : function(index){
-  //  var data = this.state.pAuthData;
-  //  var companyImages = data.StudioImages;
-  //  if(companyImages && companyImages.length > 0){
-  //    companyImages = companyImages.split(',');
-  //    if(index < companyImages.length){
-  //      companyImages.splice(index,1);
-  //      data.StudioImages = companyImages.toString();
-  //      this.setState({pAuthData : data});
-  //    }
-  //  }
-  //},
   /*
     验证所有输入是否合法
   */
@@ -235,22 +149,6 @@ var PhotographerAuth = React.createClass({
       message = '真实姓名最少2个字';
       return message;
     }
-    //if(!this.refs.area.getValue()){
-    //  message = '请选择常驻地';
-    //  return message;
-    //}
-    //if(!this.refs.workPhone.isValidated()){
-    //  message = '请填写正确的电话号码';
-    //  return message;
-    //}
-    //if(!this.refs.wechat.isValidated()){
-    //  message = '请填写正确微信号码';
-    //  return message;
-    //}
-    //if(!this.refs.qq.isValidated()){
-    //  message = '请填写正确的qq号码';
-    //  return message;
-    //}
     if(!this.refs.IDNumber.isValidated()){
       message = '请填写正确的身份证号码';
       return message;
@@ -274,22 +172,10 @@ var PhotographerAuth = React.createClass({
         message = '请填写您的工作室名称';
         return message;
       }
-      //if(!this.refs.complanyLogo.getValue()){
-      //  message = '请上传您的工作室logo';
-      //  return message;
-      //}
       if(!this.refs.address.isValidated()){
         message = '请填写工作室的详细地址';
         return message;
       }
-      //if(!this.refs.companyIntro.isValidated()){
-      //  message = '请填写工作室的简介';
-      //  return message;
-      //}
-      //if(!this.state.pAuthData.StudioImages){
-      //  message = "请上传工作室的照片";
-      //  return message;
-      //}
     }
     return message;
   },
@@ -299,24 +185,6 @@ var PhotographerAuth = React.createClass({
   handleSubmit : function(){
     var message = this.validate();
     if(!message){
-      //var data = {
-      //  RealName : this.state.pAuthData.RealName,
-      //  BusinessLocation : this.state.pAuthData.CountyId?this.state.pAuthData.CountyId:this.state.pAuthData.CityId?this.state.pAuthData.CityId:this.state.pAuthData.ProvinceId,
-      //  BusinessPhone : this.state.pAuthData.BusinessPhone,
-      //  Weixin : this.state.pAuthData.Weixin,
-      //  Oicq : this.state.pAuthData.Oicq,
-      //  IdNumber : this.state.pAuthData.IdNumber,
-      //  IdNumberImages : this.state.pAuthData.IdNumberImages,
-      //  Signature : this.state.pAuthData.Signature,
-      //  WorkLinks : this.state.pAuthData.WorkLinks,
-      //  Works : this.state.pAuthData.Works,
-      //  OwnedStudio : this.state.pAuthData.OwnedStudio,
-      //  StudioName : this.state.pAuthData.StudioName,
-      //  StudioLogo : this.state.pAuthData.StudioLogo,
-      //  StudioAddress : this.state.pAuthData.StudioAddress,
-      //  StudioIntroduction : this.state.pAuthData.StudioIntroduction,
-      //  StudioImages : this.state.pAuthData.StudioImages
-      //};
       PAuthActions.change({
         OwnedStudio:this.state.pAuthData.OwnedStudio,
         StudioName:this.state.pAuthData.OwnedStudio?this.state.pAuthData.StudioName:'',
