@@ -41,7 +41,10 @@ AuthAction.changeRealName.listen(function(data) {
  *
  * @param data: 结构参考后台接口
  */
-AuthAction.viewPhotographerAudit.listen(function(data) {
+AuthAction.viewPhotographerAudit.listen(function() {
+  const data = {
+    Fields: 'Id,Works,State,Reason,AuditTime,CreationTime',
+  };
   const self = this;
   post(API.PHOTOGRAPHER.viewAudit, data, self.success, self.error);
 });
@@ -63,7 +66,10 @@ AuthAction.submitPhotographerAudit.listen(function(data) {
  *
  * @param data: 结构参考后台接口
  */
-AuthAction.viewMakeupArtistAudit.listen(function(data) {
+AuthAction.viewMakeupArtistAudit.listen(function() {
+  const data = {
+    Fields: 'Id,Works,State,Reason,AuditTime,CreationTime',
+  };
   const self = this;
   post(API.MAKEUPARTIST.viewAudit, data, self.success, self.error);
 });
@@ -85,7 +91,10 @@ AuthAction.submitMakeupArtistAudit.listen(function(data) {
  *
  * @param data: 结构参考后台接口
  */
-AuthAction.viewMoteAudit.listen(function(data) {
+AuthAction.viewMoteAudit.listen(function() {
+  const data = {
+    Fields: 'Id,Works,State,Reason,AuditTime,CreationTime',
+  };
   const self = this;
   post(API.MOTE.viewAudit, data, self.success, self.error);
 });
