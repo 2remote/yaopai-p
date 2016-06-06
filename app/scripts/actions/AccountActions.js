@@ -36,7 +36,13 @@ AccountActions.updateInfo.listen(function(data){
   );
 });
 
-AccountActions.userDetail.listen(function(data){
+AccountActions.userDetail.listen(function(){
+  var data = {
+    Fields: 'Id,NickName,Sex,Avatar,Signature,' +
+    'ProvinceId,CityId,CountyId,' +
+    'Account.RealNameState,Account.RealNameFailedReason,Account.Type,' +
+    'Account.ContactWeibo,Account.ContactWeixin,Account.ContactOicq,Account.Tel',
+  };
   HttpFactory.post(API.USER.currentUserDetail, data,this.success, this.failed);
 });
 
