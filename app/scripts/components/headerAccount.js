@@ -82,7 +82,7 @@ var Acount = React.createClass({
       var uploadWorksLink;
       var passwordLink;
       var photographerLink = (<li>
-        <Link to="/account/pAuth">
+        <Link to="/account/auth">
           <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 摄影师认证
         </Link>
       </li>)
