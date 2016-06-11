@@ -258,15 +258,6 @@ var PhotographerAuth = React.createClass({
         </div>
         { this.props.children }
         <hr />
-        {/*<form className='form-horizontal'>
-          <Button className="col-xs-offset-3"
-            disabled={this.state.disabled}
-            bsStyle="primary"
-            onClick={this.handleSubmit}>
-            提交
-          </Button>
-          <ToolTip ref="toolTip" title=""/>
-        </form>*/}
       </div>
     );
   }
