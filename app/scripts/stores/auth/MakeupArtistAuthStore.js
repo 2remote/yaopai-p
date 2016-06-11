@@ -20,7 +20,12 @@ const MakeupArtistAuthStore = Reflux.createStore({
     /*
      * 摄影师：photographer
      */
-    return {
+    return this.data;
+  },
+  init: function() {
+    this.listenTo(AuthAction.viewMakeupArtistAudit.success, this.onViewMakeupArtistAudit);
+    this.listenTo(AuthAction.submitMakeupArtistAudit.success, this.onSubmitMakeupArtistAudit);
+    this.data = {
       /* 认证状态 */
       status: MAKEUPARTIST_AUTH_DEFAULT,
       /* 认证（失败）原因 */
@@ -31,26 +36,23 @@ const MakeupArtistAuthStore = Reflux.createStore({
       workList: [],
     };
   },
-  init: function() {
-    this.listenTo(AuthAction.viewMakeupArtistAudit.success, this.onViewMakeupArtistAudit);
-    this.listenTo(AuthAction.submitMakeupArtistAudit.success, this.onSubmitMakeupArtistAudit);
-  },
   onViewMakeupArtistAudit: function(resp) {
     const self = this;
+    let data = self.data;
     if(resp.Success) {
-      self.status = convertRealNameStatus(resp.State);
-      self.reason = resp.Reason;
-      self.time = resp.AuditTime;
-      self.workList = resp.Works;
-      self.trigger(this);
+      data.status = convertRealNameStatus(resp.State);
+      data.reason = resp.Reason;
+      data.time = resp.AuditTime;
+      data.workList = resp.Works;
+      self.trigger(data);
     } else {
       // TODO: 传入ErrorCode和ErrorMsg
       // this.onError({});
-      self.status = MAKEUPARTIST_AUTH_NONE;
-      self.reason = '';
-      self.time = '';
-      self.workList = [];
-      self.trigger(this);
+      data.status = MAKEUPARTIST_AUTH_NONE;
+      data.reason = '';
+      data.time = '';
+      data.workList = [];
+      self.trigger(data);
     }
   },
   onSubmitMakeupArtistAudit: function() {

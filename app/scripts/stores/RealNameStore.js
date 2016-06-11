@@ -20,7 +20,12 @@ const convertRealNameStatus = function(serverStatus) {
  */
 const RealNameStore = Reflux.createStore({
   getInitialState: function() {
-    return {
+    return this.data;
+  },
+  init: function() {
+    this.listenTo(AccountActions.userDetail.success, this.onUserDetail);
+    this.listenTo(AuthAction.changeRealName.success, this.onChangeRealName);
+    this.data = {
       /* 认证状态 */
       status: REALNAME_DEFAULT,
       /* 审核原因 */
@@ -33,13 +38,10 @@ const RealNameStore = Reflux.createStore({
       idNumberImages: [],
     };
   },
-  init: function() {
-    this.listenTo(AccountActions.userDetail.success, this.onUserDetail);
-    this.listenTo(AuthAction.changeRealName.success, this.onChangeRealName);
-  },
   onUserDetail: function(resp) {
     const self = this;
-    if(resp.Success) {
+    let data = self.data;
+    if(resp.Success && resp.Account) {
       /*
        * 后台返回实名认证状态：
        * None：无
@@ -47,13 +49,13 @@ const RealNameStore = Reflux.createStore({
        * Approve：通过
        * Unapprove：不通过
        */
-      self.status = convertRealNameStatus(resp.RealNameState);
-      self.reason = resp.RealNameFailedReason;
+      data.status = convertRealNameStatus(resp.Account.RealNameState);
+      data.reason = resp.Account.RealNameFailedReason;
       // TODO: 以下内容可能不要存
-      self.name = resp.RealName;
-      self.idNumber = resp.IdNumber;
-      self.idNumberImages = resp.IdNumberImages;
-      self.trigger(this);
+      //data.name = resp.RealName;
+      //data.idNumber = resp.IdNumber;
+      //data.idNumberImages = resp.IdNumberImages;
+      self.trigger(data);
     }
   },
   onChangeRealName: function() {

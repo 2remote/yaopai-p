@@ -20,37 +20,39 @@ const PhotographerAuthStore = Reflux.createStore({
     /*
      * 摄影师：photographer
      */
-    return {
-        /* 认证状态 */
-        status: PHOTOGRAPHER_AUTH_DEFAULT,
-        /* 认证（失败）原因 */
-        reason: '',
-        /* 审核时间 */
-        time: '',
-        /* 认证作品列表 */
-        workList: [],
-    };
+    return this.data;
   },
   init: function() {
     this.listenTo(AuthAction.viewPhotographerAudit.success, this.onViewPhotographerAudit);
     this.listenTo(AuthAction.submitPhotographerAudit.success, this.onSubmitPhotographerAudit);
+    this.data = {
+      /* 认证状态 */
+      status: PHOTOGRAPHER_AUTH_DEFAULT,
+      /* 认证（失败）原因 */
+      reason: '',
+      /* 审核时间 */
+      time: '',
+      /* 认证作品列表 */
+      workList: [],
+    };
   },
   onViewPhotographerAudit: function(resp) {
     const self = this;
+    let data = self.data;
     if(resp.Success) {
-      self.status = convertRealNameStatus(resp.State);
-      self.reason = resp.Reason;
-      self.time = resp.AuditTime;
-      self.workList = resp.Works;
-      self.trigger(this);
+      data.status = convertRealNameStatus(resp.State);
+      data.reason = resp.Reason;
+      data.time = resp.AuditTime;
+      data.workList = resp.Works;
+      self.trigger(data);
     } else {
       // TODO: 传入ErrorCode和ErrorMsg
       // this.onError({});
-      self.status = PHOTOGRAPHER_AUTH_NONE;
-      self.reason = '';
-      self.time = '';
-      self.workList = [];
-      self.trigger(this);
+      data.status = PHOTOGRAPHER_AUTH_NONE;
+      data.reason = '';
+      data.time = '';
+      data.workList = [];
+      self.trigger(data);
     }
   },
   onSubmitPhotographerAudit: function() {

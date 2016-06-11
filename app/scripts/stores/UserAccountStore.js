@@ -43,7 +43,12 @@ const fillUserBasicInfo = function(self, tokens, userInfo) {
     = convertProfessions(userInfo.Type, USERPROFESSIONAL_MASK_MAKEUPARTIST);
   self.basic.professions.mote
     = convertProfessions(userInfo.Type, USERPROFESSIONAL_MASK_MOTE);
-  self.basic.nickname = userInfo.Name;
+  if(userInfo.Name) {
+    self.basic.nickname = userInfo.Name;
+  }
+  if(userInfo.NickName) {
+    self.basic.nickname = userInfo.NickName;
+  }
   self.basic.gender = convertGender(userInfo.Sex);
   self.basic.avatar = userInfo.Avatar;
   self.basic.signature = userInfo.Signature;
@@ -59,6 +64,16 @@ const fillUserBasicInfo = function(self, tokens, userInfo) {
  */
 const UserAccountStore = Reflux.createStore({
   getInitialState: function() {
+    return this.data;
+  },
+  init: function() {
+    this.listenTo(UserActions.login.success, this.onLogin);
+    this.listenTo(UserActions.loginWithToken.success, this.onLogin);
+    this.listenTo(UserActions.logout.success, this.onLogout);
+    this.listenTo(UserActions.currentServerUser.success, this.onCurrentUser);
+    this.listenTo(AccountActions.userDetail.success, this.onCurrentUserDetail);
+    this.listenTo(AccountActions.changeAvatar.success, this.onChangeAvatar);
+    this.listenTo(AccountActions.updateInfo.success, this.onUpdateInfo);
     /**
      * 用户信息包含：
      * SessionToken: 客户端会话令牌
@@ -78,7 +93,7 @@ const UserAccountStore = Reflux.createStore({
      * CountyId: 区Id
      * CountyName: 区名称
      */
-    return {
+    this.data = {
       isLogin: false,
       loginToken: '',
       sessionToken: '',
@@ -102,42 +117,61 @@ const UserAccountStore = Reflux.createStore({
       account: {},
     };
   },
-  init: function() {
-    this.listenTo(UserActions.login.success, this.onLogin);
-    this.listenTo(UserActions.loginWithToken.success, this.onLogin);
-    this.listenTo(UserActions.logout.success, this.onLogout);
-    this.listenTo(UserActions.currentServerUser.success, this.onCurrentUser);
-    this.listenTo(AccountActions.userDetail.success, this.onCurrentUserDetail);
-  },
   onLogin: function(resp) {
-    var self = this;
+    const self = this;
+    let data = self.data;
     if(resp.Success) {
-      fillUserBasicInfo(self, resp, resp.User);
-      self.trigger(self);
+      fillUserBasicInfo(data, resp, resp.User);
+      self.trigger(data);
     }
   },
   onLogout: function(resp) {
     if(resp.Success) {
-      var self = this;
+      const self = this;
+      let data = self.data;
       /* clear up */
-      self.isLogin = false;
-      self.loginToken = '';
-      self.sessionToken = '';
-      self.basic = {
+      data.isLogin = false;
+      data.loginToken = '';
+      data.sessionToken = '';
+      data.basic = {
         professions: {},
       };
       // TODO: 某天要把LocalStorage也清掉
-      self.trigger(self);
+      self.trigger(data);
     }
   },
   onCurrentUser: function(resp) {
-    var self = this;
+    const self = this;
+    let data = self.data;
     if(resp.Success) {
-      fillUserBasicInfo(self, {}, resp);
-      self.trigger(self);
+      fillUserBasicInfo(data, {}, resp);
+      self.trigger(data);
     }
   },
-  onCurrentUserDetail: function() {},
+  onCurrentUserDetail: function(resp) {
+
+  },
+  onChangeAvatar: function(resp, avatar) {
+    const self = this;
+    let data = self.data;
+    if(resp.Success) {
+      data.basic.avatar = avatar.Avatar;
+      self.trigger(data);
+    }
+  },
+  onUpdateInfo: function(resp, submitData) {
+    const self = this;
+    let data = self.data;
+    if(resp.Success) {
+      data.basic.nickname = submitData.NickName;
+      data.basic.gender = submitData.Sex;
+      data.basic.province = submitData.ProvinceId;
+      data.basic.city = submitData.CityId;
+      data.basic.county = submitData.CountyId;
+      data.basic.complete = true;
+      self.trigger(data);
+    }
+  },
 });
 
 module.exports = UserAccountStore;
