@@ -68,6 +68,7 @@ var AuthSummary = React.createClass({
       this.props.history.pushState(null, targets.first);
     }
     this.props.changeAuthTarget(targets.second);
+    this.props.history.pushState(null, targets.second);
   },
 });
 
