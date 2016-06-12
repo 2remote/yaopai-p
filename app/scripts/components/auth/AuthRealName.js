@@ -40,9 +40,9 @@ var PersonIDImage = React.createClass({
         marginBottom: '14px',
       },
       info: {
-        marginLeft: '70px',
+        marginLeft: '35px',
         height: '150px',
-        paddingTop: '36px',
+        paddingTop: '20px',
       },
       label: {
         lineHeight: '150px',
@@ -94,8 +94,11 @@ var PersonIDImage = React.createClass({
             </div>
             <div className="col-xs-8">
               <div style={style.info}>
-                1 正反面带头像的清晰照片<br />
-                2 仅用于认证请放心上传
+                照片要求：（需符合以下要求，否则不予审核通过）<br />
+                1. 脸部清晰无遮挡；<br />
+                2. 身份证全部信息清晰无遮挡；<br />
+                3. 照片内容真实有效，不得做任何修改；<br />
+                4. 仅用于认证请放心上传；
               </div>
             </div>
           </div>
