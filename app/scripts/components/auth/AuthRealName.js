@@ -191,7 +191,7 @@ var AuthRealName = React.createClass({
           />
           <div className="form-group">
             <div className="col-xs-offset-3 col-xs-9">
-              <button type="submit" className="btn btn-default">继续</button>
+              <button type="submit" className="btn btn-default">下一步</button>
             </div>
           </div>
         </form>

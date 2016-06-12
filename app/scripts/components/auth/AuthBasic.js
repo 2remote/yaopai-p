@@ -127,7 +127,7 @@ var AuthBasic = React.createClass({
           />
           <div className="form-group">
             <div className="col-xs-offset-3 col-xs-9">
-              <button type="submit" className="btn btn-default">走，实名认证去！</button>
+              <button type="submit" className="btn btn-default">下一步</button>
             </div>
           </div>
         </form>

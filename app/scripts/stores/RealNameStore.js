@@ -58,8 +58,10 @@ const RealNameStore = Reflux.createStore({
       self.trigger(data);
     }
   },
-  onChangeRealName: function() {
-
+  onChangeRealName: function(resp) {
+    if(resp.Success) {
+      this.data.status = REALNAME_PENDING;
+    }
   },
 });
 

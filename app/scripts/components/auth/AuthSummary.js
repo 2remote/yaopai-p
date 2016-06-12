@@ -45,42 +45,9 @@ var AuthSummary = React.createClass({
       <div>
         <InfoHeader
           infoTitle="入驻邀拍"
+          rightInfo={'实名：' + this.props.realName.status}
           infoIconClass="glyphicon glyphicon-camera"
         />
-        <div className="row">
-          <div className="col-sm-4 col-xs-12">
-            <div className="panel panel-default">
-              <div className="panel-body text-center">
-                <div style={{ minHeight: 350 }}>
-                  <div style={{ padding: 15 }}>
-                    <div style={{
-                        height: 150,
-                        width: 150,
-                        borderRadius: '50%',
-                        background: '#E6C288',
-                        margin: '0 auto 10px',
-                      }}></div>
-                  </div>
-                  <div style={{ marginBottom: 10 }}>
-                    <strong>实名认证：</strong>
-                    <span className="label label-info">{ this.props.realName.status }</span>
-                  </div>
-                  <div style={{
-                      color: '#B2B2B2',
-                      lineHeight: '30px',
-                      padding: '15px 0',
-                    }}>
-                    确保交易款项安全到账
-                  </div>
-                  {
-                    realNameComplete ?
-                     '' : <div>原因：{ this.props.realName.reason }</div>
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div className="row">
           <div className="col-sm-4 col-xs-12">
             <div className="panel panel-default">
@@ -109,8 +76,8 @@ var AuthSummary = React.createClass({
                     全方位推广分分钟挤爆订单
                   </div>
                   {
-                    photographerAuthed ?
-                    '' : <div>原因：{ this.props.authPhotographer.reason }</div>
+                    this.props.authPhotographer.reason ?
+                    <div>原因：{ this.props.authPhotographer.reason }</div> : ''
                   }
                 </div>
                 {photographerAuthed ?
@@ -151,8 +118,8 @@ var AuthSummary = React.createClass({
                     有新的订单会立即推送给你
                   </div>
                   {
-                    makeupArtistAuthed ?
-                    '' : <div>原因：{this.props.authMakeupArtist.reason}</div>
+                    this.props.authMakeupArtist.reason ?
+                    <div>原因：{this.props.authMakeupArtist.reason}</div> : ''
                   }
                 </div>
                 {
@@ -194,8 +161,8 @@ var AuthSummary = React.createClass({
                     打造属于您的个人品牌
                   </div>
                   {
-                    moteAuthed ?
-                    '' : <div>原因：{this.props.authMote.reason}</div>
+                    this.props.authMote.reason ?
+                    <div>原因：{this.props.authMote.reason}</div> : ''
                   }
                 </div>
                 {
