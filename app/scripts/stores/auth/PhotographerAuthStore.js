@@ -9,9 +9,9 @@ const PHOTOGRAPHER_AUTH_DISAPPROVE = '审核拒绝';
 
 const convertRealNameStatus = function(serverStatus) {
   return serverStatus === 'None' ? PHOTOGRAPHER_AUTH_NONE :
-    serverStatus === 'Pending' ? PHOTOGRAPHER_AUTH_PENDING :
-    serverStatus === 'Approve' ? PHOTOGRAPHER_AUTH_APPROVE :
-    serverStatus === 'Unapprove' ? PHOTOGRAPHER_AUTH_DISAPPROVE :
+    serverStatus === 'Pending' || serverStatus === 0 ? PHOTOGRAPHER_AUTH_PENDING :
+    serverStatus === 'Approve' || serverStatus === 1 ? PHOTOGRAPHER_AUTH_APPROVE :
+    serverStatus === 'Unapprove' || serverStatus === 2 ? PHOTOGRAPHER_AUTH_DISAPPROVE :
     PHOTOGRAPHER_AUTH_NONE;
 };
 
@@ -55,8 +55,12 @@ const PhotographerAuthStore = Reflux.createStore({
       self.trigger(data);
     }
   },
-  onSubmitPhotographerAudit: function() {
-
+  onSubmitPhotographerAudit: function(resp) {
+    const self = this;
+    let data = self.data;
+    if(resp.Success) {
+      data.status = PHOTOGRAPHER_AUTH_PENDING;
+    }
   },
 });
 

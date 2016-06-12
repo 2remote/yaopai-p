@@ -4,6 +4,7 @@ var { History } = require('react-router');
 /* 组件 */
 var ImageInput = require('../account/imageInput');
 var TextInput = require('../account/textInput');
+var InfoHeader = require('../infoHeader');
 /* MVC-API */
 var AccountActions = require('../../actions/AccountActions');
 var { NotifyStore, CHANGE_REALNAME } = require('../../stores/NotifyStore');
@@ -152,39 +153,46 @@ var AuthRealName = React.createClass({
   },
   render: function() {
     return (
-      <form className="form-horizontal" onSubmit={ this.onSubmitRealName }>
-        <TextInput
-          ref="realName"
-          labelName="姓名："
-          value={this.state.realName}
-          updateValue={this.updateRealName}
-          minLength={2}
-          disabled={false}
-          textClassName="col-xs-5"
-          placeholder="请输入您的真实姓名"/>
-        <TextInput
-          ref="IDNumber"
-          labelName="身份证号码："
-          value={this.state.idNumber}
-          updateValue={this.updateIdNumber}
-          minLength={15}
-          disabled={false}
-          textClassName="col-xs-5"
-          placeholder="请输入您的身份证号码"/>
-        <PersonIDImage
-          ref="personIDImage"
-          value={this.state.frontImg + ',' + this.state.backImg}
-          upload1={this.updateIDImage1}
-          upload2={this.updateIDImage2}
-          showMessage={this.props.showMessage}
-          disabled={false}
+      <div>
+        <InfoHeader
+          infoTitle="实名信息认证"
+          rightInfo={this.props.realName.status}
+          infoIconClass="glyphicon glyphicon-camera"
         />
-        <div className="form-group">
-          <div className="col-xs-offset-3 col-xs-9">
-            <button type="submit" className="btn btn-default">继续</button>
+        <form className="form-horizontal" onSubmit={ this.onSubmitRealName }>
+          <TextInput
+            ref="realName"
+            labelName="姓名："
+            value={this.state.realName}
+            updateValue={this.updateRealName}
+            minLength={2}
+            disabled={false}
+            textClassName="col-xs-5"
+            placeholder="请输入您的真实姓名"/>
+          <TextInput
+            ref="IDNumber"
+            labelName="身份证号码："
+            value={this.state.idNumber}
+            updateValue={this.updateIdNumber}
+            minLength={15}
+            disabled={false}
+            textClassName="col-xs-5"
+            placeholder="请输入您的身份证号码"/>
+          <PersonIDImage
+            ref="personIDImage"
+            value={this.state.frontImg + ',' + this.state.backImg}
+            upload1={this.updateIDImage1}
+            upload2={this.updateIDImage2}
+            showMessage={this.props.showMessage}
+            disabled={false}
+          />
+          <div className="form-group">
+            <div className="col-xs-offset-3 col-xs-9">
+              <button type="submit" className="btn btn-default">继续</button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   },
   onSubmitRealName: function(e) {

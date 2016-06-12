@@ -9,17 +9,39 @@ var UserAccountStore = require('../../stores/UserAccountStore');
 var { RealNameStore, REALNAME_DEFAULT, REALNAME_APPROVE, REALNAME_PENDING }
   = require('../../stores/RealNameStore');
 /* 专业认证信息 - 摄影师 */
-var { PhotographerAuthStore, PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_APPROVE }
+var { PhotographerAuthStore, PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_APPROVE, PHOTOGRAPHER_AUTH_PENDING }
   = require('../../stores/auth/PhotographerAuthStore');
 /* 专业认证信息 - 化妆师 */
-var { MakeupArtistAuthStore, MAKEUPARTIST_AUTH_DEFAULT, MAKEUPARTIST_AUTH_APPROVE }
+var { MakeupArtistAuthStore, MAKEUPARTIST_AUTH_DEFAULT, MAKEUPARTIST_AUTH_APPROVE, MAKEUPARTIST_AUTH_PENDING }
   = require('../../stores/auth/MakeupArtistAuthStore');
 /* 专业认证信息 - 模特 */
-var { MoteAuthStore, MOTE_AUTH_DEFAULT, MOTE_AUTH_APPROVE }
+var { MoteAuthStore, MOTE_AUTH_DEFAULT, MOTE_AUTH_APPROVE, MOTE_AUTH_PENDING }
   = require('../../stores/auth/MoteAuthStore');
 
 var AccountActions = require('../../actions/AccountActions');
 var AuthAction = require('../../actions/AuthAction');
+
+var isAuthed = function(status, magic) {
+  if(magic === 0) { // real name
+    return status === REALNAME_DEFAULT ||
+      status === REALNAME_PENDING ||
+      status === REALNAME_APPROVE;
+  } else if(magic === 1) { // photographer
+    return status === PHOTOGRAPHER_AUTH_DEFAULT ||
+      status === PHOTOGRAPHER_AUTH_PENDING ||
+      status === PHOTOGRAPHER_AUTH_APPROVE;
+  } else if (magic === 2) { // makeup artist
+    return status === MAKEUPARTIST_AUTH_DEFAULT ||
+      status === MAKEUPARTIST_AUTH_PENDING ||
+      status === MAKEUPARTIST_AUTH_APPROVE;
+  } else if (magic === 3) { // mote
+    return status === MOTE_AUTH_DEFAULT ||
+      status === MOTE_AUTH_PENDING ||
+      status === MOTE_AUTH_APPROVE;
+  } else {
+    console.error('传入了错误的参数！');
+  }
+};
 
 var AuthContainer = React.createClass({
   mixins: [
@@ -65,20 +87,15 @@ var AuthContainer = React.createClass({
     };
     return (
     <div style={style.outer}>
-      <InfoHeader
-        infoTitle="摄影师认证"
-        rightInfo={this.state.authPhotographer.status}
-        infoIconClass="glyphicon glyphicon-camera"
-      />
       {/* 传信息给children */}
       {/* https://github.com/reactjs/react-router/blob/master/examples/passing-props-to-children/app.js */}
       {this.props.children && React.cloneElement(this.props.children, {
         /* 给Summary用 */
         userComplete: this.state.userAccount.basic.complete,
-        realNameComplete: this.state.realName.status === REALNAME_APPROVE || this.state.realName.status === REALNAME_PENDING,
-        photographerAuthed: this.state.authPhotographer.status === PHOTOGRAPHER_AUTH_APPROVE,
-        makeupArtistAuthed: this.state.authMakeupArtist.status === MAKEUPARTIST_AUTH_APPROVE,
-        moteAuthed: this.state.authMote.status === MOTE_AUTH_APPROVE,
+        realNameComplete: isAuthed(this.state.realName.status, 0),
+        photographerAuthed: isAuthed(this.state.authPhotographer.status, 1),
+        makeupArtistAuthed: isAuthed(this.state.authMakeupArtist.status, 2),
+        moteAuthed: isAuthed(this.state.authMote.status, 3),
         /* 全信息 */
         userAccount: this.state.userAccount,
         realName: this.state.realName,

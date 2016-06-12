@@ -9,9 +9,9 @@ const MAKEUPARTIST_AUTH_DISAPPROVE = '审核拒绝';
 
 const convertRealNameStatus = function(serverStatus) {
   return serverStatus === 'None' ? MAKEUPARTIST_AUTH_NONE :
-    serverStatus === 'Pending' ? MAKEUPARTIST_AUTH_PENDING :
-    serverStatus === 'Approve' ? MAKEUPARTIST_AUTH_APPROVE :
-    serverStatus === 'Unapprove' ? MAKEUPARTIST_AUTH_DISAPPROVE :
+    serverStatus === 'Pending' || serverStatus === 0 ? MAKEUPARTIST_AUTH_PENDING :
+    serverStatus === 'Approve' || serverStatus === 1 ? MAKEUPARTIST_AUTH_APPROVE :
+    serverStatus === 'Unapprove' || serverStatus === 2 ? MAKEUPARTIST_AUTH_DISAPPROVE :
     MAKEUPARTIST_AUTH_NONE;
 };
 
@@ -55,8 +55,12 @@ const MakeupArtistAuthStore = Reflux.createStore({
       self.trigger(data);
     }
   },
-  onSubmitMakeupArtistAudit: function() {
-
+  onSubmitMakeupArtistAudit: function(resp) {
+    const self = this;
+    let data = self.data;
+    if(resp.Success) {
+      data.status = MAKEUPARTIST_AUTH_PENDING;
+    }
   },
 });
 

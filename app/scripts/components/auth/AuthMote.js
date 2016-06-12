@@ -1,8 +1,29 @@
 var React = require('react');
+var Reflux = require('reflux');
+
+var InfoHeader = require('../infoHeader');
+var AuthAction = require('../../actions/AuthAction');
+var { NotifyStore, AUTH_MOTE_SUBMIT_AUDIT } = require('../../stores/NotifyStore');
 
 var MultiImageSelect = require('../photographer/multiImageSelect');
 
 var AuthMote = React.createClass({
+  mixins: [Reflux.listenTo(NotifyStore, 'onNotify')],
+  onNotify: function(result) {
+    if(result.source === AUTH_MOTE_SUBMIT_AUDIT) {
+      if(result.success) {
+        this.props.history.pushState(null, '/account/auth/result');
+      } else {
+        // TODO: notify logic
+        this.props.showMessage(result.msg);
+      }
+    }
+  },
+  componentWillMount: function() {
+    if(this.props.moteAuthed) {
+      this.props.history.replaceState(null, '/account/auth/');
+    }
+  },
   getInitialState: function() {
     return {
       works: [],
@@ -25,27 +46,34 @@ var AuthMote = React.createClass({
   },
   render: function() {
     return (
-      <form className="form-horizontal" onSubmit={ this.onSubmit }>
-        <MultiImageSelect
-          ref="works"
-          uid="worksSelect"
-          labelName="个人作品："
-          width="100"
-          height="100"
-          images={ this.state.works.toString() }
-          disabled={ false }
-          maxCount={ 15 }
-          placeholder="温馨提示：请上传8-15张多种风格的作品"
-          updateImages={ this.update }
-          showMessage={ this.props.showMessage }
-          remove={ this.remove }
+      <div>
+        <InfoHeader
+          infoTitle="模特认证"
+          rightInfo={this.props.authMote.status}
+          infoIconClass="glyphicon glyphicon-camera"
         />
-        <div className="form-group">
-          <div className="col-xs-offset-3 col-xs-9">
-            <button type="submit" className="btn btn-primary">下一步</button>
+        <form className="form-horizontal" onSubmit={ this.onSubmit }>
+          <MultiImageSelect
+            ref="works"
+            uid="worksSelect"
+            labelName="个人作品："
+            width="100"
+            height="100"
+            images={ this.state.works.toString() }
+            disabled={ false }
+            maxCount={ 15 }
+            placeholder="温馨提示：请上传8-15张多种风格的作品"
+            updateImages={ this.update }
+            showMessage={ this.props.showMessage }
+            remove={ this.remove }
+          />
+          <div className="form-group">
+            <div className="col-xs-offset-3 col-xs-9">
+              <button type="submit" className="btn btn-primary">下一步</button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   },
   onSubmit: function(e) {
@@ -55,7 +83,7 @@ var AuthMote = React.createClass({
       return;
     }
     if(this.state.works.length < 8) {
-      this.props.showMessage('最少上传8张作品！');github
+      this.props.showMessage('最少上传8张作品！');
       return;
     }
     if(this.state.works.length > 15) {
@@ -63,6 +91,9 @@ var AuthMote = React.createClass({
       return;
     }
     console.log('Am I submitting works?', this.state.works);
+    AuthAction.submitMoteAudit({
+      Works: this.state.works.slice().toString(),
+    });
   },
 });
 

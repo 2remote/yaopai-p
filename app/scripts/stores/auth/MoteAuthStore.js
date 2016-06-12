@@ -9,9 +9,9 @@ const MOTE_AUTH_DISAPPROVE = '审核拒绝';
 
 const convertRealNameStatus = function(serverStatus) {
   return serverStatus === 'None' ? MOTE_AUTH_NONE :
-    serverStatus === 'Pending' ? MOTE_AUTH_PENDING :
-    serverStatus === 'Approve' ? MOTE_AUTH_APPROVE :
-    serverStatus === 'Unapprove' ? MOTE_AUTH_DISAPPROVE :
+    serverStatus === 'Pending' || serverStatus === 0 ? MOTE_AUTH_PENDING :
+    serverStatus === 'Approve' || serverStatus === 1 ? MOTE_AUTH_APPROVE :
+    serverStatus === 'Unapprove' || serverStatus === 2 ? MOTE_AUTH_DISAPPROVE :
     MOTE_AUTH_NONE;
 };
 
@@ -55,8 +55,12 @@ const MoteAuthStore = Reflux.createStore({
       self.trigger(data);
     }
   },
-  onSubmitMoteAudit: function() {
-
+  onSubmitMoteAudit: function(resp) {
+    const self = this;
+    let data = self.data;
+    if(resp.Success) {
+      data.status = MOTE_AUTH_PENDING;
+    }
   },
 });
 

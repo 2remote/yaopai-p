@@ -37,6 +37,8 @@ var AuthPhotographer = require('./components/auth/AuthPhotographer');
 var AuthMakeupArtist = require('./components/auth/AuthMakeupArtist');
 /* 认证：模特专业认证 */
 var AuthMote = require('./components/auth/AuthMote');
+/* 认证：结果 */
+var AuthResult = require('./components/auth/AuthResult');
 
 var routes = (
 	<Router>
@@ -60,6 +62,7 @@ var routes = (
           <Route path="p" component={AuthPhotographer} />
           <Route path="a" component={AuthMakeupArtist} />
           <Route path="m" component={AuthMote} />
+          <Route path="result" component={AuthResult} />
         </Route>
 				<Route path="photographer" component={Photographer} />
 				<Route path="info" component={AccountInfo} />

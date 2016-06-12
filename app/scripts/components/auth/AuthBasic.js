@@ -5,8 +5,9 @@ var ImageInput = require('../account/imageInput');
 var TextInput = require('../account/textInput');
 var AreaSelect = require('../account/areaSelect');
 var AccountActions = require('../../actions/AccountActions');
+var InfoHeader = require('../infoHeader');
 
-var { NotifyStore, CHANGE_AVATAR } = require('../../stores/NotifyStore');
+var { NotifyStore, UPDATE_INFO } = require('../../stores/NotifyStore');
 
 var AuthBasic = React.createClass({
   mixins: [
@@ -14,7 +15,7 @@ var AuthBasic = React.createClass({
     History
   ],
   onNotify: function(result) {
-    if(result.source === CHANGE_AVATAR) {
+    if(result.source === UPDATE_INFO) {
       if(result.success) {
         this.props.history.pushState(null, '/account/auth/real');
       } else {
@@ -83,48 +84,54 @@ var AuthBasic = React.createClass({
       },
     };
     return (
-      <form className="form-horizontal" onSubmit={ this.onSubmitBasic }>
-        <div className="form-group">
-          <label className="control-label col-xs-3" style={style.label}>头像：</label>
-          <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput
-              width="150"
-              height="150"
-              uid="uploadAvator"
-              type="user"
-              multi_selection={false}
-              defaultImage={image}
-              onUpload={this.onUpload}
-              onError={this.props.showMessage}
-              disabled = {false}
-              circle="1"/>
-          </div>
-        </div>
-        <TextInput ref="nickName"
-          labelName="昵称："
-          value={ this.state.ui.nickname }
-          updateValue={ this.updateNickName }
-          textClassName='col-xs-3'
-          isRequired={ true }
-          minLength={ 1 }
-          maxLength={ 10 }
-          disabled={ false }
+      <div>
+        <InfoHeader
+          infoTitle="基本信息录入"
+          infoIconClass="glyphicon glyphicon-camera"
         />
-        <AreaSelect ref="area"
-          province={ this.state.ui.province }
-          onProvinceChange={ this.onProvinceChange }
-          city={ this.state.ui.city }
-          onCityChange={ this.onCityChange }
-          district={ this.state.ui.county }
-          onDistrictChange={ this.onCountyChange }
-          disabled={ false }
-        />
-        <div className="form-group">
-          <div className="col-xs-offset-3 col-xs-9">
-            <button type="submit" className="btn btn-default">走，实名认证去！</button>
+        <form className="form-horizontal" onSubmit={ this.onSubmitBasic }>
+          <div className="form-group">
+            <label className="control-label col-xs-3" style={style.label}>头像：</label>
+            <div id="uploadAvatorC" className="col-xs-4">
+              <ImageInput
+                width="150"
+                height="150"
+                uid="uploadAvator"
+                type="user"
+                multi_selection={false}
+                defaultImage={image}
+                onUpload={this.onUpload}
+                onError={this.props.showMessage}
+                disabled = {false}
+                circle="1"/>
+            </div>
           </div>
-        </div>
-      </form>
+          <TextInput ref="nickName"
+            labelName="昵称："
+            value={ this.state.ui.nickname }
+            updateValue={ this.updateNickName }
+            textClassName='col-xs-3'
+            isRequired={ true }
+            minLength={ 1 }
+            maxLength={ 10 }
+            disabled={ false }
+          />
+          <AreaSelect ref="area"
+            province={ this.state.ui.province }
+            onProvinceChange={ this.onProvinceChange }
+            city={ this.state.ui.city }
+            onCityChange={ this.onCityChange }
+            district={ this.state.ui.county }
+            onDistrictChange={ this.onCountyChange }
+            disabled={ false }
+          />
+          <div className="form-group">
+            <div className="col-xs-offset-3 col-xs-9">
+              <button type="submit" className="btn btn-default">走，实名认证去！</button>
+            </div>
+          </div>
+        </form>
+      </div>
     );
   },
   onSubmitBasic: function(e) {
