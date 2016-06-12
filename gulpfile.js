@@ -7,6 +7,7 @@ var browserify    = require('browserify');
 var preprocessify = require('preprocessify');
 var runSequence   = require('run-sequence');
 var domain        = require('domain');
+var babel = require('gulp-babel');
 var gutil = require('gulp-util');
 
 var env           = 'dev';
@@ -114,6 +115,9 @@ gulp.task('bundle', function () {
     .pipe(assets.restore())
     .pipe($.useref())
     .pipe(jsFilter)
+    .pipe(babel({
+			presets: ['es2015']
+		}))
     .pipe($.uglify().on('error', gutil.log))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
