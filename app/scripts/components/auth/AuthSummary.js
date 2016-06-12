@@ -186,7 +186,7 @@ var AuthSummary = React.createClass({
       userComplete,
       realNameComplete,
     } = this.props;
-    targets = convertLinkToVal(userComplete, realNameComplete, magic);
+    var targets = convertLinkToVal(userComplete, realNameComplete, magic);
     if(targets.first) {
       this.props.history.pushState(null, targets.first);
     } else {
