@@ -1,11 +1,11 @@
 var Reflux = require('reflux');
 var UserActions = require('../actions/UserActions');
+var AccountActions = require('../actions/AccountActions');
 
 var UserStore = Reflux.createStore({
   userKey : 'yaopai_user',
   init: function() {
     console.log('UserStore initialized');
-
     /*
         需要增加从localStorage读取用户信息的方法来初始化userData
     */
@@ -42,8 +42,10 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.currentUser,this.onCurrentUser);
     this.listenTo(UserActions.modifyPassword.success,this.onModifyPasswordSuccess);
     this.listenTo(UserActions.modifyPassword.failed,this.onModifyPasswordFailed);
+    this.listenTo(AccountActions.changeAvatar.success, this.updateUser);
+    this.listenTo(AccountActions.updateInfo.success, this.updateUser);
   },
-  getTokenToLogin : function(){
+  getTokenToLogin: function() {
     //从localStorage读取UserData
     var temp = localStorage.getItem(this.userKey);
     if(temp){
@@ -87,7 +89,7 @@ var UserStore = Reflux.createStore({
   /*
     避免重复读取服务器api
   */
-  onCurrentUser : function(){
+  onCurrentUser: function() {
     var now = new Date();
     var loginDate = this.userData.loginDate;
     if(this.userData.isLogin && this.userData.loginDate){
@@ -104,9 +106,8 @@ var UserStore = Reflux.createStore({
     }
     UserActions.currentServerUser();
   },
-  onGetCurrentUser : function(data){
+  onGetCurrentUser: function(data) {
     if(data.Success){
-      console.log(data);
       this.setCurrentUser(data);
       this.userData.flag = 'currentUser';
       this.trigger(this.userData);
@@ -116,7 +117,7 @@ var UserStore = Reflux.createStore({
       this.getTokenToLogin();
     }
   },
-  onGetCurrentUserFailed : function(data){
+  onGetCurrentUserFailed: function(data) {
     this.userData.hintMessage = '网络出错啦！';
     this.userData.flag = 'currentUser';
     this.trigger(this.userData);
@@ -124,7 +125,7 @@ var UserStore = Reflux.createStore({
   /*
     自动登录，如果用了loginToken，是否不用存user的其他信息？
   */
-  onLoginWithTokenSuccess : function(data){
+  onLoginWithTokenSuccess: function(data) {
     console.log(data);
     if(data.Success){
       console.log('login with token success');
@@ -141,7 +142,7 @@ var UserStore = Reflux.createStore({
     this.trigger(this.userData);
 
   },
-  onLoginWithTokenFailed : function(data){
+  onLoginWithTokenFailed: function(data) {
     this.userData.hintMessage = '网络出错啦！';
     this.userData.flag = 'loginToken';
     this.trigger(this.userData);
@@ -180,7 +181,7 @@ var UserStore = Reflux.createStore({
   /*
     用户修改密码,flag :  modifyPassword
   */
-  onModifyPasswordSuccess : function(data){
+  onModifyPasswordSuccess: function(data) {
     if(data.Success){
       this.userData.hintMessage = "修改密码成功";
     }else{
@@ -205,27 +206,61 @@ var UserStore = Reflux.createStore({
       this.userData.userType = '';
       this.userData.avatar = '';
       this.userData.signature = '';
+      this.userData.provinceId = 0;
       this.userData.provinceName = '';
-      this.userData.countyName = '';
+      this.userData.cityId = 0;
       this.userData.cityName = '';
+      this.userData.countyId = 0;
+      this.userData.countyName = '';
       this.userData.loginDate = '';
       this.userData.sessionToken = '';
+      this.userData.gender = 0;
     } else {
       this.userData.userId = userData.Id;
       this.userData.userName = userData.Name;
       this.userData.userType = userData.Type;
       this.userData.avatar = userData.Avatar;
       this.userData.signature = userData.Signature;
+      this.userData.provinceId = userData.ProvinceId;
       this.userData.provinceName = userData.ProvinceName||'-';
-      this.userData.countyName = userData.CountyName||'-';
+      this.userData.cityId = userData.CityId;
       this.userData.cityName = userData.CityName||'-';
+      this.userData.countyId = userData.CountyId;
+      this.userData.countyName = userData.CountyName||'-';
       this.userData.local = userData.Local;
       this.userData.isLogin = true;
       this.userData.loginDate = new Date();
       this.userData.sessionToken = userData.SessionToken;
+      this.userData.gender = userData.Sex;
     }
   },
-
+  /**
+   * 更新当前用户的信息，用于解决AccountAction更新数据后这边不同步的情况。
+   * 此方法为临时解决方案，日后会重构UserStore和AccountStore
+  **/
+  updateUser: function(respData, data) {
+    var loadedData = {};
+    /* converts data to this.userData style */
+    if(data.Avatar) {
+      loadedData.avatar = data.Avatar;
+    }
+    if(data.ProvinceId || data.ProvinceId === 0) {
+      loadedData.provinceId = data.ProvinceId;
+    }
+    if(data.CityId || data.CityId === 0) {
+      loadedData.cityId = data.CityId;
+    }
+    if(data.CountyId || data.CountyId === 0) {
+      loadedData.countyId = data.CountyId;
+    }
+    if(data.NickName) {
+      loadedData.userName = data.NickName;
+    }
+    if(respData.Success) { // then merge
+      this.userData = Object.assign({}, this.userData, loadedData);
+      this.trigger(this.userData);
+    }
+  },
 });
 
 module.exports = UserStore;

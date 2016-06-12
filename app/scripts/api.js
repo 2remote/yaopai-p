@@ -61,6 +61,14 @@ var API_CONST = {
     //currentStudio : API_URL + 'PhotographerStudio.CurrentStudio',
     //changeStudio : API_URL + 'PhotographerStudio.ChangeStudio',
   },
+  MAKEUPARTIST: {
+    viewAudit:  API_URL + 'MakeupArtist.ViewAudit',
+    submitAudit: API_URL + 'MakeupArtist.SubmitAudit',
+  },
+  MOTE: {
+    viewAudit:  API_URL + 'MOTE.ViewAudit',
+    submitAudit: API_URL + 'Mote.SubmitAudit',
+  },
   ALBUMS : {
     add : API_URL + 'Albums.Add',
     update : API_URL + 'Albums.Update',

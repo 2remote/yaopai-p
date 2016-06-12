@@ -5,9 +5,10 @@ var ProgressBar = require('react-bootstrap').ProgressBar;
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
+var History = require('react-router').History;
 
 var ImageInput = React.createClass({
-  mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange')],
+  mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange'), History],
   getInitialState : function(){
     return {
       imageUrl : '',

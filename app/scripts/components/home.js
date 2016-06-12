@@ -341,7 +341,7 @@ var LoginForm = React.createClass({
     }
     return (
       <div style={loginStyle}>
-        <img style={imageCenter} src="img/logo3.png" width='280' height='75'/>
+        <img style={imageCenter} src="img/logo3.png" />
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>

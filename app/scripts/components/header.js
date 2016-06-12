@@ -19,7 +19,7 @@ var Header = React.createClass({
           <nav className="nav navbar navbar-inverse navbar-fixed-top" role="navigation">
             <Link to="/profile/onSale">
               <div className="navbar-brand">
-                <img src="img/logo.png" />
+                <img style={{ height: '90%' }} src="img/logo.png" />
               </div>
             </Link>
             <Account />
