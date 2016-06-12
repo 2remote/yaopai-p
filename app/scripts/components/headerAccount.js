@@ -83,7 +83,7 @@ var Acount = React.createClass({
       var passwordLink;
       var photographerLink = (<li>
         <Link to="/account/auth">
-          <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 摄影师认证
+          <span className="glyphicon glyphicon-camera" aria-hidden="true"></span> 入驻邀拍
         </Link>
       </li>)
       if(this.state.currentUser.userType==1){

@@ -44,7 +44,7 @@ var AuthSummary = React.createClass({
     return (
       <div>
         <InfoHeader
-          infoTitle="认证"
+          infoTitle="入驻邀拍"
           infoIconClass="glyphicon glyphicon-camera"
         />
         <div className="row">
