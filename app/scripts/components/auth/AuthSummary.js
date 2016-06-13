@@ -22,6 +22,10 @@ const convertLinkToVal = function(basic, real, type) {
   };
 };
 
+const isDenied = function(status) {
+  return status === '审核拒绝';
+};
+
 const statusToHint = function(status) {
 var hint = ' ';
   if(status === '未申请') {
@@ -76,7 +80,7 @@ var AuthSummary = React.createClass({
                     全方位推广分分钟挤爆订单
                   </div>
                   {
-                    this.props.authPhotographer.reason ?
+                    isDenied(this.props.authPhotographer.status) && this.props.authPhotographer.reason ?
                     <div>原因：{ this.props.authPhotographer.reason }</div> : ''
                   }
                 </div>
@@ -118,7 +122,7 @@ var AuthSummary = React.createClass({
                     有新的订单会立即推送给你
                   </div>
                   {
-                    this.props.authMakeupArtist.reason ?
+                    isDenied(this.props.authMakeupArtist.status) && this.props.authMakeupArtist.reason ?
                     <div>原因：{this.props.authMakeupArtist.reason}</div> : ''
                   }
                 </div>
@@ -161,7 +165,7 @@ var AuthSummary = React.createClass({
                     打造属于您的个人品牌
                   </div>
                   {
-                    this.props.authMote.reason ?
+                    isDenied(this.props.authMote.status) && this.props.authMote.reason ?
                     <div>原因：{this.props.authMote.reason}</div> : ''
                   }
                 </div>
