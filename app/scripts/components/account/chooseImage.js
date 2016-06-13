@@ -9,7 +9,7 @@ var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
 var API = require('../../api');
 var Input = require('react-bootstrap').Input;
-var  Tools = require('../../tools');
+var Tools = require('../../tools');
 /*
   data structure
   {
@@ -150,6 +150,7 @@ var ChooseImages = React.createClass({
     get_new_uptoken: true,
     auto_start: true,
     filters : {
+      max_file_size: '10mb',
       mime_types: [
         {title : "Image files", extensions : "jpg,png,jpeg"}, // 限定jpg,png后缀上传
       ]
@@ -163,10 +164,9 @@ var ChooseImages = React.createClass({
         //    console.log(chunk_size);
         //}
         console.log(file.name+"::"+file.origSize);
-
-        if(file.origSize >= 1 * 1024 * 1024){
+        if(file.origSize >= 1024 * 1024){
           console.log("resize 1M: 95");
-          up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:95});
+          up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:85});
         }else{
           console.log("resize desabled");
           up.setOption('resize',false);
@@ -225,6 +225,7 @@ var ChooseImages = React.createClass({
     单个文件上传完毕后，返回值info.Url是图片地址
   */
   onFileUploaded : function(up,file,info){
+    console.log(file);
     var res = JSON.parse(info);
     WorkActions.updateImageUrl(file.id,res.Url);
   },
@@ -246,9 +247,9 @@ var ChooseImages = React.createClass({
     });
     //上传出错时,处理相关的事情
     if(this.props.onError){
-      var max_file_size = plupload.parseSize('4mb');
+      var max_file_size = plupload.parseSize('10mb');
       if(err.file.size > max_file_size){
-        this.props.onError('您上传的图片过大，请压缩后再上传');
+        this.props.onError('您上传的图片大于 10 M，请压缩后再上传');
       }else{
         if(err.code == -601){
           this.props.onError('图片格式错误');

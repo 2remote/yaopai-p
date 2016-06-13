@@ -69,12 +69,26 @@ if(secretId && secretKey && cdnurl){
     method: 'GET',
     serviceType:'cdn',
   })
-  qcloud.request({
+  var params = {
     Region: 'gz',
     Action: 'RefreshCdnUrl',
-    'urls.0': cdnurl,
-  }, function(error, data) {
-    console.log('Qcloud RefreshCdn result : ' + data);
+  };
+  var cdnurls = cdnurl.split(',');
+  cdnurls.forEach(function (item,index) {
+    params['urls.'+ index] = item;
+  })
+  qcloud.request(params, function(error, data) {
+    console.log('Qcloud RefreshCdnUrl result : ' + JSON.stringify(data));
+  })
+  var params2 = {
+    Region: 'gz',
+    Action: 'RefreshCdnDir',
+  };
+  cdnurls.forEach(function (item,index) {
+    params2['dirs.'+ index] = item;
+  })
+  qcloud.request(params2, function(error, data) {
+    console.log('Qcloud RefreshCdnDir result : ' + JSON.stringify(data));
   })
 }
 

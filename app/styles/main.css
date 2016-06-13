@@ -29,7 +29,7 @@ body {
 }
 
 .header nav {
-  background-color: #1f2f3c;
+  background-color: black;
   font-size: 16px;
 }
 
@@ -348,6 +348,3 @@ body {
 .component-wrapper:hover .imghover{
   opacity: 1!important;
 }
-
-
-

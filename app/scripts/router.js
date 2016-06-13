@@ -1,15 +1,11 @@
 var React = require('react');
-var ReactRouter = require('react-router')
-var Router = ReactRouter.Router
-var Route = ReactRouter.Route
-var Link = ReactRouter.Link;
-var IndexRoute = ReactRouter.IndexRoute;
+var { Router, Route, IndexRoute, IndexRedirect } = require('react-router');
+
 var Layout = require('./components/layout');
 var Home = require('./components/home');
 var Login = require('./components/loginPanel');
 var Register = require('./components/registerPanel');
 var AccountCenter = require('./components/accountCenter');
-var PhotographerAuth = require('./components/photographer/photographerAuth');
 var Photographer = require('./components/photographer/photographer');
 var PersonInfo = require('./components/personInfo');
 var AccountInfo = require('./components/accountInfo');
@@ -18,6 +14,31 @@ var OrderManager = require('./components/orderManager');
 var Profile = require('./components/profile');
 var Albums = require('./components/albums/index');
 var Provision = require('./components/provision');
+/* 认证 */
+//var PhotographerAuth = require('./components/photographer/photographerAuth');
+///* 认证：总揽 */
+///* 认证：基本信息 */
+//var AuthBasic =  require('./components/photographer/AuthBasic');
+///* 认证：实名认证 */
+//var AuthRealName = require('./components/photographer/AuthRealName');
+///* 认证：专业认证 */
+//var AuthSubmitAudit = require('./components/photographer/AuthSubmitAudit');
+/* 认证：容器 */
+var AuthContainer = require('./components/auth/AuthContainer');
+/* 认证：总揽 */
+var AuthSummary = require('./components/auth/AuthSummary');
+/* 认证：基本信息 */
+var AuthBasic = require('./components/auth/AuthBasic');
+/* 认证：实名认证 */
+var AuthRealName = require('./components/auth/AuthRealName');
+/* 认证：摄影师专业认证 */
+var AuthPhotographer = require('./components/auth/AuthPhotographer');
+/* 认证：化妆师专业认证 */
+var AuthMakeupArtist = require('./components/auth/AuthMakeupArtist');
+/* 认证：模特专业认证 */
+var AuthMote = require('./components/auth/AuthMote');
+/* 认证：结果 */
+var AuthResult = require('./components/auth/AuthResult');
 
 var routes = (
 	<Router>
@@ -28,7 +49,21 @@ var routes = (
 			<Route path="/account" component={AccountCenter} >
 				<IndexRoute component={PersonInfo} />
 				<Route path="personInfo" component={PersonInfo} />
-				<Route path="pAuth" component={PhotographerAuth} />
+        {/*<Route path="pAuth" component={PhotographerAuth}>
+          <IndexRedirect to="basic" />
+          <Route path="basic" component={AuthBasic} />
+          <Route path="realname" component={AuthRealName} />
+          <Route path="submitaudit" component={AuthSubmitAudit} />
+        </Route>*/}
+        <Route path="auth" component={AuthContainer}>
+          <IndexRoute component={AuthSummary} />
+          <Route path="basic" component={AuthBasic} />
+          <Route path="real" component={AuthRealName} />
+          <Route path="p" component={AuthPhotographer} />
+          <Route path="a" component={AuthMakeupArtist} />
+          <Route path="m" component={AuthMote} />
+          <Route path="result" component={AuthResult} />
+        </Route>
 				<Route path="photographer" component={Photographer} />
 				<Route path="info" component={AccountInfo} />
 				<Route path="upload" component={UploadWorks} />
@@ -39,10 +74,9 @@ var routes = (
 			<Route path="provision" component={Provision} />
 		</Route>
 	</Router>
-	
+
 );
 
 exports.start = function() {
-  
 		React.render(routes, document.getElementById('content'));
 }

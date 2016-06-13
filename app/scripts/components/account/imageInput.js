@@ -5,9 +5,10 @@ var ProgressBar = require('react-bootstrap').ProgressBar;
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
+var History = require('react-router').History;
 
 var ImageInput = React.createClass({
-  mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange')],
+  mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange'), History],
   getInitialState : function(){
     return {
       imageUrl : '',
@@ -21,6 +22,7 @@ var ImageInput = React.createClass({
         auto_start: true,
         get_new_uptoken: true,
         filters : {
+          max_file_size: '10mb',
           mime_types: [
             {title : "Image files", extensions : "jpg,png,jpeg"}, // 限定jpg,png后缀上传
           ]
@@ -30,12 +32,9 @@ var ImageInput = React.createClass({
           'BeforeUpload': function(up, file) {
             console.log(file.name+"::"+file.origSize);
 
-            if(file.origSize >= 4 * 1024 * 1024){
-              console.log("resize 4M: 98");
-              up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:98});
-            }else if(file.origSize >= 1 * 1024 * 1024){
-              console.log("resize 1M: 93");
-              up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:93});
+            if(file.origSize >= 1024 * 1024){
+              console.log("resize 1M: 95");
+              up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:90});
             }else{
               console.log("resize desabled");
               up.setOption('resize',false);
@@ -77,6 +76,7 @@ var ImageInput = React.createClass({
     }
   },
   onFileUploaded : function(up,file,info){
+    console.log(file);
     var res = JSON.parse(info);
     this.setState({imageUrl : res.Url});
     this.props.onUpload(res.Url); //上传成功后可以回调onUpload函数
@@ -93,9 +93,9 @@ var ImageInput = React.createClass({
     });
     //上传出错时,处理相关的事情
     if(this.props.onError){
-      var max_file_size = plupload.parseSize('4mb');
+      var max_file_size = plupload.parseSize('10mb');
       if(err.file.size > max_file_size){
-        this.props.onError('您上传的图片过大，请压缩后再上传');
+        this.props.onError('您上传的图片大于 10 M，请压缩后再上传');
       }else{
         if(err.code == -601){
           this.props.onError('图片格式错误');

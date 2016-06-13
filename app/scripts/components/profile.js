@@ -16,7 +16,7 @@ var UserStore = require('../stores/UserStore');
 var QRCode = require('qrcode.react');
 var _ = require('lodash');
 var ProfileHeader = React.createClass({
-  mixins : [Reflux.listenTo(PhotograhperStore,'onStoreChanged'),Reflux.listenTo(UserStore,'onUserStoreChanged'),History],
+  mixins : [Reflux.listenTo(UserStore,'onUserStoreChanged'),History],
   getInitialState : function(){
     return {
       avatarSrc: 'img/user.png',
@@ -30,27 +30,35 @@ var ProfileHeader = React.createClass({
   onUserStoreChanged : function(data){
     if(data.isLogin){
       //获取摄影师信息
-      PhotograhperActions.get({Id : data.userId,Fields : 'Id,Signature,ProvinceName,CityName,CountyName,User.Avatar,User.NickName' });
+      //PhotograhperActions.get({Id : data.userId,Fields : 'Id,Signature,ProvinceName,CityName,CountyName,User.Avatar,User.NickName' });
+      var info = {
+        id : data.userId,
+        avatarSrc : data.avatar?data.avatar:'img/user.png',
+        name : data.userName,
+        area : data.provinceName + '/' +data.cityName +'/' +data.countyName,
+        introduction : data.signature?data.signature : '这个人很懒，什么都没有留下'
+      };
+      this.setState(info);
     }else{
       this.history.pushState(null,'/');
     }
   },
-  onStoreChanged : function(data){
-    if(data.flag == 'get'){
-      if(data.hintMessage){
-        console.log(data.hintMessage);
-      }else{
-        var info = {
-          id : data.photographer.Id,
-          avatarSrc : data.photographer.User.Avatar?data.photographer.User.Avatar:'img/user.png',
-          name : data.photographer.User.NickName,
-          area : data.photographer.ProvinceName + '/' +data.photographer.CityName +'/' +data.photographer.CountyName,
-          introduction : data.photographer.Signature?data.photographer.Signature : '这个人很懒，什么都没有留下'
-        };
-        this.setState(info);
-      }
-    }
-  },
+  //onStoreChanged : function(data){
+  //  if(data.flag == 'get'){
+  //    if(data.hintMessage){
+  //      console.log(data.hintMessage);
+  //    }else{
+  //      var info = {
+  //        id : data.photographer.Id,
+  //        avatarSrc : data.photographer.User.Avatar?data.photographer.User.Avatar:'img/user.png',
+  //        name : data.photographer.User.NickName,
+  //        area : data.photographer.ProvinceName + '/' +data.photographer.CityName +'/' +data.photographer.CountyName,
+  //        introduction : data.photographer.Signature?data.photographer.Signature : '这个人很懒，什么都没有留下'
+  //      };
+  //      this.setState(info);
+  //    }
+  //  }
+  //},
   componentWillMount : function(){
     UserActions.currentUser();
   },
@@ -176,7 +184,7 @@ var ProfileHeader = React.createClass({
             <QRCode value={'http://m.aiyaopai.com/#/grapherDetail/'+this.state.id} size={140}/>
           </div>
           <div style={headerStyle.qrcode2}>
-            <img width="160" height="160" src='../../img/qrcode.jpg'/>
+            <img width="160" height="160" src='../../img/qrcode_dingyue.jpg'/>
           </div>
         </div>
         <div style={headerStyle.qrfonts}>
@@ -372,7 +380,7 @@ var WorksList = React.createClass({
       }
     }
 
-     
+
     return (
       <div ref="masonryContainer" style={mainStyle.container}>
         {photoList}
