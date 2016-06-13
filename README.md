@@ -1,8 +1,8 @@
-## YAOPAI - photographer
+# YAOPAI professional - 邀拍认证管理平台
 
-YAOPAI摄影师端
+本项目是[北京邀拍传媒科技有限公司](http://www.yaopai.club/)认证管理平台前端项目。
 
-### 使用方法
+## Getting started - 项目启动
 
 - 初始化安装 ```npm install```
 - dev ```npm run start```  开发模式[^1]
@@ -15,6 +15,30 @@ YAOPAI摄影师端
 	- 控件在app/scripts
 	- 测试在app/test
 
+## Tech stack - 技术栈
+
+- React全家
+  - react
+  - react-router
+- Reflux: MVC的M和C，传说中的Flux
+- Gulp全家
+  - gulp
+  - gulp-babel
+  - gulp-uglify
+  - 其他（有待总结）
+- browserify
+- jQuery & Bootstrap (React)
+- [smartcrop](https://github.com/jwagner/smartcrop.js): 图片智能剪裁
+
+
+## TODO - 让暴风雨来得更猛烈一些吧
+
+- 优化Gulp配置（刷新一百遍啊一百遍好累）
+- 使用docker统一开发环境
+- 使用Yeoman自动化开发搭建
+- TDD - 测试驱动
+
+
 ### 本框架用Yeoman Generator生成，包含主要模块有：
 
 - react
@@ -22,9 +46,9 @@ YAOPAI摄影师端
 - reflux
 
 
-### css 直接在html文件中使用boostrap
+### css 直接在html文件中使用bootstrap
 
-### jquery 也是在html文件中直接使用
+### jQuery 也是在html文件中直接使用
 
 
 ### 安装使用：Yeoman Generator
