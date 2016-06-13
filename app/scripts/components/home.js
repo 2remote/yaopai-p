@@ -303,7 +303,10 @@ var LoginForm = React.createClass({
   handleLogin : function(){
     var phone = this.refs.phoneInput.getValue();
     var password = this.refs.passwordInput.getValue();
-    if(!validator.isMobilePhone(phone, 'zh-CN') || !validator.isLength(password,6,18)) {
+    // 测试userName为手机号 /^(176|170)\d{8}$/
+    // 旧的是这样的：!validator.isMobilePhone(phone, 'zh-CN')
+    const rightReg = /^1(3|4|5|7|8)\d{9}$/;
+    if(!rightReg.test(phone) || !validator.isLength(password,6,18)) {
       this.props.handleHint('请输入正确的手机号码和密码格式');
       return;
     }
