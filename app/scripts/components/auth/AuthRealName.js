@@ -154,6 +154,9 @@ var AuthRealName = React.createClass({
       });
     }
   },
+  goBack: function() {
+    this.props.history.pushState(null, '/account/auth/basic');
+  },
   render: function() {
     return (
       <div>
@@ -191,6 +194,7 @@ var AuthRealName = React.createClass({
           />
           <div className="form-group">
             <div className="col-xs-offset-3 col-xs-9">
+              <button type="button" onClick={ this.goBack } className="btn btn-primary" style={{ marginRight: 5 }}>上一步</button>
               <button type="submit" className="btn btn-default">下一步</button>
             </div>
           </div>
