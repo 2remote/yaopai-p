@@ -61,8 +61,8 @@ var AuthMakeupArtist = React.createClass({
             height="100"
             images={ this.state.works.toString() }
             disabled={ false }
-            maxCount={ 15 }
-            placeholder="温馨提示：请上传8-15张多种风格的作品"
+            maxCount={ 10 }
+            placeholder="温馨提示：请上传5-10张本人作品，该作品只用于资质审核"
             updateImages={ this.update }
             showMessage={ this.props.showMessage }
             remove={ this.remove }
@@ -82,15 +82,14 @@ var AuthMakeupArtist = React.createClass({
       this.props.showMessage('请选择上传的作品！');
       return;
     }
-    if(this.state.works.length < 8) {
-      this.props.showMessage('最少上传8张作品！');
+    if(this.state.works.length < 5) {
+      this.props.showMessage('最少上传5张作品！');
       return;
     }
-    if(this.state.works.length > 15) {
-      this.props.showMessage('最多上传15张作品！');
+    if(this.state.works.length > 10) {
+      this.props.showMessage('最多上传10张作品！');
       return;
     }
-    console.log('Am I submitting works?', this.state.works);
     AuthAction.submitMakeupArtistAudit({
       Works: this.state.works.slice().toString(),
     });
