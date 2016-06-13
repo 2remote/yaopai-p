@@ -49,12 +49,6 @@ var routes = (
 			<Route path="/account" component={AccountCenter} >
 				<IndexRoute component={PersonInfo} />
 				<Route path="personInfo" component={PersonInfo} />
-        {/*<Route path="pAuth" component={PhotographerAuth}>
-          <IndexRedirect to="basic" />
-          <Route path="basic" component={AuthBasic} />
-          <Route path="realname" component={AuthRealName} />
-          <Route path="submitaudit" component={AuthSubmitAudit} />
-        </Route>*/}
         <Route path="auth" component={AuthContainer}>
           <IndexRoute component={AuthSummary} />
           <Route path="basic" component={AuthBasic} />
