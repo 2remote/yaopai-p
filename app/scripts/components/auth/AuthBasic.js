@@ -136,11 +136,23 @@ var AuthBasic = React.createClass({
   },
   onSubmitBasic: function(e) {
     e.preventDefault();
+    if(!this.props.userAccount.basic.avatar) {
+      this.props.showMessage('请先上传您的头像！');
+      return;
+    }
     var peter = this.state.ui.nickname;
     var gender = this.props.userAccount.basic.gender;
     var henan = this.state.ui.province;
     var zhengzhou = this.state.ui.city;
     var jinshui = this.state.ui.county;
+    if(!peter) {
+      this.props.showMessage('请填写昵称！');
+      return;
+    }
+    if(!zhengzhou && !jinshui) {
+      this.props.showMessage('请选择常驻地！');
+      return;
+    }
     // TODO: 好了，现在做校验吧！
     AccountActions.updateInfo({
       NickName: peter,
