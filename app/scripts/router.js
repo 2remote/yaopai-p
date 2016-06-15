@@ -3,8 +3,8 @@ var { Router, Route, IndexRoute, IndexRedirect } = require('react-router');
 
 var Layout = require('./components/layout');
 var Home = require('./components/home');
-var Login = require('./components/loginPanel');
-var Register = require('./components/registerPanel');
+// var Login = require('./components/loginPanel');
+// var Register = require('./components/registerPanel');
 var AccountCenter = require('./components/accountCenter');
 var Photographer = require('./components/photographer/photographer');
 var PersonInfo = require('./components/personInfo');
@@ -14,16 +14,6 @@ var OrderManager = require('./components/orderManager');
 var Profile = require('./components/profile');
 var Albums = require('./components/albums/index');
 var Provision = require('./components/provision');
-/* 认证 */
-//var PhotographerAuth = require('./components/photographer/photographerAuth');
-///* 认证：总揽 */
-///* 认证：基本信息 */
-//var AuthBasic =  require('./components/photographer/AuthBasic');
-///* 认证：实名认证 */
-//var AuthRealName = require('./components/photographer/AuthRealName');
-///* 认证：专业认证 */
-//var AuthSubmitAudit = require('./components/photographer/AuthSubmitAudit');
-/* 认证：容器 */
 var AuthContainer = require('./components/auth/AuthContainer');
 /* 认证：总揽 */
 var AuthSummary = require('./components/auth/AuthSummary');
@@ -44,8 +34,8 @@ var routes = (
 	<Router>
 		<Route path="/" component={Layout}>
 			<IndexRoute component={Home} />
-			<Route path="login" component={Login} />
-			<Route path="register" component={Register} />
+			{/*<Route path="login" component={Login} />*/}
+			{/*<Route path="register" component={Register} />*/}
 			<Route path="/account" component={AccountCenter} >
 				<IndexRoute component={PersonInfo} />
 				<Route path="personInfo" component={PersonInfo} />
