@@ -4,6 +4,8 @@ var Router = require('react-router');
 var Link  = Router.Link;
 var UserStore = require('../stores/UserStore');
 
+console.log('accountNav is required~~~~~~');
+
 /*
   个人中心的导航列表
 */
@@ -52,4 +54,4 @@ var AccountNav = React.createClass({
   }
 });
 
-module.exports = AccountNav;
+// module.exports = AccountNav;

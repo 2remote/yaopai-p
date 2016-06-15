@@ -17,4 +17,4 @@ var Cube = React.createClass({
   }
 });
 
-module.exports = Cube;
+// module.exports = Cube;
