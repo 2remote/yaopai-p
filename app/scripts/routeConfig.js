@@ -3,9 +3,9 @@
  *
  * @since 2016-06-13
 **/
-modules.export = {
+module.exports = {
   /* Root */
-  // ROUTE_ROOT: '/', // 根目录
+  ROUTE_ROOT: '/', // 根目录
   ROUTE_LOGIN: '/login', // 登录
   ROUTE_REGISTER: '/register', // 注册
   ROUTE_PROVISION: '/provision', // 条款
@@ -16,7 +16,8 @@ modules.export = {
   ROUTE_ACCOUNT_MOTE: '/account/m', // 模特专业信息（修改）
   ROUTE_ACCOUNT_PASSWORD: '/account/password', // 修改密码
   /* Auth */
-  ROUTE_AUTH_SUMMARY: '/auth/', // 认证总览
+  ROUTE_AUTH: '/auth', // 认证
+  ROUTE_AUTH_SUMMARY: '/auth', // 认证总览
   ROUTE_AUTH_BASIC: '/auth/basic', // 认证-基本信息填写
   ROUTE_AUTH_REALNAME: '/auth/realname', // 认证-实名认证
   ROUTE_AUTH_PHOTOGRAPHER: '/auth/p', // 认证-摄影师
