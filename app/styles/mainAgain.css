@@ -1,0 +1,28 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #e7e7e7;
+}
+
+#content {
+  height: 100%;
+  /* making room for fixed-navbar with magic top */
+  padding-top: 50px;
+}
+
+.main-container {
+  padding: 0 10px;
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.btn-default {
+  border-color: #939393;
+}
+
+.btn-lg {
+  font-size: 14px;
+}

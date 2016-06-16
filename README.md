@@ -35,6 +35,7 @@
 
 - 优化Gulp配置（刷新一百遍啊一百遍好累）
 - 使用docker统一开发环境
+- 使用React-Bootstrap：目前React-Bootstrap还没到1.0版本，API并不稳定
 - 使用Yeoman自动化开发搭建
 - TDD - 测试驱动
 
