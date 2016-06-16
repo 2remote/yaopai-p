@@ -1,3 +1,6 @@
+/**
+ * 之前UserStore和AccountStore存的数据比较乱，后台把这些都当作用户数据来看，就放在一起吧
+**/
 var Reflux = require('reflux');
 var UserActions = require('../actions/UserActions');
 var AccountActions = require('../actions/AccountActions');
@@ -15,20 +18,34 @@ const USERACCOUNT_GENDER_UNKNOWN = '不明';
 const USERACCOUNT_GENDER_FEMALE = '女';
 const USERACCOUNT_GENDER_MALE = '男';
 
+/**
+ * 判断用户是普通用户还是三方用户
+**/
 const convertUserAccountType = function(serverType) {
   return serverType ? USERACCOUNT_TYPE_NORMAL : USERACCOUNT_TYPE_THIRD;
 };
 
+/**
+ * 位运算获取用户professional身份
+**/
 const convertProfessions = function(serverType, mask) {
-  return !!(serverType & mask);
+  return !!(serverType & mask); // 双!!返回boolean
 };
 
+/**
+ * 转换用户性别值
+**/
 const convertGender = function(serverGender) {
   return serverGender === 0 ? USERACCOUNT_GENDER_FEMALE :
     serverGender === 1 ? USERACCOUNT_GENDER_MALE :
     USERACCOUNT_GENDER_UNKNOWN;
 };
 
+/**
+ * 填充用户数据，把this做为第一个参传过来了
+ * 把后台数据转换成前端数据是为了相对后台独立
+ * TODO：理论上与后台交互的事应该由action全程完成，包括转换，这样http请求从哪进就从哪“卸载”过来
+**/
 const fillUserBasicInfo = function(self, tokens, userInfo) {
   self.isLogin = true;
   self.loginToken = tokens.LoginToken;
@@ -56,7 +73,7 @@ const fillUserBasicInfo = function(self, tokens, userInfo) {
   self.basic.province = userInfo.ProvinceId;
   self.basic.city = userInfo.CityId;
   self.basic.county = userInfo.CountyId;
-  console.log('The fillUserBasicInfo function decided to have himself heared, Errr!', self);
+  // console.log('The fillUserBasicInfo function decided to have himself heared, Errr!', self);
 };
 
 /**
@@ -64,6 +81,8 @@ const fillUserBasicInfo = function(self, tokens, userInfo) {
  */
 const UserAccountStore = Reflux.createStore({
   getInitialState: function() {
+    // Reflux的store也有初始化，但不是getInitialState而是init
+    // 这个getInitialState是用于与React组件做mixins的时候调connect用的
     return this.data;
   },
   init: function() {
@@ -120,6 +139,7 @@ const UserAccountStore = Reflux.createStore({
   onLogin: function(resp) {
     const self = this;
     let data = self.data;
+    // TODO: 话说resp.Success可不可以让action去处理，甚至让httpFactory直接封装了？
     if(resp.Success) {
       fillUserBasicInfo(data, resp, resp.User);
       self.trigger(data);
