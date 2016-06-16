@@ -404,17 +404,29 @@ var Profile = React.createClass({
   },
   render: function() {
     return (
-      <div className="container-fluid no-bgimg gray-bg">
+      <div>
         <Header />
-        <div>
-          <ProfileHeader type={this.state.type}/>
-          <WorksList
-            type={this.state.type =='onSale'?'1':this.state.type =='onStore'?'2':this.state.type=='fail'?'3':''}
-            pageIndex = {this.state.pageIndex}/>
+        <div className="container-fluid no-bgimg gray-bg">
+          <div  className="container-fluid">
+            <div className="row" style={{padding: 10}}>
+              <div className="col-sm-3 hidden-xs">
+                <ProfileHeader type={this.state.type}/>
+              </div>
+              <div className="col-sm-9">
+                <div className="panel panel-default">
+                  <div className="panel-body">    
+                    <WorksList
+                      type={this.state.type =='onSale'?'1':this.state.type =='onStore'?'2':this.state.type=='fail'?'3':''}
+                      pageIndex = {this.state.pageIndex}/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
-  }
+  },
 });
 
 module.exports = Profile;
