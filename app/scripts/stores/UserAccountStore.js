@@ -53,6 +53,7 @@ const fillUserBasicInfo = function(self, tokens, userInfo) {
   self.basic = {
     professions: {},
   };
+  self.basic.id = userInfo.Id;
   self.basic.type = convertUserAccountType(userInfo.Local);
   self.basic.professions.photographer
     = convertProfessions(userInfo.Type, USERPROFESSIONAL_MASK_PHOTOGRAPHER);
@@ -123,7 +124,7 @@ const UserAccountStore = Reflux.createStore({
           makeupArtist: false,
           mote: false,
         },
-        //id: 0,
+        id: NaN,
         nickname: '',
         gender: USERACCOUNT_GENDER_MALE,
         avatar: '', // TODO: 有默认头像的设定吗？
