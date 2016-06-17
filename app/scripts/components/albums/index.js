@@ -37,7 +37,7 @@ var Albums = React.createClass({
         this.setState({tags: data.tags});
       }
       if(data.flag == 'delete') {
-        this.history.replaceState(null,'/profile/onSale');
+        this.history.replaceState(null,'/profile');
       }
       if(data.flag == 'update') {
         if(this.state.cropCover){
@@ -245,7 +245,7 @@ var Albums = React.createClass({
                     <span style={mainStyle.spanText}  data-index={i} onClick={this.onRemove} >删除</span>
                   </span>
                   <span style={coverStyle}>
-                    <span style={{fontSize:25,marginRight:-25}} className="icon work_icon" /> 
+                    <span style={{fontSize:25,marginRight:-25}} className="icon work_icon" />
                     {cover}
                   </span>
                   <span style={mainStyle.down}>

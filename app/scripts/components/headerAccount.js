@@ -40,7 +40,7 @@ var Acount = React.createClass({
         <div>
           <ul className="nav navbar-nav">
             {/*我的主页*/}
-            <NavMenuItem target="/profile/onSale" icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
+            <NavMenuItem target="/profile" icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
             {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
             <NavMenuItem target="/account/upload" icon="glyphicon glyphicon-upload" text="作品上传" visible={ true } />
             {/*入驻邀拍*/}

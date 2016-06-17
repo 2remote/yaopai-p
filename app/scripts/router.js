@@ -47,7 +47,7 @@ var routes = (
 				<Route path="upload" component={UploadWorks} />
 			</Route>
 			<Route path="order/:type/:state" component={OrderManager} />
-			<Route path="profile/:type" component={Profile} />
+			<Route path="profile" component={Profile} />
 			<Route path="albums/:id" component={Albums} />
 			<Route path="provision" component={Provision} />
 		</Route>
