@@ -26,3 +26,16 @@ html, body {
 .btn-lg {
   font-size: 14px;
 }
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.inactive {
+  color: #B1B1B1;
+}
+
+a.active {
+  color: black;
+}
