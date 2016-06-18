@@ -91,6 +91,9 @@ var AlbumList = React.createClass({
       return;
     }
     targetList = targetList.map((album, index) => {
+      if(!album) { // the one concatenated from above
+        return undefined;
+      }
       if(album.id === albumId) {
         targetIndex = index;
       }
