@@ -15,16 +15,24 @@ var CityLink = React.createClass({
 var Header = React.createClass({
   render: function(){
     return(
-      <header role="banner" className="header">
-          <nav className="nav navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <Link to="/profile">
-              <div className="navbar-brand">
+        <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed"
+                data-toggle="collapse" data-target="#header-nav" aria-expanded="false"
+              >
+                <span className="sr-only"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <Link to="/profile" className="navbar-brand">
                 <img style={{ height: '90%' }} src="img/logo.png" />
-              </div>
-            </Link>
+              </Link>
+            </div>
             <Account />
-          </nav>
-      </header>
+          </div>
+        </nav>
     );
   }
 });

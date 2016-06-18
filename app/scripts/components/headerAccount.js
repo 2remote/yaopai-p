@@ -36,31 +36,29 @@ var Acount = React.createClass({
   },
   render: function () {
     return (
-      <div className="right-header-nav">
-        <div>
-          <ul className="nav navbar-nav">
-            {/*我的主页*/}
-            <NavMenuItem target="/profile" icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
-            {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
-            <NavMenuItem target="/account/upload" icon="glyphicon glyphicon-upload" text="作品上传" visible={ true } />
-            {/*入驻邀拍*/}
-            <NavMenuItem target="/account/auth" icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />
-            {/*修改密码*/}
-            <NavMenuItem target="/account/info" icon="glyphicon glyphicon-cog" text="修改密码"
-              visible={ this.state.currentUser.basic.professions.photographer }
-            />
-            {/*账户设置*/}
-            <NavMenuItem target="/account/personInfo" icon="glyphicon glyphicon-cog" text="账户设置" visible={ true } />
-          </ul>
-          {/*导航-右侧*/}
-          <ul className="nav navbar-nav navbar-right">
-            <li onClick={this.handleLogout}>
-              <Link to="/">
-                <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 登出
-              </Link>
-            </li>
-          </ul>
-        </div>
+      <div className="collapse navbar-collapse" id="header-nav">
+        <ul className="nav navbar-nav">
+          {/*我的主页*/}
+          <NavMenuItem target="/profile" icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
+          {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
+          <NavMenuItem target="/account/upload" icon="glyphicon glyphicon-upload" text="作品上传" visible={ true } />
+          {/*入驻邀拍*/}
+          <NavMenuItem target="/account/auth" icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />
+          {/*修改密码*/}
+          <NavMenuItem target="/account/info" icon="glyphicon glyphicon-cog" text="修改密码"
+            visible={ this.state.currentUser.basic.professions.photographer }
+          />
+          {/*账户设置*/}
+          <NavMenuItem target="/account/personInfo" icon="glyphicon glyphicon-cog" text="账户设置" visible={ true } />
+        </ul>
+        {/*导航-右侧*/}
+        <ul className="nav navbar-nav navbar-right">
+          <li onClick={this.handleLogout}>
+            <Link to="/">
+              <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 登出
+            </Link>
+          </li>
+        </ul>
       </div>
     );
   }
