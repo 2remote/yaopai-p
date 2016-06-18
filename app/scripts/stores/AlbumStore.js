@@ -21,6 +21,7 @@ const AlbumStore = Reflux.createStore({
   init: function() {
     // Initial data for Album info
     this.listenTo(AlbumAction.fetch.success, this.updateList);
+    this.listenTo(AlbumAction.sort.success, this.sort);
     this.data = {
       status: ALBUM_NOT_FETCHED,
       onSaleList: [],
@@ -44,6 +45,38 @@ const AlbumStore = Reflux.createStore({
       offSaleList,
     };
     this.trigger(this.data);
+  },
+  sort: function(ids) {
+    const dataRef = this.data;
+    let idList = ids.split(',');
+    let albumObject = {};
+    let newOnSaleList = [];
+    let newOffSaleList = [];
+    // 所有album放进albumObject，建立从id到Object的引用
+    for(onItem in dataRef.onSaleList) {
+      let theItem = dataRef.onSaleList[onItem];
+      albumObject[theItem.id] = theItem;
+    }
+    for(offItem in dataRef.offSaleList) {
+      let theItem = dataRef.offSaleList[offItem];
+      albumObject[theItem.id] = theItem;
+    }
+    // 从新排序后的id列表中遍历id，使用albumObject转换成album，看display推进不同的list
+    // 不过好像没有卵用的排序也会推到服务器= =
+    for(idx in idList) {
+      let theItem = albumObject[idList[idx]];
+      if(theItem) { // 确保作品存在，可处理异步作品被删，但没法处理异步增加作品（小概率）
+        if(theItem.display) {
+          newOnSaleList.push(theItem);
+        } else {
+          newOffSaleList.push(theItem);
+        }
+      }
+    }
+    // 重拍完成，把结果的引用传给dataRef(this.data)
+    dataRef.onSaleList = newOnSaleList;
+    dataRef.offSaleList = newOffSaleList;
+    this.trigger(dataRef);
   },
 });
 

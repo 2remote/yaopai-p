@@ -81,6 +81,39 @@ var AlbumList = React.createClass({
       AlbumAction.fetch(userId);
     }
   },
+  moveAlbum: function(albumId, step) {
+    let { onSaleList, offSaleList } = this.state.album;
+    let targetList;
+    let targetIndex = -1;
+    let resultList = [];
+    targetList = onSaleList.concat(undefined).concat(offSaleList);
+    if(!targetList || targetList.length === 0) { // awdw
+      return;
+    }
+    targetList = targetList.map((album, index) => {
+      if(album.id === albumId) {
+        targetIndex = index;
+      }
+      return album.id;
+    });
+    // 遍历targetList，做排序调整
+    // 增加-1和length处的值（js下是undefined），少写一些if else判断
+    for(let count = -1; count <= targetList.length; count++) {
+      let theIndex;
+      if(count === targetIndex) {
+        theIndex = targetIndex + step;
+      } else if(count === targetIndex + step) {
+        theIndex = targetIndex;
+      } else {
+        theIndex = count;
+      }
+      if(typeof targetList[theIndex] != 'undefined') {
+        resultList.push(targetList[theIndex]);
+      }
+    }
+    // console.log(resultList);
+    AlbumAction.sort(resultList.toString());
+  },
   onImgError: function (obj) {
     obj.target.src = "../../../img/loaderror.png";
   },
@@ -108,6 +141,11 @@ var AlbumList = React.createClass({
             <Link to={ '/albums/' + work.id }>
               <img width='300' src={ work.cover + '?imageView2/2/w/300/interlace/1' } onError={ self.onImgError }/>
             </Link>
+            <div>
+              <span onClick={ e => self.moveAlbum(work.id, -1) }>左</span>
+              ----------------
+              <span onClick={ e => self.moveAlbum(work.id, 1) }>右</span>
+            </div>
           </div>
       ));
     } else {

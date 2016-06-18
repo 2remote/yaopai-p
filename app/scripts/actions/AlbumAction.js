@@ -76,7 +76,6 @@ var AlbumAction = Reflux.createActions({
   'onSale': { children: ['success', 'error'] },
   'offSale': { children: ['success', 'error'] },
   'sort': { children: ['success', 'error'] },
-  'swap': { children: ['success', 'error'] },
 });
 
 AlbumAction.fetch.listen(function(photographerId) {
@@ -122,15 +121,15 @@ AlbumAction.offSale.listen(function(albumId) {
 /**
  * 给作品排序 - 传入完整作品排序后的结果
 **/
-AlbumAction.sort.listen(function() {
-
-});
-
-/**
- * 给作品排序 - 交换两个作品位置
-**/
-AlbumAction.swap.listen(function(first, second) {
-
+AlbumAction.sort.listen(function(ids) {
+  let self = this;
+  postStar(API.ALBUMS.sorting, {
+    Ids: ids,
+  }, function(serverData) {
+    self.success(ids);
+  }, function(error) {
+    self.error(error);
+  });
 });
 
 module.exports = AlbumAction;
