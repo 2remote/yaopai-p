@@ -73,7 +73,7 @@ var FooterBar = React.createClass({
 					<div className="footer-beian">
 						京ICP备14041720号-1   京ICP证140622号   京公网安备11010502025474
 					</div>
-				
+
 				</div>
 			</div>
 			)
@@ -87,9 +87,9 @@ var Footer = React.createClass({
 				<FooterLine />
 				<FooterBar />
 			</div>
-			
+
 		);
 	}
 });
 
-module.exports = Footer;
+// module.exports = Footer;

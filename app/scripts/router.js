@@ -1,5 +1,5 @@
 var React = require('react');
-var { Router, Route, IndexRoute, IndexRedirect } = require('react-router');
+var { Router, Route, IndexRoute, IndexRedirect, Redirect } = require('react-router');
 
 var Layout = require('./components/layout');
 var Home = require('./components/home');
@@ -49,12 +49,6 @@ var routes = (
 			<Route path="/account" component={AccountCenter} >
 				<IndexRoute component={PersonInfo} />
 				<Route path="personInfo" component={PersonInfo} />
-        {/*<Route path="pAuth" component={PhotographerAuth}>
-          <IndexRedirect to="basic" />
-          <Route path="basic" component={AuthBasic} />
-          <Route path="realname" component={AuthRealName} />
-          <Route path="submitaudit" component={AuthSubmitAudit} />
-        </Route>*/}
         <Route path="auth" component={AuthContainer}>
           <IndexRoute component={AuthSummary} />
           <Route path="basic" component={AuthBasic} />
@@ -74,8 +68,50 @@ var routes = (
 			<Route path="provision" component={Provision} />
 		</Route>
 	</Router>
-
 );
+
+/* TODO: 改版啦改版啦 */
+// var Content = require('./components/root/Content');
+// var Main = require('./components/root/Main');
+// var NF404 = require('./components/root/404');
+//
+// routes = (
+//   <Router>
+//     <Route path="/" component={ Content }>
+//       <IndexRoute component={ Main } comment="默认首页" />
+//       <Route path="account" comment="帐号相关">
+//         <IndexRedirect to="info" />
+//         <Route path="info" component={NF404} comment="修改信息" />
+//         <Route path="password" component={NF404} comment="修改密码" />
+//       </Route>
+//       <Route path="auth" comment="认证相关">
+//         <IndexRoute component={NF404} comment="认证-总览" />
+//         <Route path="basic" component={NF404} comment="认证-基本信息" />
+//         <Route path="real" component={NF404} comment="认证-实名认证" />
+//         <Route path="p" component={NF404} comment="认证-摄影师" />
+//         <Route path="a" component={NF404} comment="认证相关" />
+//         <Route path="m" component={NF404} comment="认证相关" />
+//         <Route path="result" component={NF404} comment="认证相关" />
+//       </Route>
+//       <Route path="album" comment="作品相关">
+//         <IndexRedirect to="upload"/>
+//         <Route path="upload" component={NF404}  comment="作品上传" />
+//         <Route path="detail/:aid" component={NF404} comment="作品详情" />
+//       </Route>
+//       <Route path="order" comment="订单相关">
+//         <IndexRoute component={NF404} />
+//       </Route>
+//     </Route>
+//     <Route path="/user" comment="用户相关">
+//       <IndexRedirect to="login" />
+//       <Route path="login" component={NF404} comment="登录" />
+//       <Route path="register" component={NF404} comment="注册" />
+//       <Route path="provision" component={NF404} comment="条款" />
+//     </Route>
+//     <Route path="/404" component={NF404} comment="默认未知页" />
+//     <Redirect from="*" to="/404" />
+//   </Router>
+// );
 
 exports.start = function() {
 		React.render(routes, document.getElementById('content'));

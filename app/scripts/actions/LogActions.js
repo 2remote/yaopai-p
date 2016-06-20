@@ -8,8 +8,8 @@ var LogActions = Reflux.createActions({
 });
 
 LogActions.log.listen(function(data) {
-  console.log("send log.");
-  HttpFactory.post(API.LOG.log,data,this.success,this.failed);
+  // console.log("send log.");
+  // HttpFactory.post(API.LOG.log,data,this.success,this.failed);
 });
 
 module.exports = LogActions;
