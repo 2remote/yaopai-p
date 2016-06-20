@@ -305,13 +305,19 @@ var ChooseImages = React.createClass({
           <div>
             <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
           </div>
-            <ReactCSSTransitionGroup ref="itemsContainer"
-              className="workList"
-              transitionName="workItem"
-              transitionEnterTimeout={250}
-              transitionLeaveTimeout={250}>
-              {renderImages}
-            </ReactCSSTransitionGroup>
+          <ReactCSSTransitionGroup ref="itemsContainer"
+            className="workList"
+            transitionName="workItem"
+            transitionEnterTimeout={250}
+            transitionLeaveTimeout={250}
+          >
+            {renderImages}
+          </ReactCSSTransitionGroup>
+          <div>
+            作品上传注意事项<br />
+            1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
+            2、建议不要将多图排版编辑到一张图片中
+          </div>
         </div>
       </div>
     );
