@@ -30,10 +30,36 @@
 - jQuery & Bootstrap (React)
 - [smartcrop](https://github.com/jwagner/smartcrop.js): 图片智能剪裁
 
+## gulp - 又见全家桶
+
+首先是gulp爸爸:
+```
+npm i -D gulp
+```
+然后，util什么的:
+```
+npm i -D del lodash.assign gulp-util run-sequence gulp-exit
+```
+该browserify了:
+```
+npm i -D browserify watchify
+npm i -D vinyl-source-stream vinyl-buffer
+```
+babel那些:
+```
+npm i -D babelify babel-preset-es2015 babel-preset-react
+```
+还有它们:
+```
+npm i -D gulp-uglify gulp-sourcemaps
+```
+这个browserSync很强大:
+```
+npm i -D browser-sync
+```
 
 ## TODO - 让暴风雨来得更猛烈一些吧
 
-- 优化Gulp配置（刷新一百遍啊一百遍好累）
 - 使用docker统一开发环境
 - 使用React-Bootstrap：目前React-Bootstrap还没到1.0版本，API并不稳定
 - 使用Yeoman自动化开发搭建
