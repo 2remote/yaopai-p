@@ -31,7 +31,7 @@ const AlbumStore = Reflux.createStore({
   updateList: function(list) {
     var onSaleList = [];
     var offSaleList = [];
-    for(albumIndex in list) {
+    for(let albumIndex in list) {
       let album = list[albumIndex];
       if(album.display) {
         onSaleList.push(album);
@@ -53,17 +53,17 @@ const AlbumStore = Reflux.createStore({
     let newOnSaleList = [];
     let newOffSaleList = [];
     // 所有album放进albumObject，建立从id到Object的引用
-    for(onItem in dataRef.onSaleList) {
+    for(let onItem in dataRef.onSaleList) {
       let theItem = dataRef.onSaleList[onItem];
       albumObject[theItem.id] = theItem;
     }
-    for(offItem in dataRef.offSaleList) {
+    for(let offItem in dataRef.offSaleList) {
       let theItem = dataRef.offSaleList[offItem];
       albumObject[theItem.id] = theItem;
     }
     // 从新排序后的id列表中遍历id，使用albumObject转换成album，看display推进不同的list
     // 不过好像没有卵用的排序也会推到服务器= =
-    for(idx in idList) {
+    for(let idx in idList) {
       let theItem = albumObject[idList[idx]];
       if(theItem) { // 确保作品存在，可处理异步作品被删，但没法处理异步增加作品（小概率）
         if(theItem.display) {

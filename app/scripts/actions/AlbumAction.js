@@ -94,7 +94,7 @@ AlbumAction.fetch.listen(function(photographerId) {
     if(serverData.Result && serverData.Result.length) {
       let albumList = [];
       // 后台数据解析
-      for(result in serverData.Result) {
+      for(let result in serverData.Result) {
         albumList.push(convertAlbum(serverData.Result[result]));
       }
       self.success(albumList);
