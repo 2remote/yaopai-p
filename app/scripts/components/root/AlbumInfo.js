@@ -1,6 +1,5 @@
 import React from 'react'
 import Reflux from 'reflux'
-import { Link, History } from 'react-router'
 import QRCode from 'qrcode.react'
 import _ from 'lodash'
 

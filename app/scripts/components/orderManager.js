@@ -1,10 +1,9 @@
 var React = require('react');
 var Reflux = require('reflux');
-var Router = require('react-router');
-var Link = Router.Link;
-var History = Router.History;
+import { Link, History } from 'react-router'
 
 import NoData from './noData';
+import { ROUTE_LOGIN } from '../routeConfig'
 
 var OrderStore = require('../stores/OrderStore');
 var OrderActions = require('../actions/OrderActions');
@@ -418,7 +417,7 @@ var OrderManager = React.createClass({
     if(data.isLogin){
       OrderActions.list(this.props.params.type,this.props.params.state);
     }else{
-      this.history.pushState(null,'/');
+      this.history.pushState(null, ROUTE_LOGIN);
     }
   },
   onOrderStoreChange : function(data){

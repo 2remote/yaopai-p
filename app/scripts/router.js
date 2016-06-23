@@ -7,7 +7,7 @@ var Home = require('./components/home');
 // var Login = require('./components/loginPanel');
 // var Register = require('./components/registerPanel');
 var AccountCenter = require('./components/accountCenter');
-var Photographer = require('./components/photographer/photographer');
+// var Photographer = require('./components/photographer/photographer');
 var PersonInfo = require('./components/personInfo');
 var AccountInfo = require('./components/accountInfo');
 var UploadWorks = require('./components/uploadWorks');
@@ -35,7 +35,7 @@ var routes = (
 			<Route path="/account" component={AccountCenter} >
 				<IndexRedirect to="personInfo" />
 				<Route path="personInfo" component={PersonInfo} />
-				<Route path="photographer" component={Photographer} />
+				{/*<Route path="photographer" component={Photographer} />*/}
 				<Route path="info" component={AccountInfo} />
 				<Route path="upload" component={UploadWorks} />
 			</Route>

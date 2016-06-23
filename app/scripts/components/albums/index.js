@@ -1,6 +1,6 @@
 var React = require('react');
 var Reflux = require('reflux');
-var History = require('react-router').History;
+import { History } from 'react-router'
 var ComponentGallery = require('react-component-gallery');
 var AlbumsActions = require('../../actions/AlbumsActions');
 var AlbumsStore = require('../../stores/AlbumsStore');
@@ -10,6 +10,7 @@ var UserActions = require("../../actions/UserActions");
 var  Tools = require('../../tools');
 var _ = require('lodash');
 var ToolTip = require('../toolTip');
+import { ROUTE_LOGIN } from '../../routeConfig'
 
 var Albums = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged'),Reflux.listenTo(UserStore,'isLogin'), History],
@@ -36,7 +37,7 @@ var Albums = React.createClass({
         this.setState({tags: data.tags});
       }
       if(data.flag == 'delete') {
-        this.history.replaceState(null,'/');
+        this.history.replaceState(null, ROUTE_LOGIN);
       }
       if(data.flag == 'update') {
         if(this.state.cropCover){
@@ -67,7 +68,7 @@ var Albums = React.createClass({
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
       //UserActions.logout(true);
-      this.history.pushState(null, '/');
+      this.history.pushState(null, ROUTE_LOGIN);
     }else{
       //var data = {
       //  Fields: 'Id,Name'

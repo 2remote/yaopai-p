@@ -29,7 +29,7 @@ const AuthBasic = React.createClass({
   },
   componentWillMount: function() {
     // if(this.props.userComplete) {
-    //   this.props.history.replaceState(null, '/account/auth/real')
+    //   this.props.history.replaceState(null, ROUTE_AUTH_REALNAME)
     // }
   },
   getInitialState: function() {

@@ -12,9 +12,11 @@ var UserStore = require("../stores/UserStore");
 var TextInput = require('./account/textInput');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
-var History = require('react-router').History;
+import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
+
+import { ROUTE_LOGIN } from '../routeConfig'
 
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
@@ -165,7 +167,7 @@ var PersonInfo = React.createClass({
     }else{
       //没有登录跳转到首页登录界面
       UserActions.logout(true);
-      this.history.pushState(null, '/');
+      this.history.pushState(null, ROUTE_LOGIN);
     }
   },
   onAccountChanged : function(data){

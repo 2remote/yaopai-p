@@ -20,7 +20,7 @@ var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
 var UserStore = require("../stores/UserStore");
-var History = require('react-router').History;
+
 /*
  选择类别组件
  */

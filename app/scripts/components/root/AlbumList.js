@@ -1,6 +1,6 @@
 import React from 'react'
 import Reflux from 'reflux'
-import { Link, History } from 'react-router'
+import { Link } from 'react-router'
 var { AlbumStore, ALBUM_NOT_FETCHED } = require('../../stores/AlbumStore')
 var AlbumAction = require('../../actions/AlbumAction')
 var MasonryMixin = require('react-masonry-mixin')(React)
