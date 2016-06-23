@@ -6,6 +6,7 @@ var Reflux = require('reflux');
 var UserStore = require('../stores/UserStore');
 var UserAccountStore = require('../stores/UserAccountStore');
 var UserActions = require('../actions/UserActions');
+import { PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_NONE, PhotographerAuthStore } from '../stores/auth/PhotographerAuthStore';
 var { Link, History } = require('react-router');
 
 var NavMenuItem = React.createClass({
@@ -30,26 +31,32 @@ var NavMenuItem = React.createClass({
 });
 
 var Acount = React.createClass({
-  mixins: [Reflux.connect(UserAccountStore, 'currentUser'), History],
+  mixins: [
+    Reflux.connect(UserAccountStore, 'currentUser'),
+    Reflux.connect(PhotographerAuthStore, 'photographerAuth'),
+    History
+  ],
   handleLogout: function () {
     UserActions.logout(true);
   },
   render: function () {
+    let showUpload = !(this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_DEFAULT
+      || this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_NONE);
     return (
       <div className="collapse navbar-collapse" id="header-nav">
         <ul className="nav navbar-nav">
           {/*我的主页*/}
           <NavMenuItem target="/profile" icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
-          {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
-          <NavMenuItem target="/account/upload" icon="glyphicon glyphicon-upload" text="作品上传" visible={ true } />
           {/*入驻邀拍*/}
           <NavMenuItem target="/account/auth" icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />
+          {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
+          <NavMenuItem target="/account/upload" icon="glyphicon glyphicon-upload" text="上传作品" visible={ showUpload } />
           {/*修改密码*/}
           <NavMenuItem target="/account/info" icon="glyphicon glyphicon-cog" text="修改密码"
             visible={ this.state.currentUser.basic.professions.photographer }
           />
           {/*账户设置*/}
-          <NavMenuItem target="/account/personInfo" icon="glyphicon glyphicon-cog" text="账户设置" visible={ true } />
+          <NavMenuItem target="/account/personInfo" icon="glyphicon glyphicon-cog" text="个人信息" visible={ true } />
         </ul>
         {/*导航-右侧*/}
         <ul className="nav navbar-nav navbar-right">
