@@ -3,7 +3,6 @@ var Reflux = require('reflux');
 var validator = require('validator');
 var moment = require('moment');
 var Button = require('react-bootstrap').Button;
-var Header = require('./../header');
 var AlbumsActions = require('../../actions/AlbumsActions');
 var AlbumsStore = require('../../stores/AlbumsStore');
 var EditAlbumModal = require('./editAlbumModal');

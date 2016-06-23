@@ -3,11 +3,11 @@
  *
  * @since 2016-06-14
 **/
-var React = require('react');
+import React from 'react'
 
 /* Components inside this main frame. */
-var Navbar = require('./Navbar');
-var UserPanel = require('./UserPanel');
+import Navbar from './Navbar'
+import UserPanel from './UserPanel'
 
 const Content = React.createClass({
   render: function() {
@@ -21,16 +21,14 @@ const Content = React.createClass({
             </div>
             <div className="col-sm-9 main-container">
               <div className="panel panel-default">
-                <div className="panel-body">
-                  { this.props.children }
-                </div>    
+                { this.props.children }
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  },
+    )
+  }
 });
 
-module.exports = Content;
+export default Content

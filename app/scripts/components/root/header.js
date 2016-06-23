@@ -1,18 +1,17 @@
-var React = require('react');
-var Router = require('react-router');
-var Link  = Router.Link;
+import React from 'react'
+import { Link } from 'react-router'
 
-var Account = require('./headerAccount');
+import Account from './headerAccount'
 
-var CityLink = React.createClass({
-  render : function() {
-    return (
-        <li><a href="#">郑州</a></li>
-      );
-  }
-});
+// const CityLink = React.createClass({
+//   render : function() {
+//     return (
+//         <li><a href="#">郑州</a></li>
+//       );
+//   }
+// });
 
-var Header = React.createClass({
+const Header = React.createClass({
   render: function(){
     return(
         <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -26,15 +25,15 @@ var Header = React.createClass({
                 <span className="icon-bar"></span>
                 <span className="icon-bar"></span>
               </button>
-              <Link to="/profile" className="navbar-brand">
+              <Link to="/" className="navbar-brand">
                 <img style={{ height: '90%' }} src="img/logo.png" />
               </Link>
             </div>
             <Account />
           </div>
         </nav>
-    );
+    )
   }
 });
 
-module.exports = Header;
+export default Header

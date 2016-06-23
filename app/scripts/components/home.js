@@ -460,7 +460,7 @@ var Home = React.createClass({
           if(this.props.location.state && this.props.location.state.nextpage)
             this.history.replaceState(null,this.props.location.state.nextpage);
           else
-            this.history.replaceState(null,'/profile');
+            this.history.replaceState(null,'/');
         }
       }
     }

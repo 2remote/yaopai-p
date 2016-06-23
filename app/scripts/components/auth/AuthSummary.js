@@ -1,40 +1,44 @@
-var React = require('react');
-var { History } = require('react-router');
-var InfoHeader = require('../infoHeader');
+import React from 'react'
+import { History } from 'react-router'
+var InfoHeader = require('../infoHeader')
 
-const LINK_TO_AUTH_BASIC = '/account/auth/basic';
-const LINK_TO_AUTH_REALNAME = '/account/auth/real';
-const LINK_TO_AUTH_PHOTOGRAPHER = '/account/auth/p';
-const LINK_TO_AUTH_MAKEUPARTIST = '/account/auth/a';
-const LINK_TO_AUTH_MOTE = '/account/auth/m';
-const LINK_TO_AUTH_SUMMARY = '/account/auth/';
+import {
+  ROUTE_AUTH_SUMMARY,
+  ROUTE_AUTH_BASIC,
+  ROUTE_AUTH_REALNAME,
+  ROUTE_AUTH_PHOTOGRAPHER,
+  ROUTE_AUTH_MAKEUPARTIST,
+  ROUTE_AUTH_MOTE,
+  ROUTE_AUTH_RESULT,
+}
+from '../../routeConfig'
 
 const convertLinkToVal = function(basic, real, type) {
-  let secondTarget = type === 'p' ? LINK_TO_AUTH_PHOTOGRAPHER :
-    type === 'a' ? LINK_TO_AUTH_MAKEUPARTIST :
-    type === 'm' ? LINK_TO_AUTH_MOTE :
-    LINK_TO_AUTH_SUMMARY;
-  let firstTarget  = !basic ? LINK_TO_AUTH_BASIC :
-    !real ? LINK_TO_AUTH_REALNAME : '';
+  let secondTarget = type === 'p' ? ROUTE_AUTH_PHOTOGRAPHER :
+    type === 'a' ? ROUTE_AUTH_MAKEUPARTIST :
+    type === 'm' ? ROUTE_AUTH_MOTE :
+    ROUTE_AUTH_SUMMARY
+  let firstTarget  = !basic ? ROUTE_AUTH_BASIC :
+    !real ? ROUTE_AUTH_REALNAME : ''
   return {
     first: firstTarget,
     second: secondTarget,
-  };
-};
+  }
+}
 
 const isDenied = function(status) {
-  return status === '审核拒绝';
-};
+  return status === '审核拒绝'
+}
 
 const statusToHint = function(status) {
-var hint = ' ';
+var hint = ' '
   if(status === '未申请') {
-    hint = '立即申请';
+    hint = '立即申请'
   } else if(status === '审核拒绝') {
-    hint = '重新申请';
+    hint = '重新申请'
   }
-  return hint;
-};
+  return hint
+}
 
 var AuthSummary = React.createClass({
   mixins: [History],
@@ -44,7 +48,7 @@ var AuthSummary = React.createClass({
       photographerAuthed,
       makeupArtistAuthed,
       moteAuthed,
-     } = this.props;
+     } = this.props
     return (
       <div>
         <InfoHeader
@@ -183,21 +187,21 @@ var AuthSummary = React.createClass({
           </div>
         </div>
       </div>
-    );
+    )
   },
   onClickAuthTarget: function(magic) {
     const {
       userComplete,
       realNameComplete,
-    } = this.props;
-    var targets = convertLinkToVal(userComplete, realNameComplete, magic);
+    } = this.props
+    var targets = convertLinkToVal(userComplete, realNameComplete, magic)
     if(targets.first) {
-      this.props.history.pushState(null, targets.first);
+      this.props.history.pushState(null, targets.first)
     } else {
-      this.props.history.pushState(null, targets.second);
+      this.props.history.pushState(null, targets.second)
     }
-    this.props.changeAuthTarget(targets.second);
+    this.props.changeAuthTarget(targets.second)
   },
-});
+})
 
-module.exports = AuthSummary;
+export default AuthSummary

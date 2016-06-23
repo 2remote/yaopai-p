@@ -1,5 +1,6 @@
 var React = require('react');
 var { Router, Route, IndexRoute, IndexRedirect, Redirect } = require('react-router');
+import NF404 from './components/root/404';
 
 var Layout = require('./components/layout');
 var Home = require('./components/home');
@@ -11,46 +12,50 @@ var PersonInfo = require('./components/personInfo');
 var AccountInfo = require('./components/accountInfo');
 var UploadWorks = require('./components/uploadWorks');
 var OrderManager = require('./components/orderManager');
-var Profile = require('./components/profile');
 var Albums = require('./components/albums/index');
 var Provision = require('./components/provision');
-var AuthContainer = require('./components/auth/AuthContainer');
+import AuthContainer from './components/auth/AuthContainer'
 /* ********************************认证******************************** */
-var AuthSummary = require('./components/auth/AuthSummary'); // 总览
-var AuthBasic = require('./components/auth/AuthBasic'); // 基本信息
-var AuthRealName = require('./components/auth/AuthRealName'); // 实名认证
-var AuthPhotographer = require('./components/auth/AuthPhotographer'); // 摄影师专业认证
-var AuthMakeupArtist = require('./components/auth/AuthMakeupArtist'); // 化妆师专业认证
-var AuthMote = require('./components/auth/AuthMote'); // 模特专业认证
-var AuthResult = require('./components/auth/AuthResult'); // 结果
+import AuthSummary from './components/auth/AuthSummary' // 总览
+import AuthBasic from './components/auth/AuthBasic' // 基本信息
+import AuthRealName from './components/auth/AuthRealName' // 实名认证
+import AuthPhotographer from './components/auth/AuthPhotographer' // 摄影师专业认证
+import AuthMakeupArtist from './components/auth/AuthMakeupArtist' // 化妆师专业认证
+import AuthMote from './components/auth/AuthMote' // 模特专业认证
+import AuthResult from './components/auth/AuthResult' // 结果
+
+import Content from './components/root/Content'
+import AlbumInfo from './components/root/AlbumInfo'
 
 var routes = (
 	<Router>
-		<Route path="/" component={Layout}>
-			<IndexRoute component={Home} />
-			{/*<Route path="login" component={Login} />*/}
-			{/*<Route path="register" component={Register} />*/}
+		<Route path="/" component={Content}>
+      <IndexRedirect to="main" />
+      <Route path="main" component={AlbumInfo} comment="首页，作品信息" />
 			<Route path="/account" component={AccountCenter} >
 				<IndexRedirect to="personInfo" />
 				<Route path="personInfo" component={PersonInfo} />
-        <Route path="auth" component={AuthContainer}>
-          <IndexRoute component={AuthSummary} />
-          <Route path="basic" component={AuthBasic} />
-          <Route path="real" component={AuthRealName} />
-          <Route path="p" component={AuthPhotographer} />
-          <Route path="a" component={AuthMakeupArtist} />
-          <Route path="m" component={AuthMote} />
-          <Route path="result" component={AuthResult} />
-        </Route>
 				<Route path="photographer" component={Photographer} />
 				<Route path="info" component={AccountInfo} />
 				<Route path="upload" component={UploadWorks} />
 			</Route>
 			<Route path="order/:type/:state" component={OrderManager} />
-			<Route path="profile" component={Profile} />
 			<Route path="albums/:id" component={Albums} />
 			<Route path="provision" component={Provision} />
+      {/* ****************认证页信息**************** */}
+      <Route path="auth" component={AuthContainer} comment="认证页信息" >
+        <IndexRoute component={AuthSummary} />
+        <Route path="basic" component={AuthBasic} />
+        <Route path="real" component={AuthRealName} />
+        <Route path="p" component={AuthPhotographer} />
+        <Route path="a" component={AuthMakeupArtist} />
+        <Route path="m" component={AuthMote} />
+        <Route path="result" component={AuthResult} />
+      </Route>
 		</Route>
+    <Route path="/login" component={Home} comment="登录注册页" />
+    <Route path="/404" component={NF404} comment="默认未知页" />
+    <Redirect from="*" to="/404" />
 	</Router>
 );
 

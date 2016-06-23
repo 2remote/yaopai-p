@@ -1,5 +1,5 @@
-var React = require('react');
-var Reflux = require('reflux');
+import React from 'react'
+import Reflux from 'reflux'
 var InfoHeader = require('../infoHeader');
 var ToolTip = require('../toolTip');
 
@@ -25,21 +25,21 @@ var isAuthed = function(status, magic) {
   if(magic === 0) { // real name
     return status === REALNAME_DEFAULT ||
       status === REALNAME_PENDING ||
-      status === REALNAME_APPROVE;
+      status === REALNAME_APPROVE
   } else if(magic === 1) { // photographer
     return status === PHOTOGRAPHER_AUTH_DEFAULT ||
       status === PHOTOGRAPHER_AUTH_PENDING ||
-      status === PHOTOGRAPHER_AUTH_APPROVE;
+      status === PHOTOGRAPHER_AUTH_APPROVE
   } else if (magic === 2) { // makeup artist
     return status === MAKEUPARTIST_AUTH_DEFAULT ||
       status === MAKEUPARTIST_AUTH_PENDING ||
-      status === MAKEUPARTIST_AUTH_APPROVE;
+      status === MAKEUPARTIST_AUTH_APPROVE
   } else if (magic === 3) { // mote
     return status === MOTE_AUTH_DEFAULT ||
       status === MOTE_AUTH_PENDING ||
-      status === MOTE_AUTH_APPROVE;
+      status === MOTE_AUTH_APPROVE
   } else {
-    console.error('传入了错误的参数！');
+    console.error('传入了错误的参数！')
   }
 };
 
@@ -54,7 +54,7 @@ var AuthContainer = React.createClass({
   getInitialState: function() {
     return {
       authTarget: '',
-    };
+    }
   },
   componentWillMount: function() {
     //AuthAction.viewPhotographerAudit();
@@ -62,20 +62,20 @@ var AuthContainer = React.createClass({
     //AuthAction.viewMoteAudit();
     // 认证状态为默认，表示未向服务器获取认证信息
     if(this.state.realName.status === REALNAME_DEFAULT) {
-      AccountActions.userDetail();
+      AccountActions.userDetail()
     }
     if(this.state.authPhotographer.status === PHOTOGRAPHER_AUTH_DEFAULT) {
-      AuthAction.viewPhotographerAudit();
+      AuthAction.viewPhotographerAudit()
     }
     if(this.state.authMakeupArtist.status === MAKEUPARTIST_AUTH_DEFAULT) {
-      AuthAction.viewMakeupArtistAudit();
+      AuthAction.viewMakeupArtistAudit()
     }
     if(this.state.authMote.status === MOTE_AUTH_DEFAULT) {
-      AuthAction.viewMoteAudit();
+      AuthAction.viewMoteAudit()
     }
   },
   showMessage: function(message) {
-    this.refs.toolTip.toShow(message);
+    this.refs.toolTip.toShow(message)
   },
   render: function() {
     var style = {
@@ -84,7 +84,7 @@ var AuthContainer = React.createClass({
         padding: '40px 60px 70px 60px',
         color: '#777777',
       },
-    };
+    }
     return (
     <div style={style.outer}>
       {/* 传信息给children */}
@@ -109,13 +109,13 @@ var AuthContainer = React.createClass({
       })}
       <ToolTip ref="toolTip" title=""/>
     </div>
-    );
+    )
   },
   changeAuthTarget: function(target) {
     this.setState({
       authTarget: target,
-    });
+    })
   },
-});
+})
 
-module.exports = AuthContainer;
+export default AuthContainer

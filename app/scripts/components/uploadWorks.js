@@ -94,7 +94,7 @@ var UploadWorks = React.createClass({
         });
         //同时要清空WorkStore的数据
         this.refs.chooseImage.clearImage();
-        this.history.replaceState(null,'/profile');
+        this.history.replaceState(null,'/');
       }
     }
     if(data.flag == 'get'){

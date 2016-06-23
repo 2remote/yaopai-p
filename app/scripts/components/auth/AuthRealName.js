@@ -1,6 +1,6 @@
-var React = require('react');
-var Reflux = require('reflux');
-var { History } = require('react-router');
+import React from 'react'
+import Reflux from 'reflux'
+import { History } from 'react-router'
 /* 组件 */
 var ImageInput = require('../account/imageInput');
 var TextInput = require('../account/textInput');
@@ -8,6 +8,8 @@ var InfoHeader = require('../infoHeader');
 /* MVC-API */
 var AccountActions = require('../../actions/AccountActions');
 var { NotifyStore, CHANGE_REALNAME } = require('../../stores/NotifyStore');
+
+import { ROUTE_AUTH, ROUTE_AUTH_BASIC } from '../../routeConfig'
 
 /*
  身份证图片上传
@@ -20,19 +22,19 @@ var PersonIDImage = React.createClass({
     }
   },
   getValue: function() {
-    var v1 = this.refs.IDPicture1.getValue();
-    var v2 = this.refs.IDPicture2.getValue();
-    if(v1 && v2 && v1!=this.state.facecodeDefaultImage && v2!=this.state.oppositeDefaultImage){
-      return v1+','+v2;
+    var v1 = this.refs.IDPicture1.getValue()
+    var v2 = this.refs.IDPicture2.getValue()
+    if(v1 && v2 && v1!=this.state.facecodeDefaultImage && v2!=this.state.oppositeDefaultImage) {
+      return v1 + ',' + v2
     }else{
-      return null;
+      return null
     }
   },
   upload1: function(url) {
-    this.props.upload1(url);
+    this.props.upload1(url)
   },
   upload2: function(url) {
-    this.props.upload2(url);
+    this.props.upload2(url)
   },
   render: function() {
     var style = {
@@ -47,16 +49,18 @@ var PersonIDImage = React.createClass({
       label: {
         lineHeight: '150px',
       },
-    };
-    var IDImages = [];
-    IDImages[0] = this.state.facecodeDefaultImage;
-    IDImages[1] = this.state.oppositeDefaultImage;
-    if(this.props.value){
-      var tmp = this.props.value.split(',');
-      if(tmp[0])
-        IDImages[0] = tmp[0];
-      if(tmp[1])
-        IDImages[1] = tmp[1];
+    }
+    var IDImages = []
+    IDImages[0] = this.state.facecodeDefaultImage
+    IDImages[1] = this.state.oppositeDefaultImage
+    if(this.props.value) {
+      var tmp = this.props.value.split(',')
+      if(tmp[0]) {
+        IDImages[0] = tmp[0]
+      }
+      if(tmp[1]) {
+        IDImages[1] = tmp[1]
+      }
     }
     return (
       <div className="form-group">
@@ -104,9 +108,9 @@ var PersonIDImage = React.createClass({
           </div>
         </div>
       </div>
-    );
+    )
   }
-});
+})
 
 var AuthRealName = React.createClass({
   mixins: [
@@ -115,11 +119,11 @@ var AuthRealName = React.createClass({
   ],
   componentWillMount: function() {
     if(!this.props.authTarget) {
-      this.props.history.replaceState(null, '/account/auth');
-      return;
+      this.props.history.replaceState(null, ROUTE_AUTH)
+      return
     }
     if(this.props.realNameComplete) {
-      this.props.history.replaceState(null, this.props.authTarget);
+      this.props.history.replaceState(null, this.props.authTarget)
     }
   },
   getInitialState: function() {
@@ -128,34 +132,34 @@ var AuthRealName = React.createClass({
       idNumber: '', // 证件号
       frontImg: '', // 证件正面
       backImg: '', // 证件反面
-    };
+    }
   },
   updateRealName: function(real) {
     this.setState({
       realName: real,
-    });
+    })
   },
   updateIdNumber: function(idNo) {
     this.setState({
       idNumber: idNo,
-    });
+    })
   },
   updateIDImage1: function(image) {
     if(image) {
       this.setState({
         frontImg: image,
-      });
+      })
     }
   },
   updateIDImage2: function(image) {
     if(image) {
       this.setState({
         backImg: image,
-      });
+      })
     }
   },
   goBack: function() {
-    this.props.history.pushState(null, '/account/auth/basic');
+    this.props.history.pushState(null, ROUTE_AUTH_BASIC)
   },
   render: function() {
     return (
@@ -200,39 +204,39 @@ var AuthRealName = React.createClass({
           </div>
         </form>
       </div>
-    );
+    )
   },
   onSubmitRealName: function(e) {
-    e.preventDefault();
+    e.preventDefault()
     if(!this.state.realName) {
-      this.props.showMessage('真实姓名不能为空');
-      return;
+      this.props.showMessage('真实姓名不能为空')
+      return
     }
     if(!this.state.idNumber) {
-      this.props.showMessage('证件号不能为空');
-      return;
+      this.props.showMessage('证件号不能为空')
+      return
     }
     if(!this.state.frontImg || !this.state.backImg) {
-      this.props.showMessage('请先上传证件照');
-      return;
+      this.props.showMessage('请先上传证件照')
+      return
     }
     // really, submit real name info
     AccountActions.changeRealName({
       RealName:this.state.realName,
       IdNumber:this.state.idNumber,
       IdNumberImages:this.state.frontImg + ',' + this.state.backImg,
-    });
+    })
   },
   onNotify: function(result) {
     if(result.source === CHANGE_REALNAME) {
       if(result.success) {
-        this.props.history.pushState(null, this.props.authTarget);
+        this.props.history.pushState(null, this.props.authTarget)
       } else {
         // TODO: notify logic
-        this.props.showMessage(result.msg);
+        this.props.showMessage(result.msg)
       }
     }
   },
 });
 
-module.exports = AuthRealName;
+export default AuthRealName

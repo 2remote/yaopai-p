@@ -1,6 +1,6 @@
-var React = require('react');
-var Reflux = require('reflux');
-var QRCode = require('qrcode.react');
+import React from 'react'
+import Reflux from 'reflux'
+import QRCode from 'qrcode.react'
 
 var UserAccountStore = require('../../stores/UserAccountStore');
 
@@ -41,4 +41,4 @@ const UserPanel = React.createClass({
   },
 });
 
-module.exports = UserPanel;
+export default UserPanel

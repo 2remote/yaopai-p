@@ -4,8 +4,7 @@ var Router = require('react-router');
 var Link = Router.Link;
 var History = Router.History;
 
-var Header = require('./header');
-var NoData = require('./noData');
+import NoData from './noData';
 
 var OrderStore = require('../stores/OrderStore');
 var OrderActions = require('../actions/OrderActions');
@@ -472,7 +471,6 @@ var OrderManager = React.createClass({
     }
     return (
       <div className="container-fluid no-bgimg gray-bg">
-        <Header />
         <div className="center-content">
           <div className="col-xs-12">
             <OrderListTop type={this.props.params.type} state={this.props.params.state}></OrderListTop>

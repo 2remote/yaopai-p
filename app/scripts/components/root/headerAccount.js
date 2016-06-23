@@ -1,21 +1,22 @@
 /**
  * headerAccount
 **/
-var React = require('react');
-var Reflux = require('reflux');
-var UserStore = require('../stores/UserStore');
-var UserAccountStore = require('../stores/UserAccountStore');
-var UserActions = require('../actions/UserActions');
-import { PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_NONE, PhotographerAuthStore } from '../stores/auth/PhotographerAuthStore';
-var { Link, History } = require('react-router');
+import React from 'react'
+import Reflux from 'reflux'
+var UserStore = require('../../stores/UserStore');
+var UserAccountStore = require('../../stores/UserAccountStore');
+var UserActions = require('../../actions/UserActions');
+import { PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_NONE, PhotographerAuthStore } from '../../stores/auth/PhotographerAuthStore'
+import AuthAction from '../../actions/AuthAction'
+import { Link, History } from 'react-router'
 
-var NavMenuItem = React.createClass({
+const NavMenuItem = React.createClass({
   mixins: [History],
   render: function() {
-    const { target, icon, text, visible } = this.props;
+    const { target, icon, text, visible } = this.props
     if(!visible) {
       // http://stackoverflow.com/questions/30097091/correct-way-to-define-an-empty-dom-element-in-react
-      return null;
+      return null
     }
     // 说好了history.isActive(target, true)的，怎么就都是false了？
     // 应对这个旧版react-router的bug，把router的 /account IndexRoute改成了IndexRedirect到了personInfo
@@ -26,27 +27,39 @@ var NavMenuItem = React.createClass({
           <span className={ icon } aria-hidden="true"></span> { text }
         </Link>
       </li>
-    );
+    )
   },
-});
+})
 
-var Acount = React.createClass({
+const Acount = React.createClass({
   mixins: [
     Reflux.connect(UserAccountStore, 'currentUser'),
     Reflux.connect(PhotographerAuthStore, 'photographerAuth'),
     History
   ],
+  getInitialState: function() {
+    return {
+      fetchOnce: false,
+    }
+  },
   handleLogout: function () {
-    UserActions.logout(true);
+    UserActions.logout(true)
+  },
+  componentWillMount: function() {
+    // 获取一次摄影师认证信息
+    if(this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_DEFAULT && !this.state.fetchOnce) {
+      AuthAction.viewPhotographerAudit()
+      this.setState({ fetchOnce: true, })
+    }
   },
   render: function () {
     let showUpload = !(this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_DEFAULT
-      || this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_NONE);
+      || this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_NONE)
     return (
       <div className="collapse navbar-collapse" id="header-nav">
         <ul className="nav navbar-nav">
           {/*我的主页*/}
-          <NavMenuItem target="/profile" icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
+          <NavMenuItem target="/" icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
           {/*入驻邀拍*/}
           <NavMenuItem target="/account/auth" icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />
           {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
@@ -67,8 +80,8 @@ var Acount = React.createClass({
           </li>
         </ul>
       </div>
-    );
+    )
   }
-});
+})
 
-module.exports = Acount;
+export default Acount

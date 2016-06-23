@@ -1,7 +1,6 @@
 var React = require('react');
 var Reflux = require('reflux');
 var History = require('react-router').History;
-var Header = require('./../header');
 var ComponentGallery = require('react-component-gallery');
 var AlbumsActions = require('../../actions/AlbumsActions');
 var AlbumsStore = require('../../stores/AlbumsStore');
@@ -37,7 +36,7 @@ var Albums = React.createClass({
         this.setState({tags: data.tags});
       }
       if(data.flag == 'delete') {
-        this.history.replaceState(null,'/profile');
+        this.history.replaceState(null,'/');
       }
       if(data.flag == 'update') {
         if(this.state.cropCover){
@@ -259,7 +258,6 @@ var Albums = React.createClass({
       }
       return (
           <div className="container-fluid" style={{backgroundColor:'#111822',minHeight:1000}}>
-            <Header />
             <canvas ref='image2' style={{display:'none'}}></canvas>
             <div style={{marginTop:100,color:'#fff'}} >
               <div className="col-md-9">
