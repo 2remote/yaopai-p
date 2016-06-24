@@ -10,10 +10,6 @@ import AuthAction from '../../actions/AuthAction'
 
 import { ROUTE_LOGIN, ROUTE_MAIN, ROUTE_AUTH } from '../../routeConfig'
 
-console.log('吓死宝宝了！@.@', ROUTE_MAIN, ROUTE_AUTH)
-
-import Account from './headerAccount'
-
 const NavMenuItem = React.createClass({
   mixins: [History],
   render: function() {

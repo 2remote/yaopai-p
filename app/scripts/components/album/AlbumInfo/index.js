@@ -3,13 +3,12 @@ import Reflux from 'reflux'
 import QRCode from 'qrcode.react'
 import _ from 'lodash'
 
-import NoData from '../noData'
+import NoData from '../../noData'
 
-import UserPanel from './UserPanel'
 /* Why be you when you can be NEW */
-var AlbumAction = require('../../actions/AlbumAction');
-var UserAccountStore = require('../../stores/UserAccountStore');
-var { AlbumStore, ALBUM_NOT_FETCHED } = require('../../stores/AlbumStore');
+var AlbumAction = require('../../../actions/AlbumAction')
+var UserAccountStore = require('../../../stores/UserAccountStore')
+var { AlbumStore, ALBUM_NOT_FETCHED } = require('../../../stores/AlbumStore')
 import AlbumList from './AlbumList'
 import MainHeader from './MainHeader'
 import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './MainConstant'

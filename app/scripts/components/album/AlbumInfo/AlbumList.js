@@ -1,11 +1,11 @@
 import React from 'react'
 import Reflux from 'reflux'
 import { Link } from 'react-router'
-var { AlbumStore, ALBUM_NOT_FETCHED } = require('../../stores/AlbumStore')
-var AlbumAction = require('../../actions/AlbumAction')
+var { AlbumStore, ALBUM_NOT_FETCHED } = require('../../../stores/AlbumStore')
+var AlbumAction = require('../../../actions/AlbumAction')
 var MasonryMixin = require('react-masonry-mixin')(React)
 import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './MainConstant'
-import NoData from '../noData'
+import NoData from '../../noData'
 
 /*
 瀑布流布局配置参数

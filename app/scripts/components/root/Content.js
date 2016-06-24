@@ -4,12 +4,24 @@
  * @since 2016-06-14
 **/
 import React from 'react'
-
+import Reflux from 'reflux'
+import { History } from 'react-router'
 /* Components inside this main frame. */
 import Navbar from './Navbar'
 import UserPanel from './UserPanel'
+var UserAccountStore = require('../../stores/UserAccountStore')
+import { ROUTE_LOGIN } from '../../routeConfig'
 
 const Content = React.createClass({
+  mixins: [
+    Reflux.listenTo(UserAccountStore, 'onUserAccountChange'),
+    History
+  ],
+  onUserAccountChange: function(userData) {
+    if(!userData.isLogin) {
+      this.history.pushState(null, ROUTE_LOGIN)
+    }
+  },
   render: function() {
     return (
       <div>
