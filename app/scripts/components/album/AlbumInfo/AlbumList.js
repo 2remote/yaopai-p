@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 var { AlbumStore, ALBUM_NOT_FETCHED } = require('../../../stores/AlbumStore')
 var AlbumAction = require('../../../actions/AlbumAction')
 var MasonryMixin = require('react-masonry-mixin')(React)
-import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './MainConstant'
+import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './constant'
 import NoData from '../../noData'
 
 /*

@@ -4,13 +4,13 @@ var InfoHeader = require('../infoHeader');
 var ToolTip = require('../toolTip');
 
 /* 用户 */
-var UserAccountStore = require('../../stores/UserAccountStore');
+import UserAccountStore from '../../stores/UserAccountStore'
 /* 实名信息 */
 var { RealNameStore, REALNAME_DEFAULT, REALNAME_APPROVE, REALNAME_PENDING }
   = require('../../stores/RealNameStore');
 /* 专业认证信息 - 摄影师 */
-var { PhotographerAuthStore, PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_APPROVE, PHOTOGRAPHER_AUTH_PENDING }
-  = require('../../stores/auth/PhotographerAuthStore');
+import { PhotographerAuthStore, PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_APPROVE, PHOTOGRAPHER_AUTH_PENDING }
+  from '../../stores/auth/PhotographerAuthStore'
 /* 专业认证信息 - 化妆师 */
 var { MakeupArtistAuthStore, MAKEUPARTIST_AUTH_DEFAULT, MAKEUPARTIST_AUTH_APPROVE, MAKEUPARTIST_AUTH_PENDING }
   = require('../../stores/auth/MakeupArtistAuthStore');

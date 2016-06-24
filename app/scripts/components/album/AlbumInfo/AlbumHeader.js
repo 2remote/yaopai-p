@@ -1,5 +1,5 @@
 import React from 'react'
-import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './MainConstant'
+import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './constant'
 
 /**
  * 头部header，用于展示“已上架作品”和“未上架作品”的按钮
@@ -7,7 +7,7 @@ import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './MainCo
  *   display: 当前作品展示的过滤条件
  *   changeDisplayFIlter: 修改当前展示作品过滤条件的方法
 **/
-const MainHeader = React.createClass({
+const AlbumHeader = React.createClass({
   render: function() {
     return (
       <div className="row" style={{ paddingBottom: 15, marginBottom: 15, borderBottom: '1px solid #F6F6F6' }}>
@@ -32,4 +32,4 @@ const MainHeader = React.createClass({
   },
 })
 
-export default MainHeader
+export default AlbumHeader

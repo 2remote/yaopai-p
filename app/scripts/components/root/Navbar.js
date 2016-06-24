@@ -2,14 +2,14 @@ import React from 'react'
 import Reflux from 'reflux'
 import { Link, History } from 'react-router'
 
-var UserStore = require('../../stores/UserStore')
-var UserAccountStore = require('../../stores/UserAccountStore')
-var UserActions = require('../../actions/UserActions')
-import { PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_NONE, PhotographerAuthStore } from '../../stores/auth/PhotographerAuthStore'
-import AuthAction from '../../actions/AuthAction'
+import {
+  ROUTE_ROOT, ROUTE_MAIN, ROUTE_AUTH, ROUTE_ALBUM_UPLOAD,
+  ROUTE_ACCOUNT_PASSWORD, ROUTE_ACCOUNT_INFO,
+} from '../../routeConfig'
 
-import { ROUTE_LOGIN, ROUTE_MAIN, ROUTE_AUTH } from '../../routeConfig'
-
+/**
+ * <ul className="nav navbar-nav">下的每一个li
+**/
 const NavMenuItem = React.createClass({
   mixins: [History],
   render: function() {
@@ -31,34 +31,11 @@ const NavMenuItem = React.createClass({
   },
 })
 
-
-const Header = React.createClass({
-  mixins: [
-    Reflux.connect(UserAccountStore, 'currentUser'),
-    Reflux.connect(PhotographerAuthStore, 'photographerAuth'),
-    History
-  ],
-  getInitialState: function() {
-    return {
-      fetchOnce: false,
-    }
-  },
-  handleLogout: function () {
-    UserActions.logout(true)
-  },
-  componentWillMount: function() {
-    if(!this.state.currentUser.isLogin) {
-      this.history.pushState(null, ROUTE_LOGIN)
-    }
-    // 获取一次摄影师认证信息
-    if(this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_DEFAULT && !this.state.fetchOnce) {
-      AuthAction.viewPhotographerAudit()
-      this.setState({ fetchOnce: true, })
-    }
-  },
+/**
+ * Bootstrap的navbar
+**/
+const Navbar = React.createClass({
   render: function() {
-    let showUpload = !(this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_DEFAULT
-      || this.state.photographerAuth.status === PHOTOGRAPHER_AUTH_NONE)
     return(
       <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div className="container-fluid">
@@ -71,7 +48,7 @@ const Header = React.createClass({
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <Link to="/" className="navbar-brand">
+            <Link to={ ROUTE_ROOT } className="navbar-brand">
               <img style={{ height: '90%' }} src="img/logo.png" />
             </Link>
           </div>
@@ -82,18 +59,16 @@ const Header = React.createClass({
               {/*入驻邀拍*/}
               <NavMenuItem target={ ROUTE_AUTH } icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />
               {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
-              <NavMenuItem target="/account/upload" icon="glyphicon glyphicon-upload" text="上传作品" visible={ showUpload } />
+              <NavMenuItem target={ ROUTE_ALBUM_UPLOAD } icon="glyphicon glyphicon-upload" text="上传作品" visible={ this.props.photographerAuthed } />
               {/*修改密码*/}
-              <NavMenuItem target="/account/info" icon="glyphicon glyphicon-cog" text="修改密码"
-                visible={ this.state.currentUser.basic.professions.photographer }
-              />
+              <NavMenuItem target={ ROUTE_ACCOUNT_PASSWORD } icon="glyphicon glyphicon-cog" text="修改密码" visible={ true } />
               {/*账户设置*/}
-              <NavMenuItem target="/account/personInfo" icon="glyphicon glyphicon-cog" text="个人信息" visible={ true } />
+              <NavMenuItem target={ ROUTE_ACCOUNT_INFO } icon="glyphicon glyphicon-cog" text="个人信息" visible={ true } />
             </ul>
             {/*导航-右侧*/}
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a onClick={this.handleLogout}>
+                <a onClick={ this.props.logout }>
                   <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 登出
                 </a>
               </li>
@@ -105,4 +80,4 @@ const Header = React.createClass({
   }
 })
 
-export default Header
+export default Navbar
