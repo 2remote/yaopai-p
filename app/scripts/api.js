@@ -35,7 +35,7 @@ if (hasHost(Local_Host) && isProdHost(Local_Host)) {
 var API_URL = DOMAIN + '?api=';
 
 var API_CONST = {
-  DOMAIN : DOMAIN, 
+  DOMAIN : DOMAIN,
   USER : {
     login : API_URL + 'User.Login',
     login_with_token : API_URL + 'User.LoginWithToken',
@@ -52,12 +52,12 @@ var API_CONST = {
     changeAvatar : API_URL + 'User.ChangeAvatar',
     updateInfo : API_URL + 'User.ChangeInfo',
   },
-  PHOTOGRAPHER :{
-    submitAudit : API_URL + 'Photographer.SubmitAudit',
-    viewAudit : API_URL + 'Photographer.ViewAudit',
-    get : API_URL + 'Photographer.Get',
-    current : API_URL + 'Photographer.CurrentPhotographer',
-    change : API_URL + 'Photographer.ChangePhotographer',
+  PHOTOGRAPHER: {
+    submitAudit: API_URL + 'Photographer.SubmitAudit',
+    viewAudit: API_URL + 'Photographer.ViewAudit',
+    get: API_URL + 'Photographer.Get',
+    current: API_URL + 'Photographer.CurrentPhotographer',
+    change: API_URL + 'Photographer.ChangePhotographer',
     //currentStudio : API_URL + 'PhotographerStudio.CurrentStudio',
     //changeStudio : API_URL + 'PhotographerStudio.ChangeStudio',
   },
@@ -68,6 +68,13 @@ var API_CONST = {
   MOTE: {
     viewAudit:  API_URL + 'MOTE.ViewAudit',
     submitAudit: API_URL + 'Mote.SubmitAudit',
+    currentInfo: API_URL + 'Mote.CurrentMote',
+    changeInfo: API_URL + 'Mote.ChangeMote',
+    get: API_URL + 'Mote.Get',
+    search: API_URL + 'Mote.Search',
+    addView: API_URL + 'Mote.ViewAdd',
+    mark: API_URL + 'Mote.Mark',
+    unmark: API_URL + 'Mote.UnMark',
   },
   ALBUMS : {
     add : API_URL + 'Albums.Add',
@@ -84,7 +91,7 @@ var API_CONST = {
   TAG: {
     list: API_URL + 'Tag.List',
   },
-  
+
   ORDER : {
     outSearch : API_URL + 'Order.OutSearch',
     inSearch : API_URL + 'Order.InSearch',
@@ -107,12 +114,12 @@ var API_CONST = {
 }
 
 function getRootPath_web() {
-    var strFullPath=window.document.location.href; 
-    var strPath=window.document.location.pathname; 
-    var pos=strFullPath.indexOf(strPath); 
-    var prePath=strFullPath.substring(0,pos); 
-    var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1); 
-    return(prePath+postPath); 
+    var strFullPath=window.document.location.href;
+    var strPath=window.document.location.pathname;
+    var pos=strFullPath.indexOf(strPath);
+    var prePath=strFullPath.substring(0,pos);
+    var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1);
+    return(prePath+postPath);
 }
 
 module.exports = API_CONST;
