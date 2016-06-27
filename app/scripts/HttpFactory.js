@@ -49,11 +49,11 @@ var HttpFactory = {
      * @param: error.statusText: HTTP返回状态文本，当status为200时，这个值是ErrorMsg
      * @param: error.code: 服务器错误code，仅HTTP 200时后台接口抛错时有意义，HTTP非200的时候，使用status值
     **/
-    function errorStar(error) {
+    function errorStar(errorData) {
       error({
-        status: error.status,
-        statusText: error.statusText,
-        code: error.code || error.status,
+        status: errorData.status,
+        statusText: errorData.statusText,
+        code: errorData.code || error.status,
       });
     }
   },
