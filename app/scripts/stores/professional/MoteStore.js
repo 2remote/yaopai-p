@@ -3,7 +3,7 @@ import MoteAction from '../../actions/professional/MoteAction'
 
 const MoteStore = Reflux.createStore({
   getInitialState: function() {
-    if(this.data.pristine) {
+    if(this.pristine) {
       // maybe start fetch data from here?
       console.log('initially fetching data from server because someone invoked the connect method on Reflux for react component mixins ... ')
       MoteAction.currentInfo()
@@ -15,8 +15,8 @@ const MoteStore = Reflux.createStore({
   // 但是为了完成数据的按需加载，这一步可以放在getInitialState里
   init: function() {
     /* 初始化数据 */
+    this.pristine = true // 崭新的（未加载过信息的）
     this.data = {
-      pristine: true, // 崭新的（未加载过信息的）
       style: '', // 风格
       /*  身高、体重 */
       height: -1, // 身高
@@ -33,7 +33,7 @@ const MoteStore = Reflux.createStore({
   },
   // necessary? when action deals with data transformation
   fillData: function(serverData) {
-    this.data.pristine = false
+    this.pristine = false
   },
 })
 
