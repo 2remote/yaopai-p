@@ -4,7 +4,7 @@ import { Link, History } from 'react-router'
 
 import {
   ROUTE_ROOT, ROUTE_MAIN, ROUTE_AUTH, ROUTE_ALBUM_UPLOAD,
-  ROUTE_ACCOUNT_PASSWORD, ROUTE_ACCOUNT_INFO,
+  ROUTE_ACCOUNT_PASSWORD, ROUTE_ACCOUNT_INFO, ROUTE_ACCOUNT_MOTE,
 } from '../../routeConfig'
 
 /**
@@ -64,6 +64,8 @@ const Navbar = React.createClass({
               <NavMenuItem target={ ROUTE_ACCOUNT_PASSWORD } icon="glyphicon glyphicon-cog" text="修改密码" visible={ true } />
               {/*账户设置*/}
               <NavMenuItem target={ ROUTE_ACCOUNT_INFO } icon="glyphicon glyphicon-cog" text="个人信息" visible={ true } />
+              {/* TODO: 模特信息录入-临时 */}
+              <NavMenuItem target={ ROUTE_ACCOUNT_MOTE } icon="glyphicon glyphicon-cog" text="呢骄傲" visible={ true } />
             </ul>
             {/*导航-右侧*/}
             <ul className="nav navbar-nav navbar-right">
