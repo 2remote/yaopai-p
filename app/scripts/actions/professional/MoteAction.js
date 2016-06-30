@@ -77,8 +77,8 @@ MoteAction.changeInfo.listen(function(info) {
     Bust: info.bust, // 胸围 cm
     Waist: info.waist, // 腰围 cm
     Hips:	info.hip, // 臀围 cm
-    Eyes: info.pupil.code, // 眼睛
-    Hair: info.hairColor.code, // 发色
+    Eyes: info.pupil, // 眼睛
+    Hair: info.hairColor, // 发色
     Shoes: info.shoeSize, // 鞋码
   }
   postStar(MOTE.changeInfo, postData, function(resp) {

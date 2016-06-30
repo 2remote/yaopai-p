@@ -40,8 +40,8 @@ const MoteInfo = React.createClass({
           waist: info.waist, // 腰围
           hip: info.hip, // 臀围
           shoeSize: info.shoeSize, // 鞋码
-          hairColor: info.hairColor, // 发色
-          pupil: info.pupil, // 瞳色
+          hairColor: info.hairColor.code, // 发色
+          pupil: info.pupil.code, // 瞳色
         },
       })
     }
@@ -103,18 +103,38 @@ const MoteInfo = React.createClass({
             placeholder=""
           />
           <hr />
-          <TextInput labelName="发色：开发中"
-            type='number'
-            value={ ui.hairColor.text } updateValue={ val => this.updateUI('hairColor', val) }
-            disabled={ true }
-            placeholder=""
-          />
-          <TextInput labelName="瞳色：开发中"
-            type='number'
-            value={ ui.pupil.text } updateValue={ val => this.updateUI('pupil', val) }
-            disabled={ true }
-            placeholder=""
-          />
+          <div className="form-group">
+            <label className="col-sm-3 control-label">发色</label>
+            <div className="col-sm-5">
+              <select className="form-control"
+                value={ ui.hairColor }
+                onChange={ e => this.updateUI('hairColor', e.target.value) }
+              >
+                <option value="None">---请选择发色---</option>
+                <option value="Black">黑色</option>
+                <option value="Brown">棕色</option>
+                <option value="Blue">蓝色</option>
+                <option value="Gray">灰色</option>
+                <option value="Green">绿色</option>
+              </select>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="col-sm-3 control-label">瞳色</label>
+            <div className="col-sm-5">
+              <select className="form-control"
+                value={ ui.pupil }
+                onChange={ e =>  this.updateUI('pupil', e.target.value) }
+              >
+                <option value="None">---请选择瞳色---</option>
+                <option value="Black">黑色</option>
+                <option value="Brown">棕色</option>
+                <option value="Blond">金黄色</option>
+                <option value="Red">红色</option>
+                <option value="White">白色</option>
+              </select>
+            </div>
+          </div>
         <button type="submit" className="btn btn-primary">保存</button>
         </form>
       </div>
