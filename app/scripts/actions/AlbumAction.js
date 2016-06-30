@@ -8,7 +8,6 @@ const convertAlbum = function(item) {
   // Id: [Integer]
   // Title: [String] //标题
   // UserId: [Integer] //所属用户Id
-  // CategoryId: [Integer] //所属分类Id
   // CreationTime: "0001-01-01T00:00:00" //添加时间
   // EditingTime: "0001-01-01T00:00:00" //最后编辑时间
   // Display: [Boolean] //是否显示(由摄影师设置是否上架)
@@ -60,7 +59,6 @@ const convertAlbum = function(item) {
   return {
     id: item.Id,
     title: item.Title,
-    category: item.CategoryId,
     createTime: item.CreationTime,
     editTime: item.EditingTime,
     display: item.Display,
@@ -81,7 +79,7 @@ var AlbumAction = Reflux.createActions({
 AlbumAction.fetch.listen(function(photographerId) {
   const self = this;
   postStar(API.ALBUMS.search, {
-    Fields: 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,' +
+    Fields: 'Id,Title,UserId,CreationTime,EditingTime,Display,' +
       'Description,Service,Price,Cover,Views,Marks,State,FoulReason,' +
       'Detail.Duration,Detail.PlateCount,Detail.TruingCount,Detail.CostumeCount,' +
       'Detail.MakeupSupport,Detail.OriginalSupport,Detail.PhysicalSupport,' +
