@@ -244,7 +244,6 @@ var UploadWorks = React.createClass({
     if(this.validate()){
       var data = {
         Title : this.state.title,
-        CategoryId : 3,
         Description : this.state.description,
         Service : this.state.service,
         Price : this.state.price,

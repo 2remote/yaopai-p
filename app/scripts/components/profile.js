@@ -271,7 +271,7 @@ var WorksList = React.createClass({
   },
   getMyAlbums : function(id,type){
     var data ={
-      Fields : 'Id,Title,UserId,CategoryId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
+      Fields : 'Id,Title,UserId,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url',
       //PageIndex : this.props.pageIndex,
       //PageSize : 12,
       UserId : id,
