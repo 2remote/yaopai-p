@@ -97,10 +97,10 @@ const MoteInfo = React.createClass({
             value={ ui.hip } updateValue={ val => this.updateUI('hip', val) }
             placeholder=""
           />
-          <TextInput labelName="鞋码(这里需要一个单位)"
+          <TextInput labelName="鞋码(码)"
             type='number'
             value={ ui.shoeSize } updateValue={ val => this.updateUI('shoeSize', val) }
-            placeholder=""
+            placeholder="如女鞋 38 码直接输入数字 38 即可"
           />
           <hr />
           <div className="form-group">
@@ -113,9 +113,9 @@ const MoteInfo = React.createClass({
                 <option value="None">---请选择发色---</option>
                 <option value="Black">黑色</option>
                 <option value="Brown">棕色</option>
-                <option value="Blue">蓝色</option>
-                <option value="Gray">灰色</option>
-                <option value="Green">绿色</option>
+                <option value="Blond">金黄色</option>
+                <option value="Red">红色</option>
+                <option value="White">白色</option>
               </select>
             </div>
           </div>
@@ -129,9 +129,9 @@ const MoteInfo = React.createClass({
                 <option value="None">---请选择瞳色---</option>
                 <option value="Black">黑色</option>
                 <option value="Brown">棕色</option>
-                <option value="Blond">金黄色</option>
-                <option value="Red">红色</option>
-                <option value="White">白色</option>
+                <option value="Blue">蓝色</option>
+                <option value="Gray">灰色</option>
+                <option value="Green">绿色</option>
               </select>
             </div>
           </div>
