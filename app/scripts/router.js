@@ -13,6 +13,8 @@ var Provision = require('./components/provision')
 import Content from './components/root/Content'
 /* ********************************账户******************************** */
 import AccountContainer from './components/account/AccountContainer'
+import BasicInfo from './components/account/info/BasicInfo'
+import DetailInfo from './components/account/info/DetailInfo'
 import MoteInfo from './components/account/info/MoteInfo'
 /* ********************************认证******************************** */
 import AuthContainer from './components/auth/AuthContainer' // 认证容器
@@ -37,6 +39,8 @@ const routes = (
 			<Route path="/account" component={ AccountContainer } comment="账户信息">
 				<IndexRedirect to="info" />
 				<Route path="info" component={ PersonInfo } />
+        <Route path="basic" component={ BasicInfo } />
+        <Route path="detail" component={ DetailInfo } />
         <Route path="m" component={ MoteInfo } />
 				<Route path="password" component={ AccountInfo } />
 			</Route>
