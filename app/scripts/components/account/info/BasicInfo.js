@@ -9,6 +9,7 @@ import React from 'react'
 import Reflux from 'reflux'
 
 import InputGroup from '../../upai/form/InputGroup'
+import SelectArea from '../../upai/form/SelectArea'
 
 import UserAccountStore from '../../../stores/UserAccountStore'
 
@@ -34,6 +35,7 @@ const BasicInfo = React.createClass({
             value={ uiNickname }
             updateValue={ val => updateUI('uiNickname', val) }
           />
+          <SelectArea />
         </form>
       </div>
     )
