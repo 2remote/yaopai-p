@@ -99,6 +99,10 @@ gulp.task('copy-html', function() {
     .pipe(gulp.dest(DIST_DIR));
 });
 
+gulp.task('reload', function() {
+  reload();
+});
+
 gulp.task('copy', ['copy-vendor', 'copy-font', 'copy-css', 'copy-image', 'copy-misc', 'copy-html']);
 
 gulp.task('clean', function() {
@@ -118,7 +122,9 @@ gulp.task('serve', function() {
   });
   // could watch css as well
   gulp.watch([path.resolve(DIST_DIR, 'bundle.js')], reload);
-  gulp.watch([path.resolve(SRC_DIR, 'styles', '*')], ['copy-css']);
+  gulp.watch([path.resolve(SRC_DIR, 'styles', '*')], function() {
+    return runSequence('copy-css', 'reload');
+  });
 });
 
 gulp.task('dev', function() {
