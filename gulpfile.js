@@ -118,6 +118,7 @@ gulp.task('serve', function() {
   });
   // could watch css as well
   gulp.watch([path.resolve(DIST_DIR, 'bundle.js')], reload);
+  gulp.watch([path.resolve(SRC_DIR, 'styles', '*')], ['copy-css']);
 });
 
 gulp.task('dev', function() {
