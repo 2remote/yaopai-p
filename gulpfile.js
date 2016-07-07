@@ -55,7 +55,7 @@ b.on('log', gutil.log); // output build logs to terminal
 
 function bundle() {
   return b.bundle()
-    // log errors if they happen
+  // log errors if they happen
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
     // optional, remove if you don't need to buffer file contents
