@@ -41,6 +41,7 @@ var ChooseTags = React.createClass({
       })})
     }
   },
+
   onGetCategories : function(data){
     console.log('updated data', data);
     if(data.hintMessage){
@@ -50,6 +51,7 @@ var ChooseTags = React.createClass({
       this.setState({tags : data.tags});
     }
   },
+
   setTag: function (event) {
     var tagId = event.target.getAttribute('data-category');
     tagId = parseInt(tagId);
@@ -87,7 +89,10 @@ var ChooseTags = React.createClass({
     this.props.onChange(tags);
   },
 
+
   render : function(){
+
+    console.log(this.state.tags);
     var style = {
       button: {
         width: '90px',

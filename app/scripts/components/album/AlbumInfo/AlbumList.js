@@ -102,10 +102,9 @@ const AlbumList = React.createClass({
             <Link to={ '/albums/' + work.id }>
               <img width='300' src={ work.cover + '?imageView2/2/w/300/interlace/1' } onError={ self.onImgError }/>
             </Link>
-            <div>
-              <span onClick={ e => self.moveAlbum(work.id, -1) }>左</span>
-              ----------------
-              <span onClick={ e => self.moveAlbum(work.id, 1) }>右</span>
+            <div className="albumList-group">
+              <a className="albumList-left" onClick={ e => self.moveAlbum(work.id, -1) }>前移</a>
+              <a className="albumList-right" onClick={ e => self.moveAlbum(work.id, 1) }>后移</a>
             </div>
           </div>
       ))

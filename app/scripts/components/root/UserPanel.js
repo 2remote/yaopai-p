@@ -17,7 +17,8 @@ const UserPanel = React.createClass({
             <img src={ user.basic.avatar } className="img-circle" />
             <div className="caption">
               <h4>{ user.basic.nickname }</h4>
-              <p>{ user.basic.signature }</p>
+              <p className="signature">{ user.basic.signature ? user.basic.signature : '还没有签名' }</p>
+              <br/>
               <button className="btn btn-default" onClick={ logout }>切换用户</button>
             </div>
           </div>

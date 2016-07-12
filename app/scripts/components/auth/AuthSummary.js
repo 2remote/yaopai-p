@@ -40,15 +40,45 @@ var hint = ' '
   return hint
 }
 
+const styles = {
+  success:{
+    background:'#38BF74',
+    color:'#fff'
+  },
+  warn:{
+    background:'#EDAB00',
+    color:'#fff'
+  },
+  fail:{
+    background:'#ED4600',
+    color:'#fff'
+  }
+}
+
+function getStyle(status){
+  switch(status){
+    case '审核通过':
+      return styles.success;
+    case '未申请':
+      return {};
+    case '审核拒绝':
+      return styles.fail;
+    case '审核中':
+      return styles.warn;
+  }
+}
+
+
 var AuthSummary = React.createClass({
   mixins: [History],
   render: function() {
+
     const {
       realNameComplete,
       photographerAuthed,
       makeupArtistAuthed,
       moteAuthed,
-     } = this.props
+     } = this.props;
     return (
       <div>
         <InfoHeader
@@ -72,7 +102,7 @@ var AuthSummary = React.createClass({
                   </div>
                   <div style={{ marginBottom: 10 }}>
                     <strong>摄影师认证：</strong>
-                    <span className="label label-info">{ this.props.authPhotographer.status }</span>
+                    <span className="label label-info" style={getStyle(this.props.authPhotographer.status)}>{ this.props.authPhotographer.status }</span>
                   </div>
                   <div style={{
                       color: '#B2B2B2',
@@ -89,7 +119,7 @@ var AuthSummary = React.createClass({
                   }
                 </div>
                 {photographerAuthed ?
-                  <button className="btn btn-block btn-default" disabled="true">
+                  <button className="btn btn-block btn-default" style={getStyle(this.props.authPhotographer.status)} disabled="true">
                     { this.props.authPhotographer.status }
                   </button> :
                   <a className="btn btn-block btn-default" onClick={ () => this.onClickAuthTarget('p') }>
@@ -114,7 +144,7 @@ var AuthSummary = React.createClass({
                   </div>
                   <div style={{ marginBottom: 10 }}>
                     <strong>化妆师认证：</strong>
-                    <span className="label label-info">{ this.props.authMakeupArtist.status }</span>
+                    <span className="label label-info" style={getStyle(this.props.authMakeupArtist.status)}>{ this.props.authMakeupArtist.status }</span>
                   </div>
                   <div style={{
                       color: '#B2B2B2',
@@ -157,7 +187,7 @@ var AuthSummary = React.createClass({
                   </div>
                   <div style={{ marginBottom: 10 }}>
                     <strong>模特认证：</strong>
-                    <span className="label label-info">{ this.props.authMote.status }</span>
+                    <span className="label label-info" style={getStyle(this.props.authMote.status)}>{ this.props.authMote.status }</span>
                   </div>
                   <div style={{
                       color: '#B2B2B2',

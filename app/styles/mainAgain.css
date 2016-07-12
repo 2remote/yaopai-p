@@ -155,3 +155,96 @@ a.active {
   height:40px;
   margin:0 10px 30px 0px;
 }
+
+
+
+
+.albumList-group{
+  background:rgba(0,0,0,.5);
+  padding:0 10px;
+  height:30px;
+  line-height:30px;
+}
+
+.albumList-group a{
+  color:#fff;
+}
+
+.albumList-left{
+  float:left;
+}
+
+.signature{
+  color:#999;
+  font-size:12px;
+  line-height:30px;
+}
+
+.albumList-left{
+  float:right;
+}
+
+
+/*重写bootstrap样式*/
+
+.btn-primary.active,
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary{
+  background:#e6c288!important;
+  border:1px solid #e6c288!important;
+  color:#000!important;
+}
+.btn-primary.active.focus,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary:active.focus,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.open>.dropdown-toggle.btn-primary.focus,
+.open>.dropdown-toggle.btn-primary:focus,
+.open>.dropdown-toggle.btn-primary:hover{
+  background:#a5824b;
+  color:#fff;
+  border:#a5824b;
+}
+
+.btn-primary{
+  background: #e6c288!important;
+  color:#000!important;
+  border:1px solid #e6c288!important;
+}
+
+.btn-info{
+  background:#e6c288;
+  border:1px solid #e6c288;
+  color:#000;
+}
+
+.btn-info:hover{
+  background:#a5824b;
+  border:1px solid #e6c288;
+}
+
+.label-info{
+  background:#efefef;
+  border-radius:0;
+  color:#999;
+}
+
+.form-control{
+  border-radius:0;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.form-control:focus{
+  border-color: #000;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus{
+  outline: thin dotted;
+  outline: 2px auto #e6c288;
+  outline-offset: -2px;
+}

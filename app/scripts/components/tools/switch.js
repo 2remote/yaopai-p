@@ -21,7 +21,7 @@ var Switch = React.createClass({
     var normalStyle = {
       width: '78px',
       lineHeight: '40px',
-      border: '1px solid #e0e0e0',
+      border: '1px solid #e6c288',
       display: 'inline-block',
       textAlign: 'center',
       cursor: 'pointer',
@@ -30,7 +30,7 @@ var Switch = React.createClass({
       background : 'gray',
       width: '78px',
       lineHeight: '40px',
-      border: '1px solid #e0e0e0',
+      border: '1px solid #e6c288',
       color: '#fff',
       display: 'inline-block',
       textAlign: 'center',
@@ -39,8 +39,8 @@ var Switch = React.createClass({
     var yesSelected = {
       width: '78px',
       lineHeight: '40px',
-      background : '#337ab7',
-      border: '1px solid #e0e0e0',
+      background : '#e6c288',
+      border: '1px solid #e6c288',
       color: '#fff',
       display: 'inline-block',
       textAlign: 'center',
