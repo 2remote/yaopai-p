@@ -1,13 +1,10 @@
-var React = require('react');
-var Router = require('react-router');
-var RouteHandler = Router.RouteHandler;
+import React from 'react';
 
-
-var NoData = React.createClass({
-  getDefaultProps: function () {
+const NoData = React.createClass({
+  getDefaultProps: function() {
     return {
       message: '',
-    }
+    };
   },
   render: function() {
     var layoutStyle = {
@@ -21,7 +18,8 @@ var NoData = React.createClass({
         {this.props.message}
       </div>
     );
-  }
+  },
 });
 
-module.exports = NoData;
+export default NoData;
+// module.exports = NoData;

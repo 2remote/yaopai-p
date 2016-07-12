@@ -10,6 +10,8 @@ var UserStore = require("../../stores/UserStore");
 var API = require('../../api');
 var Input = require('react-bootstrap').Input;
 var Tools = require('../../tools');
+
+import { ROUTE_LOGIN } from '../../routeConfig'
 /*
   data structure
   {
@@ -191,7 +193,7 @@ var ChooseImages = React.createClass({
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
       UserActions.logout(true);
-      this.history.pushState(null, '/');
+      this.history.pushState(null, ROUTE_LOGIN);
     }else{
       if(data.flag == 'currentUser'){
         this.initUploader(data.sessionToken);

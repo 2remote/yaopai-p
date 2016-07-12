@@ -1,3 +1,3 @@
-var Router = require('./router');
+import start from './router'
 
-Router.start();
+start()

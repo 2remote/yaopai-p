@@ -86,3 +86,5 @@ var TextInput = React.createClass({
 });
 
 module.exports = TextInput;
+
+export default TextInput

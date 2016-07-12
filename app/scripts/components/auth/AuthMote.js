@@ -1,5 +1,5 @@
-var React = require('react');
-var Reflux = require('reflux');
+import React from 'react'
+import Reflux from 'reflux'
 
 var InfoHeader = require('../infoHeader');
 var AuthAction = require('../../actions/AuthAction');
@@ -7,42 +7,44 @@ var { NotifyStore, AUTH_MOTE_SUBMIT_AUDIT } = require('../../stores/NotifyStore'
 
 var MultiImageSelect = require('../photographer/multiImageSelect');
 
-var AuthMote = React.createClass({
+import { ROUTE_AUTH, ROUTE_AUTH_RESULT } from '../../routeConfig'
+
+const AuthMote = React.createClass({
   mixins: [Reflux.listenTo(NotifyStore, 'onNotify')],
   onNotify: function(result) {
     if(result.source === AUTH_MOTE_SUBMIT_AUDIT) {
       if(result.success) {
-        this.props.history.pushState(null, '/account/auth/result');
+        this.props.history.pushState(null, ROUTE_AUTH_RESULT)
       } else {
         // TODO: notify logic
-        this.props.showMessage(result.msg);
+        this.props.showMessage(result.msg)
       }
     }
   },
   componentWillMount: function() {
     if(this.props.moteAuthed) {
-      this.props.history.replaceState(null, '/account/auth/');
+      this.props.history.replaceState(null, ROUTE_AUTH)
     }
   },
   getInitialState: function() {
     return {
       works: [],
-    };
+    }
   },
   update: function(result) {
-    let copyNinja = this.state.works.slice();
-    copyNinja.push(result);
+    let copyNinja = this.state.works.slice()
+    copyNinja.push(result)
     this.setState({
       works: copyNinja,
-    });
+    })
   },
   remove: function(index) {
-    let copyNinja = this.state.works.slice();
+    let copyNinja = this.state.works.slice()
     // splice从index起删掉1个数据，这里操作的是原array
-    copyNinja.splice(index, 1);
+    copyNinja.splice(index, 1)
     this.setState({
       works: copyNinja,
-    });
+    })
   },
   render: function() {
     return (
@@ -74,26 +76,26 @@ var AuthMote = React.createClass({
           </div>
         </form>
       </div>
-    );
+    )
   },
   onSubmit: function(e) {
-    e.preventDefault();
+    e.preventDefault()
     if(!this.state.works || this.state.works.length === 0) {
-      this.props.showMessage('请选择上传的作品！');
-      return;
+      this.props.showMessage('请选择上传的作品！')
+      return
     }
     if(this.state.works.length < 5) {
-      this.props.showMessage('最少上传5张作品！');
-      return;
+      this.props.showMessage('最少上传5张作品！')
+      return
     }
     if(this.state.works.length > 10) {
-      this.props.showMessage('最多上传10张作品！');
-      return;
+      this.props.showMessage('最多上传10张作品！')
+      return
     }
     AuthAction.submitMoteAudit({
       Works: this.state.works.slice().toString(),
-    });
+    })
   },
-});
+})
 
-module.exports = AuthMote;
+export default AuthMote

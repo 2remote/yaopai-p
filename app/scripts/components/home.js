@@ -1,5 +1,5 @@
 var React = require('react');
-var History = require('react-router').History;
+import { Link, History } from 'react-router'
 var Location = require('react-router').Location;
 var validator = require('validator');
 var Reflux = require('reflux');
@@ -11,8 +11,7 @@ var IndexCover = require('./indexCover');
 var ToolTip = require('./toolTip');
 var API = require('../api');
 var Provision = require('./provision');
-var Router = require('react-router');
-var Link  = Router.Link;
+import { ROUTE_MAIN } from '../routeConfig'
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -460,7 +459,7 @@ var Home = React.createClass({
           if(this.props.location.state && this.props.location.state.nextpage)
             this.history.replaceState(null,this.props.location.state.nextpage);
           else
-            this.history.replaceState(null,'/profile/onSale');
+            this.history.replaceState(null, ROUTE_MAIN);
         }
       }
     }

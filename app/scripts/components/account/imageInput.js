@@ -5,7 +5,8 @@ var ProgressBar = require('react-bootstrap').ProgressBar;
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
-var History = require('react-router').History;
+import { History } from 'react-router'
+import { ROUTE_LOGIN } from '../../routeConfig'
 
 var ImageInput = React.createClass({
   mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange'), History],
@@ -68,7 +69,7 @@ var ImageInput = React.createClass({
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
       UserActions.logout(true);
-      this.history.pushState(null, '/');
+      this.history.pushState(null, ROUTE_LOGIN);
     }else{
       if(data.flag == 'currentUser'){
         this.initUploader(data.sessionToken);

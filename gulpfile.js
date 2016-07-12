@@ -14,6 +14,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var babelify = require('babelify');
+var browserifycss = require('browserify-css');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 /* browserSync */
@@ -48,6 +49,7 @@ var b = watchify(browserify(opts));
 // add transformations here
 // i.e. b.transform(coffeeify);
 b.transform(babelify, {presets: ["es2015", "react"]});
+b.transform(browserifycss, {global: true});
 
 gulp.task('js', bundle); // so you can run `gulp js` to build the file
 b.on('update', bundle); // on any dep update, runs the bundler
@@ -55,7 +57,7 @@ b.on('log', gutil.log); // output build logs to terminal
 
 function bundle() {
   return b.bundle()
-    // log errors if they happen
+  // log errors if they happen
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
     // optional, remove if you don't need to buffer file contents
@@ -99,6 +101,10 @@ gulp.task('copy-html', function() {
     .pipe(gulp.dest(DIST_DIR));
 });
 
+gulp.task('reload', function() {
+  reload();
+});
+
 gulp.task('copy', ['copy-vendor', 'copy-font', 'copy-css', 'copy-image', 'copy-misc', 'copy-html']);
 
 gulp.task('clean', function() {
@@ -118,6 +124,9 @@ gulp.task('serve', function() {
   });
   // could watch css as well
   gulp.watch([path.resolve(DIST_DIR, 'bundle.js')], reload);
+  gulp.watch([path.resolve(SRC_DIR, 'styles', '*')], function() {
+    return runSequence('copy-css', 'reload');
+  });
 });
 
 gulp.task('dev', function() {

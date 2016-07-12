@@ -1,5 +1,5 @@
-var React = require('react');
-var { Link } = require('react-router');
+import React from 'react'
+import { Link } from 'react-router'
 
 const AuthResult = React.createClass({
   render: function() {
@@ -25,6 +25,6 @@ const AuthResult = React.createClass({
       </div>
     );
   },
-});
+})
 
-module.exports = AuthResult;
+export default AuthResult

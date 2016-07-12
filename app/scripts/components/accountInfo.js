@@ -10,7 +10,8 @@ var UserActions = require('../actions/UserActions');
 var AlertBox = require('./user/alertBox');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
-var History = require('react-router').History;
+import { History } from 'react-router'
+import { ROUTE_LOGIN } from '../routeConfig'
 
 var UserPhone = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleGetPhone')],
@@ -94,7 +95,7 @@ var ModifyPassword = React.createClass({
     } else {
       //没有登录跳转到首页登录界面
       UserActions.logout(true);
-      this.history.pushState(null, '/');
+      this.history.pushState(null, ROUTE_LOGIN);
     }
   },
   handleModifyPassword : function(){
