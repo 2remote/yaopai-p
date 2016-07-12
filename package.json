@@ -25,7 +25,6 @@
     "react": "~0.13.1",
     "react-bootstrap": "~0.25.1",
     "react-component-gallery": "^1.2.1",
-    "react-cropperjs": "^1.2.2",
     "react-masonry-mixin": "^2.0.0",
     "react-router": "~1.0.0-rc1",
     "react-tagsinput": "~1.4.3",
