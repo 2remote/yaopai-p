@@ -13,8 +13,8 @@ const UserPanel = React.createClass({
     return (
       <div className="panel panel-default">
         <div className="panel-body text-center">
-          <div className="thumbnail" style={{ marginBottom: 100 }}>
-            <img src={ user.basic.avatar } className="img-circle" />
+          <div className="thumbnail" style={{ marginBottom: 50,border:'none' }}>
+            <img style={{width:'125px',marginTop:'50px'}} src={ user.basic.avatar } className="img-circle" />
             <div className="caption">
               <h4>{ user.basic.nickname }</h4>
               <p className="signature">{ user.basic.signature ? user.basic.signature : '还没有签名' }</p>
@@ -22,7 +22,7 @@ const UserPanel = React.createClass({
               <button className="btn btn-default" onClick={ logout }>切换用户</button>
             </div>
           </div>
-          <div style={{ marginBottom: 150 }}>
+          <div style={{ marginBottom: 50 }}>
             <Link to={ ROUTE_AUTH } className="btn btn-lg btn-block btn-info">我要认证</Link>
             <Link to={ ROUTE_ALBUM_UPLOAD } className="btn btn-lg btn-block btn-default">上传作品</Link>
             <Link to={ ROUTE_ACCOUNT_INFO } className="btn btn-lg btn-block btn-default">完善资料</Link>

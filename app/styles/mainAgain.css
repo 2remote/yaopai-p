@@ -160,7 +160,7 @@ a.active {
 
 
 .albumList-group{
-  background:rgba(0,0,0,.5);
+  background:#282828;
   padding:0 10px;
   height:30px;
   line-height:30px;
@@ -180,7 +180,7 @@ a.active {
   line-height:30px;
 }
 
-.albumList-left{
+.albumList-right{
   float:right;
 }
 
@@ -223,6 +223,11 @@ a.active {
 .btn-info:hover{
   background:#a5824b;
   border:1px solid #e6c288;
+}
+
+.btn-info.focus, .btn-info:focus {
+  background:#a5824b!important;
+  border:1px solid #e6c288!important;
 }
 
 .label-info{

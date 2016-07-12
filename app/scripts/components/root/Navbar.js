@@ -57,15 +57,15 @@ const Navbar = React.createClass({
               {/*我的主页*/}
               <NavMenuItem target={ ROUTE_MAIN } icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
               {/*入驻邀拍*/}
-              <NavMenuItem target={ ROUTE_AUTH } icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />
+              {/*<NavMenuItem target={ ROUTE_AUTH } icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />*/}
               {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
-              <NavMenuItem target={ ROUTE_ALBUM_UPLOAD } icon="glyphicon glyphicon-upload" text="上传作品" visible={ this.props.photographerAuthed } />
+              {/*<NavMenuItem target={ ROUTE_ALBUM_UPLOAD } icon="glyphicon glyphicon-upload" text="上传作品" visible={ this.props.photographerAuthed } />*/}
               {/*修改密码*/}
               <NavMenuItem target={ ROUTE_ACCOUNT_PASSWORD } icon="glyphicon glyphicon-cog" text="修改密码" visible={ true } />
               {/*账户设置*/}
-              <NavMenuItem target={ ROUTE_ACCOUNT_INFO } icon="glyphicon glyphicon-cog" text="个人信息" visible={ true } />
+              {/* <NavMenuItem target={ ROUTE_ACCOUNT_INFO } icon="glyphicon glyphicon-cog" text="个人信息" visible={ true } />*/}
               {/* TODO: 模特信息录入-临时 */}
-              <NavMenuItem target={ ROUTE_ACCOUNT_MOTE } icon="glyphicon glyphicon-cog" text="呢骄傲" visible={ true } />
+              {/* <NavMenuItem target={ ROUTE_ACCOUNT_MOTE } icon="glyphicon glyphicon-cog" text="呢骄傲" visible={ true } />*/}
             </ul>
             {/*导航-右侧*/}
             <ul className="nav navbar-nav navbar-right">

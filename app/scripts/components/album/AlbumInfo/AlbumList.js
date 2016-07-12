@@ -100,7 +100,7 @@ const AlbumList = React.createClass({
       albumInfo = list.map((work, index) => (
           <div key={ index } style={{ border: '1px solid #F6F6F6', marginBottom: 15 }}>
             <Link to={ '/albums/' + work.id }>
-              <img width='300' src={ work.cover + '?imageView2/2/w/300/interlace/1' } onError={ self.onImgError }/>
+              <img width='300' height='150' src={ work.cover + '?imageView2/2/w/300/interlace/1' } onError={ self.onImgError }/>
             </Link>
             <div className="albumList-group">
               <a className="albumList-left" onClick={ e => self.moveAlbum(work.id, -1) }>前移</a>
