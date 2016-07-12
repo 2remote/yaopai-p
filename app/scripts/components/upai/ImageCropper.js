@@ -1,5 +1,4 @@
 import React from 'react'
-import CP from 'cropperjs'
 
 const ImageCropper = React.createClass({
   getInitialState: function() {
@@ -74,7 +73,7 @@ const ImageCropper = React.createClass({
           }
 
         } else {
-          this.cropper = new CP(sb.img.getDOMNode(), {
+          this.cropper = new Cropper(sb.img.getDOMNode(), {
             aspectRatio: 3 / 2,
             cropBoxResizable: false,
             crop: (e) => {
