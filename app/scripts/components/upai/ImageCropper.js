@@ -1,5 +1,4 @@
 import React from 'react'
-import CP from 'cropperjs'
 
 const ImageCropper = React.createClass({
   getInitialState: function() {
@@ -154,15 +153,15 @@ const ImageCropper = React.createClass({
           console.log('[replace]', this.cropper, this.state.img)
           console.log('[WTF]', this.state)
           if(this.state.img) {
-            // this.cropper.replace(this.state.img)
+            this.cropper.replace(this.state.img)
           } else {
             this.cropper.destroy()
           }
 
         } else {
-          this.cropper = new CP(sb.img.getDOMNode(), {
+          this.cropper = new Cropper(sb.img.getDOMNode(), {
             aspectRatio: 3 / 2,
-            cropBoxResizable: true,
+            cropBoxResizable: false,
             crop: (e) => {
               console.log(e.detail)
             },
