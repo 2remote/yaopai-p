@@ -72,7 +72,7 @@ const Navbar = React.createClass({
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a onClick={ this.props.logout }>
-                  <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 登出
+                  <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出系统
                 </a>
               </li>
             </ul>
