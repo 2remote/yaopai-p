@@ -62,7 +62,6 @@ var EditAlbumModal = React.createClass({
   },
   updateCategory: function (cid) {
     var album = this.state.album;
-    album.CategoryId = cid
     this.setState({album: album});
   },
   updateTags : function(tags){
@@ -154,10 +153,6 @@ var EditAlbumModal = React.createClass({
   validate: function () {
     if (this.state.album.Title.length < 1 || this.state.album.Title.length > 20) {
       this.props.showMessage('作品名称必须在1-20字之间');
-      return false;
-    }
-    if (!this.state.album.CategoryId) {
-      this.props.showMessage('请选择作品类别');
       return false;
     }
     if (this.state.album.Description.length < 15 || this.state.album.Description.length > 1000) {

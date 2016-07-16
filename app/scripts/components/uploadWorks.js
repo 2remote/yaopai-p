@@ -20,11 +20,12 @@ var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
 var UserStore = require("../stores/UserStore");
-var History = require('react-router').History;
+import { History } from 'react-router'
 var ChooseTags = require('./chooseTags');
 var Switch = require('./tools/switch');
 var Checkbox = require('./tools/checkbox');
 
+import { ROUTE_LOGIN } from '../routeConfig'
 
 /*
   上传作品组件
@@ -63,7 +64,7 @@ var UploadWorks = React.createClass({
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
       UserActions.logout(true);
-      this.history.pushState(null, '/');
+      this.history.pushState(null, ROUTE_LOGIN);
     }
   },
   onStoreChanged : function(data){
@@ -94,7 +95,7 @@ var UploadWorks = React.createClass({
         });
         //同时要清空WorkStore的数据
         this.refs.chooseImage.clearImage();
-        this.history.replaceState(null,'/profile/onSale');
+        this.history.replaceState(null, ROUTE_LOGIN);
       }
     }
     if(data.flag == 'get'){
@@ -244,7 +245,6 @@ var UploadWorks = React.createClass({
     if(this.validate()){
       var data = {
         Title : this.state.title,
-        CategoryId : 3,
         Description : this.state.description,
         Service : this.state.service,
         Price : this.state.price,
@@ -293,15 +293,15 @@ var UploadWorks = React.createClass({
         width: '20%',
         height: '50px',
         marginRight: '70px',
-        border: '1px solid #337ab7',
-        backgroundColor: '#337ab7',
-        color: '#fff',
+        border: '1px solid #e6c288',
+        backgroundColor: '#e6c288',
+        color: '#000',
         fontSize: '20px',
       },
       preview: {
         width: '20%',
         height: '50px',
-        border: '1px solid #337ab7',
+        border: '1px solid #e6c288',
         color: '#337ab7',
         fontSize: '20px',
       },
@@ -311,7 +311,7 @@ var UploadWorks = React.createClass({
       normalStyle: {
         width: '78px',
         lineHeight: '40px',
-        border: '1px solid #e0e0e0',
+        border: '1px solid #e6c288',
         display: 'inline-block',
         textAlign: 'center',
         cursor: 'pointer',
@@ -320,7 +320,7 @@ var UploadWorks = React.createClass({
         background : 'gray',
         width: '78px',
         lineHeight: '40px',
-        border: '1px solid #e0e0e0',
+        border: '1px solid #e6c288',
         color: '#fff',
         display: 'inline-block',
         textAlign: 'center',
@@ -329,8 +329,8 @@ var UploadWorks = React.createClass({
       yesSelected: {
         width: '78px',
         lineHeight: '40px',
-        background : '#337ab7',
-        border: '1px solid #e0e0e0',
+        background : '#e6c288',
+        border: '1px solid #e6c288',
         color: '#fff',
         display: 'inline-block',
         textAlign: 'center',

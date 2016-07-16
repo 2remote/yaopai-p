@@ -9,12 +9,12 @@
     <meta name="renderer" content="webkit">
     <meta name="description" content="PC web for YaoPai build by react-flux">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- 这个放bootstrap前绝对是神作，放bootstrap后还特么构建不了代码 -->
-    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="//cdn.staticfile.org/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="//cdn.bootcss.com/cropperjs/0.7.2/cropper.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
-    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/mainAgain.css">
     <link rel="stylesheet" href="//at.alicdn.com/t/font_1465725935_7881246.css">
+    <link rel="icon" href="favicon.ico">
     <script>
     var _hmt = _hmt || [];
     (function() {
@@ -24,23 +24,18 @@
       s.parentNode.insertBefore(hm, s);
     })();
     </script>
-
 </head>
   <body>
     <!--[if lt IE 10]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
     <div id="content"></div>
-    <script src="http://cdn.staticfile.org/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://cdn.staticfile.org/twitter-bootstrap/3.3.5/js/bootstrap.js"></script>
-
-    <script src="http://cdn.staticfile.org/plupload/2.1.8/plupload.full.min.js"></script>
-    <script src="http://cdn.staticfile.org/plupload/2.1.8/i18n/zh_CN.js"></script>
+    <script src="//cdn.staticfile.org/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.staticfile.org/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.staticfile.org/plupload/2.1.8/plupload.full.min.js"></script>
+    <script src="//cdn.staticfile.org/plupload/2.1.8/i18n/zh_CN.js"></script>
+    <script src="//cdn.bootcss.com/cropperjs/0.7.2/cropper.js"></script>
     <script src="vendor/qiniu.js"></script>
-
-    <!-- build:js(.tmp) scripts/app.js -->
-    <script src="scripts/bundle/app.js"></script>
-    <!-- endbuild -->
+    <script src="bundle.js"></script>
   </body>
 </html>

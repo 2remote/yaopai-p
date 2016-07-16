@@ -26,3 +26,230 @@ html, body {
 .btn-lg {
   font-size: 14px;
 }
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.inactive {
+  color: #B1B1B1;
+}
+
+a.active {
+  color: black;
+}
+
+
+.album-detail{
+  padding:20px;
+}
+
+.album-detail .preview{
+  background: #272727;
+  margin: 0 auto;
+  color: #fff;
+  border-radius: 60px;
+  float: left;
+  padding:0;
+}
+
+.album-detail .preview h2{
+  font-size: 18px;
+  text-align: center;
+  font-weight: 100;
+  line-height: 50px;
+}
+
+.album-detail .preview-list{
+  background: #fff;
+  max-height: 700px;
+  margin: 0 10px 60px 10px;
+  overflow: scroll;
+}
+
+.album-detail .detail-info{
+  background: #fff;
+  float: right;
+  padding:0;
+}
+
+.album-detail .detail-info .tag{
+  font-size:13px;
+  padding:5px 10px;
+  background: #000;
+  margin-right:5px;
+  color:#fff;
+  float:left;
+}
+
+.album-detail .detail-info .warn{
+  background: #ff4932;
+}
+
+.album-detail .detail-info .success{
+  background: #3f9f59;
+}
+
+.album-detail .detail-info .detail-title{
+  padding: 36px 56px 50px;
+}
+
+.album-detail .detail-info .detail-title h2{
+  float:left;
+  font-size:18px;
+  line-height:30px;
+  vertical-align: middle;
+  display:inline-block;
+  margin:0;
+}
+.album-detail .detail-info .price{
+  font-size:18px;
+  float:right;
+}
+
+.album-detail .detail-info .cf{
+  clear:both;
+  height:0;
+}
+
+.album-detail .detail-info .des{
+  background:#efefef;
+  padding:27px 56px;
+  font-family:PingFangSC-Light;
+  font-size:14px;
+  color:#717171;
+  letter-spacing:0px;
+  line-height:30px;
+  text-align:left;
+}
+
+.album-detail .detail-info .panel{
+  padding:10px 56px;
+}
+
+.album-detail .detail-info h3{
+  font-size:18px;
+  line-height:35px;
+  border-bottom:1px solid #efefef;
+  margin:0;
+}
+
+.album-detail .detail-info .detail-item{
+  list-style:none;
+  padding:20px 0;
+}
+
+.album-detail .detail-info .detail-item li{
+  display:inline-block;
+  width:50%;
+}
+.album-detail .detail-info .btn-group{
+  padding:0 56px;
+  width:100%;
+}
+
+.album-detail .detail-info .btn-group a{
+  display:inline-block;
+  width:45%;
+  height:40px;
+  margin:0 10px 30px 0px;
+}
+
+
+
+
+.albumList-group{
+  background:#282828;
+  padding:0 10px;
+  height:30px;
+  line-height:30px;
+}
+
+.albumList-group a{
+  color:#fff;
+}
+
+.albumList-left{
+  float:left;
+}
+
+.signature{
+  color:#999;
+  font-size:12px;
+  line-height:30px;
+}
+
+.albumList-right{
+  float:right;
+}
+
+
+/*重写bootstrap样式*/
+
+.btn-primary.active,
+.btn-primary:active,
+.open>.dropdown-toggle.btn-primary{
+  background:#e6c288!important;
+  border:1px solid #e6c288!important;
+  color:#000!important;
+}
+.btn-primary.active.focus,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary:active.focus,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.open>.dropdown-toggle.btn-primary.focus,
+.open>.dropdown-toggle.btn-primary:focus,
+.open>.dropdown-toggle.btn-primary:hover{
+  background:#a5824b;
+  color:#fff;
+  border:#a5824b;
+}
+
+.btn-primary{
+  background: #e6c288!important;
+  color:#000!important;
+  border:1px solid #e6c288!important;
+}
+
+.btn-info{
+  background:#e6c288;
+  border:1px solid #e6c288;
+  color:#000;
+}
+
+.btn-info:hover{
+  background:#a5824b;
+  border:1px solid #e6c288;
+}
+
+.btn-info.focus, .btn-info:focus {
+  background:#a5824b!important;
+  border:1px solid #e6c288!important;
+}
+
+.label-info{
+  background:#efefef;
+  border-radius:0;
+  color:#999;
+}
+
+.form-control{
+  border-radius:0;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.form-control:focus{
+  border-color: #000;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus{
+  outline: thin dotted;
+  outline: 2px auto #e6c288;
+  outline-offset: -2px;
+}

@@ -1,6 +1,6 @@
 var React = require('react');
 var Router = require('react-router');
-var Header = require('./header');
+
 var RouteHandler = Router.RouteHandler;
 
 var IndexCover = require('./indexCover');

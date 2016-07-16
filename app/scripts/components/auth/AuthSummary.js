@@ -1,44 +1,78 @@
-var React = require('react');
-var { History } = require('react-router');
-var InfoHeader = require('../infoHeader');
+import React from 'react'
+import { History } from 'react-router'
+var InfoHeader = require('../infoHeader')
 
-const LINK_TO_AUTH_BASIC = '/account/auth/basic';
-const LINK_TO_AUTH_REALNAME = '/account/auth/real';
-const LINK_TO_AUTH_PHOTOGRAPHER = '/account/auth/p';
-const LINK_TO_AUTH_MAKEUPARTIST = '/account/auth/a';
-const LINK_TO_AUTH_MOTE = '/account/auth/m';
-const LINK_TO_AUTH_SUMMARY = '/account/auth/';
+import {
+  ROUTE_AUTH_SUMMARY,
+  ROUTE_AUTH_BASIC,
+  ROUTE_AUTH_REALNAME,
+  ROUTE_AUTH_PHOTOGRAPHER,
+  ROUTE_AUTH_MAKEUPARTIST,
+  ROUTE_AUTH_MOTE,
+  ROUTE_AUTH_RESULT,
+}
+from '../../routeConfig'
 
 const convertLinkToVal = function(basic, real, type) {
-  let secondTarget = type === 'p' ? LINK_TO_AUTH_PHOTOGRAPHER :
-    type === 'a' ? LINK_TO_AUTH_MAKEUPARTIST :
-    type === 'm' ? LINK_TO_AUTH_MOTE :
-    LINK_TO_AUTH_SUMMARY;
-  let firstTarget  = !basic ? LINK_TO_AUTH_BASIC :
-    !real ? LINK_TO_AUTH_REALNAME : '';
+  let secondTarget = type === 'p' ? ROUTE_AUTH_PHOTOGRAPHER :
+    type === 'a' ? ROUTE_AUTH_MAKEUPARTIST :
+    type === 'm' ? ROUTE_AUTH_MOTE :
+    ROUTE_AUTH_SUMMARY
+  let firstTarget  = !basic ? ROUTE_AUTH_BASIC :
+    !real ? ROUTE_AUTH_REALNAME : ''
   return {
     first: firstTarget,
     second: secondTarget,
-  };
-};
+  }
+}
 
 const isDenied = function(status) {
-  return status === '审核拒绝';
-};
+  return status === '审核拒绝'
+}
 
 const statusToHint = function(status) {
-var hint = ' ';
+var hint = ' '
   if(status === '未申请') {
-    hint = '立即申请';
+    hint = '立即申请'
   } else if(status === '审核拒绝') {
-    hint = '重新申请';
+    hint = '重新申请'
   }
-  return hint;
-};
+  return hint
+}
+
+const styles = {
+  success:{
+    background:'#38BF74',
+    color:'#fff'
+  },
+  warn:{
+    background:'#EDAB00',
+    color:'#fff'
+  },
+  fail:{
+    background:'#ED4600',
+    color:'#fff'
+  }
+}
+
+function getStyle(status){
+  switch(status){
+    case '审核通过':
+      return styles.success;
+    case '未申请':
+      return {};
+    case '审核拒绝':
+      return styles.fail;
+    case '审核中':
+      return styles.warn;
+  }
+}
+
 
 var AuthSummary = React.createClass({
   mixins: [History],
   render: function() {
+
     const {
       realNameComplete,
       photographerAuthed,
@@ -68,7 +102,7 @@ var AuthSummary = React.createClass({
                   </div>
                   <div style={{ marginBottom: 10 }}>
                     <strong>摄影师认证：</strong>
-                    <span className="label label-info">{ this.props.authPhotographer.status }</span>
+                    <span className="label label-info" style={getStyle(this.props.authPhotographer.status)}>{ this.props.authPhotographer.status }</span>
                   </div>
                   <div style={{
                       color: '#B2B2B2',
@@ -85,7 +119,7 @@ var AuthSummary = React.createClass({
                   }
                 </div>
                 {photographerAuthed ?
-                  <button className="btn btn-block btn-default" disabled="true">
+                  <button className="btn btn-block btn-default" style={getStyle(this.props.authPhotographer.status)} disabled="true">
                     { this.props.authPhotographer.status }
                   </button> :
                   <a className="btn btn-block btn-default" onClick={ () => this.onClickAuthTarget('p') }>
@@ -110,7 +144,7 @@ var AuthSummary = React.createClass({
                   </div>
                   <div style={{ marginBottom: 10 }}>
                     <strong>化妆师认证：</strong>
-                    <span className="label label-info">{ this.props.authMakeupArtist.status }</span>
+                    <span className="label label-info" style={getStyle(this.props.authMakeupArtist.status)}>{ this.props.authMakeupArtist.status }</span>
                   </div>
                   <div style={{
                       color: '#B2B2B2',
@@ -153,7 +187,7 @@ var AuthSummary = React.createClass({
                   </div>
                   <div style={{ marginBottom: 10 }}>
                     <strong>模特认证：</strong>
-                    <span className="label label-info">{ this.props.authMote.status }</span>
+                    <span className="label label-info" style={getStyle(this.props.authMote.status)}>{ this.props.authMote.status }</span>
                   </div>
                   <div style={{
                       color: '#B2B2B2',
@@ -183,21 +217,21 @@ var AuthSummary = React.createClass({
           </div>
         </div>
       </div>
-    );
+    )
   },
   onClickAuthTarget: function(magic) {
     const {
       userComplete,
       realNameComplete,
-    } = this.props;
-    var targets = convertLinkToVal(userComplete, realNameComplete, magic);
+    } = this.props
+    var targets = convertLinkToVal(userComplete, realNameComplete, magic)
     if(targets.first) {
-      this.props.history.pushState(null, targets.first);
+      this.props.history.pushState(null, targets.first)
     } else {
-      this.props.history.pushState(null, targets.second);
+      this.props.history.pushState(null, targets.second)
     }
-    this.props.changeAuthTarget(targets.second);
+    this.props.changeAuthTarget(targets.second)
   },
-});
+})
 
-module.exports = AuthSummary;
+export default AuthSummary

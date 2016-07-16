@@ -1,4 +1,4 @@
-var React = require('react');
+import React from 'react'
 
 const NF404 = React.createClass({
   render: function() {
@@ -8,6 +8,6 @@ const NF404 = React.createClass({
       </div>
     );
   },
-});
+})
 
-module.exports = NF404;
+export default NF404

@@ -37,3 +37,4 @@ var InfoHeader = React.createClass({
   }
 });
 module.exports = InfoHeader;
+export default InfoHeader

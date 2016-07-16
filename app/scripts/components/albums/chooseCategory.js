@@ -35,7 +35,6 @@ var ChooseCategory = React.createClass({
     return (
       <div className="form-group">
         <label className="control-label col-xs-3">类别：</label>
-
         <div className="col-xs-9">
           <div className="cont-category">
             {buttons}
