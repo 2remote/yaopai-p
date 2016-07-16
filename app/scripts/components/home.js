@@ -436,7 +436,7 @@ var RegisterForm = React.createClass({
     }
     return (
       <div style={registerStyle}>
-        <img style={imageCenter} src="img/logo3.png" width='280' height='75'/>
+        <img style={imageCenter} src="img/logo3.png" width='280'/>
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>

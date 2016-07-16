@@ -14,7 +14,7 @@ const UserPanel = React.createClass({
       <div className="panel panel-default">
         <div className="panel-body text-center">
           <div className="thumbnail" style={{ marginBottom: 50,border:'none' }}>
-            <img style={{width:'125px',marginTop:'50px'}} src={ user.basic.avatar } className="img-circle" />
+            <img style={{width:'125px',height:'125px',marginTop:'50px'}} src={ user.basic.avatar } className="img-circle" />
             <div className="caption">
               <h4>{ user.basic.nickname }</h4>
               <p className="signature">{ user.basic.signature ? user.basic.signature : '还没有签名' }</p>
