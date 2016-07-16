@@ -1,15 +1,10 @@
 import React from 'react'
 import Reflux from 'reflux'
 
-import NoData from '../../noData'
-
-/* Why be you when you can be NEW */
-var AlbumAction = require('../../../actions/AlbumAction')
 import UserAccountStore from '../../../stores/UserAccountStore'
-var { AlbumStore, ALBUM_NOT_FETCHED } = require('../../../stores/AlbumStore')
 import AlbumList from './AlbumList'
 import AlbumHeader from './AlbumHeader'
-import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './constant'
+import { ALBUM_DISPLAY_ON } from './constant'
 
 /**
  * 作品信息
@@ -23,7 +18,7 @@ var AlbumInfo = React.createClass({
   ],
   getInitialState: function() {
     return {
-      /* 作品列表显示内容过滤 */
+      /* 作品列表默认显示上架作品 */
       display: ALBUM_DISPLAY_ON,
     };
   },
