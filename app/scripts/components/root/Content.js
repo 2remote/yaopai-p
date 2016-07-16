@@ -32,7 +32,9 @@ const Content = React.createClass({
     }
   },
   doLogout: function() {
-    UserActions.logout(true)
+    if(confirm('确定要退出系统么?')){
+      UserActions.logout(true)
+    }
   },
   render: function() {
     let { status } = this.state.photographer

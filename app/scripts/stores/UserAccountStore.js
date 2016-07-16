@@ -167,6 +167,9 @@ const UserAccountStore = Reflux.createStore({
     if(resp.Success) {
       fillUserBasicInfo(data, {}, resp)
       self.trigger(data)
+    } else {
+      data.isLogin = false
+      self.trigger(data)
     }
   },
   onCurrentUserDetail: function(resp) {
