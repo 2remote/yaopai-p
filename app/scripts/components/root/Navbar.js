@@ -13,6 +13,7 @@ import {
 const NavMenuItem = React.createClass({
   mixins: [History],
   render: function() {
+
     const { target, icon, text, visible } = this.props
     if(!visible) {
       // http://stackoverflow.com/questions/30097091/correct-way-to-define-an-empty-dom-element-in-react
