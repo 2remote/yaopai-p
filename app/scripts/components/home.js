@@ -380,7 +380,12 @@ var RegisterForm = React.createClass({
     var phone = this.refs.phoneInput.getValue();
     var code = this.refs.codeInput.getValue();
     var password = this.refs.passwordInput.getValue();
-    var isMobile = validator.isMobilePhone(phone,'zh-CN');
+    var isMobile ;
+    if(phone.substr(0,3)=='170'){
+      isMobile = true;
+    }else{
+      isMobile = validator.isMobilePhone(phone,'zh-CN');
+    }
     if(!isMobile){
       this.props.handleHint('请输入正确的手机号码');
       return;
