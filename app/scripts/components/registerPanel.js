@@ -150,7 +150,8 @@ var RegisterForm = React.createClass({
 	//发送验证码
 	handleGetCode : function(){
 		var phone = this.state.userName;
-		var isMobile = validator.isMobilePhone(this.state.userName, 'zh-CN');
+		var isMobile = validator.isMobilePhone(phone, 'zh-CN');
+
 		if(!isMobile){
 			this.setState({alertMessage:'请输入正确的手机号码'});
 			return;	
