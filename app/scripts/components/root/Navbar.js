@@ -13,6 +13,7 @@ import {
 const NavMenuItem = React.createClass({
   mixins: [History],
   render: function() {
+
     const { target, icon, text, visible } = this.props
     if(!visible) {
       // http://stackoverflow.com/questions/30097091/correct-way-to-define-an-empty-dom-element-in-react
@@ -71,7 +72,7 @@ const Navbar = React.createClass({
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a onClick={ this.props.logout }>
-                  <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 登出
+                  <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出系统
                 </a>
               </li>
             </ul>

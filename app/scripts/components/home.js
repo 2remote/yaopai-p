@@ -1,5 +1,4 @@
 var React = require('react');
-import { Link, History } from 'react-router'
 var Location = require('react-router').Location;
 var validator = require('validator');
 var Reflux = require('reflux');
@@ -12,6 +11,7 @@ var ToolTip = require('./toolTip');
 var API = require('../api');
 var Provision = require('./provision');
 import { ROUTE_MAIN } from '../routeConfig'
+import { Link, History } from 'react-router'
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -127,6 +127,9 @@ var LoginButtonn = React.createClass({
   openLogin : function(){
     UserActions.openLogin();
   },
+  forgotPass : function(){
+    window.open('http://m.aiyaopai.com/#/findByMobileForm','','width=400,height=300');
+  },
   render : function(){
     var buttonStyle = {
       width : '300px',
@@ -164,7 +167,7 @@ var LoginButtonn = React.createClass({
         <span style={textStyle}>点登录表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
 
-        <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span></div>
+        <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span><span style={{float:'right',paddingRight:'20px'}}><a onClick={this.forgotPass}>忘记密码</a></span></div>
       </div>
     );
   }
@@ -358,20 +361,31 @@ var RegisterForm = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleRegisterResult')],
   handleGetCode : function(){
     var phone = this.refs.phoneInput.getValue();
-    var isMobile = validator.isMobilePhone(phone,'zh-CN')
-    if(isMobile> 0){
+    var isMobile;
+    //手机号码是170号段暂不验证
+    if(phone.substr(0,3)=='170') {
       GetCodeActions.sendTelRegister({tel:phone});
-    }else if(phone.length == 0){
-      this.props.handleHint('请输入手机号码');
-    }else{
-      this.props.handleHint('请输入正确的手机号码');
+    } else {
+      isMobile = validator.isMobilePhone(phone,'zh-CN')
+      if(isMobile> 0){
+        GetCodeActions.sendTelRegister({tel:phone});
+      }else if(phone.length == 0){
+        this.props.handleHint('请输入手机号码');
+      }else{
+        this.props.handleHint('请输入正确的手机号码');
+      }
     }
   },
   handleRegister : function(){
     var phone = this.refs.phoneInput.getValue();
     var code = this.refs.codeInput.getValue();
     var password = this.refs.passwordInput.getValue();
-    var isMobile = validator.isMobilePhone(phone,'zh-CN');
+    var isMobile ;
+    if(phone.substr(0,3)=='170'){
+      isMobile = true;
+    }else{
+      isMobile = validator.isMobilePhone(phone,'zh-CN');
+    }
     if(!isMobile){
       this.props.handleHint('请输入正确的手机号码');
       return;
@@ -427,7 +441,7 @@ var RegisterForm = React.createClass({
     }
     return (
       <div style={registerStyle}>
-        <img style={imageCenter} src="img/logo3.png" width='280' height='75'/>
+        <img style={imageCenter} src="img/logo3.png" width='280'/>
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
