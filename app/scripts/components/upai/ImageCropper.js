@@ -42,30 +42,21 @@ const ImageCropper = React.createClass({
     })
     this.file.getDOMNode().value = ''
     this.img.getDOMNode().src = ''
-    // console.log(this.cropper.destroy())
   },
   caonima: function() {
     // 为什么componentDidMount不执行？
-    // console.log('cropper', this.img.getDOMNode(), document.getElementById('cover'))
     //
-    // console.log('what the fuck!')
     // var cropper = new Cropper(this.img.getDOMNode(), {
     //   aspectRatio: 3 / 2,
     //   crop: (e) => {
-    //     console.log(e.detail)
     //   },
     // })
   },
   componentDidUpdate: function() {
     const sb = this
-    console.log('Component did update!')
-    console.log('img', this.img.getDOMNode())
     // setTimeout(function() {
-      console.log('the fucking file!', sb.img.getDOMNode(), document.getElementById('cover'))
       if(sb.img.getDOMNode().src) {
         if(this.cropper) {
-          console.log('[replace]', this.cropper, this.state.img)
-          console.log('[WTF]', this.state)
           if(this.state.img) {
             this.cropper.replace(this.state.img)
           } else {
@@ -77,7 +68,6 @@ const ImageCropper = React.createClass({
             aspectRatio: 3 / 2,
             cropBoxResizable: false,
             crop: (e) => {
-              console.log(e.detail)
             },
           })
         }
