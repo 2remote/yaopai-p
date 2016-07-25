@@ -29,13 +29,9 @@ import UserAccountStore from '../../stores/UserAccountStore'
  *
 **/
 const ImageOptimus = React.createClass({
-  mixins: [Reflux.connect(UserAccountStore, 'user')],
-  uploader: undefined,
-  cropper: undefined,
-  isFileNew: false,
-  getInitialState() {
-    return {}
-  },
+  /**
+   * Render放最上面，方便改
+  **/
   render() {
     return (
       <div>
@@ -67,50 +63,59 @@ const ImageOptimus = React.createClass({
       </div>
     )
   },
+  cropper: undefined,
+  isFileNew: false,
+  uploader: undefined,
+  mixins: [Reflux.connect(UserAccountStore, 'user'), Reflux.listenTo(UserAccountStore, 'onUserUpdate')],
   /**
-   * Should initialize plupload here. (AFTER the component has mounted)
+   * componentDidMount和onUserUpdate负责使用sessionToken来初始化uploader
   **/
   componentDidMount() {
-    // this.initUploader()
+    this.initUploader()
   },
+  onUserUpdate(user) {
+    if(user.sessionToken) {
+      this.initUploader()
+    }
+  },
+  /**
+   * Cropperjs只能在DOM上有img的时候才能加载，所以它的初始化逻辑是：
+   * 1. Plupload加载数据之后调用FilesAdded的回调，设置state中的file
+   * 2. react走生命周期的render，把file显示在<img>里
+   * 3. 这里，componentDidUpdate的时候才初始化cropper
+   * 4. cropper可能是初始化也可能是换个图片重新加载，所以这里命名用了load
+  **/
   componentDidUpdate() {
     this.loadCropper()
   },
   initUploader() {
     const self = this
     const { sessionToken } = self.state.user
-    if(sessionToken) {
+    if(sessionToken && !self.uploader) {
       self.uploader = Qiniu.uploader({
-        runtimes: 'html5,flash,html4',      // 上传模式，依次退化
-        browse_button: self.refs.uploader.getDOMNode(),         // 上传选择的点选按钮，必需
-        uptoken_url: FILE.user_token_url +'&tokenid=' + sessionToken, // TODO:
-        get_new_uptoken: true,             // 设置上传文件的时候是否每次都重新获取新的uptoken
-        // Ajax请求downToken的Url，私有空间时使用，JS-SDK将向该地址POST文件的key和domain，服务端返回的JSON必须包含url字段，url值为该文件的下载地址
+        runtimes: 'html5,flash,html4', // 上传模式，依次退化 TODO: 如果cropper必须用File API，是不是flash什么的可以删了？
+        browse_button: self.refs.uploader.getDOMNode(),
+        uptoken_url: FILE.user_token_url +'&tokenid=' + sessionToken,
+        get_new_uptoken: true,
         domain: 'http://qiniu-plupload.qiniudn.com/',     // bucket域名，下载资源时用到，必需
-        // container: 'container',             // 上传区域DOM ID，默认是browser_button的父元素
-        max_file_size: '10mb',             // 最大文件体积限制
-        flash_swf_url: 'vendor/Moxie.swf',  //引入flash，相对路径
-        max_retries: 3,                     // 上传失败最大重试次数
-        chunk_size: '4mb',                  // 分块上传时，每块的体积
-        auto_start: false,                   // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
-        multi_selection: true,
+        max_file_size: '10mb', // 最大文件体积限制
+        flash_swf_url: 'vendor/Moxie.swf', //引入flash，相对路径
+        max_retries: 3, // 上传失败最大重试次数
+        chunk_size: '4mb', // 分块上传时，每块的体积，七牛要求必须4mb
+        auto_start: false, // 需要裁剪，关闭自动上传
+        multi_selection: true, // 文件选择框是否支持多选
         filters : {
           max_file_size: '10mb',
           mime_types: [
             {title : "Image files", extensions : "jpg,png,jpeg"}, // 限定jpg,png后缀上传
           ]
         },
-        // Resize images on clientside if we can
-        // resize: {
-        //   width : 200,
-        //   height : 200,
-        //   quality : 90,
-        //   crop: true // crop to exact dimensions
-        // },
         init: {
           FilesAdded: function(up, files) {
-            console.log('FilesAdded', files)
-            self.rawId = files[0].id
+            // 取最后一个文件
+            const rawFiles = self.uploader.files
+            self.rawId = rawFiles[rawFiles.length - 1].id
+            // 读取文件
             const reader  = new FileReader()
             reader.addEventListener("load", function () {
               self.isFileNew = true
@@ -118,11 +123,7 @@ const ImageOptimus = React.createClass({
                 file: reader.result,
               })
             }, false)
-            reader.readAsDataURL(files[0].getNative())
-          },
-          BeforeUpload: function(up, file) {
-            // 每个文件上传前，处理相关的事情
-            console.log('uploading file:', file)
+            reader.readAsDataURL(self.uploader.getFile(self.rawId).getNative())
           },
           UploadProgress: function(up, file) {
             // 每个文件上传时，处理相关的事情
@@ -135,37 +136,26 @@ const ImageOptimus = React.createClass({
             //    "key": "gogopher.jpg"
             //  }
             // 查看简单反馈
-            var domain = up.getOption('domain');
-            var res = JSON.parse(info);
-            var sourceLink = domain + res.key; // 获取上传成功后的文件的Url
+            var domain = up.getOption('domain')
+            var res = JSON.parse(info)
+            var sourceLink = domain + res.key // 获取上传成功后的文件的Url
             self.setState({
               uploadedImage: res.Url,
             })
+            // 传结果给回调
+            this.props.onUploadSucceed && this.props.onUploadSucceed(res.Url)
           },
-          Error: function(up, err, errTip) {
-            //上传出错时，处理相关的事情
-          },
-          UploadComplete: function() {
-            //队列文件处理完毕后，处理相关的事情
-          },
-          Key: function(up, file) {
-            // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-            // 该配置必须要在unique_names: false，save_key: false时才生效
-            var key = "";
-            // do something with key here
-            return key
-          }
+          Error: function(up, err, errTip) { },
+          UploadComplete: function() { },
         }
       })
-      window.ur = this.uploader
-      // domain为七牛空间对应的域名，选择某个空间后，可通过 空间设置->基本设置->域名设置 查看获取
-      // uploader为一个plupload对象，继承了所有plupload的方法
     } else {
       console.warn('Uploader requires a user sessionToken to initialize!')
     }
   },
   loadCropper() {
     const self = this
+    // 新文件来了，重新加载cropper
     if(this.state.file && this.isFileNew) {
       self.isFileNew = false
       if(self.cropper) {
@@ -186,12 +176,12 @@ const ImageOptimus = React.createClass({
   cow() {
     const self = this
     if(self.uploader) {
-      console.log('rawId', self.rawId)
-      self.uploader.removeFile(self.rawId)
-      var croppedFile
+      // 清空上传列表，就是这么霸道
+      self.uploader.splice()
       self.cropper.getCroppedCanvas().toBlob(function(blob) {
-        console.log('[croppedFile]', blob)
+        // 添加裁剪过的图片
         self.uploader.addFile(blob)
+        // 开始上传
         self.uploader.start()
       })
     }
