@@ -104,13 +104,13 @@ var ImageItem = React.createClass({
             <textarea ref="description" type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
           </div>
           <div className="delete-button">
-            <div className="right-icon">
+            {/* <div className="right-icon">
               <span className="glyphicon glyphicon-picture image-button"
                 style={this.props.imageData.isCover?coverStyle:normalStyle}
                 onClick={this.setCover}>
                 封面
               </span>
-            </div>
+            </div> */}
             <div className="right-icon">
               <span className="glyphicon glyphicon-remove-circle image-button"
               style={normalStyle}  onClick={this.deleteItem}>
