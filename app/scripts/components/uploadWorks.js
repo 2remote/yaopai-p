@@ -27,6 +27,8 @@ var Checkbox = require('./tools/checkbox');
 
 import { ROUTE_LOGIN } from '../routeConfig'
 
+import ImageOptimus from './upai/ImageOptimus'
+
 /*
   上传作品组件
   用到通用的用户组件 ./account/*
@@ -367,6 +369,17 @@ var UploadWorks = React.createClass({
             updateValue = {this.updateTitle}
             minLength={1}
             placeholder="名称应该在1-20字之间"/>
+          <div className="form-group">
+            <div className="col-xs-3 text-right">
+              <label className="control-label">上传封面：</label>
+            </div>
+            <div className="col-xs-8">
+              <ImageOptimus
+                onUploadSucceed={coverUrl => console.log('coverUrl', coverUrl)}
+              />
+            </div>
+          </div>
+
           <ChooseImage value={this.state.photos}
             ref="chooseImage" onError={this.showMessage}/>
           <ChooseTags value={this.state.tags} onChange = {this.updateTags}/>

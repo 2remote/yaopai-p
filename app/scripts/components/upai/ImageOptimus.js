@@ -2,6 +2,7 @@ import React from 'react'
 import Reflux from 'reflux'
 import { FILE } from '../../api'
 import UserAccountStore from '../../stores/UserAccountStore'
+import { ProgressBar } from 'react-bootstrap'
 
 /**
  * // TODO: 回头我把下面的解释换成中文
@@ -21,27 +22,41 @@ import UserAccountStore from '../../stores/UserAccountStore'
  *
 **/
 const ImageOptimus = React.createClass({
+  getInitialState() {
+    return {
+      progress: 0,
+    }
+  },
   /**
    * Render放最上面，方便改
   **/
   render() {
     return (
-      <div>
+      <div style={{ marginBottom: 10 }}>
+        <div>
+          {/* Cropperjs要求img放在一个block级别的容器里，方便加载裁剪界面 */}
+          <div>
+            <img ref="cropper" src={ this.state.file } style={{ maxWidth: '100%' }} />
+          </div>
+          {this.state.progress ?
+            <ProgressBar
+              now={ this.state.progress }
+              label={ this.state.progress+'%' }
+            />
+            : null
+          }
+        </div>
         {/* Two functional buttons */}
         <button ref="uploader" className="btn btn-default">选择文件</button>
         <button type="button" onClick={ this.doUpload } className="btn btn-default">开始上传</button>
-        {/* Cropperjs要求img放在一个block级别的容器里，方便加载裁剪界面 */}
-        <div>
-          <img ref="cropper" src={ this.state.file } style={{ maxWidth: '100%' }} />
-        </div>
         {/* 裁剪结果预览，可删除 */}
-        <div>
+        {/* <div>
           <img ref="croppedImage" src={ this.state.croppedImage } style={{ maxWidth: '100%' }} />
-        </div>
+        </div> */}
         {/* 上传成功的返回url图片，可删除 */}
-        <div>
+        {/* <div>
           <img src={ this.state.uploadedImage } style={{ maxWidth: '100%' }} />
-        </div>
+        </div> */}
       </div>
     )
   },
@@ -94,11 +109,14 @@ const ImageOptimus = React.createClass({
         filters : {
           max_file_size: '10mb',
           mime_types: [
-            {title : "Image files", extensions : "jpg,png,jpeg"}, // 限定jpg,png后缀上传
+            { title: "Image files", extensions: "jpg,png,jpeg" }, // 限定jpg,png后缀上传
           ]
         },
         init: {
           FilesAdded: function(up, files) {
+            if(self.isUploadFile) {
+              return
+            }
             // 取最后一个文件
             const rawFiles = up.files
             self.rawId = rawFiles[rawFiles.length - 1].id
@@ -121,6 +139,7 @@ const ImageOptimus = React.createClass({
           },
           UploadProgress: function(up, file) {
             // 每个文件上传时，处理相关的事情
+            self.setState({ progress: file.percent })
           },
           FileUploaded: function(up, file, info) {
             // 每个文件上传成功后，处理相关的事情
@@ -133,11 +152,15 @@ const ImageOptimus = React.createClass({
             var domain = up.getOption('domain')
             var res = JSON.parse(info)
             var sourceLink = domain + res.key // 获取上传成功后的文件的Url
+            console.log('setting image:', res.Url)
+            self.cleanUp()
             self.setState({
               uploadedImage: res.Url,
+              file: res.Url,
+              progress: 0,
             })
             // 传结果给回调
-            this.props.onUploadSucceed && this.props.onUploadSucceed(res.Url)
+            self.props.onUploadSucceed && self.props.onUploadSucceed(res.Url)
           },
           Error: function(up, err, errTip) {
             // TODO: 这段代码来源于imageInput，临时放这里，处理Error的时候参考
@@ -164,6 +187,7 @@ const ImageOptimus = React.createClass({
 
   loadCropper() {
     const self = this
+
     // 新文件来了，重新加载cropper
     if(this.state.file && this.isFileNew) {
       self.isFileNew = false
@@ -193,11 +217,21 @@ const ImageOptimus = React.createClass({
       self.uploader.splice()
       self.cropper.getCroppedCanvas().toBlob(function(blob) {
         // 添加裁剪过的图片
+        self.isUploadFile = true
         self.uploader.addFile(blob)
         // 开始上传
         self.uploader.start()
       })
     }
+  },
+
+  cleanUp() {
+    // 清空上传列表
+    this.uploader && this.uploader.splice()
+    // 清除正在上传标识
+    this.isUploadFile = false
+    // 关闭cropper
+    this.cropper && this.cropper.destroy()
   },
 
 })
