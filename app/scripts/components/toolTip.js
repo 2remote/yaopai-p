@@ -5,17 +5,15 @@ var ToolTip = React.createClass({
   getDefaultProps: function () {
     return {
       changeStyle: {
-        width: '386px',
+        width: '100%',
         position: 'fixed',
-        left: '50%',
-        marginLeft: '-193px',
-        background: 'rgba(154, 35, 35, 0.7)',
+        background: '#ccac7b',
         lineHeight: '100px',
         height: '100px',
         zIndex: '999',
         textAlign: 'center',
-        color: '#fff',
-        transition: 'top 1s',
+        color: '#000',
+        transition: 'top 2s',
       },
     }
   },
@@ -28,7 +26,7 @@ var ToolTip = React.createClass({
     }
   },
   toShow: function (title) {
-    this.setState({title: title, setTop: {top: '10px'}});
+    this.setState({title: title, setTop: {top: '0px'}});
     setTimeout(function () {
       this.setState({setTop: {top: '-200px'}})
     }.bind(this), 5000);
