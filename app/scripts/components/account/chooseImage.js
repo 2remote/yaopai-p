@@ -98,7 +98,7 @@ var ImageItem = React.createClass({
             </div>
           </div>
           <div className="main-image">
-            <img ref={'image_'+this.props.index} height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
+            <img ref={'image_'+this.props.index} width="140" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
           </div>
           <div className="main-des">
             <textarea ref="description" type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
@@ -305,7 +305,7 @@ var ChooseImages = React.createClass({
         <label className="control-label col-xs-3">上传图片：</label>
         <div id="pickfilesCont" className="col-xs-8">
           <div>
-            <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
+            <img id="pickfiles" className="image-button uploader-img" width="140" src="img/tianjia.png" />
           </div>
           <ReactCSSTransitionGroup ref="itemsContainer"
             className="workList"
