@@ -258,10 +258,10 @@ const Albums = React.createClass({
                           className="icon cancel_circle_icon"/>
                     <span style={mainStyle.spanText} data-index={i} onClick={this.onRemove}>删除</span>
                   </span>
-                  <span style={coverStyle}>
+                  {/* <span style={coverStyle}>
                     <span style={{fontSize:14,marginRight:-25,position:'absolute'}} className="icon work_icon"/>
                     {cover}
-                  </span>
+                  </span> */}
                   <span style={mainStyle.down}>
                     <span style={{fontSize:14,marginRight:-25,position:'absolute'}} className="icon down_icon"/>
                     <span style={mainStyle.spanText} data-index={i} onClick={this.onMoveDown}>下移</span>
