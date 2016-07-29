@@ -11,6 +11,8 @@ import Reflux from 'reflux'
 import InputGroup from '../../upai/form/InputGroup'
 import SelectArea from '../../upai/form/SelectArea'
 import ImageCropper from '../../upai/ImageCropper'
+import ImageOptimus from '../../upai/ImageOptimus'
+
 
 import UserAccountStore from '../../../stores/UserAccountStore'
 
@@ -39,6 +41,8 @@ const BasicInfo = React.createClass({
           <SelectArea />
           <hr />
           <ImageCropper />
+          <hr />
+          <ImageOptimus />
         </form>
       </div>
     )

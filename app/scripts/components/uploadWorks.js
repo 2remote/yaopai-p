@@ -27,6 +27,8 @@ var Checkbox = require('./tools/checkbox');
 
 import { ROUTE_LOGIN } from '../routeConfig'
 
+import ImageOptimus from './upai/ImageOptimus'
+
 /*
   上传作品组件
   用到通用的用户组件 ./account/*
@@ -110,11 +112,11 @@ var UploadWorks = React.createClass({
       this.setState({cut : data.cut});
     }else{
       //处理封面
-      var cover = -1;
-      for(var i =0 ; i < data.length ; i ++){
-        if(data[i].isCover) cover = i;
-      }
-      this.setState({photos : data,cover : cover});
+      // var cover = -1;
+      // for(var i =0 ; i < data.length ; i ++){
+      //   if(data[i].isCover) cover = i;
+      // }
+      this.setState({photos : data});
     }
   },
   updateTitle : function(title){
@@ -235,8 +237,8 @@ var UploadWorks = React.createClass({
       return false;
     }
     */
-    if(this.state.cover < 0 ){
-      this.showMessage('请选择一张作品作为封面');
+    if(this.state.cover === -1 ){
+      this.showMessage('请上传封面');
       return false;
     }
     return true;
@@ -249,7 +251,7 @@ var UploadWorks = React.createClass({
         Service : this.state.service,
         Price : this.state.price,
         Negotiable : this.state.price==0?true:false,
-        Cover : this.state.photos[this.state.cover].Url,
+        Cover : this.state.cover,
         Cut: this.state.cut?this.state.cut:'',
         Tags: this.state.tags.join(','),
         Detail: {
@@ -367,6 +369,17 @@ var UploadWorks = React.createClass({
             updateValue = {this.updateTitle}
             minLength={1}
             placeholder="名称应该在1-20字之间"/>
+          <div className="form-group">
+            <div className="col-xs-3 text-right">
+              <label className="control-label">上传封面：</label>
+            </div>
+            <div className="col-xs-8">
+              <ImageOptimus
+                onUploadSucceed={ this.updateCover }
+              />
+            </div>
+          </div>
+
           <ChooseImage value={this.state.photos}
             ref="chooseImage" onError={this.showMessage}/>
           <ChooseTags value={this.state.tags} onChange = {this.updateTags}/>
