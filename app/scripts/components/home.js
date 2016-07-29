@@ -29,7 +29,8 @@ var PhoneInput = React.createClass({
     var textStyle = {
       width: '300px',
       height: '45px',
-      border: '1px solid #FFFFFF',
+      border:'0px',
+      borderBottom: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
@@ -65,7 +66,8 @@ var PasswordInput = React.createClass({
     var textStyle = {
       width: '300px',
       height: '45px',
-      border: '1px solid #FFFFFF',
+      border:'0px',
+      borderBottom: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
@@ -209,7 +211,8 @@ var ValidateCodeInput = React.createClass({
     var codeStyle = {
       width: '180px',
       height: '45px',
-      border: '1px solid #FFFFFF',
+      border:'0px',
+      borderBottom: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
@@ -221,7 +224,7 @@ var ValidateCodeInput = React.createClass({
     var codeBtnStyle = {
       width : '120px',
       height : '45px',
-      border: '1px solid #FFFFFF',
+      border: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
