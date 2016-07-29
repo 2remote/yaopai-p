@@ -464,9 +464,10 @@ var UploadWorks = React.createClass({
                      help="单位:元"/>
           <div className="row" style={style.bottomWrap}>
             <Button style={style.submitButton} onClick={this.handleSubmit} disabled={this.state.submit}>提交</Button>
-            <ToolTip ref="toolTip" title=""/>
+
           </div>
         </form>
+        <ToolTip ref="toolTip" title=""/>
       </div>
     );
   }

@@ -1,8 +1,9 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #e7e7e7;
+  font: normal 14px/1.42 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif!important;
+  -webkit-font-smoothing: antialiased;
 }
 
 #content {

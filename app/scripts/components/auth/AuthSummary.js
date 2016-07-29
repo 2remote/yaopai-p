@@ -96,8 +96,9 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: '#D1D1D1',
+                        background: 'url(././img/p.png) no-repeat',
                         margin: '0 auto 10px',
+                        backgroundSize:'contain'
                       }}></div>
                   </div>
                   <div style={{ marginBottom: 10 }}>
@@ -138,8 +139,9 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: '#C3DBEA',
+                        background: 'url(././img/m.png) no-repeat',
                         margin: '0 auto 10px',
+                        backgroundSize:'contain'
                       }}></div>
                   </div>
                   <div style={{ marginBottom: 10 }}>
@@ -181,8 +183,9 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: '#EA9A9E',
+                        background: 'url(././img/d.png) no-repeat',
                         margin: '0 auto 10px',
+                        backgroundSize:'contain'
                       }}></div>
                   </div>
                   <div style={{ marginBottom: 10 }}>
