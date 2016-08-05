@@ -10,6 +10,8 @@ var validator = require('validator');
 var Switch = require('../tools/switch');
 var Checkbox = require('../tools/checkbox');
 
+import ImageOptimus from '../upai/ImageOptimus'
+
 var EditAlbumModal = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
   getInitialState: function () {
@@ -69,6 +71,13 @@ var EditAlbumModal = React.createClass({
     album.Tags = tags.join(',')
     this.setState({album: album});
     console.log('updateTags:', tags);
+  },
+  updateCover : function(cover){
+    var album = this.state.album;
+    album.Cover = cover
+    console.log("==========album.cover",album)
+    this.setState({album : album});
+    console.log("success")
   },
   updateDescription: function (des) {
     var album = this.state.album;
@@ -155,6 +164,10 @@ var EditAlbumModal = React.createClass({
       this.props.showMessage('作品名称必须在1-20字之间');
       return false;
     }
+    if(!this.state.album.Description){
+      this.props.showMessage("作品描述不能为空");
+      return false;
+    }
     if (this.state.album.Description.length < 15 || this.state.album.Description.length > 1000) {
       this.props.showMessage('作品描述必须在15-1000字之间');
       return false;
@@ -177,7 +190,9 @@ var EditAlbumModal = React.createClass({
           return item.Id
         }).join(',')
       }
+      console.log("begin 1");
       AlbumsActions.update(album);
+      console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});
     }
@@ -240,6 +255,16 @@ var EditAlbumModal = React.createClass({
                          updateValue={this.updateTitle}
                          minLength={1}
                          placeholder="名称应该在1-20字之间"/>
+              <div className="form-group" ref="cover">
+                <div className="col-xs-3 text-right">
+                  <label className="control-label">上传封面：</label>
+                </div>
+                <div className="col-xs-8">
+                  <ImageOptimus
+                    onUploadSucceed={ this.updateCover } cover={ this.state.album.Cover }
+                  />
+                </div>
+              </div>
               <ChooseTags value={this.state.album.Tags} onChange={this.updateTags} categories={this.props.categories}/>
               <TextInput ref="workDescription"
                          type="textarea"
