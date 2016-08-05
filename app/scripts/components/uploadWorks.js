@@ -1,9 +1,7 @@
 var _ = require('lodash');
 var React = require('react');
 var Reflux = require('reflux');
-var ReactAddons = require('react/addons');
 var validator = require('validator');
-var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
 
 var assert = require('assert');
@@ -14,7 +12,6 @@ var ChooseImage = require('./account/chooseImage');
 var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
-// assert(AlbumsStore, 'store is ok'+ AlbumsStore);
 
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
@@ -37,7 +34,7 @@ import ImageOptimus from './upai/ImageOptimus'
   注意事项：
   1.只有认证为摄影师后才能上传作品，否则上传接口会报错。应该判断用户类型，如果用户不是摄影师，跳转到摄影师认证。
   2.tags在第一版先不做。
-  3. 在这个界面可以增加，修改相册
+  3. 在这个界面可以增加，修改相册。
 */
 var UploadWorks = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged'),Reflux.listenTo(WorkStore,'onWorkStoreChange'),Reflux.listenTo(UserStore, 'isLogin'), History],
@@ -47,14 +44,15 @@ var UploadWorks = React.createClass({
       category : '',
       description : '',
       service : '',
-      price : 0 ,
-      plateCount : 0 ,
-      truingCount : 0 ,
-      costumeCount : 0 ,
-      unitCount : 0 ,
-      sceneCount : 0 ,
-      peopleCount : 0 ,
-      seatCount : 0 ,
+      price : '' ,
+      plateCount : '' ,
+      truingCount : '' ,
+      costumeCount : '' ,
+      duration : '' ,
+      unitCount : '' ,
+      sceneCount : '' ,
+      peopleCount : '' ,
+      seatCount : '' ,
       cover : -1,
       cut : '',
       photos : [],
@@ -82,14 +80,15 @@ var UploadWorks = React.createClass({
           category : '',
           description : '',
           service : '',
-          price : 0 ,
-          plateCount : 0 ,
-          truingCount : 0 ,
-          costumeCount : 0 ,
-          unitCount : 0 ,
-          sceneCount : 0 ,
-          peopleCount : 0 ,
-          seatCount : 0 ,
+          price : '' ,
+          duration : '' ,
+          plateCount : '' ,
+          truingCount : '' ,
+          costumeCount : '' ,
+          unitCount : '' ,
+          sceneCount : '' ,
+          peopleCount : '' ,
+          seatCount : '' ,
           cover : -1,
           cut : '',
           photos : [],
@@ -182,12 +181,18 @@ var UploadWorks = React.createClass({
     this.setState({placeType : placeType});
   },
   validate : function(){
+    console.log("this.state",this.state);
     if(this.state.title.length < 1 || this.state.title.length > 20){
+      React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
       return false;
     }
-    if(this.state.photos.length == 0){
-      this.showMessage('请至少上传一张作品');
+    if(this.state.cover === -1 ){
+      this.showMessage('请上传封面');
+      return false;
+    }
+    if(this.state.photos.length < 6){
+      this.showMessage('请至少上传 6 张作品');
       return false;
     }
     if(!this.state.tags.length>0){
@@ -197,50 +202,63 @@ var UploadWorks = React.createClass({
     }
     if(this.state.description.length < 15 || this.state.description.length > 1000){
       this.showMessage('作品描述必须在15-1000字之间');
+      React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus();
       return false;
     }
-    if(this.state.service && this.state.service.length > 1000){
-      this.showMessage('补充说明不超过1000字');
+
+    //=====================
+
+    if(this.state.duration.length <= 0){
+      this.showMessage('拍摄时长不能为空');
+      React.findDOMNode(this.refs.duration.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.price) || parseInt(this.state.price) <= 0){
-      this.showMessage('如果填写价格，必须为数字');
-      return false;
-    }
-    /*
     if(!validator.isInt(this.state.plateCount) || parseInt(this.state.plateCount) <= 0){
-      this.showMessage('如果填写底片张数，必须为数字');
+      this.showMessage('底片张数仅限数字,且不能为空');
+      React.findDOMNode(this.refs.plateCount.refs.input.refs.input).focus();
       return false;
     }
     if(!validator.isInt(this.state.truingCount) || parseInt(this.state.truingCount) <= 0){
-      this.showMessage('如果填写精修张数，必须为数字');
+      this.showMessage('精修张数仅限数字,且不能为空');
+      React.findDOMNode(this.refs.truingCount.refs.input.refs.input).focus();
       return false;
     }
     if(!validator.isInt(this.state.costumeCount) || parseInt(this.state.costumeCount) <= 0){
-      this.showMessage('如果填写服装数目，必须为数字');
+      this.showMessage('服装数目仅限数字,且不能为空');
+      React.findDOMNode(this.refs.costumeCount.refs.input.refs.input).focus();
       return false;
     }
     if(!validator.isInt(this.state.unitCount) || parseInt(this.state.unitCount) <= 0){
-      this.showMessage('如果填写拍摄几组，必须为数字');
+      this.showMessage('拍摄组数仅限数字,且不能为空');
+      React.findDOMNode(this.refs.unitCount.refs.input.refs.input).focus();
       return false;
     }
     if(!validator.isInt(this.state.sceneCount) || parseInt(this.state.sceneCount) <= 0){
-      this.showMessage('如果填写拍摄场景数量，必须为数字');
+      this.showMessage('拍摄场景数量仅限数字,且不能为空');
+      React.findDOMNode(this.refs.sceneCount.refs.input.refs.input).focus();
       return false;
     }
     if(!validator.isInt(this.state.peopleCount) || parseInt(this.state.peopleCount) <= 0){
-      this.showMessage('如果填写被拍摄人数，必须为数字');
+      this.showMessage('被拍摄人数仅限数字,且不能为空');
+      React.findDOMNode(this.refs.peopleCount.refs.input.refs.input).focus();
       return false;
     }
     if(!validator.isInt(this.state.seatCount) || parseInt(this.state.seatCount) <= 0){
-      this.showMessage('如果填写拍摄机位，必须为数字');
+      this.showMessage('拍摄机位仅限数字,且不能为空');
+      React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus();
       return false;
     }
-    */
-    if(this.state.cover === -1 ){
-      this.showMessage('请上传封面');
+    if(this.state.service && this.state.service.length > 1000){
+      this.showMessage('补充服务说明不超过1000字');
+      React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
       return false;
     }
+    if(!validator.isInt(this.state.price) || parseInt(this.state.price) <= 0){
+      this.showMessage('价格仅限数字,且不能为空');
+      React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
+      return false;
+    }
+
     return true;
   },
   handleSubmit : function(){
@@ -275,9 +293,9 @@ var UploadWorks = React.createClass({
         data['photos['+i+'].Url'] = photo.Url;
         data['photos['+i+'].Description'] = photo.Description;
       });
-      console.log(data)
-      AlbumsActions.add(data);
 
+      AlbumsActions.add(data);
+      alert("恭喜你,上传作品成功!")
       this.setState({submit:true});
     }
   },
@@ -361,7 +379,13 @@ var UploadWorks = React.createClass({
           placeholder=""/>):'';
     return (
       <div style={style.outer}>
-        <InfoHeader infoTitle="作品上传"infoIconClass="glyphicon glyphicon-picture" titleImage="" />
+        <InfoHeader infoTitle="作品上传" infoIconClass="glyphicon glyphicon-picture" titleImage="" />
+        <div style={{fontSize:'12px',lineHeight:'30px',background:'#D4482E',color:'#fff',padding:'15px 20px',margin: '-30px 0 30px 0'}}>
+          <b>作品上传注意事项</b><br />
+          1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
+          2、每套作品至少上传 6 张图片,单张图片不能超过 10M<br />
+          3、建议不要将多图排版编辑到一张图片中
+        </div>
         <form className='form-horizontal'>
           <TextInput ref="workName"
             labelName="作品名称："
@@ -369,7 +393,7 @@ var UploadWorks = React.createClass({
             updateValue = {this.updateTitle}
             minLength={1}
             placeholder="名称应该在1-20字之间"/>
-          <div className="form-group">
+          <div className="form-group" ref="cover">
             <div className="col-xs-3 text-right">
               <label className="control-label">上传封面：</label>
             </div>
@@ -377,6 +401,7 @@ var UploadWorks = React.createClass({
               <ImageOptimus
                 onUploadSucceed={ this.updateCover }
               />
+              
             </div>
           </div>
 
@@ -387,36 +412,35 @@ var UploadWorks = React.createClass({
                      type="textarea"
                      value = {this.state.description}
                      updateValue = {this.updateDescription}
-                     labelName="作品简述："
+                     labelName="作品描述："
                      minLength={15}
                      maxLength={1000}
-                     placeholder=""
-                     help="作品描述应该在15-1000字之间"
+                     placeholder="作品描述字数限制15-1000字之间"
                      style={{minHeight:100}}/>
           <TextInput ref="duration"
                      labelName="拍摄时长："
                      textClassName="col-xs-4"
                      value={this.state.duration}
                      updateValue={this.updateDuration}
-                     placeholder="例如：3小时或3天"/>
+                     placeholder="如：3小时 或 3天 (请标注时间单位)"/>
           <TextInput ref="plateCount"
                      labelName="底片张数："
                      textClassName="col-xs-4"
                      value={this.state.plateCount}
                      updateValue={this.updatePlateCount}
-                     placeholder=""/>
+                     placeholder="请填写数字,如 1"/>
           <TextInput ref="truingCount"
                      labelName="精修张数："
                      textClassName="col-xs-4"
                      value={this.state.truingCount}
                      updateValue={this.updateTruingCount}
-                     placeholder=""/>
+                     placeholder="请填写数字,如 1"/>
           <TextInput ref="costumeCount"
                      labelName="服装数目："
                      textClassName="col-xs-4"
                      value={this.state.costumeCount}
                      updateValue={this.updateCostumeCount}
-                     placeholder=""/>
+                     placeholder="请填写数字,如 1"/>
           <Switch ref="makeUpSupport"
                   label='化妆造型'
                   textOn='提供'
@@ -437,49 +461,51 @@ var UploadWorks = React.createClass({
                   onChange={this.updatePhysicalSupport}/>
           {physicalDetail}
           <TextInput ref="unitCount"
-                     labelName="拍摄几组："
+                     labelName="拍摄组数："
                      textClassName="col-xs-4"
                      value={this.state.unitCount}
                      updateValue={this.updateUnitCount}
-                     placeholder=""/>
+                     placeholder="请填写数字,如 1"/>
           <TextInput ref="sceneCount"
                      labelName="拍摄场景数量："
                      textClassName="col-xs-4"
                      value={this.state.sceneCount}
                      updateValue={this.updateSceneCount}
-                     placeholder=""/>
+                     placeholder="请填写数字,如 1"/>
           <TextInput ref="peopleCount"
                      labelName="被拍摄人数："
                      textClassName="col-xs-4"
                      value={this.state.peopleCount}
                      updateValue={this.updatePeopleCount}
-                     placeholder=""/>
+                     placeholder="请填写数字,如 1"/>
           <TextInput ref="seatCount"
                      labelName="拍摄机位："
                      textClassName="col-xs-4"
                      value={this.state.seatCount}
                      updateValue={this.updateSeatCount}
-                     placeholder=""/>
+                     placeholder="请填写数字,如 1"/>
           <Checkbox labelName="拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
           <TextInput ref="service"
                      type="textarea"
                      value={this.state.service}
                      updateValue={this.updateService}
-                     labelName="补充说明："
+                     labelName="补充服务说明："
                      maxLength={1000}
-                     help="补充说明不超过1000字" style={{minHeight:100}}/>
+                     placeholder="(非必填) 补充服务说明不超过1000字"
+                     style={{minHeight:100}}/>
           <TextInput ref="price"
                      labelName="套系价格："
                      textClassName="col-xs-4"
                      value={this.state.price}
                      updateValue={this.updatePrice}
-                     placeholder="¥面议"
-                     help="单位:元"/>
+                     placeholder="¥(单位:元)"
+                     />
           <div className="row" style={style.bottomWrap}>
             <Button style={style.submitButton} onClick={this.handleSubmit} disabled={this.state.submit}>提交</Button>
-            <ToolTip ref="toolTip" title=""/>
+
           </div>
         </form>
+        <ToolTip ref="toolTip" title=""/>
       </div>
     );
   }

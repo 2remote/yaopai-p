@@ -66,6 +66,7 @@ const convertAlbum = function(item) {
     service: item.Service,
     price: item.Price,
     cover: item.Cover,
+    state: item.State,
   };
 };
 
@@ -95,6 +96,7 @@ AlbumAction.fetch.listen(function(photographerId) {
       for(let result in serverData.Result) {
         albumList.push(convertAlbum(serverData.Result[result]));
       }
+      console.log("action:======",albumList);
       self.success(albumList);
     }
   }, function(error) {

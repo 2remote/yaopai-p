@@ -1,8 +1,9 @@
 html, body {
   margin: 0;
   height: 100%;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #e7e7e7;
+  font: normal 14px/1.42 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif!important;
+  -webkit-font-smoothing: antialiased;
 }
 
 #content {
@@ -63,7 +64,7 @@ a.active {
 
 .album-detail .preview-list{
   background: #fff;
-  max-height: 700px;
+  max-height: 600px;
   margin: 0 10px 60px 10px;
   overflow: scroll;
 }
@@ -160,10 +161,14 @@ a.active {
 
 
 .albumList-group{
-  background:#282828;
+  background:rgba(0,0,0,.5);
+  position: absolute;
+  bottom:0;
+  width:100%;
   padding:0 10px;
   height:30px;
   line-height:30px;
+  margin-bottom:30px;
 }
 
 .albumList-group a{
@@ -182,6 +187,13 @@ a.active {
 
 .albumList-right{
   float:right;
+}
+
+.albumList-state{
+  padding: 5px 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 
@@ -252,4 +264,8 @@ a.active {
   outline: thin dotted;
   outline: 2px auto #e6c288;
   outline-offset: -2px;
+}
+
+.progress-bar {
+  background-color:#282828!important;
 }

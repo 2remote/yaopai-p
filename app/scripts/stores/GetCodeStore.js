@@ -23,7 +23,7 @@ var GetCodeStore = Reflux.createStore({
   },
   onBeginTelRegister : function(){
     this.getCode.left = 60;
-    countLeft = function(){
+    var countLeft = function(){
       this.getCode.left = this.getCode.left -1;
       this.trigger(this.getCode);
       this.timeID = setTimeout(countLeft, 1000);

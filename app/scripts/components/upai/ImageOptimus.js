@@ -33,7 +33,7 @@ const ImageOptimus = React.createClass({
   render() {
     return (
       <div style={{ marginBottom: 10 }}>
-        <div>
+        <div style={{width:'400px'}}>
           {/* Cropperjs要求img放在一个block级别的容器里，方便加载裁剪界面 */}
           <div>
             <img ref="cropper" src={ this.state.file } style={{ maxWidth: '100%' }} />
@@ -47,8 +47,10 @@ const ImageOptimus = React.createClass({
           }
         </div>
         {/* Two functional buttons */}
-        <button ref="uploader" className="btn btn-default">选择文件</button>
-        <button type="button" onClick={ this.doUpload } className="btn btn-default">开始上传</button>
+        <div>
+          <img ref="uploader" className="image-button" width="140" src="img/tianjia.png" /><button type="button" ref="upload" style={{display:this.state.file?'inline-block':'none'}} onClick={ this.doUpload } className="btn btn-primary">确认裁剪</button>
+        </div>
+
         {/* 裁剪结果预览，可删除 */}
         {/* <div>
           <img ref="croppedImage" src={ this.state.croppedImage } style={{ maxWidth: '100%' }} />
@@ -94,10 +96,11 @@ const ImageOptimus = React.createClass({
     const self = this
     const { sessionToken } = self.state.user
     if(sessionToken && !self.uploader) {
+      console.log("type==========",FILE.work_token_url);
       self.uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4', // 上传模式，依次退化 TODO: 如果cropper必须用File API，是不是flash什么的可以删了？
         browse_button: self.refs.uploader.getDOMNode(),
-        uptoken_url: FILE.user_token_url +'&tokenid=' + sessionToken,
+        uptoken_url: FILE.work_token_url +'&tokenid=' + sessionToken,
         get_new_uptoken: true,
         domain: 'http://qiniu-plupload.qiniudn.com/',     // bucket域名，下载资源时用到，必需
         max_file_size: '10mb', // 最大文件体积限制
@@ -117,6 +120,7 @@ const ImageOptimus = React.createClass({
             if(self.isUploadFile) {
               return
             }
+            React.findDOMNode(self.refs.upload).style.display="inline-block"
             // 取最后一个文件
             const rawFiles = up.files
             self.rawId = rawFiles[rawFiles.length - 1].id
@@ -221,6 +225,7 @@ const ImageOptimus = React.createClass({
         self.uploader.addFile(blob)
         // 开始上传
         self.uploader.start()
+        React.findDOMNode(self.refs.upload).style.display="none"
       })
     }
   },
