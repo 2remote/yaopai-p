@@ -6,7 +6,9 @@ import QRCode from 'qrcode.react'
 import { ROUTE_AUTH, ROUTE_ALBUM_UPLOAD, ROUTE_ACCOUNT_INFO } from '../../routeConfig'
 
 const UserPanel = React.createClass({
+
   render: function() {
+    console.log("props",this.props)
     let { user, logout } = this.props
     // TODO: 这个地址怎么搞？
     let userHomePage = `http://m.aiyaopai.com/#/grapherDetail/${user.basic.id}`

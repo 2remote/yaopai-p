@@ -585,9 +585,9 @@ var Home = React.createClass({
             </div>
           </div>
           <div style={{display:'flex',marginTop:'50px'}}>
-            <div style={{flex:1}}><img src="img/Photographer.png" width="350" alt=""/></div>
-            <div style={{flex:1}}><img src="img/Model.png" width="350" alt=""/></div>
-            <div style={{flex:1}}><img src="img/Dresser.png" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src="img/Photographer.png" draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src="img/Model.png" draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src="img/Dresser.png" draggable="false" width="350" alt=""/></div>
           </div>
         </div>
 
