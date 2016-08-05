@@ -58,7 +58,7 @@ var ConstTags = React.createClass({
   },
   render : function(){
     var style = {
-      tags： {
+      tags: {
         color: '#4f5a67',
       }
     };
