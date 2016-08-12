@@ -1,9 +1,9 @@
 var React = require('react');
-
+import { Link } from 'react-router'
 var Reflux = require('reflux');
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
-
+var AccountInfo = require("./accountInfo");
 var ImageInput = require("./account/imageInput");
 var AccountActions = require("../actions/AccountActions");
 var AccountStore = require("../stores/AccountStore");
@@ -16,7 +16,7 @@ import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
 
-import { ROUTE_LOGIN } from '../routeConfig'
+import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
 
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
@@ -44,23 +44,23 @@ var UserImage = React.createClass({
       image = this.props.defaultImage;
     }
     return (
-        <div className="form-group">
-          <label className="control-label col-xs-3" style={style.label}>头像：</label>
-          <div id="uploadAvatorC" className="col-xs-4">
-            <ImageInput
-              width="150"
-              height="150"
-              uid="uploadAvator"
-              type="user"
-              multi_selection={false}
-              defaultImage={image}
-              onUpload={this.onUpload}
-              onError={this.props.showMessage}
-              disabled = {this.props.disabled}
-              circle="1"/>
-          </div>
+      <div className="form-group">
+        <label className="control-label col-xs-3" style={style.label}>头像：</label>
+        <div id="uploadAvatorC" className="col-xs-4">
+          <ImageInput
+            width="150"
+            height="150"
+            uid="uploadAvator"
+            type="user"
+            multi_selection={false}
+            defaultImage={image}
+            onUpload={this.onUpload}
+            onError={this.props.showMessage}
+            disabled = {this.props.disabled}
+            circle="1"/>
         </div>
-      );
+      </div>
+    );
   }
 });
 var UserGender = React.createClass({
@@ -73,8 +73,8 @@ var UserGender = React.createClass({
     return this.state.gender;
   },
   /*
-    暂时先这样写，之后考虑用相应的控件
-  */
+   暂时先这样写，之后考虑用相应的控件
+   */
   beMan : function(){
     this.setState({gender : 1});
     this.props.updateValue(1);
@@ -110,7 +110,7 @@ var UserGender = React.createClass({
     return (
       <div className="form-group">
         <label className="control-label col-xs-3">性别：</label>
-          {buttons}
+        {buttons}
       </div>
     );
   }
@@ -247,67 +247,86 @@ var PersonInfo = React.createClass({
     };
     return (
       <div style={style.outer}>
-        <InfoHeader infoTitle="个人信息" infoIconClass="glyphicon glyphicon-user"/>
-        <form className='form-horizontal'>
-          <UserImage defaultImage={this.state.Avatar} updateAvatar={this.updateAvatar} disabled={!this.state.editable} showMessage={this.showMessage}/>
-          <FormControls.Static label="电话："
-             labelClassName="col-xs-3"
-             wrapperClassName="col-xs-4"
-             value={this.state.Account?this.state.Account.Tel:''} />
-          <TextInput ref="nickName"
-            labelName="昵称："
-            value={this.state.NickName}
-            updateValue={this.updateNickName}
-            textClassName='col-xs-3'
-            minLength={2}
-            disabled={!this.state.editable}/>
-          <UserGender ref="gender" value={this.state.Sex} updateValue={this.updateGender} disabled={!this.state.editable}/>
-          <AreaSelect ref="area"
-          province = {this.state.ProvinceId}
-          onProvinceChange={this.onProvinceChange}
-          city = {this.state.CityId}
-          onCityChange = {this.onCityChange}
-          district = {this.state.CountyId}
-          onDistrictChange = {this.onDistrictChange}
-          disabled={this.state.disabled}/>
-          <TextInput ref="wechat"
-           labelName="微信："
-           value = {this.state.Account?this.state.Account.ContactWeixin:''}
-           updateValue = {this.updateWechat}
-           minLength={3}
-           disabled={this.state.disabled}
-           textClassName="col-xs-4"
-           placeholder=""/>
-          <TextInput ref="qq"
-           labelName="QQ："
-           value = {this.state.Account?this.state.Account.ContactOicq:''}
-           updateValue = {this.updateQQ}
-           minLength={5}
-           disabled={this.state.disabled}
-           textClassName="col-xs-4"
-           placeholder=""/>
-          <TextInput ref="qq"
-           labelName="微博："
-           value = {this.state.Account?this.state.Account.ContactWeibo:''}
-           updateValue = {this.updateWeibo}
-           minLength={5}
-           disabled={this.state.disabled}
-           textClassName="col-xs-4"
-           placeholder=""/>
-          <TextInput ref="personIntro"
-           type='textarea'
-           labelName="个性签名："
-           value = {this.state.Signature}
-           updateValue = {this.updateSign}
-           minLength={1}
-           maxLength={100}
-           disabled={this.state.disabled}
-           textClassName="col-xs-4"
-           defaultValue="他很懒什么都没有留下"
-           placeholder="他很懒什么都没有留下"/>
-          <button className="btn btn-primary col-xs-offset-3" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
-          <ToolTip ref="toolTip" title=""/>
-        </form>
+        <ul id="myTab" className="nav nav-tabs">
+          <li className="active">
+            <a href="#basic" data-toggle="tab">
+              基本信息
+            </a>
+          </li>
+          <li><a href="#m" data-toggle="tab">模特完善</a></li>
+          <li><a href="#pwd" data-toggle="tab">修改密码</a></li>
+        </ul>
+        <div id="myTabContent" className="tab-content">
+          <div className="tab-pane fade in active" id="basic">
+            <form className='form-horizontal'>
+              <UserImage defaultImage={this.state.Avatar} updateAvatar={this.updateAvatar} disabled={!this.state.editable} showMessage={this.showMessage}/>
+              <FormControls.Static label="电话："
+                                   labelClassName="col-xs-3"
+                                   wrapperClassName="col-xs-4"
+                                   value={this.state.Account?this.state.Account.Tel:''} />
+              <TextInput ref="nickName"
+                         labelName="昵称："
+                         value={this.state.NickName}
+                         updateValue={this.updateNickName}
+                         textClassName='col-xs-3'
+                         minLength={2}
+                         disabled={!this.state.editable}/>
+              <UserGender ref="gender" value={this.state.Sex} updateValue={this.updateGender} disabled={!this.state.editable}/>
+              <AreaSelect ref="area"
+                          province = {this.state.ProvinceId}
+                          onProvinceChange={this.onProvinceChange}
+                          city = {this.state.CityId}
+                          onCityChange = {this.onCityChange}
+                          district = {this.state.CountyId}
+                          onDistrictChange = {this.onDistrictChange}
+                          disabled={this.state.disabled}/>
+              <TextInput ref="wechat"
+                         labelName="微信："
+                         value = {this.state.Account?this.state.Account.ContactWeixin:''}
+                         updateValue = {this.updateWechat}
+                         minLength={3}
+                         disabled={this.state.disabled}
+                         textClassName="col-xs-4"
+                         placeholder=""/>
+              <TextInput ref="qq"
+                         labelName="QQ："
+                         value = {this.state.Account?this.state.Account.ContactOicq:''}
+                         updateValue = {this.updateQQ}
+                         minLength={5}
+                         disabled={this.state.disabled}
+                         textClassName="col-xs-4"
+                         placeholder=""/>
+              <TextInput ref="qq"
+                         labelName="微博："
+                         value = {this.state.Account?this.state.Account.ContactWeibo:''}
+                         updateValue = {this.updateWeibo}
+                         minLength={5}
+                         disabled={this.state.disabled}
+                         textClassName="col-xs-4"
+                         placeholder=""/>
+              <TextInput ref="personIntro"
+                         type='textarea'
+                         labelName="个性签名："
+                         value = {this.state.Signature}
+                         updateValue = {this.updateSign}
+                         minLength={1}
+                         maxLength={100}
+                         disabled={this.state.disabled}
+                         textClassName="col-xs-4"
+                         defaultValue="他很懒什么都没有留下"
+                         placeholder="他很懒什么都没有留下"/>
+              <button className="btn btn-primary col-xs-offset-3" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
+              &nbsp;&nbsp;<Link to={ ROUTE_ACCOUNT_PASSWORD } className="btn btn-default" >修改登录密码</Link>
+              <ToolTip ref="toolTip" title=""/>
+            </form>
+          </div>
+          <div className="tab-pane fade" id="m">
+            <p>暂无</p>
+          </div>
+          <div className="tab-pane fade" id="pwd">
+            <AccountInfo />
+          </div>
+        </div>
       </div>
     );
   }
