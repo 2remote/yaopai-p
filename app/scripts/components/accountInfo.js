@@ -220,7 +220,6 @@ var AccountInfo = React.createClass({
     };
     return (
       <div style={style.outer}>
-        <InfoHeader infoTitle="修改密码" infoIconClass="glyphicon glyphicon-cog"/>
         <form className='form-horizontal'>
           <UserPhone />
           <ModifyPassword />
