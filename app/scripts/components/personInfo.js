@@ -150,6 +150,18 @@ var PersonInfo = React.createClass({
       message = '昵称最少2个字';
       return message;
     }
+    if (!this.refs.qq.isValidated()) {
+      message = 'qq最少5位';
+      return message;
+    }
+    if (!this.refs.weibo.isValidated()) {
+      message = '微博最少5位';
+      return message;
+    }
+    if (!this.refs.wechat.isValidated()) {
+      message = '微信最少3位';
+      return message;
+    }
   },
   componentDidMount : function(){
     UserActions.currentUser();
@@ -296,7 +308,7 @@ var PersonInfo = React.createClass({
                          disabled={this.state.disabled}
                          textClassName="col-xs-4"
                          placeholder=""/>
-              <TextInput ref="qq"
+              <TextInput ref="weibo"
                          labelName="微博："
                          value = {this.state.Account?this.state.Account.ContactWeibo:''}
                          updateValue = {this.updateWeibo}
@@ -316,7 +328,6 @@ var PersonInfo = React.createClass({
                          defaultValue="他很懒什么都没有留下"
                          placeholder="他很懒什么都没有留下"/>
               <button className="btn btn-primary col-xs-offset-3" onClick={this.updateInfo} disabled={!this.state.editable}>保存</button>
-              &nbsp;&nbsp;<Link to={ ROUTE_ACCOUNT_PASSWORD } className="btn btn-default" >修改登录密码</Link>
               <ToolTip ref="toolTip" title=""/>
             </form>
           </div>
