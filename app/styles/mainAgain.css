@@ -275,5 +275,6 @@ a.active {
 }
 
 .center-block{
-  height:300px!important;
+  height:100%!important;
+  min-height:300px!important;
 }
