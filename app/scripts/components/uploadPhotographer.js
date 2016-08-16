@@ -12,7 +12,7 @@ var ChooseImage = require('./account/chooseImage');
 var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
-
+import $ from 'jquery'
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
@@ -36,7 +36,7 @@ import ImageOptimus from './upai/ImageOptimus'
   2.tags在第一版先不做。
   3. 在这个界面可以增加，修改相册。
 */
-var UploadWorks = React.createClass({
+var UploadPhotographer = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onStoreChanged'),Reflux.listenTo(WorkStore,'onWorkStoreChange'),Reflux.listenTo(UserStore, 'isLogin'), History],
   getInitialState : function(){
     return {
@@ -181,8 +181,7 @@ var UploadWorks = React.createClass({
     this.setState({placeType : placeType});
   },
   validate : function(){
-    console.log("this.state",this.state);
-    if(this.state.title.length < 1 || this.state.title.length > 20){
+    if($.trim(this.state.title).length < 1 || $.trim(this.state.title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
       return false;
@@ -200,7 +199,7 @@ var UploadWorks = React.createClass({
       assert(this.state.tags.length > 0, 'Number of tags should bigger than 0, but we have:' + this.state.tags);
       return false;
     }
-    if(this.state.description.length < 15 || this.state.description.length > 1000){
+    if($.trim(this.state.description).length < 15 || $.trim(this.state.description).length > 1000){
       this.showMessage('作品描述必须在15-1000字之间');
       React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus();
       return false;
@@ -213,48 +212,48 @@ var UploadWorks = React.createClass({
       React.findDOMNode(this.refs.duration.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.plateCount) || parseInt(this.state.plateCount) <= 0){
-      this.showMessage('底片张数仅限数字,且不能为空');
+    if(!validator.isInt($.trim(this.state.plateCount)) || parseInt(this.state.plateCount) <= 0){
+      this.showMessage('底片张数必须大于0');
       React.findDOMNode(this.refs.plateCount.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.truingCount) || parseInt(this.state.truingCount) <= 0){
+    if(!validator.isInt($.trim(this.state.truingCount)) || parseInt(this.state.truingCount) < 0){
       this.showMessage('精修张数仅限数字,且不能为空');
       React.findDOMNode(this.refs.truingCount.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.costumeCount) || parseInt(this.state.costumeCount) <= 0){
+    if(!validator.isInt($.trim(this.state.costumeCount)) || parseInt(this.state.costumeCount) < 0){
       this.showMessage('服装数目仅限数字,且不能为空');
       React.findDOMNode(this.refs.costumeCount.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.unitCount) || parseInt(this.state.unitCount) <= 0){
-      this.showMessage('拍摄组数仅限数字,且不能为空');
+    if(!validator.isInt($.trim(this.state.unitCount)) || parseInt(this.state.unitCount) <= 0){
+      this.showMessage('拍摄组数仅限大于0的数字,且不能为空');
       React.findDOMNode(this.refs.unitCount.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.sceneCount) || parseInt(this.state.sceneCount) <= 0){
-      this.showMessage('拍摄场景数量仅限数字,且不能为空');
+    if(!validator.isInt($.trim(this.state.sceneCount)) || parseInt(this.state.sceneCount) <= 0){
+      this.showMessage('拍摄场景数量仅限大于0的数字,且不能为空');
       React.findDOMNode(this.refs.sceneCount.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.peopleCount) || parseInt(this.state.peopleCount) <= 0){
+    if(!validator.isInt($.trim(this.state.peopleCount)) || parseInt(this.state.peopleCount) < 0){
       this.showMessage('被拍摄人数仅限数字,且不能为空');
       React.findDOMNode(this.refs.peopleCount.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.seatCount) || parseInt(this.state.seatCount) <= 0){
-      this.showMessage('拍摄机位仅限数字,且不能为空');
+    if(!validator.isInt($.trim(this.state.seatCount)) || parseInt(this.state.seatCount) <= 0){
+      this.showMessage('拍摄机位仅限大于0的数字,且不能为空');
       React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus();
       return false;
     }
-    if(this.state.service && this.state.service.length > 1000){
+    if(this.state.service && $.trim(this.state.service).length > 1000){
       this.showMessage('补充服务说明不超过1000字');
       React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt(this.state.price) || parseInt(this.state.price) <= 0){
-      this.showMessage('价格仅限数字,且不能为空');
+    if(!validator.isInt($.trim(this.state.price)) || parseInt(this.state.price) <= 1){
+      this.showMessage('价格仅限大于1的数字,且不能为空');
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;
     }
@@ -264,27 +263,27 @@ var UploadWorks = React.createClass({
   handleSubmit : function(){
     if(this.validate()){
       var data = {
-        Title : this.state.title,
-        Description : this.state.description,
-        Service : this.state.service,
-        Price : this.state.price,
+        Title : $.trim(this.state.title),
+        Description : $.trim(this.state.description),
+        Service : $.trim(this.state.service),
+        Price : $.trim(this.state.price),
         Negotiable : this.state.price==0?true:false,
         Cover : this.state.cover,
         Cut: this.state.cut?this.state.cut:'',
         Tags: this.state.tags.join(','),
         Detail: {
-          Duration: this.state.duration,//拍摄时长
-          PlateCount: this.state.plateCount,//底片张数
-          TruingCount: this.state.truingCount,//精修张数
-          CostumeCount: this.state.costumeCount,//服装数目
-          MakeUpSupport: this.state.makeUpSupport,//化妆造型
-          OriginalSupport: this.state.originalSupport,//送原片
-          PhysicalSupport: this.state.physicalSupport,//提供实体产品
-          PhysicalDetail: this.state.physicalDetail,//实体产品提供详情
-          UnitCount: this.state.unitCount,//拍摄几组
-          SceneCount: this.state.sceneCount,//拍摄场景数量
-          PeopleCount: this.state.peopleCount,//被拍摄人数
-          SeatCount: this.state.seatCount,//拍摄机位
+          Duration: $.trim(this.state.duration),//拍摄时长
+          PlateCount: $.trim(this.state.plateCount),//底片张数
+          TruingCount: $.trim(this.state.truingCount),//精修张数
+          CostumeCount: $.trim(this.state.costumeCount),//服装数目
+          MakeUpSupport: $.trim(this.state.makeUpSupport),//化妆造型
+          OriginalSupport: $.trim(this.state.originalSupport),//送原片
+          PhysicalSupport: $.trim(this.state.physicalSupport),//提供实体产品
+          PhysicalDetail: $.trim(this.state.physicalDetail),//实体产品提供详情
+          UnitCount: $.trim(this.state.unitCount),//拍摄几组
+          SceneCount: $.trim(this.state.sceneCount),//拍摄场景数量
+          PeopleCount: $.trim(this.state.peopleCount),//被拍摄人数
+          SeatCount: $.trim(this.state.seatCount),//拍摄机位
           PlaceType: this.state.placeType&&this.state.placeType.length>0?this.state.placeType.join():''//拍摄场地
         }
       }
@@ -428,19 +427,19 @@ var UploadWorks = React.createClass({
                      textClassName="col-xs-4"
                      value={this.state.plateCount}
                      updateValue={this.updatePlateCount}
-                     placeholder="请填写数字,如 1"/>
+                     placeholder="请填写数字，如 100"/>
           <TextInput ref="truingCount"
                      labelName="精修张数："
                      textClassName="col-xs-4"
                      value={this.state.truingCount}
                      updateValue={this.updateTruingCount}
-                     placeholder="请填写数字,如 1"/>
+                     placeholder="请填写数字，如 20"/>
           <TextInput ref="costumeCount"
                      labelName="服装数目："
                      textClassName="col-xs-4"
                      value={this.state.costumeCount}
                      updateValue={this.updateCostumeCount}
-                     placeholder="请填写数字,如 1"/>
+                     placeholder="请填写数字，如 2；如不提供服装请填写 0"/>
           <Switch ref="makeUpSupport"
                   label='化妆造型'
                   textOn='提供'
@@ -465,13 +464,13 @@ var UploadWorks = React.createClass({
                      textClassName="col-xs-4"
                      value={this.state.unitCount}
                      updateValue={this.updateUnitCount}
-                     placeholder="请填写数字,如 1"/>
+                     placeholder="请填写数字，如 3"/>
           <TextInput ref="sceneCount"
                      labelName="拍摄场景数量："
                      textClassName="col-xs-4"
                      value={this.state.sceneCount}
                      updateValue={this.updateSceneCount}
-                     placeholder="请填写数字,如 1"/>
+                     placeholder="请填写数字，如 3"/>
           <TextInput ref="peopleCount"
                      labelName="被拍摄人数："
                      textClassName="col-xs-4"
@@ -484,7 +483,7 @@ var UploadWorks = React.createClass({
                      value={this.state.seatCount}
                      updateValue={this.updateSeatCount}
                      placeholder="请填写数字,如 1"/>
-          <Checkbox labelName="拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
+          <Checkbox labelName="（必填）拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
           <TextInput ref="service"
                      type="textarea"
                      value={this.state.service}
@@ -511,4 +510,4 @@ var UploadWorks = React.createClass({
   }
 });
 
-module.exports = UploadWorks;
+module.exports = UploadPhotographer;
