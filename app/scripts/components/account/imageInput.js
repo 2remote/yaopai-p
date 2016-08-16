@@ -162,14 +162,12 @@ var ImageInput = React.createClass({
           <img id={this.props.uid}
             style={this.props.disabled? hide : imgStyle}
             width={this.props.width}
-            height={this.props.height}
             src={this.parseImageUrl(this.props.defaultImage)} />
         </div>
         <div style={this.props.disabled? {} : hide}>
           <img
             style={this.props.disabled? noStyle : hide}
             width={this.props.width}
-            height={this.props.height}
             src={this.parseImageUrl(this.props.defaultImage)} />
         </div>
         {progressBar}

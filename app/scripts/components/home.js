@@ -362,31 +362,23 @@ var RegisterForm = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleRegisterResult')],
   handleGetCode : function(){
     var phone = this.refs.phoneInput.getValue();
-    var isMobile;
-    //手机号码是170号段暂不验证
-    if(phone.substr(0,3)=='170') {
+    // 测试userName为手机号 /^(176|170)\d{8}$/
+    // 旧的是这样的：!validator.isMobilePhone(phone, 'zh-CN')
+    const rightReg = /^1(3|4|5|7|8)\d{9}$/;
+    if(!rightReg.test(phone)) {
+      this.props.handleHint('请输入正确的手机号码');
+      return;
+    } else{
       GetCodeActions.sendTelRegister({tel:phone});
-    } else {
-      isMobile = validator.isMobilePhone(phone,'zh-CN')
-      if(isMobile> 0){
-        GetCodeActions.sendTelRegister({tel:phone});
-      }else if(phone.length == 0){
-        this.props.handleHint('请输入手机号码');
-      }else{
-        this.props.handleHint('请输入正确的手机号码');
-      }
     }
   },
   handleRegister : function(){
     var phone = this.refs.phoneInput.getValue();
     var code = this.refs.codeInput.getValue();
     var password = this.refs.passwordInput.getValue();
-    var isMobile ;
-    if(phone.substr(0,3)=='170'){
-      isMobile = true;
-    }else{
-      isMobile = validator.isMobilePhone(phone,'zh-CN');
-    }
+    const rightReg = /^1(3|4|5|7|8)\d{9}$/;
+    var isMobile = rightReg.test(phone);
+
     if(!isMobile){
       this.props.handleHint('请输入正确的手机号码');
       return;
@@ -458,6 +450,7 @@ var RegisterForm = React.createClass({
 var Home = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History,Location],
   handleLoginResult : function(data){
+    console.log("获取到data",data);
     if(data.flag == 'login'){
       if(data.hintMessage){
         this.handleHint(data.hintMessage);

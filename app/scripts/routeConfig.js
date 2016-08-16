@@ -24,8 +24,13 @@ export const ROUTE_AUTH_PHOTOGRAPHER = '/auth/p' // 认证-摄影师
 export const ROUTE_AUTH_MAKEUPARTIST = '/auth/a' // 认证-化妆师
 export const ROUTE_AUTH_MOTE = '/auth/m' // 认证-模特
 export const ROUTE_AUTH_RESULT = '/auth/result' // 认证-结果
-/* Album */
-export const ROUTE_ALBUM_UPLOAD = '/album/upload' // 作品上传
-export const ROUTE_ALBUM_DETAIL = '/album/detail' // 作品详情
+/* upload */
+export const ROUTE_UPLOAD_SUMMARY = '/upload'
+export const ROUTE_UPLOAD_PHOTOGRAPHER = '/upload/photographer' // 摄影师作品上传
+export const ROUTE_UPLOAD_MOTE = '/upload/mote'          // 模特作品上传
+export const ROUTE_UPLOAD_DRESSER = '/upload/dresser'      // 化妆师作品上传
+export const ROUTE_UPLOAD_PHOTOGRAPHER_DETAIL = '/upload/photographer/detail' // 摄影师作品详情
+export const ROUTE_UPLOAD_MOTE_DETAIL = '/upload/mote/detail' // 模特作品详情
+export const ROUTE_UPLOAD_DRESSER_DETAIL = '/upload/dresser/detail' // 化妆师作品详情
 /* Order */
 export const ROUTE_ORDER = '/order' // TODO: 订单

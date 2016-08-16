@@ -269,3 +269,12 @@ a.active {
 .progress-bar {
   background-color:#282828!important;
 }
+
+.tab-pane{
+  padding:50px 0 0 0;
+}
+
+.center-block{
+  height:100%!important;
+  min-height:300px!important;
+}

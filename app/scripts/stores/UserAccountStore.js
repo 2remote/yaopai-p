@@ -67,6 +67,9 @@ const fillUserBasicInfo = function(self, tokens, userInfo) {
   if(userInfo.NickName) {
     self.basic.nickname = userInfo.NickName
   }
+  self.isPhotographerApply = userInfo.IsPhotographerApply
+  self.isMoteApply = userInfo.IsMoteApply
+  self.isMakeupArtistApply = userInfo.IsMakeupArtistApply
   self.basic.gender = convertGender(userInfo.Sex)
   self.basic.avatar = userInfo.Avatar
   self.basic.signature = userInfo.Signature
@@ -117,6 +120,9 @@ const UserAccountStore = Reflux.createStore({
       isLogin: false,
       loginToken: '',
       sessionToken: '',
+      isPhotographerApply: false,
+      isMoteApply: false,
+      isMakeupArtistApply: false,
       basic: {
         type: USERACCOUNT_TYPE_DEFAULT,
         professions: {

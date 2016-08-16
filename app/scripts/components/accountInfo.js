@@ -140,7 +140,7 @@ var ModifyPassword = React.createClass({
   }
 });
 
-// var ThirdPartLogin = React.createClass({
+// var ThirdPartLogin = React.createClassName({
 //   render : function(){
 //     var style = {
 //       title: {
@@ -179,20 +179,20 @@ var ModifyPassword = React.createClass({
 //       }
 //     };
 //     return(
-//       <div className="form-group">
-//         <div className="row" style={style.title}>
-//           <div className="col-xs-3">
-//             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
-//             <label className="control-label" style={style.label}>第三方登录</label>
+//       <div classNameName="form-group">
+//         <div classNameName="row" style={style.title}>
+//           <div classNameName="col-xs-3">
+//             <span classNameName="glyphicon glyphicon-user" aria-hidden="true"></span>
+//             <label classNameName="control-label" style={style.label}>第三方登录</label>
 //           </div>
 //         </div>
-//         <div className="row">
-//           <div className="col-xs-6" style={style.words}>
+//         <div classNameName="row">
+//           <div classNameName="col-xs-6" style={style.words}>
 //             <h5>应用</h5>
 //             <p style={[style.weibo, style.lineH]}>新浪微博</p>
 //             <p style={[style.wechat, style.lineH]}>微信</p>
 //           </div>
-//           <div className="col-xs-6">
+//           <div classNameName="col-xs-6">
 //             <h5>状态</h5>
 //             <p style={style.lineH}>
 //               <Button style={style.removeButton}>已绑定</Button>
@@ -220,22 +220,15 @@ var AccountInfo = React.createClass({
     };
     return (
       <div style={style.outer}>
-        <InfoHeader infoTitle="修改密码" infoIconClass="glyphicon glyphicon-cog"/>
         <form className='form-horizontal'>
           <UserPhone />
           <ModifyPassword />
           {/*<ThirdPartLogin />*/}
         </form>
       </div>
-      // <Panel>
-      //     <InfoHeader />
-      //     <form className='form-horizontal'>
-      //       <ModifyPassword />
-      //     </form>
-      //     <ThirdPartLogin />
-      // </Panel>
     );
   }
 });
 
 module.exports = AccountInfo;
+

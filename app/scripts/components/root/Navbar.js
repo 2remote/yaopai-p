@@ -3,7 +3,7 @@ import Reflux from 'reflux'
 import { Link, History } from 'react-router'
 
 import {
-  ROUTE_ROOT, ROUTE_MAIN, ROUTE_AUTH, ROUTE_ALBUM_UPLOAD,
+  ROUTE_ROOT, ROUTE_MAIN, ROUTE_AUTH, ROUTE_UPLOAD_SUMMARY,
   ROUTE_ACCOUNT_PASSWORD, ROUTE_ACCOUNT_INFO, ROUTE_ACCOUNT_MOTE,
 } from '../../routeConfig'
 
@@ -56,13 +56,13 @@ const Navbar = React.createClass({
           <div className="collapse navbar-collapse" id="header-nav">
             <ul className="nav navbar-nav">
               {/*我的主页*/}
-              <NavMenuItem target={ ROUTE_MAIN } icon="glyphicon glyphicon-home" text="我的主页" visible={ true }/>
+              <NavMenuItem target={ ROUTE_MAIN } icon="glyphicon glyphicon-home" text="返回主页" visible={ true }/>
               {/*入驻邀拍*/}
               {/*<NavMenuItem target={ ROUTE_AUTH } icon="glyphicon glyphicon-camera" text="入驻邀拍" visible={ true } />*/}
               {/*作品上传：visible={ this.state.currentUser.basic.professions.photographer }*/}
               {/*<NavMenuItem target={ ROUTE_ALBUM_UPLOAD } icon="glyphicon glyphicon-upload" text="上传作品" visible={ this.props.photographerAuthed } />*/}
               {/*修改密码*/}
-              <NavMenuItem target={ ROUTE_ACCOUNT_PASSWORD } icon="glyphicon glyphicon-cog" text="修改密码" visible={ true } />
+              {/*<NavMenuItem target={ ROUTE_ACCOUNT_PASSWORD } icon="glyphicon glyphicon-cog" text="修改密码" visible={ true } />*/}
               {/*账户设置*/}
               {/* <NavMenuItem target={ ROUTE_ACCOUNT_INFO } icon="glyphicon glyphicon-cog" text="个人信息" visible={ true } />*/}
               {/* TODO: 模特信息录入-临时 */}
@@ -72,7 +72,7 @@ const Navbar = React.createClass({
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a onClick={ this.props.logout }>
-                  <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出系统
+                  <span className="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出登录
                 </a>
               </li>
             </ul>
