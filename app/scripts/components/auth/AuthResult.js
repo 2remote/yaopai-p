@@ -1,8 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router'
+import {
+  ROUTE_AUTH_PHOTOGRAPHER,
+  ROUTE_AUTH_MAKEUPARTIST,
+  ROUTE_AUTH_MOTE,
+  ROUTE_UPLOAD_SUMMARY,
+  ROUTE_UPLOAD_PHOTOGRAPHER,
+  ROUTE_UPLOAD_MOTE,
+  ROUTE_UPLOAD_DRESSER,
+} from '../../routeConfig'
 
 const AuthResult = React.createClass({
   render: function() {
+    const target = this.props.authTarget
+    let routeSpecific =
+      target === ROUTE_AUTH_PHOTOGRAPHER ? ROUTE_UPLOAD_PHOTOGRAPHER :
+      target === ROUTE_AUTH_MAKEUPARTIST ? ROUTE_UPLOAD_DRESSER :
+      target === ROUTE_AUTH_MOTE ? ROUTE_UPLOAD_MOTE : ROUTE_UPLOAD_SUMMARY
+    // TODO: 临时抹掉上面的判断，等摄影师和化妆师可以上传的时候就删掉这个了
+    routeSpecific = ROUTE_UPLOAD_SUMMARY
     return (
       <div className="text-center">
         <i className="icon renzheng" style={{
@@ -20,7 +36,7 @@ const AuthResult = React.createClass({
             margin: 'auto',
             width: 220,
           }}>
-          <Link to="/account/upload" className="btn btn-block btn-default">上传作品</Link>
+          <Link to={ routeSpecific } className="btn btn-block btn-default">上传作品</Link>
         </div>
       </div>
     );
