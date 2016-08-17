@@ -39,6 +39,12 @@ const AlbumList = React.createClass({
       AlbumAction.fetch(userId)
     }
   },
+  componentDidMount() {
+    const userId = this.props.userId
+    if(userId && this.state.album.status === ALBUM_NOT_FETCHED) {
+      AlbumAction.fetch(userId)
+    }
+  },
   moveAlbum: function(albumId, step) {
     let { onSaleList, offSaleList } = this.state.album
     let targetList
