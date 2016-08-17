@@ -5,7 +5,7 @@ import NF404 from './components/root/404'
 var Home = require('./components/home')
 var PersonInfo = require('./components/personInfo')
 var AccountInfo = require('./components/accountInfo')
-var AlbumSummary = require('./components/albumSummary')
+var AlbumSummary = require('./components/AlbumSummary')
 var UploadPhotographer = require('./components/uploadPhotographer')
 //var UploadMote = require('./components/uploadMote')
 //var UploadDresser = require('./components/uploadDresser')
