@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var ProgressBar = require('react-bootstrap').ProgressBar;
 var TextInput = require('./textInput');
 var Reflux = require('reflux');
@@ -98,19 +97,19 @@ var ImageItem = React.createClass({
             </div>
           </div>
           <div className="main-image">
-            <img ref={'image_'+this.props.index} height="75" width="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
+            <img ref={'image_'+this.props.index} width="75" height="75" src={this.props.imageData.Url?this.imageMogr2(this.props.imageData.Url):''} alt="上传图片"/>
           </div>
           <div className="main-des">
             <textarea ref="description" type="textarea" onChange={this.handleChange} className="col-xs-12"  placeholder="照片描述" />
           </div>
           <div className="delete-button">
-            <div className="right-icon">
+            {/* <div className="right-icon">
               <span className="glyphicon glyphicon-picture image-button"
                 style={this.props.imageData.isCover?coverStyle:normalStyle}
                 onClick={this.setCover}>
                 封面
               </span>
-            </div>
+            </div> */}
             <div className="right-icon">
               <span className="glyphicon glyphicon-remove-circle image-button"
               style={normalStyle}  onClick={this.deleteItem}>
@@ -302,24 +301,14 @@ var ChooseImages = React.createClass({
     }.bind(this));
     return (
       <div className="form-group">
-        <label className="control-label col-xs-3">上传图片：</label>
+        <label className="control-label col-xs-3">上传样片 (至少6张)：</label>
         <div id="pickfilesCont" className="col-xs-8">
           <div>
-            <img id="pickfiles" className="image-button uploader-img" width="80" heigth="80" src="img/tianjia.png" />
+            <img id="pickfiles" className="image-button uploader-img" width="140" src="img/tianjia.png" />
           </div>
-          <ReactCSSTransitionGroup ref="itemsContainer"
-            className="workList"
-            transitionName="workItem"
-            transitionEnterTimeout={250}
-            transitionLeaveTimeout={250}
-          >
+
             {renderImages}
-          </ReactCSSTransitionGroup>
-          <div>
-            作品上传注意事项<br />
-            1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
-            2、建议不要将多图排版编辑到一张图片中
-          </div>
+          
         </div>
       </div>
     );

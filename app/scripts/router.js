@@ -5,7 +5,10 @@ import NF404 from './components/root/404'
 var Home = require('./components/home')
 var PersonInfo = require('./components/personInfo')
 var AccountInfo = require('./components/accountInfo')
-var UploadWorks = require('./components/uploadWorks')
+var AlbumSummary = require('./components/AlbumSummary')
+var UploadPhotographer = require('./components/uploadPhotographer')
+//var UploadMote = require('./components/uploadMote')
+//var UploadDresser = require('./components/uploadDresser')
 var OrderManager = require('./components/orderManager')
 var Albums = require('./components/albums/index')
 var Provision = require('./components/provision')
@@ -47,8 +50,11 @@ const routes = (
       {/* ****************TODO: 订单信息**************** */}
 			{/*<Route path="order/:type/:state" component={ OrderManager } />*/}
       {/* ****************作品信息**************** */}
-      <Route path="album">
-        <Route path="upload" component={ UploadWorks } />
+      <Route path="upload">
+        <IndexRoute component={ AlbumSummary } comment="上传总览" />
+        <Route path="photographer" component={ UploadPhotographer } comment="摄影师作品上传"/>
+        { /*<Route path="mote" component={ UploadMote } comment="模特作品上传"/> */}
+        { /*<Route path="dresser" component={ UploadDresser } comment="化妆师作品上传"/> */}
       </Route>
       {/* ****************认证信息**************** */}
       <Route path="auth" component={ AuthContainer } comment="认证信息">

@@ -39,6 +39,12 @@ const AlbumList = React.createClass({
       AlbumAction.fetch(userId)
     }
   },
+  componentDidMount() {
+    const userId = this.props.userId
+    if(userId && this.state.album.status === ALBUM_NOT_FETCHED) {
+      AlbumAction.fetch(userId)
+    }
+  },
   moveAlbum: function(albumId, step) {
     let { onSaleList, offSaleList } = this.state.album
     let targetList
@@ -78,6 +84,16 @@ const AlbumList = React.createClass({
   onImgError: function (obj) {
     obj.target.src = "../../../img/loaderror.png"
   },
+  workState : function(state){
+    switch (state){
+      case 0 :
+        return {style:{background:'#FFAB1F',color:'#fff'},state:'未审核'}
+      case 1 :
+        return {style:{background:'#38BC59',color:'#fff'},state:'审核成功'}
+      case 2 :
+        return {style:{background:'#D4482E',color:'#fff'},state:'审核失败'}
+    }
+  },
   render: function() {
     let self = this
     let albumInfo = ''
@@ -96,16 +112,33 @@ const AlbumList = React.createClass({
     } else { // unknown filter
       list = []
     }
+
     if(list && list.length > 0) {
       albumInfo = list.map((work, index) => (
-          <div key={ index } style={{ border: '1px solid #F6F6F6', marginBottom: 15 }}>
+
+          <div key={ index } style={{ border: '1px solid #efefef', marginBottom: 15, position: 'relative' }}>
+            <span className="albumList-state" style={self.workState(work.state).style}>{self.workState(work.state).state}</span>
             <Link to={ '/albums/' + work.id }>
-              <img width='300' height='150' src={ work.cover + '?imageView2/2/w/300/interlace/1' } onError={ self.onImgError }/>
+              <img width='300' height='200' src={ work.cover + '?imageView2/2/w/300/interlace/1' } onError={ self.onImgError }/>
             </Link>
+
+
             <div className="albumList-group">
               <a className="albumList-left" onClick={ e => self.moveAlbum(work.id, -1) }>前移</a>
               <a className="albumList-right" onClick={ e => self.moveAlbum(work.id, 1) }>后移</a>
             </div>
+            <p style={{
+            textAlign:'left',
+            color:'#000',
+            lineHeight:'30px',
+            margin:'0px',
+            padding:'0 10px',
+            overflow:'hidden',
+            width:'300px',
+            height:'30px'
+            }}>
+              {work.title}
+            </p>
           </div>
       ))
     } else {

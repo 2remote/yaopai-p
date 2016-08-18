@@ -20,8 +20,6 @@ var UserActions = Reflux.createActions({
   autoexpires integer N 自动登陆过期时间，单位（分钟）
 */
 UserActions.login.listen(function(data) {
-  console.log("login begin");
-  //$.post(API.user_api.login_url, data).then(this.success, this.failed);
   HttpFactory.post(API.USER.login,data,this.success,this.failed);
 });
 
@@ -29,7 +27,6 @@ UserActions.login.listen(function(data) {
   用Token登录
 */
 UserActions.loginWithToken.listen(function(data){
-  console.log("begin login with token");
   HttpFactory.post(API.USER.login_with_token,data,this.success,this.failed);
 });
 
@@ -44,7 +41,6 @@ UserActions.openLogin.listen(function(data){
   得到当前用户
 */
 UserActions.currentServerUser.listen(function(data){
-  console.log('get currentUser');
   HttpFactory.post(API.USER.current_user,data,this.success,this.failed);
 });
 /*
@@ -81,10 +77,7 @@ UserActions.modifyPassword.listen(function(data){
   用户登出
 */
 UserActions.logout.listen(function(data) {
-    console.log('begin to logout!');
     HttpFactory.post(API.USER.logout,data,this.success,this.failed);
 });
-
-
 
 module.exports = UserActions;

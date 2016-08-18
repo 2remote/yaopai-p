@@ -37,6 +37,13 @@ var RightAlbumInfo = React.createClass({
   showMessage: function (message) {
     this.refs.toolTip.toShow(message);
   },
+  onRemove: function (event){
+    var album = this.props.work;
+    if (confirm("确定要删除作品?")) {
+      AlbumsActions.delete(album);
+      alert("作品删除成功!");
+    }
+  },
   render: function () {
     var style = {
       btndiv: {
@@ -83,13 +90,13 @@ var RightAlbumInfo = React.createClass({
     var tagColor = {};
     if (album.State == 0) {
       status = "未审核";
-      tagColor = { background:'#ff4932' };
+      tagColor = { background:'#FFAB1F' };
     } else if (album.State == 1) {
       status = "审核通过";
-      tagColor = { background:'#3f9f59' };
+      tagColor = { background:'#38BC59' };
     } else if (album.State == 2) {
       status = "审核失败";
-      tagColor = { background:'#ff4932' };
+      tagColor = { background:'#D4482E' };
     }
     var placeType = '';
     if (album.Detail.PlaceType && album.Detail.PlaceType.constructor == Array) {
@@ -107,17 +114,14 @@ var RightAlbumInfo = React.createClass({
       <UploadPhotoModal album={album} uploadHandle={this.props.uploadHandle} show={this.state.isImgShow} hideHandle={this.hideImgModal} showMessage={this.showMessage}/>
       <div className="detail-title">
         <span className="tag">{this.props.categories}</span>
-        <span className="tag" style={tagColor}>{status}</span>
+        <span className="tag" style={tagColor}>{status==="审核失败"?album.FoulReason?'审核失败原因:'+album.FoulReason:'':status}</span>
 
         <h2>{album.Title}</h2>
         <span className="price">￥{album.Price} 元</span>
       </div>
       <div className="cf"></div>
-
       <p className="des">
-        {_.map(album.Description.split('\n'), function (item, i) {
-        return <span key={i}>{item}</span>;
-      })}
+        {album.Description?album.Description:'暂无描述'}
       </p>
       <div className="panel">
         <h3>提供服务</h3>
@@ -151,9 +155,11 @@ var RightAlbumInfo = React.createClass({
         </ul>
       </div>
       <div className="btn-group">
-        <a className="btn btn-lg btn-block btn-default " onClick={this.showImgModal}>上传作品</a>
+        <a className="btn btn-lg btn-block btn-default " onClick={this.showImgModal}>添加作品图</a>
         <a className="btn btn-lg btn-block btn-default " onClick={this.showInfoModal}>修改信息</a>
+        <a className="btn btn-lg btn-block btn-danger " onClick={this.onRemove}>删除作品</a>
       </div>
+      <ToolTip ref="toolTip" title=""/>
     </div>
     );
   }

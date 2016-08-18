@@ -29,7 +29,8 @@ var PhoneInput = React.createClass({
     var textStyle = {
       width: '300px',
       height: '45px',
-      border: '1px solid #FFFFFF',
+      border:'0px',
+      borderBottom: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
@@ -65,7 +66,8 @@ var PasswordInput = React.createClass({
     var textStyle = {
       width: '300px',
       height: '45px',
-      border: '1px solid #FFFFFF',
+      border:'0px',
+      borderBottom: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
@@ -134,7 +136,7 @@ var LoginButtonn = React.createClass({
     var buttonStyle = {
       width : '300px',
       height : '45px',
-      backgroundColor : '#3F7BB4',
+      backgroundColor : '#282828',
       color: '#fff',
       fontSize: '20px',
       textAlign : 'center',
@@ -148,11 +150,11 @@ var LoginButtonn = React.createClass({
       lineHeight: '20px',
     };
     var ruleStyle ={
-      color : '#fff',
+      color : '#000',
       fontSize : '11px',
     };
     var openLogin = {
-      color : '#fff',
+      color : '#000',
       fontSize : '14px',
       textAlign : 'left',
       width : '300px',
@@ -164,7 +166,6 @@ var LoginButtonn = React.createClass({
     };
     return (
       <div>
-        <span style={textStyle}>点登录表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
 
         <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span><span style={{float:'right',paddingRight:'20px'}}><a onClick={this.forgotPass}>忘记密码</a></span></div>
@@ -210,7 +211,8 @@ var ValidateCodeInput = React.createClass({
     var codeStyle = {
       width: '180px',
       height: '45px',
-      border: '1px solid #FFFFFF',
+      border:'0px',
+      borderBottom: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
@@ -222,7 +224,7 @@ var ValidateCodeInput = React.createClass({
     var codeBtnStyle = {
       width : '120px',
       height : '45px',
-      border: '1px solid #FFFFFF',
+      border: '1px solid #efefef',
       display: 'block',
       boxSizing: 'border-box',
       background: 'rgba(0,0,0,0)',
@@ -263,7 +265,7 @@ var RegisterButtons = React.createClass({
     var buttonStyle = {
       width : '300px',
       height : '45px',
-      backgroundColor : '#3F7BB4',
+      backgroundColor : '#282828',
       color: '#fff',
       fontSize: '20px',
       textAlign : 'center',
@@ -277,11 +279,11 @@ var RegisterButtons = React.createClass({
       lineHeight: '20px',
     };
     var ruleStyle ={
-      color : '#fff',
+      color : '#000',
       fontSize : '11px',
     };
     var openLogin = {
-      color : '#fff',
+      color : '#000',
       fontSize : '14px',
       textAlign : 'left',
       width : '300px',
@@ -325,7 +327,6 @@ var LoginForm = React.createClass({
     var loginStyle = {
       width : '360px',
       height : '510px',
-      background: 'rgba(0,0,0,0.6)',
       margin : '0 auto',
       padding : '40px 30px 14px',
       position : 'relative',
@@ -337,8 +338,8 @@ var LoginForm = React.createClass({
     };
     var imageCenter = {
       margin : '0px auto',
-      marginBottom : '46px',
-      width: '100%',
+      marginBottom : '60px',
+      marginTop:'50px',
       height: 'auto',
     }
     var inputWrap = {
@@ -346,7 +347,7 @@ var LoginForm = React.createClass({
     }
     return (
       <div style={loginStyle}>
-        <img style={imageCenter} src="img/logo3.png" />
+        <img style={imageCenter} src="img/logo_icon.png" width="140" />
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
@@ -361,31 +362,23 @@ var RegisterForm = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleRegisterResult')],
   handleGetCode : function(){
     var phone = this.refs.phoneInput.getValue();
-    var isMobile;
-    //手机号码是170号段暂不验证
-    if(phone.substr(0,3)=='170') {
+    // 测试userName为手机号 /^(176|170)\d{8}$/
+    // 旧的是这样的：!validator.isMobilePhone(phone, 'zh-CN')
+    const rightReg = /^1(3|4|5|7|8)\d{9}$/;
+    if(!rightReg.test(phone)) {
+      this.props.handleHint('请输入正确的手机号码');
+      return;
+    } else{
       GetCodeActions.sendTelRegister({tel:phone});
-    } else {
-      isMobile = validator.isMobilePhone(phone,'zh-CN')
-      if(isMobile> 0){
-        GetCodeActions.sendTelRegister({tel:phone});
-      }else if(phone.length == 0){
-        this.props.handleHint('请输入手机号码');
-      }else{
-        this.props.handleHint('请输入正确的手机号码');
-      }
     }
   },
   handleRegister : function(){
     var phone = this.refs.phoneInput.getValue();
     var code = this.refs.codeInput.getValue();
     var password = this.refs.passwordInput.getValue();
-    var isMobile ;
-    if(phone.substr(0,3)=='170'){
-      isMobile = true;
-    }else{
-      isMobile = validator.isMobilePhone(phone,'zh-CN');
-    }
+    const rightReg = /^1(3|4|5|7|8)\d{9}$/;
+    var isMobile = rightReg.test(phone);
+
     if(!isMobile){
       this.props.handleHint('请输入正确的手机号码');
       return;
@@ -422,7 +415,6 @@ var RegisterForm = React.createClass({
     var registerStyle = {
       width : '360px',
       height : '510px',
-      background: 'rgba(0,0,0,0.6)',
       margin : '0 auto',
       padding : '40px 30px 14px',
       position : 'relative',
@@ -434,14 +426,16 @@ var RegisterForm = React.createClass({
     };
     var imageCenter = {
       margin : '0px auto',
-      marginBottom : '46px',
+      marginBottom : '20px',
+      marginTop:'50px',
+      height: 'auto',
     };
     var inputWrap = {
       marginBottom: '15px',
     }
     return (
       <div style={registerStyle}>
-        <img style={imageCenter} src="img/logo3.png" width='280'/>
+        <img style={imageCenter} src="img/logo_icon.png" width='140'/>
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
@@ -456,6 +450,7 @@ var RegisterForm = React.createClass({
 var Home = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History,Location],
   handleLoginResult : function(data){
+    console.log("获取到data",data);
     if(data.flag == 'login'){
       if(data.hintMessage){
         this.handleHint(data.hintMessage);
@@ -481,6 +476,7 @@ var Home = React.createClass({
   getInitialState : function(){
     return{
       show : 'login',
+      display : 'block',
     }
   },
   componentDidMount : function(){
@@ -497,18 +493,61 @@ var Home = React.createClass({
     this.setState({show : 'register'});
     return false;
   },
+  hidden : function(){
+    React.findDOMNode(this.refs.mask).style.display="none";
+    React.findDOMNode(this.refs.forms).style.display="none";
+  },
+  show : function(){
+    React.findDOMNode(this.refs.mask).style.display="block";
+    React.findDOMNode(this.refs.forms).style.display="block";
+  },
   render : function(){
     var bgStyle = {
       width : '100%',
       height : '100%',
-      background : 'url(img/background1.jpg) no-repeat center center',
+      background : 'url(img/bg.png) no-repeat center center',
       backgroundColor : '#777777',
       backgroundSize : 'cover',
-      position: 'fixed',
+      position: 'absolute',
       top: '0',
       left: '0',
     };
+    var container = {
+      width : '1120px',
+      margin : '0px auto'
+    };
+    var footerStyle = {
+      width : '100%',
+      background : 'rgba(0,0,0,.5)',
+      position : 'absolute',
+      bottom : '0px',
+      height : '80px'
+    };
+    var mask = {
+      background : 'rgba(0,0,0,.7)',
+      position : 'fixed',
+      height : '100%',
+      width : '100%',
+      zIndex : '999',
+      display : 'none'
+    };
+    var form = {
+      background : '#fff',
+      width:'360px',
+      height:'500px',
+      position:'absolute',
+      top:'50%',
+      marginTop:'-250px',
+      left:'50%',
+      marginLeft:'-180px',
+      borderRadius:'10px',
+      zIndex:'1000',
+      display:'none'
+    }
+
     var mainFrame ;
+
+
     if(this.state.show == 'register'){
       mainFrame = (
         <RegisterForm handleHint={this.handleHint} toLogin={this.showLogin}/>
@@ -520,8 +559,47 @@ var Home = React.createClass({
     }
     return (
       <div style={bgStyle}>
+        <div ref="forms" style={form}>
+          {mainFrame}
+        </div>
+        <div onClick={this.hidden} ref="mask" style={mask}></div>
+        <div style={container}>
+          <div>
+            <div style={{padding:'30px 0',color:'#fff'}}>
+              <a href="#">
+                <img src="img/logo.png" width="250" alt=""/>
+              </a>
+              <a style={{
+              float:'right',
+              border:'1px solid #000',
+              padding:'5px 10px',
+              borderRadius:'20px',
+              color:'#000'}} onClick={this.show}>登录 | Login</a>
+            </div>
+          </div>
+          <div style={{display:'flex',marginTop:'50px'}}>
+            <div style={{flex:1}}><img src="img/Photographer.png" draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src="img/Model.png" draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src="img/Dresser.png" draggable="false" width="350" alt=""/></div>
+          </div>
+        </div>
+
+        <div style={footerStyle}>
+          <div style={container}>
+            <a href="#" style={{lineHeight:'80px'}}>
+              <img src="./img/footer.png" width="250" alt=""/>
+            </a>
+            <a onClick={this.show} style={{
+            float:'right',
+            display:'inline-block',
+            background:'#ccac7b',
+            padding:'0 50px',
+            color:'#000',
+            boxSizing:'border-box',
+            lineHeight:'80px'}}>立即认证</a>
+          </div>
+        </div>
         <ToolTip ref="toolTip" title=""></ToolTip>
-        {mainFrame}
       </div>
     );
   }

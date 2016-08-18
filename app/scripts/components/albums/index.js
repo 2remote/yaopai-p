@@ -152,7 +152,7 @@ const Albums = React.createClass({
     var data = {
       Fields: 'Id,Title,UserId,Service,Price,CreationTime,EditingTime,Display,Description,Cover,Photos.Id,Photos.Url,State,CreationTime,EditingTime,Tags.Id,Tags.Name,' +
       'Detail.Duration,Detail.PlateCount,Detail.TruingCount,Detail.CostumeCount,Detail.MakeUpSupport,Detail.OriginalSupport,Detail.PhysicalSupport,Detail.UnitCount,Detail.SceneCount,' +
-      'Detail.PeopleCount,Detail.SeatCount,Detail.PlaceType,Detail.PhysicalDetail',
+      'Detail.PeopleCount,Detail.SeatCount,Detail.PlaceType,Detail.PhysicalDetail,FoulReason',
       Id: id,
     };
     AlbumsActions.get(data)
@@ -244,12 +244,7 @@ const Albums = React.createClass({
           }
           return (
             <div style={{width: '100%', margin: 'auto'}} key={i}>
-              <div className='imghover' style={mainStyle.prev}>
-                  <span style={mainStyle.up}>
-                    <span style={{fontSize:14,marginRight:-25,position:'absolute'}} className="icon up_icon"/>
-                    <span style={mainStyle.spanText} data-index={i} onClick={this.onMoveUp}>上移</span>
-                  </span>
-              </div>
+
               <img key={photo.Id} style={{width:'100%'}}
                    src={photo.Url+'?imageMogr2/auto-orient/thumbnail/600x/interlace/1'}/>
               <div className='imghover' style={mainStyle.description}>
@@ -258,11 +253,15 @@ const Albums = React.createClass({
                           className="icon cancel_circle_icon"/>
                     <span style={mainStyle.spanText} data-index={i} onClick={this.onRemove}>删除</span>
                   </span>
-                  <span style={coverStyle}>
+                  {/* <span style={coverStyle}>
                     <span style={{fontSize:14,marginRight:-25,position:'absolute'}} className="icon work_icon"/>
                     {cover}
-                  </span>
+                  </span> */}
                   <span style={mainStyle.down}>
+                    <span style={mainStyle.up}>
+                    <span style={{fontSize:14,marginRight:-25,position:'absolute'}} className="icon up_icon"/>
+                    <span style={mainStyle.spanText} data-index={i} onClick={this.onMoveUp}>上移</span>
+                  </span>
                     <span style={{fontSize:14,marginRight:-25,position:'absolute'}} className="icon down_icon"/>
                     <span style={mainStyle.spanText} data-index={i} onClick={this.onMoveDown}>下移</span>
                   </span>
@@ -280,6 +279,19 @@ const Albums = React.createClass({
               <div className="preview col-md-3">
                 <h2>实时预览</h2>
                 <div className="preview-list">
+                  <div style={{position:'relative'}}>
+                    <div style={{
+                    position:'absolute',
+                    background:'#282828',
+                    color:'#fff',
+                    padding:'6px 8px',
+                    top:'0px',
+                    left:'0px'
+                    }}>
+                      作品封面
+                    </div>
+                    <img src={this.state.work.Cover} width="100%" alt=""/>
+                  </div>
                   {/* 作品预览封面图列表 */}
                   <ComponentGallery
                     componentStyle={{

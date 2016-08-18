@@ -56,6 +56,7 @@ var UploadPhotoModal = React.createClass({
       data.Cut = this.state.cut;
     }
     AlbumsActions.update(data);
+    alert('上传成功!');
     this.setState({submit:true});
   },
   onStoreChanged: function (data) {
@@ -107,18 +108,16 @@ var UploadPhotoModal = React.createClass({
             <Modal.Title id="contained-modal-title-lg"></Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <InfoHeader infoTitle="作品上传" infoIconClass="glyphicon glyphicon-picture" titleImage=""/>
-
+            <InfoHeader infoTitle="作品图添加" infoIconClass="glyphicon glyphicon-picture" titleImage=""/>
             <form className='form-horizontal'>
-              <ChooseImage value={this.state.photos}
-                           ref="chooseImage"/>
-
+              <ChooseImage value={this.state.photos} ref="chooseImage"/>
             </form>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleImgSubmit}>提交</Button>
           </Modal.Footer>
         </Modal>
+        <ToolTip ref="toolTip" title=""/>
       </div>
     );
   }
