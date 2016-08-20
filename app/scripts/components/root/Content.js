@@ -8,7 +8,7 @@ import Reflux from 'reflux'
 import { History } from 'react-router'
 /* Components inside this main frame. */
 import Navbar from './Navbar'
-import UserPanel from './UserPanel'
+import UserPanel from '../../user/UserPanel'
 /* Things a container typically requires */
 import UserAccountStore from '../../stores/UserAccountStore'
 import {
