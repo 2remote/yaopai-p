@@ -126,7 +126,8 @@ var PersonInfo = React.createClass({
       editable : true
     }
   },
-  updateInfo : function(){
+  updateInfo : function(e){
+    e.preventDefault && e.preventDefault()
     var message = this.validate();
     if(!message) {
       AccountActions.updateInfo({
@@ -150,16 +151,16 @@ var PersonInfo = React.createClass({
       message = '昵称最少2个字';
       return message;
     }
+    if (!this.refs.wechat.isValidated()) {
+      message = '微信最少3位';
+      return message;
+    }
     if (!this.refs.qq.isValidated()) {
       message = 'qq最少5位';
       return message;
     }
     if (!this.refs.weibo.isValidated()) {
       message = '微博最少5位';
-      return message;
-    }
-    if (!this.refs.wechat.isValidated()) {
-      message = '微信最少3位';
       return message;
     }
   },
