@@ -247,6 +247,10 @@ var UploadPhotographer = React.createClass({
       React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus();
       return false;
     }
+    if (!this.state.placeType) {
+      this.showMessage('请选择拍摄场地');
+      return false;
+    }
     if(this.state.service && $.trim(this.state.service).length > 1000){
       this.showMessage('补充服务说明不超过1000字');
       React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
@@ -260,7 +264,8 @@ var UploadPhotographer = React.createClass({
 
     return true;
   },
-  handleSubmit : function(){
+  handleSubmit : function(e){
+    e.preventDefault && e.preventDefault()
     if(this.validate()){
       var data = {
         Title : $.trim(this.state.title),
@@ -400,7 +405,7 @@ var UploadPhotographer = React.createClass({
               <ImageOptimus
                 onUploadSucceed={ this.updateCover }
               />
-              
+
             </div>
           </div>
 
