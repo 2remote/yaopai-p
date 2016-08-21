@@ -255,17 +255,17 @@ var EditAlbumModal = React.createClass({
   showMessage : function(message){
     this.refs.toolTip.toShow(message);
   },
-  handleSubmit: function () {
+  handleSubmit: function (e) {
+    e.preventDefault && e.preventDefault()
     if (this.validate()) {
       var album = this.state.album;
       if((typeof album.Tags =='object') && album.Tags.constructor==Array){
+        // 直接动this.state里的数据么？
         album.Tags = album.Tags.map(function (item) {
           return item.Id
         }).join(',')
       }
-      console.log("begin 1");
       AlbumsActions.update(album);
-      console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});
     }
