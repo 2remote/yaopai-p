@@ -57,14 +57,10 @@ const styles = {
 
 function getStyle(status){
   switch(status){
-    case '审核通过':
-      return styles.success;
-    case '未申请':
-      return {};
-    case '审核拒绝':
-      return styles.fail;
-    case '审核中':
-      return styles.warn;
+    case '审核通过': return styles.success;
+    case '未申请': return {};
+    case '审核拒绝': return styles.fail;
+    case '审核中': return styles.warn;
   }
 }
 
@@ -123,7 +119,7 @@ var AuthSummary = React.createClass({
                   <button className="btn btn-block btn-default" style={getStyle(this.props.authPhotographer.status)} disabled="true">
                     { this.props.authPhotographer.status }
                   </button> :
-                  <a className="btn btn-block btn-default" onClick={ () => this.onClickAuthTarget('p') }>
+                  <a className="btn btn-block btn-default" onClick={ (e) => this.onClickAuthTarget(e, 'p') }>
                     { statusToHint(this.props.authPhotographer.status) }
                   </a>
                 }
@@ -164,10 +160,10 @@ var AuthSummary = React.createClass({
                 </div>
                 {
                   makeupArtistAuthed ?
-                  <button className="btn btn-block btn-default" disabled="true">
+                  <button className="btn btn-block btn-default" style={getStyle(this.props.authMakeupArtist.status)} disabled="true">
                     { this.props.authMakeupArtist.status }
                   </button> :
-                  <a className="btn btn-block btn-default" onClick={ () => this.onClickAuthTarget('a') }>
+                  <a className="btn btn-block btn-default" onClick={ (e) => this.onClickAuthTarget(e, 'a') }>
                     { statusToHint(this.props.authMakeupArtist.status) }
                   </a>
                 }
@@ -208,10 +204,10 @@ var AuthSummary = React.createClass({
                 </div>
                 {
                   moteAuthed ?
-                  <button className="btn btn-block btn-default" disabled="true">
+                  <button className="btn btn-block btn-default" style={getStyle(this.props.authMote.status)} disabled="true">
                     { this.props.authMote.status }
                   </button> :
-                  <a className="btn btn-block btn-default" onClick={ () => this.onClickAuthTarget('m') }>
+                  <a className="btn btn-block btn-default" onClick={ (e) => this.onClickAuthTarget(e, 'm') }>
                     { statusToHint(this.props.authMote.status) }
                   </a>
                 }
@@ -222,7 +218,8 @@ var AuthSummary = React.createClass({
       </div>
     )
   },
-  onClickAuthTarget: function(magic) {
+  onClickAuthTarget: function(e, magic) {
+    e.preventDefault && e.preventDefault()
     const {
       userComplete,
       realNameComplete,
