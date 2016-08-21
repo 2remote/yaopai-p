@@ -1,7 +1,7 @@
 var React = require('react');
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
-var Radium = require('radium');
+// var Radium = require('radium');
 
 var Reflux = require('reflux');
 var UserStore = require('../stores/UserStore');
@@ -231,4 +231,3 @@ var AccountInfo = React.createClass({
 });
 
 module.exports = AccountInfo;
-
