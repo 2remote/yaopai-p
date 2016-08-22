@@ -19,6 +19,7 @@ import AccountContainer from './components/account/AccountContainer'
 import BasicInfo from './components/account/info/BasicInfo'
 import DetailInfo from './components/account/info/DetailInfo'
 import MoteInfo from './components/account/info/MoteInfo'
+// import UserInfoPanel from './user/UserInfoPanel'
 /* ********************************认证******************************** */
 import AuthContainer from './components/auth/AuthContainer' // 认证容器
 import AuthSummary from './components/auth/AuthSummary' // 总览

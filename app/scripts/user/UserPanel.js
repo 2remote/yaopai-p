@@ -3,7 +3,7 @@ import Reflux from 'reflux'
 import { Link } from 'react-router'
 import QRCode from 'qrcode.react'
 
-import { ROUTE_AUTH,  ROUTE_ACCOUNT_INFO, ROUTE_UPLOAD_SUMMARY,ROUTE_ACCOUNT_PASSWORD } from '../../routeConfig'
+import { ROUTE_AUTH,  ROUTE_ACCOUNT_INFO, ROUTE_UPLOAD_SUMMARY,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
 
 const UserPanel = React.createClass({
 
