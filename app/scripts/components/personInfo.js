@@ -16,6 +16,8 @@ import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
 
+import MoteInfo from '../mote/MoteInfo'
+
 import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
 
 var UserImage = React.createClass({
@@ -333,7 +335,7 @@ var PersonInfo = React.createClass({
             </form>
           </div>
           <div className="tab-pane fade" id="m">
-            <p>暂无</p>
+            <MoteInfo />
           </div>
           <div className="tab-pane fade" id="pwd">
             <AccountInfo />
