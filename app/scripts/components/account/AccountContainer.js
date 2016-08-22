@@ -13,7 +13,7 @@ const AccountContainer = React.createClass({
     }]
     return (
       <div className="panel-body">
-        <Tab items={tabItems} />
+        {/*<Tab items={tabItems} />*/}
         { this.props.children }
       </div>
     )

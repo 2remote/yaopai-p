@@ -3,6 +3,7 @@ import { History } from 'react-router'
 import InfoHeader from './infoHeader'
 import Reflux from 'reflux'
 import UserAccountStore from '../stores/UserAccountStore'
+import { ROUTE_UPLOAD_MAKEUPARTIST } from '../routeConfig'
 
 /*
   本页面用于分角色上传作品
@@ -36,7 +37,7 @@ var AlbumSummary = React.createClass({
       alert('未提交化妆师认证或化妆师认证被拒,无法上传作品')
       return false
     }else{
-      self.history.pushState(null, '/upload/dresser')
+      self.history.pushState(null, ROUTE_UPLOAD_MAKEUPARTIST)
     }
   },
   render: function() {

@@ -70,7 +70,7 @@ const InputGroup = React.createClass({
       )
     }
     return (
-      <div className={`form-group${hasFeedback ? 'has-feedback' : ''}`}>
+      <div className={`form-group${hasFeedback ? 'has-feedback' : ''} ${horizontalInputStyle ? 'text-right' : ''}`}>
         <label htmlFor={ inputId } className={ `${horizontalLabelStyle} control-label` }>{ label }</label>
         { nameMyInput }
       </div>
