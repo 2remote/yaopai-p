@@ -256,7 +256,7 @@ var EditAlbumModal = React.createClass({
     this.refs.toolTip.toShow(message);
   },
   handleSubmit: function (e) {
-    e.preventDefault && e.preventDefault()
+    e && e.preventDefault && e.preventDefault()
     if (this.validate()) {
       var album = this.state.album;
       if((typeof album.Tags =='object') && album.Tags.constructor==Array){
@@ -265,7 +265,9 @@ var EditAlbumModal = React.createClass({
           return item.Id
         }).join(',')
       }
+      console.log("begin 1");
       AlbumsActions.update(album);
+      console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});
     }
