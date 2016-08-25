@@ -488,7 +488,7 @@ var UploadPhotographer = React.createClass({
                      value={this.state.seatCount}
                      updateValue={this.updateSeatCount}
                      placeholder="请填写数字,如 1"/>
-          <Checkbox labelName="（必填）拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
+          <Checkbox labelName="拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
           <TextInput ref="service"
                      type="textarea"
                      value={this.state.service}
