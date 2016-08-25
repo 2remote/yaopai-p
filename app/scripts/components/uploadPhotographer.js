@@ -256,7 +256,7 @@ var UploadPhotographer = React.createClass({
       React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt($.trim(this.state.price)) || parseInt(this.state.price) <= 1){
+    if(!validator.isFloat($.trim(this.state.price)) || parseFloat(this.state.price) <= 1){
       this.showMessage('价格仅限大于1的数字,且不能为空');
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;

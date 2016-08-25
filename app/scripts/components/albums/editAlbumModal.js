@@ -244,7 +244,7 @@ var EditAlbumModal = React.createClass({
       React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt($.trim(this.state.album.Price)) || parseInt($.trim(this.state.album.Price)) <= 1){
+    if(!validator.isFloat($.trim(this.state.album.Price)) || parseFloat($.trim(this.state.album.Price)) <= 1){
       this.showMessage('价格仅限大于1的数字,且不能为空');
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;
