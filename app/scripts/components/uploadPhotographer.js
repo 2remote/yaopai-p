@@ -399,7 +399,7 @@ var UploadPhotographer = React.createClass({
             placeholder="名称应该在1-20字之间"/>
           <div className="form-group" ref="cover">
             <div className="col-xs-3 text-right">
-              <label className="control-label">上传封面：</label>
+              <label className="control-label">上传封面：<br />（宽度不得超过2000）</label>
             </div>
             <div className="col-xs-8">
               <ImageOptimus
