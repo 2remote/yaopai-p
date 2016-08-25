@@ -159,30 +159,7 @@ var EditAlbumModal = React.createClass({
     this.setState({album: album});
   },
   validate: function () {
-    if ($.trim(this.state.album.Title).length < 1 || $.trim(this.state.album.Title).length > 20) {
-      this.props.showMessage('作品名称必须在1-20字之间');
-      return false;
-    }
-    if(!this.state.album.Description){
-      this.props.showMessage("作品描述不能为空");
-      return false;
-    }
-    if (this.state.album.Description.length < 15 || this.state.album.Description.length > 1000) {
-      this.props.showMessage('作品描述必须在15-1000字之间');
-      return false;
-    }
-    if (this.state.album.Service && this.state.album.Service.length > 1000) {
-      this.props.showMessage('补充说明不超过1000字');
-      return false;
-    }
-    if (!validator.isInt(this.state.album.Price) && parseInt(this.state.album.Price) > 0) {
-      this.props.showMessage('如果填写价格，必须为数字');
-      return false;
-    }
-    //====================
 
-
-    console.log("validata",this.state.album);
     if($.trim(this.state.album.Title).length < 1 || $.trim(this.state.album.Title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
@@ -244,8 +221,8 @@ var EditAlbumModal = React.createClass({
       React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt($.trim(this.state.album.Price)) || parseInt($.trim(this.state.album.Price)) <= 1){
-      this.showMessage('价格仅限大于1的数字,且不能为空');
+    if(!validator.isFloat($.trim(this.state.album.Price)) || parseFloat($.trim(this.state.album.Price)) < 1){
+      this.showMessage('价格仅限大于等于1的数字,且不能为空');
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;
     }
@@ -326,8 +303,8 @@ var EditAlbumModal = React.createClass({
             <div style={{fontSize:'12px',lineHeight:'30px',background:'#D4482E',color:'#fff',padding:'15px 20px',margin: '-30px 0 30px 0'}}>
               <b>作品上传注意事项</b><br />
               1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
-              2、每套作品至少上传 6 张图片,单张图片不能超过 10M<br />
-              3、建议不要将多图排版编辑到一张图片中
+              2、每套作品至少上传 6 张图片，单张图片不能超过 10M；建议不要将多图排版编辑到一张图片中<br />
+              3、除「补充服务说明 」为非必填项外，其他都为必填项， 请认真填写服务详情，方便客户的选择和预约
             </div>
             <form className='form-horizontal'>
               <TextInput ref="workName"
@@ -338,10 +315,9 @@ var EditAlbumModal = React.createClass({
                          placeholder="名称应该在1-20字之间"/>
               <div className="form-group" ref="cover">
                 <div className="col-xs-3 text-right">
-                  <label className="control-label">上传封面：</label>
+                  <label className="control-label">上传封面：<br />（宽度不得超过2000）</label>
                 </div>
                 <div className="col-xs-8">
-
                   <ImageOptimus
                     onUploadSucceed={ this.updateCover } cover={ this.state.album.Cover }
                   />
@@ -425,7 +401,7 @@ var EditAlbumModal = React.createClass({
                          value={this.state.album.Detail.SeatCount}
                          updateValue={this.updateSeatCount}
                          placeholder="请填写数字,如 1"/>
-              <Checkbox labelName="（必填）拍摄场地：" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
+              <Checkbox labelName="拍摄场地：" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
               <TextInput ref="service"
                          type="textarea"
                          value={this.state.album.Service}
