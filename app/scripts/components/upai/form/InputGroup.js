@@ -30,6 +30,8 @@ const supportedInputTypes = {
   textarea: 0,
   /* not for input */
   static: 1,
+  /* use props.children */
+  children: 1,
 }
 
 const InputGroup = React.createClass({
@@ -61,6 +63,9 @@ const InputGroup = React.createClass({
     )
     if(type === 'static') {
       nameMyInput = <p className="form-control-static">{ staticContent }</p>
+    }
+    if(type === 'children')  {
+      nameMyInput = this.props.children
     }
     if(horizontalInputStyle) {
       nameMyInput = (
