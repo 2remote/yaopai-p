@@ -315,7 +315,7 @@ var EditAlbumModal = React.createClass({
                          placeholder="名称应该在1-20字之间"/>
               <div className="form-group" ref="cover">
                 <div className="col-xs-3 text-right">
-                  <label className="control-label">上传封面：</label>
+                  <label className="control-label">上传封面：<br />（宽度不得超过2000）</label>
                 </div>
                 <div className="col-xs-8">
                   <ImageOptimus
@@ -401,7 +401,7 @@ var EditAlbumModal = React.createClass({
                          value={this.state.album.Detail.SeatCount}
                          updateValue={this.updateSeatCount}
                          placeholder="请填写数字,如 1"/>
-              <Checkbox labelName="（必填）拍摄场地：" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
+              <Checkbox labelName="拍摄场地：" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
               <TextInput ref="service"
                          type="textarea"
                          value={this.state.album.Service}
