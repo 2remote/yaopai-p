@@ -159,30 +159,7 @@ var EditAlbumModal = React.createClass({
     this.setState({album: album});
   },
   validate: function () {
-    if ($.trim(this.state.album.Title).length < 1 || $.trim(this.state.album.Title).length > 20) {
-      this.props.showMessage('作品名称必须在1-20字之间');
-      return false;
-    }
-    if(!this.state.album.Description){
-      this.props.showMessage("作品描述不能为空");
-      return false;
-    }
-    if (this.state.album.Description.length < 15 || this.state.album.Description.length > 1000) {
-      this.props.showMessage('作品描述必须在15-1000字之间');
-      return false;
-    }
-    if (this.state.album.Service && this.state.album.Service.length > 1000) {
-      this.props.showMessage('补充说明不超过1000字');
-      return false;
-    }
-    if (!validator.isInt(this.state.album.Price) && parseInt(this.state.album.Price) > 0) {
-      this.props.showMessage('如果填写价格，必须为数字');
-      return false;
-    }
-    //====================
 
-
-    console.log("validata",this.state.album);
     if($.trim(this.state.album.Title).length < 1 || $.trim(this.state.album.Title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
@@ -341,7 +318,6 @@ var EditAlbumModal = React.createClass({
                   <label className="control-label">上传封面：</label>
                 </div>
                 <div className="col-xs-8">
-
                   <ImageOptimus
                     onUploadSucceed={ this.updateCover } cover={ this.state.album.Cover }
                   />
