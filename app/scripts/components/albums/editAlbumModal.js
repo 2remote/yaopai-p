@@ -244,8 +244,8 @@ var EditAlbumModal = React.createClass({
       React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isFloat($.trim(this.state.album.Price)) || parseFloat($.trim(this.state.album.Price)) <= 1){
-      this.showMessage('价格仅限大于1的数字,且不能为空');
+    if(!validator.isFloat($.trim(this.state.album.Price)) || parseFloat($.trim(this.state.album.Price)) < 1){
+      this.showMessage('价格仅限大于等于1的数字,且不能为空');
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;
     }
@@ -326,8 +326,8 @@ var EditAlbumModal = React.createClass({
             <div style={{fontSize:'12px',lineHeight:'30px',background:'#D4482E',color:'#fff',padding:'15px 20px',margin: '-30px 0 30px 0'}}>
               <b>作品上传注意事项</b><br />
               1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
-              2、每套作品至少上传 6 张图片,单张图片不能超过 10M<br />
-              3、建议不要将多图排版编辑到一张图片中
+              2、每套作品至少上传 6 张图片，单张图片不能超过 10M；建议不要将多图排版编辑到一张图片中<br />
+              3、除「补充服务说明 」为非必填项外，其他都为必填项， 请认真填写服务详情，方便客户的选择和预约
             </div>
             <form className='form-horizontal'>
               <TextInput ref="workName"
