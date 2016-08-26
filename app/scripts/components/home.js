@@ -10,6 +10,7 @@ var IndexCover = require('./indexCover');
 var ToolTip = require('./toolTip');
 var API = require('../api');
 var Provision = require('./provision');
+import AuthSummary from './auth/AuthSummary'
 import { ROUTE_MAIN } from '../routeConfig'
 import { Link, History } from 'react-router'
 
@@ -476,7 +477,7 @@ var Home = React.createClass({
   getInitialState : function(){
     return{
       show : 'login',
-      display : 'block',
+      display : 'none',
     }
   },
   componentDidMount : function(){
@@ -494,12 +495,13 @@ var Home = React.createClass({
     return false;
   },
   hidden : function(){
-    React.findDOMNode(this.refs.mask).style.display="none";
-    React.findDOMNode(this.refs.forms).style.display="none";
+    this.setState({ display : 'none' });
   },
   show : function(){
-    React.findDOMNode(this.refs.mask).style.display="block";
-    React.findDOMNode(this.refs.forms).style.display="block";
+    this.setState({ display : 'block' });
+  },
+  auth : function(){
+    console.log(this.props)
   },
   render : function(){
     var bgStyle = {
@@ -529,7 +531,7 @@ var Home = React.createClass({
       height : '100%',
       width : '100%',
       zIndex : '999',
-      display : 'none'
+      display : this.state.display,
     };
     var form = {
       background : '#fff',
@@ -542,7 +544,7 @@ var Home = React.createClass({
       marginLeft:'-180px',
       borderRadius:'10px',
       zIndex:'1000',
-      display:'none'
+      display: this.state.display,
     }
 
     var mainFrame ;
@@ -559,7 +561,7 @@ var Home = React.createClass({
     }
     return (
       <div style={bgStyle}>
-        <div ref="forms" style={form}>
+        <div ref="forms" style={ form }>
           {mainFrame}
         </div>
         <div onClick={this.hidden} ref="mask" style={mask}></div>
@@ -574,7 +576,7 @@ var Home = React.createClass({
               border:'1px solid #000',
               padding:'5px 10px',
               borderRadius:'20px',
-              color:'#000'}} onClick={this.show}>登录 | Login</a>
+              color:'#000'}} onClick={this.show}>登录 | 注册</a>
             </div>
           </div>
           <div style={{display:'flex',marginTop:'50px'}}>
@@ -589,14 +591,14 @@ var Home = React.createClass({
             <a href="#" style={{lineHeight:'80px'}}>
               <img src="./img/footer.png" width="250" alt=""/>
             </a>
-            <a onClick={this.show} style={{
+            {/* <Link to={ AuthSummary } style={{
             float:'right',
             display:'inline-block',
             background:'#ccac7b',
             padding:'0 50px',
             color:'#000',
             boxSizing:'border-box',
-            lineHeight:'80px'}}>立即认证</a>
+            lineHeight:'80px'}}>立即认证</Link> */}
           </div>
         </div>
         <ToolTip ref="toolTip" title=""></ToolTip>

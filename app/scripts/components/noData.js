@@ -10,8 +10,9 @@ const NoData = React.createClass({
     var layoutStyle = {
       height : '100%',
       width: 250,
-      marginTop: 100,
+      margin: '100px 0',
       textAlign:'center',
+      position:'relative',
     };
     return (
       <div style={layoutStyle}>
