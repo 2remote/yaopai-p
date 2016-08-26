@@ -6,7 +6,7 @@ import { API_URL } from '../../api'
 const getTagConfig = (type) => {
   const tagConfig = {
     mote: {
-      url: `${API_URL}?api=MoteAlbumsTag.List`,
+      url: `${API_URL}MoteAlbumsTag.List`,
       key: `mote`,
     }
   }
@@ -21,8 +21,9 @@ const TagListAction = Reflux.createActions({
 
 TagListAction.get.listen(function(type) {
   const self = this
-  if (getTagConfig[type]) {
-    const { url, key } = getTagConfig[type]
+  const tagConfig = getTagConfig(type)
+  if (tagConfig) {
+    const { url, key } = tagConfig
     postStar(url, {
       fields: 'Id,Name,Pinyin',
       /* 以下表示不分页 */

@@ -1,4 +1,5 @@
 import Reflux from 'reflux'
+import _ from 'lodash'
 
 import TagListAction from './TagListAction'
 
@@ -8,10 +9,11 @@ const TagListStore = Reflux.createStore({
   },
   init: function() {
     this.data = {};
-    this.listenTo(TagListStore.get.success,this.onGetTagList)
+    this.listenTo(TagListAction.get.success,this.onGetTagList)
   },
   onGetTagList: function(type, list) {
     this.data[type] = list
+    this.trigger(_.cloneDeep(this.data))
   },
 })
 
