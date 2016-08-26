@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import InputGroup from '../components/upai/form/InputGroup'
 import ImageOptimus from '../components/upai/ImageOptimus'
+import TagList from '../common/TagList'
 
 const MoteUpload = React.createClass({
   render() {
@@ -39,7 +40,7 @@ const MoteUpload = React.createClass({
         {/* TODO: 四、cut 封面裁剪函数 */}
 
         {/* TODO: 五、tags 标签 */}
-        <div></div>
+        <TagList />
 
         {/* TODO: 六、photos 作品 - required */}
         <div></div>
