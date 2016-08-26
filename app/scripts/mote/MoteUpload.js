@@ -4,13 +4,23 @@ import ImageOptimus from '../components/upai/ImageOptimus'
 import TagList from '../common/TagList'
 
 const MoteUpload = React.createClass({
+  getInitialState() {
+    return {
+      tags: [],
+      photos: [],
+    }
+  },
+
+  onTagSelect(tags) {
+    this.setState({ tags })
+  },
+
   render() {
     return (
       <form className="form-horizontal">
         {/* TODO: 一、title 标题 - required */}
         <InputGroup
-          label="标题"
-          type="text"
+          label="标题" type="text"
           horizontalLabelStyle="col-xs-3"
           horizontalInputStyle="col-xs-6"
           value={this.props.title}
@@ -19,8 +29,7 @@ const MoteUpload = React.createClass({
 
         {/* TODO: 二、desc 描述 */}
         <InputGroup
-          label="描述"
-          type="text"
+          label="描述" type="text"
           horizontalLabelStyle="col-xs-3"
           horizontalInputStyle="col-xs-6"
           value={this.props.desc}
@@ -29,8 +38,7 @@ const MoteUpload = React.createClass({
 
         {/* TODO: 三、cover 封面 - required */}
         <InputGroup
-          label="封面"
-          type="children"
+          label="封面" type="children"
           horizontalLabelStyle="col-xs-3"
           horizontalInputStyle="col-xs-6"
         >
@@ -40,10 +48,19 @@ const MoteUpload = React.createClass({
         {/* TODO: 四、cut 封面裁剪函数 */}
 
         {/* TODO: 五、tags 标签 */}
-        <TagList />
+        <InputGroup
+          label="标签" type="children"
+          horizontalLabelStyle="col-xs-3"
+          horizontalInputStyle="col-xs-6"
+        >
+          <TagList
+            type="mote" gutter={5} size="normal" maxCount={3}
+            selectedTagIds={this.state.tags}
+            onTagSelect={this.onTagSelect}
+          />
+        </InputGroup>
 
         {/* TODO: 六、photos 作品 - required */}
-        <div></div>
       </form>
     )
   },
