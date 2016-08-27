@@ -143,6 +143,7 @@ a.active {
 
 .album-detail .detail-info .detail-item li{
   display:inline-block;
+  vertical-align: top;
   width:50%;
 }
 .album-detail .detail-info .btn-group{
@@ -152,14 +153,10 @@ a.active {
 
 .album-detail .detail-info .btn-group a{
   display:inline-block;
-  width:45%;
+  width:31%;
   height:40px;
   margin:0 10px 30px 0px;
 }
-
-
-
-
 .albumList-group{
   background:rgba(0,0,0,.5);
   position: absolute;
@@ -272,8 +269,4 @@ a.active {
 
 .tab-pane{
   padding:50px 0 0 0;
-}
-
-.center-block{
-
 }

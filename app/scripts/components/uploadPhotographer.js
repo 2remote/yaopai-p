@@ -181,6 +181,7 @@ var UploadPhotographer = React.createClass({
     this.setState({placeType : placeType});
   },
   validate : function(){
+    console.log("validate:======",this.state)
     if($.trim(this.state.title).length < 1 || $.trim(this.state.title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
@@ -194,9 +195,8 @@ var UploadPhotographer = React.createClass({
       this.showMessage('请至少上传 6 张作品');
       return false;
     }
-    if(!this.state.tags.length>0){
-      this.showMessage('请选择作品类别');
-      assert(this.state.tags.length > 0, 'Number of tags should bigger than 0, but we have:' + this.state.tags);
+    if(this.state.tags.length!=3){
+      this.showMessage('作品类别/可服务拍摄地/风格 标签选项不能为空');
       return false;
     }
     if($.trim(this.state.description).length < 15 || $.trim(this.state.description).length > 1000){
@@ -204,9 +204,6 @@ var UploadPhotographer = React.createClass({
       React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus();
       return false;
     }
-
-    //=====================
-
     if(this.state.duration.length <= 0){
       this.showMessage('拍摄时长不能为空');
       React.findDOMNode(this.refs.duration.refs.input.refs.input).focus();
@@ -384,7 +381,7 @@ var UploadPhotographer = React.createClass({
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="作品上传" infoIconClass="glyphicon glyphicon-picture" titleImage="" />
-        <div style={{fontSize:'12px',lineHeight:'30px',background:'#D4482E',color:'#fff',padding:'15px 20px',margin: '-30px 0 30px 0'}}>
+        <div style={{fontSize:'12px',lineHeight:'30px',background:'#f5f5f5',border:'1px dashed #e4e4e4',color:'#000',padding:'15px 20px',margin: '-15px 0 30px 0'}}>
           <b>作品上传注意事项</b><br />
           1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
           2、每套作品至少上传 6 张图片，单张图片不能超过 10M；建议不要将多图排版编辑到一张图片中<br />
@@ -411,7 +408,7 @@ var UploadPhotographer = React.createClass({
 
           <ChooseImage value={this.state.photos}
             ref="chooseImage" onError={this.showMessage}/>
-          <ChooseTags value={this.state.tags} onChange = {this.updateTags}/>
+          <ChooseTags ref="chooseTags" value={this.state.tags} onChange = {this.updateTags}/>
           <TextInput ref="workDescription"
                      type="textarea"
                      value = {this.state.description}
