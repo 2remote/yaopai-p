@@ -1,11 +1,11 @@
 import React from 'react'
-import MakeupArtistUploadForm from '../../../makeupartist/MaUploadForm'
+import MaUploadContainer from '../../../makeupartist/MaUpload'
 
 const MakeupArtistUpload = React.createClass({
   render() {
     return (
       <div>
-        <MakeupArtistUploadForm />
+        <MaUploadContainer />
       </div>
     )
   },

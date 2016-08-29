@@ -8,7 +8,11 @@ const getTagConfig = (type) => {
     mote: {
       url: `${API_URL}MoteAlbumsTag.List`,
       key: `mote`,
-    }
+    },
+    ma: {
+      url: `${API_URL}MakeupArtistAlbumsTag.List`,
+      key: `ma`,
+    },
   }
 
   return tagConfig[type]
