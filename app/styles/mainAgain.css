@@ -266,6 +266,10 @@ a.active {
   outline-offset: -2px;
 }
 
+.progress {
+  border-radius: 0;
+}
+
 .progress-bar {
   background-color:#282828!important;
 }

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import InputGroup from '../components/upai/form/InputGroup'
 import ImageOptimus from '../components/upai/ImageOptimus'
+import ImageUploader from '../temp/ImageUploader'
 import TagList from '../common/TagList'
 
 const MoteUpload = React.createClass({
@@ -15,9 +16,13 @@ const MoteUpload = React.createClass({
     this.setState({ tags })
   },
 
+  onPhotosChange(photos) {
+    this.setState({ photos })
+  },
+
   render() {
     return (
-      <form className="form-horizontal">
+      <form className="form-horizontal" onSubmit={this.props.handleSubmit}>
         {/* TODO: 一、title 标题 - required */}
         <InputGroup
           label="标题" type="text"
@@ -55,12 +60,32 @@ const MoteUpload = React.createClass({
         >
           <TagList
             type="mote" gutter={5} size="normal" maxCount={3}
-            selectedTagIds={this.state.tags}
-            onTagSelect={this.onTagSelect}
+            selectedTagIds={this.props.tags}
+            onTagSelect={this.props.updateTags}
           />
         </InputGroup>
 
         {/* TODO: 六、photos 作品 - required */}
+        <InputGroup
+          label="作品" type="children"
+          horizontalLabelStyle="col-xs-3"
+          horizontalInputStyle="col-xs-6"
+        >
+          <ImageUploader
+            onTagSelect={this.onPhotosChange}
+            maxCount={5}
+            onPhotosChange={this.props.updatePhotos}
+          />
+        </InputGroup>
+
+        {/* 七、提交按钮 */}
+        <InputGroup
+          type="children"
+          horizontalLabelStyle="col-xs-3"
+          horizontalInputStyle="col-xs-6"
+        >
+          <button type="submit" className="btn btn-lg btn-primary">提交</button>
+        </InputGroup>
       </form>
     )
   },
@@ -75,6 +100,13 @@ MoteUpload.propTypes = {
   updateDesc: PropTypes.func.isRequired,
   /* cover */
   updateCover: PropTypes.func.isRequired,
+  /* tags */
+  tags: PropTypes.list,
+  updateTags: PropTypes.func.isRequired,
+  /* photos */
+  updatePhotos: PropTypes.func.isRequired,
+  /* submit */
+  handleSubmit: PropTypes.func.isRequired,
 }
 
 const MoteUploadContainer = React.createClass({
@@ -83,6 +115,8 @@ const MoteUploadContainer = React.createClass({
       title: '',
       desc: '',
       cover: '',
+      tags: [],
+      photos: [],
     }
   },
 
@@ -92,6 +126,15 @@ const MoteUploadContainer = React.createClass({
 
   updateCover(cover) { this.setState({ cover }) },
 
+  updateTags(tags) { this.setState({ tags }) },
+
+  updatePhotos(photos) { console.log('photos', photos); this.setState({ photos }) },
+
+  handleSubmit(e) {
+    e && e.preventDefault && e.preventDefault()
+    console.log('[formData]', this.state)
+  },
+
   render() {
     return (
       <MoteUpload
@@ -100,6 +143,10 @@ const MoteUploadContainer = React.createClass({
         desc={this.state.desc}
         updateDesc={this.updateDesc}
         updateCover={this.updateCover}
+        tags={this.state.tags}
+        updateTags={this.updateTags}
+        updatePhotos={this.updatePhotos}
+        handleSubmit={this.handleSubmit}
       />
     )
   },
