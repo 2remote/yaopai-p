@@ -44,6 +44,11 @@ const MaUpload = React.createClass({
           label="标题" type="text"
           horizontalLabelStyle="col-xs-3"
           horizontalInputStyle="col-xs-6"
+          hasFeedback
+          helpText="标题长度为5到15个字符"
+          minLength={5}
+          maxLength={15}
+          required
           value={this.props.title}
           updateValue={this.props.updateTitle}
         />
@@ -128,8 +133,8 @@ MaUpload.propTypes = {
 const MaUploadContainer = React.createClass({
   getInitialState() {
     return {
-      title: '',
-      desc: '',
+      title: undefined,
+      desc: undefined,
       cover: '',
       tags: [],
       photos: [],

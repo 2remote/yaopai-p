@@ -128,8 +128,8 @@ MoteUpload.propTypes = {
 const MoteUploadContainer = React.createClass({
   getInitialState() {
     return {
-      title: '',
-      desc: '',
+      title: undefined,
+      desc: undefined,
       cover: '',
       tags: [],
       photos: [],

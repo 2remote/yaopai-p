@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react'
+import _ from 'lodash'
 /**
  * InputGroup是借用Bootstrap的思想来做一个带label的input
  * Bootstrap中的InputGroup有2种：
@@ -17,6 +18,46 @@ import React, { PropTypes } from 'react'
  * 1. validation states
  * 2. addon
 **/
+
+const INPUT_STATUS = {
+  DEFAULT: 'input_status_default',
+  SUCCESS: 'input_status_success',
+  WARNING: 'input_status_warning',
+  ERROR: 'input_status_error',
+}
+
+const feedbackStatus = (value, { min, max, required }) => {
+  if (_.isUndefined(value)) {
+    return INPUT_STATUS.DEFAULT
+  }
+  // is required?
+  if (!value && required) {
+    return INPUT_STATUS.ERROR
+  }
+  // check minimum
+  if (value && min && value.length < min ) {
+    return INPUT_STATUS.ERROR
+  }
+  // check maximum
+  if (value && max && value.length > max) {
+    return INPUT_STATUS.ERROR
+  }
+
+  return INPUT_STATUS.SUCCESS
+}
+
+const feedbackStyle = (status) => {
+  if (status === INPUT_STATUS.SUCCESS) {
+    return { formGroup: 'has-success', glyphicon: 'glyphicon-ok' }
+  }
+  if (status === INPUT_STATUS.WARNING) {
+    return { formGroup: 'has-warning', glyphicon: 'glyphicon-warning-sign' }
+  }
+  if (status === INPUT_STATUS.ERROR) {
+    return { formGroup: 'has-error', glyphicon: 'glyphicon-remove' }
+  }
+  return { formGroup: '', glyphicon: '' }
+}
 
 const supportedInputTypes = {
   text: 1,
@@ -43,24 +84,41 @@ const InputGroup = React.createClass({
       horizontalLabelStyle,
       horizontalInputStyle,
       staticContent,
-      helpText,
+      minLength,
+      maxLength,
+      required,
       hasFeedback,
+      helpText,
       value,
       updateValue,
     } = this.props
+
     if(!this.validateSupport()) {
       return null
     }
-    let nameMyInput = (
+
+    // deal with feedback
+    const feedback = feedbackStyle(feedbackStatus(value, {
+      min: minLength,
+      max: maxLength,
+      required,
+    }))
+
+    // TODO: feedback: how to add it?
+    const feedbackIcon = hasFeedback && feedback.glyphicon ? (
+      <span className={`glyphicon ${feedback.glyphicon} form-control-feedback`} aria-hidden="true" />
+    ) : null
+
+    let nameMyInput = [(
       <input className="form-control" id={ inputId } type={ type }
         value={ value }
         onChange={ e => updateValue(e.target.value, e) }
-      >
-        { helpText ? (
-          <span className="help-block">{ helpText }</span>
-        ) : null}
-      </input>
-    )
+      />
+    ), feedbackIcon, ( hasFeedback && helpText ? (
+      <span className="help-block">{ helpText }</span>
+    ) : null
+    )]
+
     if(type === 'static') {
       nameMyInput = <p className="form-control-static">{ staticContent }</p>
     }
@@ -75,7 +133,7 @@ const InputGroup = React.createClass({
       )
     }
     return (
-      <div className={`form-group${hasFeedback ? 'has-feedback' : ''}`}>
+      <div className={`form-group ${hasFeedback ? `has-feedback ${feedback.formGroup}` : ''}`}>
         <label htmlFor={ inputId } className={ `${horizontalLabelStyle} control-label` }>{ label }</label>
         { nameMyInput }
       </div>
@@ -101,11 +159,11 @@ InputGroup.propTypes = {
   horizontalLabelStyle: PropTypes.string,
   horizontalInputStyle: PropTypes.string,
   staticContent: PropTypes.string,
-  helpText: PropTypes.string,
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
   required: PropTypes.bool,
   hasFeedback: PropTypes.bool,
+  helpText: PropTypes.string,
   value: PropTypes.any,
   updateValue: PropTypes.func,
 }
