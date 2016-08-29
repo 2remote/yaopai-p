@@ -9,6 +9,8 @@ var AlbumSummary = require('./components/AlbumSummary')
 var UploadPhotographer = require('./components/uploadPhotographer')
 //var UploadMote = require('./components/uploadMote')
 // var OrderManager = require('./components/orderManager')
+//var UploadDresser = require('./components/uploadDresser')
+var OrderManager = require('./components/orderManager')
 var Albums = require('./components/albums/index')
 var Provision = require('./components/provision')
 /* ********************************首页******************************** */
@@ -17,7 +19,7 @@ import Content from './components/root/Content'
 import AccountContainer from './components/account/AccountContainer'
 import BasicInfo from './components/account/info/BasicInfo'
 import DetailInfo from './components/account/info/DetailInfo'
-import MoteInfo from './components/account/info/MoteInfo'
+// import MoteInfo from './mote/MoteInfo'
 // import UserInfoPanel from './user/UserInfoPanel'
 /* ********************************认证******************************** */
 import AuthContainer from './components/auth/AuthContainer' // 认证容器
@@ -30,7 +32,8 @@ import AuthMote from './components/auth/AuthMote' // 模特专业认证
 import AuthResult from './components/auth/AuthResult' // 结果
 /* ********************************作品上传******************************** */
 import AlbumInfo from './components/album/AlbumInfo'
-import MakeupArtistUpload from './routes/upload/makeupartist'
+import MakeupArtistUploadRouteComponent from './routes/upload/makeupartist'
+import MoteUploadRouteComponent from './routes/upload/mote'
 
 const routes = (
 	<Router>
@@ -45,7 +48,7 @@ const routes = (
 				<Route path="info" component={ PersonInfo } />
         <Route path="basic" component={ BasicInfo } />
         <Route path="detail" component={ DetailInfo } />
-        <Route path="m" component={ MoteInfo } />
+        {/* <Route path="m" component={ MoteInfo } /> */}
 				<Route path="password" component={ AccountInfo } />
 			</Route>
       {/* ****************TODO: 订单信息**************** */}
@@ -54,8 +57,8 @@ const routes = (
       <Route path="upload">
         <IndexRoute component={ AlbumSummary } comment="上传总览" />
         <Route path="photographer" component={ UploadPhotographer } comment="摄影师作品上传"/>
-        { /*<Route path="mote" component={ UploadMote } comment="模特作品上传"/> */}
-        <Route path="makeupartist" component={ MakeupArtistUpload } comment="化妆师作品上传"/>
+        <Route path="mote" component={ MoteUploadRouteComponent } comment="模特作品上传"/>
+        <Route path="makeupartist" component={ MakeupArtistUploadRouteComponent } comment="化妆师作品上传"/>
       </Route>
       {/* ****************认证信息**************** */}
       <Route path="auth" component={ AuthContainer } comment="认证信息">

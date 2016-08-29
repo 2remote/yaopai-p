@@ -36,6 +36,7 @@ var API_URL = DOMAIN + '?api=';
 
 var API_CONST = {
   DOMAIN : DOMAIN,
+  API_URL,
   USER : {
     login : API_URL + 'User.Login',
     login_with_token : API_URL + 'User.LoginWithToken',

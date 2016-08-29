@@ -178,7 +178,7 @@ body {
   -ms-flex-flow: row;
   height: 95px;
   padding: 10px 0;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
   background-color: #e5e5e5;
   -webkit-transition: all .25s;
   /* TODO: make this a move animation */

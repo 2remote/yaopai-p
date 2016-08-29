@@ -1,12 +1,16 @@
+/**
+ * 模特信息录入界面
+ * TODO: 优化成stateless组件
+ *
+ * @since 2016-08-22
+**/
 import React from 'react'
 import Reflux from 'reflux'
-import _ from 'lodash'
 /* reusable components */
-import InfoHeader from '../../infoHeader'
-import TextInput from '../textInput'
+import InputGroup from '../components/upai/form/InputGroup'
 /* store and action */
-import MoteStore from '../../../stores/professional/MoteStore'
-import MoteAction from '../../../actions/professional/MoteAction'
+import MoteStore from './MoteStore'
+import MoteAction from './MoteAction'
 
 const MoteInfo = React.createClass({
   mixins: [Reflux.connect(MoteStore, 'info')],
@@ -70,35 +74,40 @@ const MoteInfo = React.createClass({
     let { ui } = this.state
     return (
       <div className="container-fluid">
-        <InfoHeader infoTitle="模特信息补填" infoIconClass="glyphicon glyphicon-user"/>
         <form className="form-horizontal" onSubmit={ this.onSubmit }>
-          <TextInput labelName="身高(cm)"
-            type='number'
+          <InputGroup
+            type='number' label="身高(cm)"
+            horizontalLabelStyle="col-xs-3" horizontalInputStyle="col-xs-5"
             value={ ui.height } updateValue={ val => this.updateUI('height', val) }
             placeholder=""
           />
-          <TextInput labelName="体重(kg)"
-            type='number'
+          <InputGroup
+            type='number' label="体重(kg)"
+            horizontalLabelStyle="col-xs-3" horizontalInputStyle="col-xs-5"
             value={ ui.weight } updateValue={ val => this.updateUI('weight', val) }
             placeholder=""
           />
-          <TextInput labelName="胸围(cm)"
-            type='number'
+          <InputGroup
+            type='number' label="胸围(cm)"
+            horizontalLabelStyle="col-xs-3" horizontalInputStyle="col-xs-5"
             value={ ui.bust } updateValue={ val => this.updateUI('bust', val) }
             placeholder=""
           />
-          <TextInput labelName="腰围(cm)"
-            type='number'
+          <InputGroup
+            type='number' label="腰围(cm)"
+            horizontalLabelStyle="col-xs-3" horizontalInputStyle="col-xs-5"
             value={ ui.waist } updateValue={ val => this.updateUI('waist', val) }
             placeholder=""
           />
-          <TextInput labelName="臀围(cm)"
-            type='number'
+          <InputGroup
+            type='number' label="臀围(cm)"
+            horizontalLabelStyle="col-xs-3" horizontalInputStyle="col-xs-5"
             value={ ui.hip } updateValue={ val => this.updateUI('hip', val) }
             placeholder=""
           />
-          <TextInput labelName="鞋码(码)"
-            type='number'
+          <InputGroup
+            type='number' label="鞋码(码)"
+            horizontalLabelStyle="col-xs-3" horizontalInputStyle="col-xs-5"
             value={ ui.shoeSize } updateValue={ val => this.updateUI('shoeSize', val) }
             placeholder="如女鞋 38 码直接输入数字 38 即可"
           />
@@ -142,4 +151,14 @@ const MoteInfo = React.createClass({
   }
 })
 
-export default MoteInfo
+/* -------------------------------- */
+
+const MoteInfoContainer = React.createClass({
+  render() {
+    return (
+      <MoteInfo />
+    )
+  },
+})
+
+export default MoteInfoContainer

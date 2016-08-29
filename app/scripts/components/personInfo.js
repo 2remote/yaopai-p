@@ -16,7 +16,7 @@ import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
 
-import MakeUpArtistInfoForm from '../makeupartist/MaInfoForm'
+import MoteInfo from '../mote/MoteInfo'
 
 import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
 
@@ -335,7 +335,7 @@ var PersonInfo = React.createClass({
             </form>
           </div>
           <div className="tab-pane fade" id="m">
-            <MakeUpArtistInfoForm />
+            <MoteInfo />
           </div>
           <div className="tab-pane fade" id="pwd">
             <AccountInfo />
