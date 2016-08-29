@@ -33,7 +33,7 @@ const ImageUploader = React.createClass({
   notifyPhotos() {
     if (this.props.onPhotosChange) {
       const successPhotos = _.filter(this.state.photos, photo => photo.url)
-      this.props.onPhotosChange(successPhotos.map(photo => photo.url))
+      this.props.onPhotosChange(successPhotos.map(photo => _.pick(photo, ['url', 'desc'])))
     }
   },
 

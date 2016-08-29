@@ -1,14 +1,30 @@
 import React, { PropTypes } from 'react'
+import Reflux from 'reflux'
 import InputGroup from '../components/upai/form/InputGroup'
 import ImageOptimus from '../components/upai/ImageOptimus'
 import ImageUploader from '../temp/ImageUploader'
 import TagList from '../common/TagList'
+import MoteAlbumAction from './MoteAlbumAction'
+import { MoteNotifyStore, MOTE_UPLOAD_ALBUM } from './MoteNotifyStore'
 
 const MoteUpload = React.createClass({
+  mixins: [Reflux.listenTo(MoteNotifyStore, 'onMoteNotify')],
+
   getInitialState() {
     return {
       tags: [],
       photos: [],
+    }
+  },
+
+  onSuccess(notification) {
+    const { source, success, msg} = notification
+    if (source === MOTE_UPLOAD_ALBUM) {
+      if (success) {
+        alert('上传成功！')
+      } else {
+        alert('上传失败！')
+      }
     }
   },
 
@@ -133,6 +149,7 @@ const MoteUploadContainer = React.createClass({
   handleSubmit(e) {
     e && e.preventDefault && e.preventDefault()
     console.log('[formData]', this.state)
+    MoteAlbumAction.add(this.state)
   },
 
   render() {
