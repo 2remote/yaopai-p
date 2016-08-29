@@ -17,8 +17,8 @@ const MoteAlbumStore = Reflux.createStore({
   add: function(serverData) {
     console.log('serverData,' serverData)
     const self = this
-    // self.data = serverData.data
-    // self.trigger(self.data)
+    self.data = _.cloneDeep(serverData.data)
+    self.trigger(_.cloneDeep(self.data))
     console.log('cao nabaocuole')
   },
 })
