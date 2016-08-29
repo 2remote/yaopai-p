@@ -44,8 +44,16 @@ const ImageUploader = React.createClass({
    * url
   **/
   updateFiles(file) {
-    const newFileList = [_.pick(file, ['id', 'percent', 'url'])]
-    let photos = _.unionBy(newFileList, this.state.photos, 'id')
+    const cleanFile = _.pick(file, ['id', 'percent', 'url'])
+    let photos = _.cloneDeep(this.state.photos)
+
+    const idxFound = _.findIndex(photos, f => f.id === cleanFile.id)
+    if (idxFound >= 0) {
+      _.merge(photos[idxFound], cleanFile)
+    } else {
+      photos.push(cleanFile)
+    }
+
     const max = this.props.maxCount || 0
     if (max > 0) {
       photos = _.take(photos, this.props.maxCount)
