@@ -56,8 +56,9 @@ var UploadPhotographer = React.createClass({
       cover : -1,
       cut : '',
       photos : [],
-      tags : 0,
-      submit: false
+      tags : [],
+      submit: false,
+      allTags : [],
     }
   },
   isLogin: function (data) {
@@ -69,7 +70,6 @@ var UploadPhotographer = React.createClass({
   },
   onStoreChanged : function(data){
     if(data.flag == 'add'){
-      console.log(data);
       if(data.hintMessage){
         this.showMessage(data.hintMessage)
       }else{
@@ -92,7 +92,7 @@ var UploadPhotographer = React.createClass({
           cover : -1,
           cut : '',
           photos : [],
-          tags : []
+          tags : [],
         });
         //同时要清空WorkStore的数据
         this.refs.chooseImage.clearImage();
@@ -104,6 +104,10 @@ var UploadPhotographer = React.createClass({
     }
     if(data.flag == 'update'){
       //处理更新后的结果
+    }
+    if(data.flag == 'getTagList'){
+      //获取所有的标签列表值
+      this.setState({"allTags" : data.tags});
     }
   },
   onWorkStoreChange : function(data){
@@ -125,9 +129,7 @@ var UploadPhotographer = React.createClass({
     this.setState({photos : photos});
   },
   updateTags : function(tags){
-    this.setState({tags : tags}, function () {
-      console.log('updateTags:', this.state.tags);
-    });
+    this.setState({tags : tags});
   },
   updateDescription : function(des){
     this.setState({description : des});
@@ -181,7 +183,7 @@ var UploadPhotographer = React.createClass({
     this.setState({placeType : placeType});
   },
   validate : function(){
-    console.log("validate:======",this.state)
+
     if($.trim(this.state.title).length < 1 || $.trim(this.state.title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
@@ -195,10 +197,52 @@ var UploadPhotographer = React.createClass({
       this.showMessage('请至少上传 6 张作品');
       return false;
     }
-    if(this.state.tags.length!=3){
-      this.showMessage('作品类别/可服务拍摄地/风格 标签选项不能为空');
-      return false;
-    }
+
+    var tag1=[],tag2=[],tag3 =[];
+    var n1=0,n2=0,n3=0;
+
+      //获得全部标签并放入state
+      AlbumsActions.getTagList();
+      //比对state中的全部标签和已选标签
+      var selectedArr = this.state.tags;
+      var arr = this.state.allTags;
+      //获取所有标签集合tag1~3
+      for(var i=0;i<arr.length;i++){
+        for(var j=0;j<arr[i].Tags.length;j++){
+          if(i==0){
+            tag1.push(arr[i].Tags[j].Id);
+          }
+          if(i==1){
+            tag2.push(arr[i].Tags[j].Id);
+          }
+          if(i==2){
+            tag3.push(arr[i].Tags[j].Id);
+          }
+        }
+      }
+
+      //判断所选元素是否在allTags[0]数组中
+      if(selectedArr.length==0){
+        this.showMessage('请选择类别标签');
+        return false;
+      }else{
+        for(var i =0;i<selectedArr.length;i++){
+          if(tag1.indexOf(selectedArr[i])>=0){n1++;}
+          if(tag2.indexOf(selectedArr[i])>=0){n2++;}
+          if(tag3.indexOf(selectedArr[i])>=0){n3++;}
+        }
+        if(n1==0){
+          this.showMessage('请选择类别标签');
+          return false;
+        }else if(n2==0){
+          this.showMessage('请选择可服务拍摄地标签');
+          return false;
+        }else if(n3==0){
+          this.showMessage('请选择风格标签');
+          return false;
+        }
+      }
+
     if($.trim(this.state.description).length < 15 || $.trim(this.state.description).length > 1000){
       this.showMessage('作品描述必须在15-1000字之间');
       React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus();
@@ -244,7 +288,15 @@ var UploadPhotographer = React.createClass({
       React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus();
       return false;
     }
-    if (!this.state.placeType) {
+    var placeType = this.refs.placeType.state.selectedValues
+    if(placeType.length==0){
+      this.showMessage('拍摄场地不能为空');
+      return false;
+    }else if(placeType.length==1 && placeType[0]=="Null"){
+      this.showMessage('拍摄场地不能为空');
+      return false;
+    }
+    if (this.state.placeType.length==0) {6
       this.showMessage('请选择拍摄场地');
       return false;
     }
@@ -258,7 +310,6 @@ var UploadPhotographer = React.createClass({
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;
     }
-
     return true;
   },
   handleSubmit : function(e){
@@ -485,7 +536,7 @@ var UploadPhotographer = React.createClass({
                      value={this.state.seatCount}
                      updateValue={this.updateSeatCount}
                      placeholder="请填写数字,如 1"/>
-          <Checkbox labelName="拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
+          <Checkbox labelName="拍摄场地：" ref="placeType" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
           <TextInput ref="service"
                      type="textarea"
                      value={this.state.service}
