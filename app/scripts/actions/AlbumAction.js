@@ -142,9 +142,7 @@ AlbumAction.delete.listen(function(albumId) {
       id: albumId,
   }, function(data) {
     self.success(albumId);
-  }, function(error) {
-    self.error(error);
-  });
+  }, self.error);
 });
 
 /**
@@ -159,9 +157,7 @@ AlbumAction.add.listen(function(data) {
       //将上传的内容传递给store
       self.success(item);
     }
-  }, function(error) {
-    self.error(error);
-  });
+  }, self.error;);
 });
 
 module.exports = AlbumAction;
