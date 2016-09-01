@@ -11,7 +11,7 @@ var UploadPhotoModal = require('./uploadPhotoModal');
 var UserStore = require('../../stores/UserStore');
 var ToolTip = require('../toolTip');
 import { History } from 'react-router';
-import { ROUTE_LOGIN } from '../../routeConfig';
+import { ROUTE_LOGIN,ROUTE_MAIN } from '../../routeConfig';
 
 var RightAlbumInfo = React.createClass({
   mixins: [UserStore, History],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
@@ -46,7 +46,7 @@ var RightAlbumInfo = React.createClass({
     if (confirm("确定要删除作品?")) {
       AlbumAction.delete(album.Id);
       alert("作品删除成功!");
-      this.history.replaceState(null, ROUTE_LOGIN);
+      this.history.replaceState(null, ROUTE_MAIN);
     }
   },
   render: function () {

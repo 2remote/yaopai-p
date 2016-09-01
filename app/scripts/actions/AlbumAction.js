@@ -157,7 +157,7 @@ AlbumAction.add.listen(function(data) {
       //将上传的内容传递给store
       self.success(item);
     }
-  }, self.error;);
+  }, self.error);
 });
 
 module.exports = AlbumAction;
