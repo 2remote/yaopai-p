@@ -4,14 +4,17 @@ var validator = require('validator');
 var moment = require('moment');
 var Button = require('react-bootstrap').Button;
 var AlbumsActions = require('../../actions/AlbumsActions');
+import AlbumAction from '../../actions/AlbumAction'
 var AlbumsStore = require('../../stores/AlbumsStore');
 var EditAlbumModal = require('./editAlbumModal');
 var UploadPhotoModal = require('./uploadPhotoModal');
 var UserStore = require('../../stores/UserStore');
 var ToolTip = require('../toolTip');
+import { History } from 'react-router';
+import { ROUTE_LOGIN,ROUTE_MAIN } from '../../routeConfig';
 
 var RightAlbumInfo = React.createClass({
-  mixins: [UserStore],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
+  mixins: [UserStore, History],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
   getInitialState: function () {
     return {
       isImgShow: false,
@@ -39,9 +42,11 @@ var RightAlbumInfo = React.createClass({
   },
   onRemove: function (event){
     var album = this.props.work;
+    var userId = this.props.work.UserId;
     if (confirm("确定要删除作品?")) {
-      AlbumsActions.delete(album);
+      AlbumAction.delete(album.Id);
       alert("作品删除成功!");
+      this.history.replaceState(null, ROUTE_MAIN);
     }
   },
   render: function () {

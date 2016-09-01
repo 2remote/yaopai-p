@@ -66,12 +66,15 @@ var AlbumsStore = Reflux.createStore({
     this.trigger(this.data);
   },
   onGetSuccess : function(res){
+
+
     if(res.Success){
       this.data.workData = res;
     }else{
       this.data.workData = null;
     }
     this.data.flag = 'get';
+
     this.trigger(this.data);
   },
   onUpdateSuccess : function(res){

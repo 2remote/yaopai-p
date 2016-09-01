@@ -13,6 +13,7 @@ var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
 import $ from 'jquery'
+import AlbumAction from '../actions/AlbumAction';
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
@@ -22,7 +23,7 @@ var ChooseTags = require('./chooseTags');
 var Switch = require('./tools/switch');
 var Checkbox = require('./tools/checkbox');
 
-import { ROUTE_LOGIN } from '../routeConfig'
+import { ROUTE_LOGIN,ROUTE_MAIN } from '../routeConfig'
 
 import ImageOptimus from './upai/ImageOptimus'
 
@@ -96,7 +97,7 @@ var UploadPhotographer = React.createClass({
         });
         //同时要清空WorkStore的数据
         this.refs.chooseImage.clearImage();
-        this.history.replaceState(null, ROUTE_LOGIN);
+        this.history.replaceState(null, ROUTE_MAIN);
       }
     }
     if(data.flag == 'get'){
@@ -345,10 +346,9 @@ var UploadPhotographer = React.createClass({
         data['photos['+i+'].Url'] = photo.Url;
         data['photos['+i+'].Description'] = photo.Description;
       });
-
-      AlbumsActions.add(data);
+      AlbumAction.add(data);
       alert("恭喜你,上传作品成功!")
-      this.setState({submit:true});
+      this.history.replaceState(null, ROUTE_LOGIN);
     }
   },
   showMessage : function(message){
