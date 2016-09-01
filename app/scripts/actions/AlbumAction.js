@@ -75,6 +75,7 @@ var AlbumAction = Reflux.createActions({
   'onSale': { children: ['success', 'error'] },
   'offSale': { children: ['success', 'error'] },
   'sort': { children: ['success', 'error'] },
+  'delete' : {children: ['success', 'error']},
 });
 
 AlbumAction.fetch.listen(function(photographerId) {
@@ -96,7 +97,6 @@ AlbumAction.fetch.listen(function(photographerId) {
       for(let result in serverData.Result) {
         albumList.push(convertAlbum(serverData.Result[result]));
       }
-      console.log("action:======",albumList);
       self.success(albumList);
     }
   }, function(error) {
@@ -127,6 +127,20 @@ AlbumAction.sort.listen(function(ids) {
     Ids: ids,
   }, function(serverData) {
     self.success(ids);
+  }, function(error) {
+    self.error(error);
+  });
+});
+
+/**
+ * 删除作品
+ **/
+AlbumAction.delete.listen(function(albumId) {
+  let self = this;
+  postStar(API.ALBUMS.delete, {
+      id: albumId,
+  }, function(data) {
+    self.success(albumId);
   }, function(error) {
     self.error(error);
   });

@@ -451,7 +451,6 @@ var RegisterForm = React.createClass({
 var Home = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleLoginResult'),History,Location],
   handleLoginResult : function(data){
-    console.log("获取到data",data);
     if(data.flag == 'login'){
       if(data.hintMessage){
         this.handleHint(data.hintMessage);
@@ -466,10 +465,11 @@ var Home = React.createClass({
       }else{
         if(data.isLogin){
           //获取当前用户成功，跳转至指定界面
-          if(this.props.location.state && this.props.location.state.nextpage)
+          if(this.props.location.state && this.props.location.state.nextpage){
             this.history.replaceState(null,this.props.location.state.nextpage);
-          else
+          }else{
             this.history.replaceState(null, ROUTE_MAIN);
+          }
         }
       }
     }
