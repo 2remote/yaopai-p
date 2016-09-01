@@ -13,6 +13,7 @@ var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
 import $ from 'jquery'
+import AlbumAction from '../actions/AlbumAction';
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
@@ -345,10 +346,9 @@ var UploadPhotographer = React.createClass({
         data['photos['+i+'].Url'] = photo.Url;
         data['photos['+i+'].Description'] = photo.Description;
       });
-
-      AlbumsActions.add(data);
+      AlbumAction.add(data);
       alert("恭喜你,上传作品成功!")
-      this.setState({submit:true});
+      this.history.replaceState(null, ROUTE_LOGIN);
     }
   },
   showMessage : function(message){

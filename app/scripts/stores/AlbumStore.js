@@ -23,6 +23,7 @@ const AlbumStore = Reflux.createStore({
     this.listenTo(AlbumAction.fetch.success, this.updateList);
     this.listenTo(AlbumAction.sort.success, this.sort);
     this.listenTo(AlbumAction.delete.success, this.delete);
+    this.listenTo(AlbumAction.add.success,this.add);
     this.data = {
       status: ALBUM_NOT_FETCHED,
       onSaleList: [],
@@ -81,10 +82,6 @@ const AlbumStore = Reflux.createStore({
   },
 
   delete: function(albumId) {
-    //移除这个元素
-    var arr_on=[];
-    var arr_off=[];
-
     for(var i in this.data.onSaleList){
       if(this.data.onSaleList[i].id == albumId){
         this.data.onSaleList.splice(i,1);
@@ -96,9 +93,21 @@ const AlbumStore = Reflux.createStore({
         this.data.offSaleList.splice(i,1);
       }
     }
+    this.trigger(this.data);
+  },
 
+  add: function(data){
+    var onSaleItem={};
+    onSaleItem.cover=data.data.Cover
+    onSaleItem.display = true;
+    onSaleItem.id = data.res.Result;
+    onSaleItem.state = 0
+    onSaleItem.title = data.data.Title;
+
+    this.data.onSaleList.push(onSaleItem);
     this.trigger(this.data);
   }
+
 });
 
 module.exports = {

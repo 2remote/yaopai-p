@@ -76,6 +76,7 @@ var AlbumAction = Reflux.createActions({
   'offSale': { children: ['success', 'error'] },
   'sort': { children: ['success', 'error'] },
   'delete' : {children: ['success', 'error']},
+  'add' : {children: ['success', 'error']},
 });
 
 AlbumAction.fetch.listen(function(photographerId) {
@@ -141,6 +142,23 @@ AlbumAction.delete.listen(function(albumId) {
       id: albumId,
   }, function(data) {
     self.success(albumId);
+  }, function(error) {
+    self.error(error);
+  });
+});
+
+/**
+ * 添加作品
+ **/
+AlbumAction.add.listen(function(data) {
+  let self = this;
+  var item = {"data":data,"res":''};
+  postStar(API.ALBUMS.add, data, function(res) {
+    item.res = res;
+    if(res.Success){
+      //将上传的内容传递给store
+      self.success(item);
+    }
   }, function(error) {
     self.error(error);
   });
