@@ -7,7 +7,7 @@ import {
   ROUTE_UPLOAD_SUMMARY,
   ROUTE_UPLOAD_PHOTOGRAPHER,
   ROUTE_UPLOAD_MOTE,
-  ROUTE_UPLOAD_DRESSER,
+  ROUTE_UPLOAD_MAKEUPARTIST,
 } from '../../routeConfig'
 
 const AuthResult = React.createClass({
@@ -15,7 +15,7 @@ const AuthResult = React.createClass({
     const target = this.props.authTarget
     let routeSpecific =
       target === ROUTE_AUTH_PHOTOGRAPHER ? ROUTE_UPLOAD_PHOTOGRAPHER :
-      target === ROUTE_AUTH_MAKEUPARTIST ? ROUTE_UPLOAD_DRESSER :
+      target === ROUTE_AUTH_MAKEUPARTIST ? ROUTE_UPLOAD_MAKEUPARTIST :
       target === ROUTE_AUTH_MOTE ? ROUTE_UPLOAD_MOTE : ROUTE_UPLOAD_SUMMARY
     // TODO: 临时抹掉上面的判断，等摄影师和化妆师可以上传的时候就删掉这个了
     routeSpecific = ROUTE_UPLOAD_SUMMARY
