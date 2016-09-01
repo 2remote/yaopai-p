@@ -14,7 +14,7 @@ import { History } from 'react-router';
 import { ROUTE_LOGIN } from '../../routeConfig';
 
 var RightAlbumInfo = React.createClass({
-  mixins: [UserStore,History],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
+  mixins: [UserStore, History],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
   getInitialState: function () {
     return {
       isImgShow: false,
