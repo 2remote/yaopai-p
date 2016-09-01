@@ -143,6 +143,7 @@ a.active {
 
 .album-detail .detail-info .detail-item li{
   display:inline-block;
+  vertical-align: top;
   width:50%;
 }
 .album-detail .detail-info .btn-group{
@@ -152,14 +153,10 @@ a.active {
 
 .album-detail .detail-info .btn-group a{
   display:inline-block;
-  width:45%;
+  width:31%;
   height:40px;
   margin:0 10px 30px 0px;
 }
-
-
-
-
 .albumList-group{
   background:rgba(0,0,0,.5);
   position: absolute;
@@ -278,7 +275,37 @@ a.active {
   padding:50px 0 0 0;
 }
 
+
 .center-block{
   height:100%!important;
   min-height:300px!important;
+}
+
+.tip_album{
+  font-size: 12px;
+  color: #999;
+  background: #fffef5;
+  padding: 10px 20px 20px 20px;
+  line-height: 24px;
+  border: 1px dashed;
+}
+
+.tip_album ul{
+  width: 33%;
+  float: left;
+  list-style: none;
+  padding:0;
+}
+
+.tip_album:after{
+  content: '';
+  display: block;
+  height:0;
+  clear: both;
+}
+
+.tip_album h4{
+  font-size:14px;
+  font-weight:bold;
+  color: #f90;
 }

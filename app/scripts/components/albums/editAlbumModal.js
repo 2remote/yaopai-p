@@ -18,10 +18,11 @@ var EditAlbumModal = React.createClass({
   mixins: [Reflux.listenTo(AlbumsStore, 'onStoreChanged')],
   getInitialState: function () {
     return {
-      categories: null,
+      categories: [],
       show: false,
       album: null,
-      submit: false
+      submit: false,
+      allTags : [],
     }
   },
   getDefaltProps: function () {
@@ -46,8 +47,13 @@ var EditAlbumModal = React.createClass({
         this.setState(album)
       }
     }
+    if(data.flag == 'getTagList'){
+      //获取所有的标签列表值
+      this.setState({"allTags" : data.tags});
+    }
   },
   componentWillMount: function () {
+    console.log("componentWillMount:00000",this.props)
     this.setState({album: this.props.album});
   },
   componentWillReceiveProps : function (nextProps) {
@@ -68,9 +74,8 @@ var EditAlbumModal = React.createClass({
   },
   updateTags : function(tags){
     var album = this.state.album;
-    album.Tags = tags.join(',')
+    album.Tags = tags.join(',');
     this.setState({album: album});
-    console.log('updateTags:', tags);
   },
   updateCover : function(cover){
     var album = this.state.album;
@@ -159,41 +164,73 @@ var EditAlbumModal = React.createClass({
     this.setState({album: album});
   },
   validate: function () {
-    if ($.trim(this.state.album.Title).length < 1 || $.trim(this.state.album.Title).length > 20) {
-      this.props.showMessage('作品名称必须在1-20字之间');
-      return false;
-    }
-    if(!this.state.album.Description){
-      this.props.showMessage("作品描述不能为空");
-      return false;
-    }
-    if (this.state.album.Description.length < 15 || this.state.album.Description.length > 1000) {
-      this.props.showMessage('作品描述必须在15-1000字之间');
-      return false;
-    }
-    if (this.state.album.Service && this.state.album.Service.length > 1000) {
-      this.props.showMessage('补充说明不超过1000字');
-      return false;
-    }
-    if (!validator.isInt(this.state.album.Price) && parseInt(this.state.album.Price) > 0) {
-      this.props.showMessage('如果填写价格，必须为数字');
-      return false;
-    }
-    //====================
-
-
-    console.log("validata",this.state.album);
+    console.log(this.refs.placeType.state.selectedValues)
     if($.trim(this.state.album.Title).length < 1 || $.trim(this.state.album.Title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
       return false;
     }
 
-    if(!this.state.album.Tags.length>0){
-      this.showMessage('请选择作品类别');
-      assert(this.state.tags.length > 0, 'Number of tags should bigger than 0, but we have:' + this.state.tags);
-      return false;
+    //=====================
+    var tag1=[],tag2=[],tag3 =[];
+    var n1=0,n2=0,n3=0;
+
+    //获得全部标签并放入state
+    AlbumsActions.getTagList();
+    //获取已选标签数组
+    var selectedArr=[];
+    var tag = this.state.album.Tags;
+    if(typeof(tag)=="object"){
+      for(var i in tag) {
+        selectedArr.push(tag[i].Id);
+      }
+    }else{
+      var arrs = tag.split(',');
+      for(var k in arrs){
+        selectedArr.push(parseInt(arrs[k]));
+      }
     }
+
+    //比对state中的全部标签和已选标签
+    var arr = this.state.allTags;
+    //获取所有标签集合tag1~3
+    for(var i=0;i<arr.length;i++){
+      for(var j=0;j<arr[i].Tags.length;j++){
+        if(i==0){
+          tag1.push(arr[i].Tags[j].Id);
+        }
+        if(i==1){
+          tag2.push(arr[i].Tags[j].Id);
+        }
+        if(i==2){
+          tag3.push(arr[i].Tags[j].Id);
+        }
+      }
+    }
+
+    //判断所选元素是否在allTags[0]数组中
+    if(selectedArr.length==0){
+      this.showMessage('请选择类别标签');
+      return false;
+    }else{
+      for(var i =0;i<selectedArr.length;i++){
+        if(tag1.indexOf(selectedArr[i])>=0){n1++;}
+        if(tag2.indexOf(selectedArr[i])>=0){n2++;}
+        if(tag3.indexOf(selectedArr[i])>=0){n3++;}
+      }
+      if(n1==0){
+        this.showMessage('请选择类别标签');
+        return false;
+      }else if(n2==0){
+        this.showMessage('请选择可服务拍摄地标签');
+        return false;
+      }else if(n3==0){
+        this.showMessage('请选择风格标签');
+        return false;
+      }
+    }
+    //=====================
+
     if($.trim(this.state.album.Description).length < 15 || $.trim(this.state.album.Description).length > 1000){
       this.showMessage('作品描述必须在15-1000字之间');
       React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus();
@@ -239,13 +276,21 @@ var EditAlbumModal = React.createClass({
       React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus();
       return false;
     }
+    var placeType = this.refs.placeType.state.selectedValues
+    if(placeType.length==0){
+      this.showMessage('拍摄场地不能为空');
+      return false;
+    }else if(placeType.length==1 && placeType[0]=="Null"){
+      this.showMessage('拍摄场地不能为空');
+      return false;
+    }
     if(this.state.album.Service && $.trim(this.state.album.Service).length > 1000){
       this.showMessage('补充服务说明不超过1000字');
       React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
       return false;
     }
-    if(!validator.isInt($.trim(this.state.album.Price)) || parseInt($.trim(this.state.album.Price)) <= 1){
-      this.showMessage('价格仅限大于1的数字,且不能为空');
+    if(!validator.isFloat($.trim(this.state.album.Price)) || parseFloat($.trim(this.state.album.Price)) < 1){
+      this.showMessage('价格仅限大于等于1的数字,且不能为空');
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;
     }
@@ -256,7 +301,7 @@ var EditAlbumModal = React.createClass({
     this.refs.toolTip.toShow(message);
   },
   handleSubmit: function (e) {
-    e.preventDefault && e.preventDefault()
+    e && e.preventDefault && e.preventDefault()
     if (this.validate()) {
       var album = this.state.album;
       if((typeof album.Tags =='object') && album.Tags.constructor==Array){
@@ -265,7 +310,9 @@ var EditAlbumModal = React.createClass({
           return item.Id
         }).join(',')
       }
+      console.log("begin 1");
       AlbumsActions.update(album);
+      console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});
     }
@@ -321,11 +368,11 @@ var EditAlbumModal = React.createClass({
             <Modal.Title id="contained-modal-title-lg">修改信息</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div style={{fontSize:'12px',lineHeight:'30px',background:'#D4482E',color:'#fff',padding:'15px 20px',margin: '-30px 0 30px 0'}}>
+            <div style={{fontSize:'12px',lineHeight:'30px',background:'#f5f5f5',border:'1px dashed #e4e4e4',color:'#000',padding:'15px 20px',margin: '-15px 0 30px 0'}}>
               <b>作品上传注意事项</b><br />
               1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
-              2、每套作品至少上传 6 张图片,单张图片不能超过 10M<br />
-              3、建议不要将多图排版编辑到一张图片中
+              2、每套作品至少上传 6 张图片，单张图片不能超过 10M；建议不要将多图排版编辑到一张图片中<br />
+              3、除「补充服务说明 」为非必填项外，其他都为必填项， 请认真填写服务详情，方便客户的选择和预约
             </div>
             <form className='form-horizontal'>
               <TextInput ref="workName"
@@ -336,10 +383,9 @@ var EditAlbumModal = React.createClass({
                          placeholder="名称应该在1-20字之间"/>
               <div className="form-group" ref="cover">
                 <div className="col-xs-3 text-right">
-                  <label className="control-label">上传封面：</label>
+                  <label className="control-label">上传封面：<br />（宽度不得超过2000）</label>
                 </div>
                 <div className="col-xs-8">
-
                   <ImageOptimus
                     onUploadSucceed={ this.updateCover } cover={ this.state.album.Cover }
                   />
@@ -423,7 +469,7 @@ var EditAlbumModal = React.createClass({
                          value={this.state.album.Detail.SeatCount}
                          updateValue={this.updateSeatCount}
                          placeholder="请填写数字,如 1"/>
-              <Checkbox labelName="（必填）拍摄场地：" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
+              <Checkbox labelName="拍摄场地：" ref="placeType" value={placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
               <TextInput ref="service"
                          type="textarea"
                          value={this.state.album.Service}

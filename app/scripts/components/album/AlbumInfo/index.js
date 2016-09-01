@@ -39,9 +39,9 @@ var AlbumInfo = React.createClass({
           userId={ this.state.userInfo.basic.id }
           pageIndex = { this.state.pageIndex }
         />
-        <div style={{fontSize:'12px',color:'#8d8d8d'}}>
-          <hr/>
+        <div className="tip_album">
           <h4> 温馨提示：</h4>
+
           <span style={{color:'#000'}}>已上架作品</span>：由摄影师自己设置的对外公开的作品，用户可通过审核成功的已上架作品进行预约拍摄。<br/>
           <span style={{color:'#000'}}>未上架作品</span>：由摄影师自己设置的对外不公开的作品。<br/>
           <span style={{color:'#000'}}>未审核</span>：YAOPAI 平台作品上传采取「先发后审」 的审核机制，「未审核」的上架作品也可以对外公开展示。<br/>

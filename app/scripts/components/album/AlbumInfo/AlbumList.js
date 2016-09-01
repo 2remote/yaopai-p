@@ -142,7 +142,7 @@ const AlbumList = React.createClass({
           </div>
       ))
     } else {
-      albumInfo = <NoData message={ noDataMsg }/>
+      albumInfo = <div style={{padding:'100px 0'}}>{ noDataMsg }</div>
     }
     return (
       <div className="row">
