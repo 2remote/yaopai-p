@@ -21,11 +21,12 @@ const Clean = require('clean-webpack-plugin')
 /* 1. 基本常量 */
 const ROOT_PATH = path.resolve(__dirname) // 根路径
 const APP_PATH = path.resolve(ROOT_PATH, 'app') // 源码路径
+const DIST_PATH = path.resolve(ROOT_PATH, 'dist')
 const PORT = 8000
 /* 2. 决定环境的变量 */
 const TARGET = process.env.NODE_ENV // 从npm中获取目标环境
 // TODO: 从target转换成env和app信息
-const target_env = (TARGET === 'production' ? 'prod' : 'dev')
+const targetEnv = (TARGET === 'production' ? 'prod' : 'dev')
 
 // 这些变量存设置
 let common = { }// 通用
@@ -41,12 +42,12 @@ common = {
   /* 入口: entry */
   /* ================================================================ */
   entry: path.resolve(APP_PATH, 'scripts', 'app.js'),
-  exclude:path.resolve(ROOT_PATH, "node_modules"),
+  exclude: path.resolve(ROOT_PATH, 'node_modules'),
   /* ================================================================ */
   /* 输出 */
   /* ================================================================ */
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
+    path: DIST_PATH,
     filename: 'bundle.js',
   },
   /* ================================================================ */
@@ -128,7 +129,7 @@ common = {
   // },
 }
 /* 5. 开发 || 正式 */
-if (target_env === 'dev') { // dev
+if (targetEnv === 'dev') { // dev
   envConfig = {
     /* ================================================================ */
     /* 预处理: preLoader */
@@ -161,15 +162,15 @@ if (target_env === 'dev') { // dev
       hot: true,
       inline: true,
       progress: true,
-      port: PORT, // IDEA: 这个port能不能import进来？
-      // proxy: { // IDEA: 这个port能不能import进来？
+      port: PORT,
+      // proxy: {
       //   '/imgs/*': 'http://localhost:5000/',
       // },
       host: '0.0.0.0', // 允许局域网访问
     },
   }
 }
-if (target_env === 'prod') { // prod
+if (targetEnv === 'prod') { // prod
   envConfig = {
     /* ================================================================ */
     /* 入口分为app和vendor */
@@ -192,14 +193,14 @@ if (target_env === 'prod') { // prod
     /* app -> bundle.js */
     /* ================================================================ */
     output: {
-      path: path.resolve(ROOT_PATH, 'build'),
+      path: DIST_PATH,
       filename: 'bundle.js?[chunkhash]',
     },
     plugins: [
       /* ================================================================ */
       /* IDEA: 这个要不要配置成路径？ */
       /* ================================================================ */
-      new Clean(['build']),
+      new Clean([DIST_PATH]),
       /* ================================================================ */
       /* 把公用的module抽出来放进vendor里 */
       /* （然后原本bundle.js中的这些来源于vendor的module就抽出来了） */

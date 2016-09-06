@@ -308,7 +308,7 @@ var ChooseImages = React.createClass({
           </div>
 
             {renderImages}
-          
+
         </div>
       </div>
     );

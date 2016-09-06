@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var React = require('react');
+import React from  'react';
 var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
 var validator = require('validator');
