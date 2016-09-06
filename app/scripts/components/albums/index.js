@@ -12,7 +12,10 @@ import AlbumsStore from '../../stores/AlbumsStore'
 import UserStore from '../../stores/UserStore'
 
 import AlbumsActions from '../../actions/AlbumsActions'
-import UserActions from '../../actions/UserActions'
+var UserActions = require('../../actions/UserActions')
+import {
+  PhotographerAuthStore, PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_NONE
+} from '../../stores/auth/PhotographerAuthStore'
 
 import Tools from '../../tools'
 import ToolTip from '../toolTip'
@@ -157,6 +160,11 @@ const Albums = React.createClass({
     };
     AlbumsActions.get(data)
   },
+  doLogout: function() {
+    if(confirm('确定要退出系统么?')){
+      UserActions.logout(true)
+    }
+  },
   render: function () {
     var mainStyle = {
       prev: {
@@ -272,7 +280,12 @@ const Albums = React.createClass({
       }
       return (
         <div>
-          <Navbar />
+          <Navbar
+            photographerAuthed={
+            status != PHOTOGRAPHER_AUTH_NONE && status != PHOTOGRAPHER_AUTH_DEFAULT
+          }
+            logout={ this.doLogout }
+          />
           <div className="container-fluid">
             <div className="album-detail row">
               {/* 封面图预览模块 */}

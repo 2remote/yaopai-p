@@ -16,6 +16,8 @@ import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
 
+import MoteInfo from '../mote/MoteInfo'
+
 import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
 
 var UserImage = React.createClass({
@@ -323,7 +325,7 @@ var PersonInfo = React.createClass({
                          value = {this.state.Signature}
                          updateValue = {this.updateSign}
                          minLength={1}
-                         maxLength={100}
+                         maxLength={30}
                          disabled={this.state.disabled}
                          textClassName="col-xs-4"
                          defaultValue="他很懒什么都没有留下"
@@ -333,7 +335,7 @@ var PersonInfo = React.createClass({
             </form>
           </div>
           <div className="tab-pane fade" id="m">
-            <p>暂无</p>
+            <MoteInfo />
           </div>
           <div className="tab-pane fade" id="pwd">
             <AccountInfo />

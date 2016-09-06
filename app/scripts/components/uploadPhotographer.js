@@ -13,6 +13,7 @@ var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
 import $ from 'jquery'
+import AlbumAction from '../actions/AlbumAction';
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
@@ -22,7 +23,7 @@ var ChooseTags = require('./chooseTags');
 var Switch = require('./tools/switch');
 var Checkbox = require('./tools/checkbox');
 
-import { ROUTE_LOGIN } from '../routeConfig'
+import { ROUTE_LOGIN,ROUTE_MAIN } from '../routeConfig'
 
 import ImageOptimus from './upai/ImageOptimus'
 
@@ -56,8 +57,9 @@ var UploadPhotographer = React.createClass({
       cover : -1,
       cut : '',
       photos : [],
-      tags : 0,
-      submit: false
+      tags : [],
+      submit: false,
+      allTags : [],
     }
   },
   isLogin: function (data) {
@@ -69,7 +71,6 @@ var UploadPhotographer = React.createClass({
   },
   onStoreChanged : function(data){
     if(data.flag == 'add'){
-      console.log(data);
       if(data.hintMessage){
         this.showMessage(data.hintMessage)
       }else{
@@ -92,11 +93,11 @@ var UploadPhotographer = React.createClass({
           cover : -1,
           cut : '',
           photos : [],
-          tags : []
+          tags : [],
         });
         //同时要清空WorkStore的数据
         this.refs.chooseImage.clearImage();
-        this.history.replaceState(null, ROUTE_LOGIN);
+        this.history.replaceState(null, ROUTE_MAIN);
       }
     }
     if(data.flag == 'get'){
@@ -104,6 +105,10 @@ var UploadPhotographer = React.createClass({
     }
     if(data.flag == 'update'){
       //处理更新后的结果
+    }
+    if(data.flag == 'getTagList'){
+      //获取所有的标签列表值
+      this.setState({"allTags" : data.tags});
     }
   },
   onWorkStoreChange : function(data){
@@ -125,9 +130,7 @@ var UploadPhotographer = React.createClass({
     this.setState({photos : photos});
   },
   updateTags : function(tags){
-    this.setState({tags : tags}, function () {
-      console.log('updateTags:', this.state.tags);
-    });
+    this.setState({tags : tags});
   },
   updateDescription : function(des){
     this.setState({description : des});
@@ -181,6 +184,7 @@ var UploadPhotographer = React.createClass({
     this.setState({placeType : placeType});
   },
   validate : function(){
+
     if($.trim(this.state.title).length < 1 || $.trim(this.state.title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
@@ -194,19 +198,57 @@ var UploadPhotographer = React.createClass({
       this.showMessage('请至少上传 6 张作品');
       return false;
     }
-    if(!this.state.tags.length>0){
-      this.showMessage('请选择作品类别');
-      assert(this.state.tags.length > 0, 'Number of tags should bigger than 0, but we have:' + this.state.tags);
-      return false;
-    }
+
+    var tag1=[],tag2=[],tag3 =[];
+    var n1=0,n2=0,n3=0;
+
+      //获得全部标签并放入state
+      AlbumsActions.getTagList();
+      //比对state中的全部标签和已选标签
+      var selectedArr = this.state.tags;
+      var arr = this.state.allTags;
+      //获取所有标签集合tag1~3
+      for(var i=0;i<arr.length;i++){
+        for(var j=0;j<arr[i].Tags.length;j++){
+          if(i==0){
+            tag1.push(arr[i].Tags[j].Id);
+          }
+          if(i==1){
+            tag2.push(arr[i].Tags[j].Id);
+          }
+          if(i==2){
+            tag3.push(arr[i].Tags[j].Id);
+          }
+        }
+      }
+
+      //判断所选元素是否在allTags[0]数组中
+      if(selectedArr.length==0){
+        this.showMessage('请选择类别标签');
+        return false;
+      }else{
+        for(var i =0;i<selectedArr.length;i++){
+          if(tag1.indexOf(selectedArr[i])>=0){n1++;}
+          if(tag2.indexOf(selectedArr[i])>=0){n2++;}
+          if(tag3.indexOf(selectedArr[i])>=0){n3++;}
+        }
+        if(n1==0){
+          this.showMessage('请选择类别标签');
+          return false;
+        }else if(n2==0){
+          this.showMessage('请选择可服务拍摄地标签');
+          return false;
+        }else if(n3==0){
+          this.showMessage('请选择风格标签');
+          return false;
+        }
+      }
+
     if($.trim(this.state.description).length < 15 || $.trim(this.state.description).length > 1000){
       this.showMessage('作品描述必须在15-1000字之间');
       React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus();
       return false;
     }
-
-    //=====================
-
     if(this.state.duration.length <= 0){
       this.showMessage('拍摄时长不能为空');
       React.findDOMNode(this.refs.duration.refs.input.refs.input).focus();
@@ -247,7 +289,15 @@ var UploadPhotographer = React.createClass({
       React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus();
       return false;
     }
-    if (!this.state.placeType) {
+    var placeType = this.refs.placeType.state.selectedValues
+    if(placeType.length==0){
+      this.showMessage('拍摄场地不能为空');
+      return false;
+    }else if(placeType.length==1 && placeType[0]=="Null"){
+      this.showMessage('拍摄场地不能为空');
+      return false;
+    }
+    if (this.state.placeType.length==0) {6
       this.showMessage('请选择拍摄场地');
       return false;
     }
@@ -261,7 +311,6 @@ var UploadPhotographer = React.createClass({
       React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
       return false;
     }
-
     return true;
   },
   handleSubmit : function(e){
@@ -297,10 +346,9 @@ var UploadPhotographer = React.createClass({
         data['photos['+i+'].Url'] = photo.Url;
         data['photos['+i+'].Description'] = photo.Description;
       });
-
-      AlbumsActions.add(data);
+      AlbumAction.add(data);
       alert("恭喜你,上传作品成功!")
-      this.setState({submit:true});
+      this.history.replaceState(null, ROUTE_LOGIN);
     }
   },
   showMessage : function(message){
@@ -384,7 +432,7 @@ var UploadPhotographer = React.createClass({
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="作品上传" infoIconClass="glyphicon glyphicon-picture" titleImage="" />
-        <div style={{fontSize:'12px',lineHeight:'30px',background:'#D4482E',color:'#fff',padding:'15px 20px',margin: '-30px 0 30px 0'}}>
+        <div style={{fontSize:'12px',lineHeight:'30px',background:'#f5f5f5',border:'1px dashed #e4e4e4',color:'#000',padding:'15px 20px',margin: '-15px 0 30px 0'}}>
           <b>作品上传注意事项</b><br />
           1、作品名称、简述、补充说明以及每一张图片上均不能出现摄影师的微博、微信、QQ、电话等联系方式<br />
           2、每套作品至少上传 6 张图片，单张图片不能超过 10M；建议不要将多图排版编辑到一张图片中<br />
@@ -411,7 +459,7 @@ var UploadPhotographer = React.createClass({
 
           <ChooseImage value={this.state.photos}
             ref="chooseImage" onError={this.showMessage}/>
-          <ChooseTags value={this.state.tags} onChange = {this.updateTags}/>
+          <ChooseTags ref="chooseTags" value={this.state.tags} onChange = {this.updateTags}/>
           <TextInput ref="workDescription"
                      type="textarea"
                      value = {this.state.description}
@@ -488,7 +536,7 @@ var UploadPhotographer = React.createClass({
                      value={this.state.seatCount}
                      updateValue={this.updateSeatCount}
                      placeholder="请填写数字,如 1"/>
-          <Checkbox labelName="拍摄场地：" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
+          <Checkbox labelName="拍摄场地：" ref="placeType" value={this.state.placeType} data={placeTypeData} onChange = {this.updatePlaceType}/>
           <TextInput ref="service"
                      type="textarea"
                      value={this.state.service}

@@ -8,6 +8,7 @@ var AccountInfo = require('./components/accountInfo')
 var AlbumSummary = require('./components/AlbumSummary')
 var UploadPhotographer = require('./components/uploadPhotographer')
 //var UploadMote = require('./components/uploadMote')
+// var OrderManager = require('./components/orderManager')
 //var UploadDresser = require('./components/uploadDresser')
 var OrderManager = require('./components/orderManager')
 var Albums = require('./components/albums/index')
@@ -18,7 +19,7 @@ import Content from './components/root/Content'
 import AccountContainer from './components/account/AccountContainer'
 import BasicInfo from './components/account/info/BasicInfo'
 import DetailInfo from './components/account/info/DetailInfo'
-import MoteInfo from './components/account/info/MoteInfo'
+// import MoteInfo from './mote/MoteInfo'
 // import UserInfoPanel from './user/UserInfoPanel'
 /* ********************************认证******************************** */
 import AuthContainer from './components/auth/AuthContainer' // 认证容器
@@ -29,8 +30,10 @@ import AuthPhotographer from './components/auth/AuthPhotographer' // 摄影师�
 import AuthMakeupArtist from './components/auth/AuthMakeupArtist' // 化妆师专业认证
 import AuthMote from './components/auth/AuthMote' // 模特专业认证
 import AuthResult from './components/auth/AuthResult' // 结果
-/* ********************************作品******************************** */
+/* ********************************作品上传******************************** */
 import AlbumInfo from './components/album/AlbumInfo'
+import MakeupArtistUploadRouteComponent from './routes/upload/makeupartist'
+import MoteUploadRouteComponent from './routes/upload/mote'
 
 const routes = (
 	<Router>
@@ -45,17 +48,17 @@ const routes = (
 				<Route path="info" component={ PersonInfo } />
         <Route path="basic" component={ BasicInfo } />
         <Route path="detail" component={ DetailInfo } />
-        <Route path="m" component={ MoteInfo } />
+        {/* <Route path="m" component={ MoteInfo } /> */}
 				<Route path="password" component={ AccountInfo } />
 			</Route>
       {/* ****************TODO: 订单信息**************** */}
 			{/*<Route path="order/:type/:state" component={ OrderManager } />*/}
-      {/* ****************作品信息**************** */}
+      {/* ****************作品上传**************** */}
       <Route path="upload">
         <IndexRoute component={ AlbumSummary } comment="上传总览" />
         <Route path="photographer" component={ UploadPhotographer } comment="摄影师作品上传"/>
-        { /*<Route path="mote" component={ UploadMote } comment="模特作品上传"/> */}
-        { /*<Route path="dresser" component={ UploadDresser } comment="化妆师作品上传"/> */}
+        <Route path="mote" component={ MoteUploadRouteComponent } comment="模特作品上传"/>
+        <Route path="makeupartist" component={ MakeupArtistUploadRouteComponent } comment="化妆师作品上传"/>
       </Route>
       {/* ****************认证信息**************** */}
       <Route path="auth" component={ AuthContainer } comment="认证信息">
@@ -73,8 +76,7 @@ const routes = (
     {/* ****************未登录的内容**************** */}
     <Route path="/login" component={ Home } comment="登录注册" />
     <Route path="/provision" component={ Provision } comment="条款" />
-    <Route path="/404" component={ NF404 } comment="传说中的404" />
-    <Redirect from="*" to="/404" comment="我有次把它放在了/404前" />
+    <Route path="*" component={ NF404 } comment="传说中的404" />
 	</Router>
 )
 

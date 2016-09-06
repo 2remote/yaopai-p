@@ -217,15 +217,19 @@ const ImageOptimus = React.createClass({
   doUpload() {
     const self = this
     if(self.uploader) {
-      // 清空上传列表，就是这么霸道
-      self.uploader.splice()
       self.cropper.getCroppedCanvas().toBlob(function(blob) {
-        // 添加裁剪过的图片
-        self.isUploadFile = true
-        self.uploader.addFile(blob)
-        // 开始上传
-        self.uploader.start()
-        React.findDOMNode(self.refs.upload).style.display="none"
+        if (blob.size > 4000000) {
+          alert('文件尺寸过大，裁剪君做不到啊ಥ_ಥ！！请缩小宽度/高度后再裁剪')
+        } else {
+          // 清空上传列表，就是这么霸道
+          self.uploader.splice()
+          // 添加裁剪过的图片
+          self.isUploadFile = true
+          self.uploader.addFile(blob)
+          // 开始上传
+          self.uploader.start()
+          React.findDOMNode(self.refs.upload).style.display="none"
+        }
       })
     }
   },
