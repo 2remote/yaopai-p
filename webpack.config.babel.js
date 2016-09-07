@@ -99,7 +99,7 @@ common = {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
           'file?hash=sha512&digest=hex&name=[hash].[ext]',
-          'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+          'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
         ],
       },
       /* ================================================================ */
@@ -152,7 +152,7 @@ if (targetEnv === 'dev') { // dev
         // 这里写要打开的浏览器名字，若不填，会打开默认浏览器
         // Mac系统下可以选：Safari, Google Chrome, Firefox
         // browser: 'Google Chrome',
-      })
+      }),
     ],
     /* ================================================================ */
     /* 开发服务器: devServer */
