@@ -4,14 +4,17 @@ var validator = require('validator');
 var moment = require('moment');
 var Button = require('react-bootstrap').Button;
 var AlbumsActions = require('../../actions/AlbumsActions');
+import AlbumAction from '../../actions/AlbumAction'
 var AlbumsStore = require('../../stores/AlbumsStore');
 var EditAlbumModal = require('./editAlbumModal');
 var UploadPhotoModal = require('./uploadPhotoModal');
 var UserStore = require('../../stores/UserStore');
 var ToolTip = require('../toolTip');
+import { History } from 'react-router';
+import { ROUTE_LOGIN,ROUTE_MAIN } from '../../routeConfig';
 
 var RightAlbumInfo = React.createClass({
-  mixins: [UserStore],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
+  mixins: [UserStore, History],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),
   getInitialState: function () {
     return {
       isImgShow: false,
@@ -39,9 +42,11 @@ var RightAlbumInfo = React.createClass({
   },
   onRemove: function (event){
     var album = this.props.work;
+    var userId = this.props.work.UserId;
     if (confirm("确定要删除作品?")) {
-      AlbumsActions.delete(album);
+      AlbumAction.delete(album.Id);
       alert("作品删除成功!");
+      this.history.replaceState(null, ROUTE_MAIN);
     }
   },
   render: function () {
@@ -133,16 +138,16 @@ var RightAlbumInfo = React.createClass({
             <p>服装数目: {album.Detail.CostumeCount} 套</p>
             <p>化妆造型: {album.Detail.MakeUpSupport ? '提供' : '不提供'}</p>
             <p>原片提供: {album.Detail.OriginalSupport ? '全送' : '不送'}</p>
-            <p>实体产品: {album.Detail.MakeUpSupport ? '提供' : '不提供'}</p>
+            <p>拍摄组数: {album.Detail.UnitCount} 组</p>
           </li>
           <li>
-            <p>产品详情: {album.Detail.PhysicalDetail ? album.Detail.PhysicalDetail : '暂无'}</p>
-            <p>拍摄组数: {album.Detail.UnitCount} 组</p>
             <p>拍摄场景: {album.Detail.SceneCount} 个</p>
             <p>被拍人数: {album.Detail.PeopleCount} 人</p>
             <p>拍摄机位: {album.Detail.SeatCount} 个</p>
             <p>拍摄场地: {placeType} </p>
             <p>其他服务: {album.Service}</p>
+            <p>实体产品: {album.Detail.PhysicalSupport ? '提供' : '不提供'}</p>
+            <p style={ album.Detail.PhysicalSupport ? {display:'block'} : {display:'none'} }>产品详情: {album.Detail.PhysicalDetail ? album.Detail.PhysicalDetail : '暂无'}</p>
           </li>
         </ul>
 

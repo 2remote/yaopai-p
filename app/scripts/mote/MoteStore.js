@@ -1,5 +1,5 @@
 import Reflux from 'reflux'
-import MoteAction from '../../actions/professional/MoteAction'
+import MoteAction from './MoteAction'
 
 const MoteStore = Reflux.createStore({
   getInitialState: function() {

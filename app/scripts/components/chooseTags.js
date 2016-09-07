@@ -17,13 +17,86 @@ var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
 var UserStore = require("../stores/UserStore");
 
+var chooseTag;
+
 /*
  选择类别组件
  */
 var ChooseTags = React.createClass({
   mixins : [Reflux.listenTo(AlbumsStore,'onGetCategories')],
 
-  //render 方法就应该放第一个!!
+  getInitialState : function(){
+    return {
+      categories : [],
+      selectedTags: [],
+    }
+  },
+
+  componentWillMount : function(){
+    AlbumsActions.getTagList();
+    //this.data.tags fill
+    if(this.props.value && this.props.value.constructor==Array){
+      this.setState({selectedTags:this.props.value.map(function (item) {
+        return item.Id
+      })})
+    }
+  },
+
+  onGetCategories : function(data){
+    if(data.hintMessage){
+      console.log(data.hintMessage);
+    }else{
+      this.setState({tags : data.tags});
+    }
+  },
+
+  setTag: function (event) {
+    var self = this;
+    var tagId = event.target.getAttribute('data-category');
+    tagId = parseInt(tagId);
+    var tags = this.state.selectedTags;
+    var locationOfTagId = tags.indexOf(tagId);
+    var alreadySelected = locationOfTagId >= 0;
+
+    if ( !alreadySelected ){
+      //每个分类下最多设置三个标签
+      var allTags = this.state.tags;
+      var isBreak = false;
+      allTags.forEach(function (item) {
+        var ids = _.map(item.Tags, 'Id');
+        if(ids.indexOf(tagId) > -1){//判断所点击的标签是否是这个分类内的
+          var tmp = _.intersection(ids, tags);//重复的内容
+          //类别标签为必选标签且只能选一个；其他分类下最多可设置三个标签
+          if(item.Id=='3'){//分类
+            if(tmp.length >= 1){
+              isBreak = true;
+              alert('最多仅限选1个标签,再次点击已选标签即可取消!')
+            }
+          }else if(item.Id=='2'){//可拍摄服务地
+            if(tmp.length >= 3){
+              isBreak = true;
+              alert('最多仅限选3个标签,再次点击已选标签即可取消!')
+            }
+          }else if(item.Id=='4'){//风格
+            if(tmp.length >= 3){
+              isBreak = true;
+              alert('最多仅限选3个标签,再次点击已选标签即可取消!')
+            }
+          }
+
+        }
+      })
+      if(!isBreak){
+        tags.push(tagId);
+      }
+    }else{
+      tags.splice(locationOfTagId, 1);
+    }
+    this.setState({selectedTags: tags});
+    this.props.onChange(tags);
+  },
+
+  //render 方法就应该放第一个 "然而我更喜欢把组件的东西放前面"
   render : function(){
     var style = {
       button: {
@@ -104,71 +177,7 @@ var ChooseTags = React.createClass({
     );
   },
 
-  getInitialState : function(){
-    return {
-      categories : [],
-      selectedTags: [],
-    }
-  },
 
-  componentWillMount : function(){
-    AlbumsActions.getTagList();
-    if(this.props.value && this.props.value.constructor==Array){
-      this.setState({selectedTags:this.props.value.map(function (item) {
-        return item.Id
-      })})
-    }
-  },
-
-  onGetCategories : function(data){
-    console.log('updated data', data);
-    if(data.hintMessage){
-      console.log(data.hintMessage);
-    }else{
-      console.log(data.tags)
-      this.setState({tags : data.tags});
-    }
-  },
-
-  setTag: function (event) {
-    var self = this;
-    var tagId = event.target.getAttribute('data-category');
-    tagId = parseInt(tagId);
-    var tags = this.state.selectedTags;
-    var locationOfTagId = tags.indexOf(tagId);
-    var alreadySelected = locationOfTagId >= 0;
-
-    if ( !alreadySelected ){
-      //每个分类下最多设置三个标签
-      var allTags = this.state.tags;
-      var isBreak = false;
-      allTags.forEach(function (item) {
-        var ids = _.map(item.Tags, 'Id');
-        if(ids.indexOf(tagId) > -1){//判断所点击的标签是否是这个分类内的
-          var tmp = _.intersection(ids, tags);//重复的内容
-          //类别标签为必选标签且只能选一个；其他分类下最多可设置三个标签
-          if(item.Name=='类别'){
-            if(tmp.length >= 1){
-              isBreak = true;
-              alert('最多仅限选1个标签,再次点击已选标签即可取消!')
-            }
-          }else{
-            if(tmp.length >= 3){
-              isBreak = true;
-              alert('最多仅限选3个标签,再次点击已选标签即可取消!')
-            }
-          }
-        }
-      })
-      if(!isBreak){
-        tags.push(tagId);
-      }
-    }else{
-      tags.splice(locationOfTagId, 1);
-    }
-    this.setState({selectedTags: tags});
-    this.props.onChange(tags);
-  }
 
 });
 

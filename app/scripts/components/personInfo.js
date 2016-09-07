@@ -16,6 +16,8 @@ import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
 
+import MoteInfo from '../mote/MoteInfo'
+
 import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
 
 var UserImage = React.createClass({
@@ -126,7 +128,8 @@ var PersonInfo = React.createClass({
       editable : true
     }
   },
-  updateInfo : function(){
+  updateInfo : function(e){
+    e.preventDefault && e.preventDefault()
     var message = this.validate();
     if(!message) {
       AccountActions.updateInfo({
@@ -150,16 +153,16 @@ var PersonInfo = React.createClass({
       message = '昵称最少2个字';
       return message;
     }
+    if (!this.refs.wechat.isValidated()) {
+      message = '微信最少3位';
+      return message;
+    }
     if (!this.refs.qq.isValidated()) {
       message = 'qq最少5位';
       return message;
     }
     if (!this.refs.weibo.isValidated()) {
       message = '微博最少5位';
-      return message;
-    }
-    if (!this.refs.wechat.isValidated()) {
-      message = '微信最少3位';
       return message;
     }
   },
@@ -322,7 +325,7 @@ var PersonInfo = React.createClass({
                          value = {this.state.Signature}
                          updateValue = {this.updateSign}
                          minLength={1}
-                         maxLength={100}
+                         maxLength={30}
                          disabled={this.state.disabled}
                          textClassName="col-xs-4"
                          defaultValue="他很懒什么都没有留下"
@@ -332,7 +335,7 @@ var PersonInfo = React.createClass({
             </form>
           </div>
           <div className="tab-pane fade" id="m">
-            <p>暂无</p>
+            <MoteInfo />
           </div>
           <div className="tab-pane fade" id="pwd">
             <AccountInfo />

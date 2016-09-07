@@ -1,6 +1,6 @@
 import Reflux from 'reflux'
-import { postStar } from '../../HttpFactory'
-import { MOTE } from '../../api'
+import { postStar } from '../HttpFactory'
+import { MOTE } from '../api'
 
 const MODEL_TYPE_MASK_STILL = '1'
 const MODEL_TYPE_MASK_ETIQUETTE = '2'
