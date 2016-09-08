@@ -2,6 +2,8 @@ import React from 'react'
 import { Router, Route, IndexRoute, IndexRedirect, Redirect } from 'react-router'
 import NF404 from './components/root/404'
 
+require('../vendor/qiniu')
+
 var Home = require('./components/home')
 var PersonInfo = require('./components/personInfo')
 var AccountInfo = require('./components/accountInfo')
