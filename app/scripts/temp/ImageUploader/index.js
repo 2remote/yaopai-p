@@ -6,7 +6,7 @@
 **/
 import React, { PropTypes } from 'react'
 import Reflux from 'reflux'
-
+import _ from 'lodash'
 import { FILE } from '../../api'
 import ImageItem from './ImageItem'
 import UserAccountStore from '../../stores/UserAccountStore'
@@ -119,6 +119,7 @@ const ImageUploader = React.createClass({
           {
             this.state.photos.map(photo => (
               <ImageItem
+                key={photo.id}
                 id={photo.id}
                 percent={photo.percent}
                 url={photo.url}

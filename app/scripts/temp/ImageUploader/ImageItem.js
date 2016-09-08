@@ -82,7 +82,7 @@ const ImageItem = React.createClass({
 
 ImageItem.propTypes = {
   id: PropTypes.string,
-  percent: PropTypes.string,
+  percent: PropTypes.number,
   url: PropTypes.string,
   doMoveItemUp: PropTypes.func,
   doMoveItemDown: PropTypes.func,
