@@ -18,7 +18,7 @@ const MoteUpload = React.createClass({
   },
 
   onMoteNotify(notification) {
-    const { source, success, msg} = notification
+    const { source, success, msg } = notification
     if (source === MOTE_UPLOAD_ALBUM) {
       if (success) {
         alert('上传成功！')
