@@ -53,6 +53,7 @@ a.active {
   border-radius: 60px;
   float: left;
   padding:0;
+  width: 335px;
 }
 
 .album-detail .preview h2{
@@ -64,7 +65,7 @@ a.active {
 
 .album-detail .preview-list{
   background: #fff;
-  max-height: 600px;
+  height: 550px;
   margin: 0 10px 60px 10px;
   overflow: scroll;
 }
