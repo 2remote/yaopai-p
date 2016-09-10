@@ -145,7 +145,7 @@ var RightAlbumInfo = React.createClass({
             <p>被拍人数: {album.Detail.PeopleCount} 人</p>
             <p>拍摄机位: {album.Detail.SeatCount} 个</p>
             <p>拍摄场地: {placeType} </p>
-            <p>其他服务: {album.Service}</p>
+            <p>补充服务说明: {album.Service}</p>
             <p>实体产品: {album.Detail.PhysicalSupport ? '提供' : '不提供'}</p>
             <p style={ album.Detail.PhysicalSupport ? {display:'block'} : {display:'none'} }>产品详情: {album.Detail.PhysicalDetail ? album.Detail.PhysicalDetail : '暂无'}</p>
           </li>

@@ -507,7 +507,7 @@ var Home = React.createClass({
     var bgStyle = {
       width : '100%',
       height : '100%',
-      background : 'url(img/bg.png) no-repeat center center',
+      background : 'url(img/login_bg.gif) no-repeat center center',
       backgroundColor : '#777777',
       backgroundSize : 'cover',
       position: 'absolute',
@@ -573,10 +573,10 @@ var Home = React.createClass({
               </a>
               <a style={{
               float:'right',
-              border:'1px solid #000',
+              border:'1px solid #fff',
               padding:'5px 10px',
               borderRadius:'20px',
-              color:'#000'}} onClick={this.show}>登录 | 注册</a>
+              color:'#fff'}} onClick={this.show}>登录 | 注册</a>
             </div>
           </div>
           <div style={{display:'flex',marginTop:'50px'}}>
@@ -586,21 +586,7 @@ var Home = React.createClass({
           </div>
         </div>
 
-        <div style={footerStyle}>
-          <div style={container}>
-            <a href="#" style={{lineHeight:'80px'}}>
-              <img src="./img/footer.png" width="250" alt=""/>
-            </a>
-            {/* <Link to={ AuthSummary } style={{
-            float:'right',
-            display:'inline-block',
-            background:'#ccac7b',
-            padding:'0 50px',
-            color:'#000',
-            boxSizing:'border-box',
-            lineHeight:'80px'}}>立即认证</Link> */}
-          </div>
-        </div>
+
         <ToolTip ref="toolTip" title=""></ToolTip>
       </div>
     );
