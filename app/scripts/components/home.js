@@ -507,7 +507,7 @@ var Home = React.createClass({
     var bgStyle = {
       width : '100%',
       height : '100%',
-      background : 'url(http://hbimg.b0.upaiyun.com/492aadd9d50a3192695ddf2fecf12a3f9c0e06e03b304-yALYBg_fw658) no-repeat center center',
+      background : 'url(img/login_bg.gif) no-repeat center center',
       backgroundColor : '#777777',
       backgroundSize : 'cover',
       position: 'absolute',
