@@ -1,7 +1,7 @@
-var React = require('react');
+import React from 'react'
+import Reflux from 'reflux'
+import tianjiaImg from 'image/tianjia.png'
 var ProgressBar = require('react-bootstrap').ProgressBar;
-var TextInput = require('./textInput');
-var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
@@ -304,7 +304,7 @@ var ChooseImages = React.createClass({
         <label className="control-label col-xs-3">上传样片 (至少6张)：</label>
         <div id="pickfilesCont" className="col-xs-8">
           <div>
-            <img id="pickfiles" className="image-button uploader-img" width="140" src="img/tianjia.png" />
+            <img id="pickfiles" className="image-button uploader-img" width="140" src={tianjiaImg} />
           </div>
 
             {renderImages}

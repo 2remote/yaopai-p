@@ -13,6 +13,13 @@ var Provision = require('./provision');
 import AuthSummary from './auth/AuthSummary'
 import { ROUTE_MAIN } from '../routeConfig'
 import { Link, History } from 'react-router'
+import bgPng from 'image/bg.png'
+import logoIcon from 'image/logo_icon.png'
+import logoImg from 'image/logo.png'
+import photographerImg from 'image/Photographer.png'
+import moteImg from 'image/Model.png'
+import maImg from 'image/Dresser.png'
+import footerImg from 'image/footer.png'
 
 var PhoneInput = React.createClass({
   getInitialState : function(){
@@ -348,7 +355,7 @@ var LoginForm = React.createClass({
     }
     return (
       <div style={loginStyle}>
-        <img style={imageCenter} src="img/logo_icon.png" width="140" />
+        <img style={imageCenter} src={logoIcon} width="140" />
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
@@ -436,7 +443,7 @@ var RegisterForm = React.createClass({
     }
     return (
       <div style={registerStyle}>
-        <img style={imageCenter} src="img/logo_icon.png" width='140'/>
+        <img style={imageCenter} src={logoIcon} width='140'/>
         <div style={inputWrap}>
           <PhoneInput ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
@@ -507,7 +514,7 @@ var Home = React.createClass({
     var bgStyle = {
       width : '100%',
       height : '100%',
-      background : 'url(img/bg.png) no-repeat center center',
+      background : `url(${bgPng}) no-repeat center center`,
       backgroundColor : '#777777',
       backgroundSize : 'cover',
       position: 'absolute',
@@ -569,7 +576,7 @@ var Home = React.createClass({
           <div>
             <div style={{padding:'30px 0',color:'#fff'}}>
               <a href="#">
-                <img src="img/logo.png" width="250" alt=""/>
+                <img src={logoImg} width="250" alt=""/>
               </a>
               <a style={{
               float:'right',
@@ -580,16 +587,16 @@ var Home = React.createClass({
             </div>
           </div>
           <div style={{display:'flex',marginTop:'50px'}}>
-            <div style={{flex:1}}><img src="img/Photographer.png" draggable="false" width="350" alt=""/></div>
-            <div style={{flex:1}}><img src="img/Model.png" draggable="false" width="350" alt=""/></div>
-            <div style={{flex:1}}><img src="img/Dresser.png" draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src={photographerImg} draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src={moteImg} draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1}}><img src={maImg} draggable="false" width="350" alt=""/></div>
           </div>
         </div>
 
         <div style={footerStyle}>
           <div style={container}>
             <a href="#" style={{lineHeight:'80px'}}>
-              <img src="./img/footer.png" width="250" alt=""/>
+              <img src={footerImg} width="250" alt=""/>
             </a>
             {/* <Link to={ AuthSummary } style={{
             float:'right',

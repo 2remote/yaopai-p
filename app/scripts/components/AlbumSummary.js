@@ -4,6 +4,9 @@ import InfoHeader from './infoHeader'
 import Reflux from 'reflux'
 import UserAccountStore from '../stores/UserAccountStore'
 import { ROUTE_UPLOAD_MAKEUPARTIST } from '../routeConfig'
+import pPng from 'image/p.png'
+import dPng from 'image/d.png'
+import mPng from 'image/m.png'
 
 /*
   本页面用于分角色上传作品
@@ -57,7 +60,7 @@ var AlbumSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/p.png) no-repeat',
+                        background: `url(${pPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -79,7 +82,7 @@ var AlbumSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/m.png) no-repeat',
+                        background: `url(${mPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -101,7 +104,7 @@ var AlbumSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/d.png) no-repeat',
+                        background: `url(${dPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>

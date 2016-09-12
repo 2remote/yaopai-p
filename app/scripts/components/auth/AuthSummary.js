@@ -1,5 +1,8 @@
 import React from 'react'
 import { History } from 'react-router'
+import pPng from 'image/p.png'
+import dPng from 'image/d.png'
+import mPng from 'image/m.png'
 var InfoHeader = require('../infoHeader')
 
 import {
@@ -92,7 +95,7 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/p.png) no-repeat',
+                        background: `url(${pPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -135,7 +138,7 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/m.png) no-repeat',
+                        background: `url(${mPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -179,7 +182,7 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/d.png) no-repeat',
+                        background: `url(${dPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>

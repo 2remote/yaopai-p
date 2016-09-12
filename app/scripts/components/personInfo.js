@@ -1,5 +1,6 @@
-var React = require('react');
+import React from 'react'
 import { Link } from 'react-router'
+import defaultUserImg from 'image/default_user_img.png'
 var Reflux = require('reflux');
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
@@ -35,7 +36,7 @@ var UserImage = React.createClass({
     }
   },
   render : function() {
-    var image = 'img/default_user_img.png';
+    var image = defaultUserImg //'img/default_user_img.png';
     var style = {
       label: {
         lineHeight: '150px',

@@ -61,14 +61,20 @@ common = {
     /* ================================================================ */
     alias: {
       app: APP_PATH, // app root
-      common: path.resolve(APP_PATH, 'common'), // 通用组件
-      tool: path.resolve(APP_PATH, 'tool'),
+      // 功能组件
       main: path.resolve(APP_PATH, 'main'), // 主页
-      work: path.resolve(APP_PATH, 'work'), // 作品
-      grapher: path.resolve(APP_PATH, 'grapher'), // 摄影师
-      model: path.resolve(APP_PATH, 'model'), // 纯数据
       user: path.resolve(APP_PATH, 'user'), // 用户
-      about: path.resolve(APP_PATH, 'about'), // 关于
+      photographer: path.resolve(APP_PATH, 'photographer'), // 摄影师
+      makeupartist: path.resolve(APP_PATH, 'makeupartist'), // 化妆师
+      mote: path.resolve(APP_PATH, 'mote'), // 模特
+      // 工具类
+      util: path.resolve(APP_PATH, 'util'),
+      yaopai: path.resolve(APP_PATH, 'yaopai'), // 邀拍组件
+      components: path.resolve(APP_PATH, 'components'), // old shit
+
+      // assets
+      image: path.resolve(APP_PATH, 'image'), // 图片
+      css: path.resolve(APP_PATH, './css'), // 样式
     },
   },
   module: {

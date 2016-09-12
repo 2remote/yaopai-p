@@ -3,6 +3,7 @@ import Reflux from 'reflux'
 import { FILE } from '../../api'
 import UserAccountStore from '../../stores/UserAccountStore'
 import { ProgressBar } from 'react-bootstrap'
+import tianjiaImg from 'image/tianjia.png'
 
 /**
  * // TODO: 回头我把下面的解释换成中文
@@ -48,7 +49,7 @@ const ImageOptimus = React.createClass({
         </div>
         {/* Two functional buttons */}
         <div>
-          <img ref="uploader" className="image-button" width="140" src="img/tianjia.png" /><button type="button" ref="upload" style={{display:this.state.file?'inline-block':'none'}} onClick={ this.doUpload } className="btn btn-primary">确认裁剪</button>
+          <img ref="uploader" className="image-button" width="140" src={tianjiaImg} /><button type="button" ref="upload" style={{display:this.state.file?'inline-block':'none'}} onClick={ this.doUpload } className="btn btn-primary">确认裁剪</button>
         </div>
 
         {/* 裁剪结果预览，可删除 */}

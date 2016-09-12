@@ -1,5 +1,6 @@
 
-var React = require('react');
+import React from 'react'
+import logoUpImg from 'image/logo_up.png'
 var ImageInput = require('../account/imageInput');
 
 var CompanyLogo = React.createClass({
@@ -30,7 +31,7 @@ var CompanyLogo = React.createClass({
             ref="companyLogo"
             multi_selection={false}
             disabled = {this.props.disabled}
-            defaultImage ={this.props.value?this.props.value:"img/logo_up.png" }
+            defaultImage ={this.props.value?this.props.value: logoUpImg }
             onUpload = {this.props.updateValue}
             onError={this.props.showMessage}
             type="user"/>

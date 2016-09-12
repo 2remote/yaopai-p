@@ -10,6 +10,7 @@ import _ from 'lodash'
 import { FILE } from '../../api'
 import ImageItem from './ImageItem'
 import UserAccountStore from '../../stores/UserAccountStore'
+import tianjiaImg from 'image/tianjia.png'
 
 const ImageUploader = React.createClass({
   mixins: [Reflux.connect(UserAccountStore, 'user'), Reflux.listenTo(UserAccountStore, 'onUserUpdate')],
@@ -113,7 +114,7 @@ const ImageUploader = React.createClass({
     return (
       <div className="row">
         <div className="col-xs-12" style={{ display: uploaderDisplay }}>
-          <img ref="uploader" className="image-button" width="140" src="img/tianjia.png" />
+          <img ref="uploader" className="image-button" width="140" src={tianjiaImg} />
         </div>
         <div className="col-xs-12">
           {

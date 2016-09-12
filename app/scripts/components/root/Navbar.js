@@ -1,7 +1,7 @@
 import React from 'react'
 import Reflux from 'reflux'
 import { Link, History } from 'react-router'
-import logoImg from '../../../img/logo.png'
+import logoImg from 'image/logo.png'
 
 import {
   ROUTE_ROOT, ROUTE_MAIN, ROUTE_AUTH, ROUTE_UPLOAD_SUMMARY,

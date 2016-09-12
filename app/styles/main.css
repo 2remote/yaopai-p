@@ -42,7 +42,7 @@ body {
 }
 
 .bgimg {
-  background: url(../img/background.jpg) no-repeat center center fixed;
+  background: url(../image/background.jpg) no-repeat center center fixed;
   background-size: cover;
   position: relative;
   width: 100%;
@@ -114,7 +114,7 @@ body {
 }
 
 .footer .footer-cover {
-  background: url(../img/footer_bg.png) no-repeat center center;
+  background: url(../image/footer_bg.png) no-repeat center center;
   background-size: cover;
   width: 100%;
   left: 0px;

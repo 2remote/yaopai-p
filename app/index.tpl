@@ -33,11 +33,30 @@
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div id="content"></div>
+    <script>
+      <!--修复浏览器上传裁剪封面的兼容性问题-->
+      if (!HTMLCanvasElement.prototype.toBlob) {
+        Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+          value: function (callback, type, quality) {
+
+            var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
+              len = binStr.length,
+              arr = new Uint8Array(len);
+
+            for (var i=0; i<len; i++ ) {
+              arr[i] = binStr.charCodeAt(i);
+            }
+
+            callback( new Blob( [arr], {type: type || 'image/png'} ) );
+          }
+        });
+      }
+    </script>
     <script src="//cdn.staticfile.org/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.staticfile.org/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdn.staticfile.org/plupload/2.1.8/plupload.full.min.js"></script>
     <script src="//cdn.staticfile.org/plupload/2.1.8/i18n/zh_CN.js"></script>
     <script src="//cdn.bootcss.com/cropperjs/0.7.2/cropper.js"></script>
-    <script src="vendor/qiniu.js"></script>
+    <!-- <script src="//cdn.bootcss.com/qiniu-js/1.0.15-beta/qiniu.js"></script> -->
   </body>
 </html>
