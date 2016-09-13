@@ -1,6 +1,7 @@
 var React = require('react');
 var Reflux = require('reflux');
 var AlbumsActions = require('../../actions/AlbumsActions');
+import AlbumAction from '../../actions/AlbumAction'
 var AlbumsStore = require('../../stores/AlbumsStore');
 var Button = require('react-bootstrap').Button;
 var Modal = require('react-bootstrap').Modal;
@@ -312,6 +313,7 @@ var EditAlbumModal = React.createClass({
       }
       console.log("begin 1");
       AlbumsActions.update(album);
+      AlbumAction.fetch(album.UserId);
       console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});

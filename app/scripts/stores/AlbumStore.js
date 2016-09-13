@@ -107,7 +107,6 @@ const AlbumStore = Reflux.createStore({
     this.data.onSaleList.push(onSaleItem);
     this.trigger(this.data);
   }
-
 });
 
 module.exports = {
