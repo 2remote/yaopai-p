@@ -11,6 +11,7 @@ import InputGroup from '../components/upai/form/InputGroup'
 /* store and action */
 import MoteStore from './MoteStore'
 import MoteAction from './MoteAction'
+import ToolTip from '../components/toolTip';
 
 const MoteInfo = React.createClass({
   mixins: [Reflux.connect(MoteStore, 'info')],
@@ -69,6 +70,10 @@ const MoteInfo = React.createClass({
   onSubmit: function(e) {
     e.preventDefault()
     MoteAction.changeInfo(this.state.ui)
+    this.showMessage("信息修改成功")
+  },
+  showMessage: function (message) {
+    this.refs.toolTip.toShow(message)
   },
   render: function() {
     let { ui } = this.state
@@ -146,6 +151,7 @@ const MoteInfo = React.createClass({
           </div>
         <button type="submit" className="btn btn-primary">保存</button>
         </form>
+        <ToolTip ref="toolTip" title=""/>
       </div>
     )
   }
