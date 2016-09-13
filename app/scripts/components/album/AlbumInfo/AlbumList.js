@@ -41,7 +41,7 @@ const AlbumList = React.createClass({
   },
   componentDidMount() {
     const userId = this.props.userId
-    if(userId && this.state.album.status === ALBUM_NOT_FETCHED) {
+    if(userId){
       AlbumAction.fetch(userId)
     }
   },

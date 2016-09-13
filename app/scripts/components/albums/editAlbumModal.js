@@ -311,10 +311,7 @@ var EditAlbumModal = React.createClass({
           return item.Id
         }).join(',')
       }
-      console.log("begin 1");
       AlbumsActions.update(album);
-      AlbumAction.fetch(album.UserId);
-      console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});
     }

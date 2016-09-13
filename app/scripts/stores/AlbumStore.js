@@ -46,6 +46,7 @@ const AlbumStore = Reflux.createStore({
       onSaleList,
       offSaleList,
     };
+
     this.trigger(this.data);
   },
   sort: function(ids) {

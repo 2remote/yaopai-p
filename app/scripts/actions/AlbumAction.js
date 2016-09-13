@@ -81,9 +81,10 @@ var AlbumAction = Reflux.createActions({
 });
 
 AlbumAction.fetch.listen(function(photographerId) {
+
   const self = this;
-  postStar(API.ALBUMS.search, {
-    Fields: 'Id,Title,UserId,CreationTime,EditingTime,Display,' +
+    postStar(API.ALBUMS.search, {
+      Fields: 'Id,Title,UserId,CreationTime,EditingTime,Display,' +
       'Description,Service,Price,Cover,Views,Marks,State,FoulReason,' +
       'Detail.Duration,Detail.PlateCount,Detail.TruingCount,Detail.CostumeCount,' +
       'Detail.MakeupSupport,Detail.OriginalSupport,Detail.PhysicalSupport,' +
@@ -91,19 +92,22 @@ AlbumAction.fetch.listen(function(photographerId) {
       'Detail.SeatCount,Detail.PlaceType' +
       ',Tags.Id,Tags.Name,' +
       ',Photos.Id,Photos.AlbumsId,Photos.Url,Photos.Description',
-    UserId: photographerId,
-  }, function(serverData) {
-    if(serverData.Result && serverData.Result.length) {
-      let albumList = [];
-      // 后台数据解析
-      for(let result in serverData.Result) {
-        albumList.push(convertAlbum(serverData.Result[result]));
+      UserId: photographerId,
+    }, function (serverData) {
+      console.log("*********serverData", serverData);
+      if (serverData.Result && serverData.Result.length) {
+        let albumList = [];
+        // 后台数据解析
+        for (let result in serverData.Result) {
+          albumList.push(convertAlbum(serverData.Result[result]));
+        }
+
+        self.success(albumList);
       }
-      self.success(albumList);
-    }
-  }, function(error) {
-    console.log('[Error][Albums.Search]', error);
-  });
+    }, function (error) {
+      console.log('[Error][Albums.Search]', error);
+    });
+  
 });
 
 /**
