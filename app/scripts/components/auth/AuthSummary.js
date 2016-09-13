@@ -67,8 +67,10 @@ function getStyle(status){
 
 var AuthSummary = React.createClass({
   mixins: [History],
+  componentDidMount: function(){
+    console.log(this.props)
+  },
   render: function() {
-
     const {
       realNameComplete,
       photographerAuthed,

@@ -57,13 +57,18 @@ var AuthContainer = React.createClass({
     }
   },
   componentWillMount: function() {
-    //AuthAction.viewPhotographerAudit();
-    //AuthAction.viewMakeupArtistAudit();
-    //AuthAction.viewMoteAudit();
+    console.log("AuthContainer:",this.state)
+
+    //组件即将加载前,重新获取认证状态
+    AuthAction.viewPhotographerAudit();
+    AuthAction.viewMakeupArtistAudit();
+    AuthAction.viewMoteAudit();
+
     // 认证状态为默认，表示未向服务器获取认证信息
     if(this.state.realName.status === REALNAME_DEFAULT) {
       AccountActions.userDetail()
     }
+
     if(this.state.authPhotographer.status === PHOTOGRAPHER_AUTH_DEFAULT) {
       AuthAction.viewPhotographerAudit()
     }

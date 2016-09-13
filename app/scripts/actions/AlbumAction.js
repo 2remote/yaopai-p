@@ -107,7 +107,7 @@ AlbumAction.fetch.listen(function(photographerId) {
     }, function (error) {
       console.log('[Error][Albums.Search]', error);
     });
-  
+
 });
 
 /**
