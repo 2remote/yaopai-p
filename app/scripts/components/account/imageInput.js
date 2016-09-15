@@ -1,6 +1,6 @@
 var React = require ('react');
 var Reflux = require('reflux');
-var API = require('../../api');
+var API = require('util/api');
 var ProgressBar = require('react-bootstrap').ProgressBar;
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");

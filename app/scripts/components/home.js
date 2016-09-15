@@ -8,7 +8,7 @@ var UserActions = require('../actions/UserActions');
 var UserStore = require('../stores/UserStore');
 var IndexCover = require('./indexCover');
 var ToolTip = require('./toolTip');
-var API = require('../api');
+var API = require('util/api');
 var Provision = require('./provision');
 import AuthSummary from './auth/AuthSummary'
 import { ROUTE_MAIN } from 'util/routeConfig'

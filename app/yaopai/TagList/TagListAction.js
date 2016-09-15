@@ -1,7 +1,7 @@
 import Reflux from 'reflux'
 
-import { postStar } from 'app/scripts/HttpFactory'
-import { API_URL } from 'app/scripts/api'
+import { postStar } from 'util/HttpFactory'
+import { API_URL } from 'util/api'
 
 const getTagConfig = (type) => {
   const tagConfig = {

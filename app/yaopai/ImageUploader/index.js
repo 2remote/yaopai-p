@@ -7,7 +7,7 @@
 import React, { PropTypes } from 'react'
 import Reflux from 'reflux'
 import _ from 'lodash'
-import { FILE } from 'app/scripts/api'
+import { FILE } from 'util/api'
 import ImageItem from './ImageItem'
 import UserAccountStore from 'app/scripts/stores/UserAccountStore'
 import tianjiaImg from 'image/tianjia.png'

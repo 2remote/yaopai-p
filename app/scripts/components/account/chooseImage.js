@@ -6,7 +6,7 @@ var WorkActions  = require('../../actions/WorkActions');
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
-var API = require('../../api');
+var API = require('util/api');
 var Input = require('react-bootstrap').Input;
 var Tools = require('../../tools');
 

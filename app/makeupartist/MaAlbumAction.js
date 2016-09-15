@@ -1,6 +1,6 @@
 import Reflux from 'reflux'
-import { postStar } from '../scripts/HttpFactory'
-import { API_URL } from '../scripts/api'
+import { postStar } from 'util/HttpFactory'
+import { API_URL } from 'util/api'
 
 /* api const */
 const MAKEUPARTIST_ALBUM_ADD = `${API_URL}MakeupArtistAlbums.Add`

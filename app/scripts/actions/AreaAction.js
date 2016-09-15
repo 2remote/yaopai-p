@@ -1,6 +1,6 @@
 import Reflux from 'reflux'
-import { postStar } from '../HttpFactory'
-import { COMMON } from '../api'
+import { postStar } from 'util/HttpFactory'
+import { COMMON } from 'util/api'
 
 const AreaAction = Reflux.createActions({
   'loadChildren': { children: ['success', 'error'] },
