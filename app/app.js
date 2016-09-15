@@ -4,6 +4,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, IndexRedirect } from 'react-router'
 
+import Test from 'photographer/Test'
+
 /* ********************************首页******************************** */
 import Content from 'components/root/Content'
 /* ********************************账户******************************** */
@@ -25,8 +27,8 @@ import AuthMote from 'components/auth/AuthMote' // 模特专业认证
 import AuthResult from 'components/auth/AuthResult' // 结果
 /* ********************************作品上传******************************** */
 import AlbumInfo from 'components/album/AlbumInfo'
-import MakeupArtistUploadRouteComponent from './routes/upload/makeupartist'
-import MoteUploadRouteComponent from './routes/upload/mote'
+import MakeupArtistUploadRouteComponent from 'routes/upload/makeupartist'
+import MoteUploadRouteComponent from 'routes/upload/mote'
 
 const Home = require('components/home')
 const PersonInfo = require('components/personInfo')
@@ -40,10 +42,11 @@ const UploadPhotographer = require('components/uploadPhotographer')
 const Albums = require('components/albums/index')
 const Provision = require('components/provision')
 
-require('../vendor/qiniu')
+require('./vendor/qiniu')
 
 const routes = (
   <Router>
+    <Route path="/test" component={Test} comment="test only" />
     {/* ****************已登录的内容**************** */}
     <Route path="/" component={Content} comment="已登录内容容器">
       {/* ****************首页信息**************** */}

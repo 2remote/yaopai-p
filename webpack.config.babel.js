@@ -41,7 +41,7 @@ common = {
   /* ================================================================ */
   /* 入口: entry */
   /* ================================================================ */
-  entry: path.resolve(APP_PATH, 'scripts', 'app.js'),
+  entry: path.resolve(APP_PATH, 'app.js'),
   exclude: path.resolve(ROOT_PATH, 'node_modules'),
   /* ================================================================ */
   /* 输出 */
@@ -65,12 +65,13 @@ common = {
       main: path.resolve(APP_PATH, 'main'), // 主页
       user: path.resolve(APP_PATH, 'user'), // 用户
       photographer: path.resolve(APP_PATH, 'photographer'), // 摄影师
-      makeupartist: path.resolve(APP_PATH, 'makeupartist'), // 化妆师
-      mote: path.resolve(APP_PATH, 'mote'), // 模特
+      makeupartist: path.resolve(APP_PATH, 'scripts', 'makeupartist'), // 化妆师
+      mote: path.resolve(APP_PATH, 'scripts', 'mote'), // 模特
+      routes: path.resolve(APP_PATH, 'scripts', 'routes'),
       // 工具类
       util: path.resolve(APP_PATH, 'util'),
       yaopai: path.resolve(APP_PATH, 'yaopai'), // 邀拍组件
-      components: path.resolve(APP_PATH, 'components'), // old shit
+      components: path.resolve(APP_PATH, 'scripts', 'components'), // old shit
 
       // assets
       image: path.resolve(APP_PATH, 'image'), // 图片
