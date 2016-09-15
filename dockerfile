@@ -1,4 +1,4 @@
-FROM node:6.5.0-slim
+FROM node:6.5.0-wheezy
 
 WORKDIR /app
 
