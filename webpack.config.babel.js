@@ -188,7 +188,7 @@ if (targetEnv === 'prod') { // prod
     /* 参考：http://webpack.github.io/docs/code-splitting.html */
     /* ================================================================ */
     entry: {
-      app: path.resolve(APP_PATH, 'scripts', 'app.js'),
+      app: path.resolve(APP_PATH, 'app.js'),
       vendor: [
         'jquery',
         'react',
@@ -205,6 +205,7 @@ if (targetEnv === 'prod') { // prod
     /* ================================================================ */
     output: {
       path: DIST_PATH,
+      publicPath: DIST_PATH,
       filename: 'bundle.js?[chunkhash]',
     },
     plugins: [
