@@ -592,26 +592,6 @@ var Home = React.createClass({
             <div style={{flex:1}}><img src={maImg} draggable="false" width="350" alt=""/></div>
           </div>
         </div>
-
-<<<<<<< HEAD
-        <div style={footerStyle}>
-          <div style={container}>
-            <a href="#" style={{lineHeight:'80px'}}>
-              <img src={footerImg} width="250" alt=""/>
-            </a>
-            {/* <Link to={ AuthSummary } style={{
-            float:'right',
-            display:'inline-block',
-            background:'#ccac7b',
-            padding:'0 50px',
-            color:'#000',
-            boxSizing:'border-box',
-            lineHeight:'80px'}}>立即认证</Link> */}
-          </div>
-        </div>
-=======
-
->>>>>>> dev
         <ToolTip ref="toolTip" title=""></ToolTip>
       </div>
     );
