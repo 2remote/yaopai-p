@@ -13,7 +13,7 @@ var Provision = require('./provision');
 import AuthSummary from './auth/AuthSummary'
 import { ROUTE_MAIN } from 'util/routeConfig'
 import { Link, History } from 'react-router'
-import bgPng from 'image/login_bg.gif'
+import bgPng from 'image/login_bg_lysb.gif'
 import logoIcon from 'image/logo_icon.png'
 import logoImg from 'image/logo.png'
 import photographerImg from 'image/Photographer.png'
