@@ -7,9 +7,9 @@
 import React, { PropTypes } from 'react'
 import Reflux from 'reflux'
 import _ from 'lodash'
-import { FILE } from '../../api'
+import { FILE } from 'app/scripts/api'
 import ImageItem from './ImageItem'
-import UserAccountStore from '../../stores/UserAccountStore'
+import UserAccountStore from 'app/scripts/stores/UserAccountStore'
 import tianjiaImg from 'image/tianjia.png'
 
 const ImageUploader = React.createClass({

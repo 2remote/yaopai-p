@@ -1,15 +1,9 @@
-/* 用于定位路径 */
-const path = require('path')
-/* HTML template 处理 */
-const HtmlwebpackPlugin = require('html-webpack-plugin')
-/* 处理完自动打开浏览器 */
-const OpenBrowserPlugin = require('open-browser-webpack-plugin')
-/* The Webpack */
-const webpack = require('webpack')
-/* 合并配置 */
-const merge = require('webpack-merge')
-/* 清理build用 */
-const Clean = require('clean-webpack-plugin')
+const path = require('path')// 用于定位路径
+const HtmlwebpackPlugin = require('html-webpack-plugin')// HTML template 处理
+const OpenBrowserPlugin = require('open-browser-webpack-plugin')// 处理完自动打开浏览器
+const webpack = require('webpack')// The Webpack
+const merge = require('webpack-merge')// 合并配置
+const Clean = require('clean-webpack-plugin')// 清理build用
 
 // 配置思路
 // 4个环境：
@@ -28,6 +22,27 @@ const autoOpenBrowser = !process.env.YAOPAI_DISABLE_AUTO
 const PORT = process.env.YAOPAI_PORT_P || 8000
 // TODO: 从target转换成env和app信息
 const targetEnv = (TARGET === 'production' ? 'prod' : 'dev')
+
+
+// alias放这里，看着方便
+const alias = {
+  app: APP_PATH, // app root
+  // 功能组件
+  main: path.resolve(APP_PATH, 'main'), // 主页
+  user: path.resolve(APP_PATH, 'user'), // 用户
+  photographer: path.resolve(APP_PATH, 'photographer'), // 摄影师
+  makeupartist: path.resolve(APP_PATH, 'makeupartist'), // 化妆师
+  mote: path.resolve(APP_PATH, 'mote'), // 模特
+  routes: path.resolve(APP_PATH, 'routes'),
+  // 工具类
+  util: path.resolve(APP_PATH, 'util'),
+  yaopai: path.resolve(APP_PATH, 'yaopai'), // 邀拍组件
+  components: path.resolve(APP_PATH, 'scripts', 'components'), // old shit
+
+  // assets
+  image: path.resolve(APP_PATH, 'image'), // 图片
+  css: path.resolve(APP_PATH, './css'), // 样式
+}
 
 // 这些变量存设置
 let common = { }// 通用
@@ -60,24 +75,7 @@ common = {
     /* ================================================================ */
     /* 关联: alias */
     /* ================================================================ */
-    alias: {
-      app: APP_PATH, // app root
-      // 功能组件
-      main: path.resolve(APP_PATH, 'main'), // 主页
-      user: path.resolve(APP_PATH, 'user'), // 用户
-      photographer: path.resolve(APP_PATH, 'photographer'), // 摄影师
-      makeupartist: path.resolve(APP_PATH, 'makeupartist'), // 化妆师
-      mote: path.resolve(APP_PATH, 'mote'), // 模特
-      routes: path.resolve(APP_PATH, 'routes'),
-      // 工具类
-      util: path.resolve(APP_PATH, 'util'),
-      yaopai: path.resolve(APP_PATH, 'yaopai'), // 邀拍组件
-      components: path.resolve(APP_PATH, 'scripts', 'components'), // old shit
-
-      // assets
-      image: path.resolve(APP_PATH, 'image'), // 图片
-      css: path.resolve(APP_PATH, './css'), // 样式
-    },
+    alias,
   },
   module: {
     /* ================================================================ */
