@@ -4,6 +4,7 @@ import Reflux from 'reflux'
 import UserAccountStore from '../../../stores/UserAccountStore'
 import AlbumList from './AlbumList'
 import AlbumHeader from './AlbumHeader'
+import AlbumAction from '../../../actions/AlbumAction'
 import { ALBUM_DISPLAY_ON } from './constant'
 
 /**
@@ -22,6 +23,7 @@ var AlbumInfo = React.createClass({
       display: ALBUM_DISPLAY_ON,
     };
   },
+
   changeDisplayFilter: function(newDisplayFilter) {
     this.setState({
       display: newDisplayFilter,

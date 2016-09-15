@@ -13,7 +13,7 @@ var Provision = require('./provision');
 import AuthSummary from './auth/AuthSummary'
 import { ROUTE_MAIN } from '../routeConfig'
 import { Link, History } from 'react-router'
-import bgPng from 'image/bg.png'
+import bgPng from 'image/login_bg.gif'
 import logoIcon from 'image/logo_icon.png'
 import logoImg from 'image/logo.png'
 import photographerImg from 'image/Photographer.png'
@@ -580,10 +580,10 @@ var Home = React.createClass({
               </a>
               <a style={{
               float:'right',
-              border:'1px solid #000',
+              border:'1px solid #fff',
               padding:'5px 10px',
               borderRadius:'20px',
-              color:'#000'}} onClick={this.show}>登录 | 注册</a>
+              color:'#fff'}} onClick={this.show}>登录 | 注册</a>
             </div>
           </div>
           <div style={{display:'flex',marginTop:'50px'}}>
@@ -593,6 +593,7 @@ var Home = React.createClass({
           </div>
         </div>
 
+<<<<<<< HEAD
         <div style={footerStyle}>
           <div style={container}>
             <a href="#" style={{lineHeight:'80px'}}>
@@ -608,6 +609,9 @@ var Home = React.createClass({
             lineHeight:'80px'}}>立即认证</Link> */}
           </div>
         </div>
+=======
+
+>>>>>>> dev
         <ToolTip ref="toolTip" title=""></ToolTip>
       </div>
     );

@@ -9,8 +9,8 @@ var MultiImageSelect = React.createClass({
       labelName : '',
       images : [],
       uid : 'multiImageSelect',
-      width: '150px',
-      height: '150px',
+      width: '150',
+      height: '150',
       maxCount : 4,
     }
   },
@@ -40,7 +40,7 @@ var MultiImageSelect = React.createClass({
   parseImageUrl :function(url){
     url = url + '?imageMogr2/gravity/Center'
     if(this.props.width && this.props.height){
-      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height+'r'; //限制短边
+      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height; //限制短边
       url = url + '/crop/'+this.props.width + 'x' + this.props.height; //剪裁
     }
     if(this.props.width && !this.props.height){

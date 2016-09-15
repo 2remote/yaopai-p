@@ -1,6 +1,7 @@
 var React = require('react');
 var Reflux = require('reflux');
 var AlbumsActions = require('../../actions/AlbumsActions');
+import AlbumAction from '../../actions/AlbumAction'
 var AlbumsStore = require('../../stores/AlbumsStore');
 var Button = require('react-bootstrap').Button;
 var Modal = require('react-bootstrap').Modal;
@@ -310,9 +311,7 @@ var EditAlbumModal = React.createClass({
           return item.Id
         }).join(',')
       }
-      console.log("begin 1");
       AlbumsActions.update(album);
-      console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});
     }
@@ -474,7 +473,7 @@ var EditAlbumModal = React.createClass({
                          type="textarea"
                          value={this.state.album.Service}
                          updateValue={this.updateService}
-                         labelName="补充说明："
+                         labelName="补充服务说明："
                          maxLength={1000}
                          placeholder=""
                          help="(非必填) 补充服务说明不超过1000字"
