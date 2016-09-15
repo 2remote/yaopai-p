@@ -22,9 +22,10 @@ const Clean = require('clean-webpack-plugin')
 const ROOT_PATH = path.resolve(__dirname) // 根路径
 const APP_PATH = path.resolve(ROOT_PATH, 'app') // 源码路径
 const DIST_PATH = path.resolve(ROOT_PATH, 'dist')
-const PORT = 8000
 /* 2. 决定环境的变量 */
 const TARGET = process.env.NODE_ENV // 从npm中获取目标环境
+const autoOpenBrowser = !process.env.YAOPAI_DISABLE_AUTO
+const PORT = process.env.YAOPAI_PORT_P || 8000
 // TODO: 从target转换成env和app信息
 const targetEnv = (TARGET === 'production' ? 'prod' : 'dev')
 
@@ -65,9 +66,9 @@ common = {
       main: path.resolve(APP_PATH, 'main'), // 主页
       user: path.resolve(APP_PATH, 'user'), // 用户
       photographer: path.resolve(APP_PATH, 'photographer'), // 摄影师
-      makeupartist: path.resolve(APP_PATH, 'scripts', 'makeupartist'), // 化妆师
-      mote: path.resolve(APP_PATH, 'scripts', 'mote'), // 模特
-      routes: path.resolve(APP_PATH, 'scripts', 'routes'),
+      makeupartist: path.resolve(APP_PATH, 'makeupartist'), // 化妆师
+      mote: path.resolve(APP_PATH, 'mote'), // 模特
+      routes: path.resolve(APP_PATH, 'routes'),
       // 工具类
       util: path.resolve(APP_PATH, 'util'),
       yaopai: path.resolve(APP_PATH, 'yaopai'), // 邀拍组件
@@ -153,13 +154,6 @@ if (targetEnv === 'dev') { // dev
     plugins: [
       // 热替换
       new webpack.HotModuleReplacementPlugin(),
-      // 自动打开浏览器
-      new OpenBrowserPlugin({
-        url: `http://localhost:${PORT}`, // IDEA: 这个port能不能import进来？
-        // 这里写要打开的浏览器名字，若不填，会打开默认浏览器
-        // Mac系统下可以选：Safari, Google Chrome, Firefox
-        // browser: 'Google Chrome',
-      }),
     ],
     /* ================================================================ */
     /* 开发服务器: devServer */
@@ -176,7 +170,19 @@ if (targetEnv === 'dev') { // dev
       host: '0.0.0.0', // 允许局域网访问
     },
   }
+
+  if (autoOpenBrowser) {
+    envConfig.plugins.push(// 自动打开浏览器
+      new OpenBrowserPlugin({
+        url: `http://localhost:${PORT}`, // IDEA: 这个port能不能import进来？
+        // 这里写要打开的浏览器名字，若不填，会打开默认浏览器
+        // Mac系统下可以选：Safari, Google Chrome, Firefox
+        // browser: 'Google Chrome',
+      })
+    )
+  }
 }
+
 if (targetEnv === 'prod') { // prod
   envConfig = {
     /* ================================================================ */

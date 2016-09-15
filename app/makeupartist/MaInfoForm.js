@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 
-import InputGroup from '../components/upai/form/InputGroup'
+import InputGroup from 'components/upai/form/InputGroup'
 
 const MakeupArtistInfoForm = React.createClass({
   render() {

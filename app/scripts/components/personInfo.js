@@ -17,7 +17,7 @@ import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
 
-import MoteInfo from '../mote/MoteInfo'
+import MoteInfo from 'mote/MoteInfo'
 
 import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
 
