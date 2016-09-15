@@ -1,4 +1,5 @@
 var React = require('react');
+import tianjiaImg from 'image/tianjia.png'
 var ImageInput = require('../account/imageInput');
 
 var MultiImageSelect = React.createClass({
@@ -121,7 +122,7 @@ var MultiImageSelect = React.createClass({
             height={this.props.height}
             uid={this.props.uid}
             ref="addImage"
-            defaultImage="img/tianjia.png"
+            defaultImage={tianjiaImg}
             onError={this.props.showMessage}
             onUpload={this.onUpload}/>
           <span className='text-info' style={{display: 'block'}}>{this.props.placeholder}</span>

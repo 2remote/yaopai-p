@@ -4,8 +4,6 @@ var Reflux = require('reflux');
 var validator = require('validator');
 var Button = require('react-bootstrap').Button;
 
-var assert = require('assert');
-
 var InfoHeader= require('./infoHeader');
 var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');

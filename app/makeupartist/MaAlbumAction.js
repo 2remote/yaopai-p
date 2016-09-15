@@ -1,9 +1,9 @@
 import Reflux from 'reflux'
-import { postStar } from '../HttpFactory'
-import { API_URL } from '../api'
+import { postStar } from '../scripts/HttpFactory'
+import { API_URL } from '../scripts/api'
 
 /* api const */
-const MOTE_ALBUM_ADD = `${API_URL}MoteAlbums.Add`
+const MAKEUPARTIST_ALBUM_ADD = `${API_URL}MakeupArtistAlbums.Add`
 
 const photoFakeToString = (photo, idx) => {
   // url is a must, desc is optional
@@ -18,11 +18,11 @@ const photoFakeToString = (photo, idx) => {
 /**
  * 模特
 **/
-const MoteAlbumAction = Reflux.createActions({
+const MaAlbumAction = Reflux.createActions({
   add: { children: ['success', 'failure'] }, // 添加作品
 })
 
-MoteAlbumAction.add.listen(function(album) {
+MaAlbumAction.add.listen(function(album) {
   const self = this
   const { title, desc, cover, tags, photos } = album
 
@@ -43,7 +43,7 @@ MoteAlbumAction.add.listen(function(album) {
     }))
   }
 
-  postStar(MOTE_ALBUM_ADD, formData, () => {
+  postStar(MAKEUPARTIST_ALBUM_ADD, formData, () => {
     self.success({
       Success: true,
       ErrorMsg: '',
@@ -52,4 +52,4 @@ MoteAlbumAction.add.listen(function(album) {
   }, self.failure)
 })
 
-export default MoteAlbumAction
+export default MaAlbumAction

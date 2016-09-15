@@ -16,8 +16,6 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="//cdn.staticfile.org/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
     <link href="//cdn.bootcss.com/cropperjs/0.7.2/cropper.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/mainAgain.css">
     <link rel="stylesheet" href="//at.alicdn.com/t/font_1465725935_7881246.css">
     <link rel="icon" href="favicon.ico">
     <script>
@@ -59,7 +57,6 @@
     <script src="//cdn.staticfile.org/plupload/2.1.8/plupload.full.min.js"></script>
     <script src="//cdn.staticfile.org/plupload/2.1.8/i18n/zh_CN.js"></script>
     <script src="//cdn.bootcss.com/cropperjs/0.7.2/cropper.js"></script>
-    <script src="//cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.min.js"></script>
-    <script src="bundle.js"></script>
+    <!-- <script src="//cdn.bootcss.com/qiniu-js/1.0.15-beta/qiniu.js"></script> -->
   </body>
 </html>

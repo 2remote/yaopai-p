@@ -1,6 +1,7 @@
 import React from 'react'
 import Reflux from 'reflux'
 import { Link, History } from 'react-router'
+import logoImg from 'image/logo.png'
 
 import {
   ROUTE_ROOT, ROUTE_MAIN, ROUTE_AUTH, ROUTE_UPLOAD_SUMMARY,
@@ -50,7 +51,7 @@ const Navbar = React.createClass({
               <span className="icon-bar"></span>
             </button>
             <Link to={ ROUTE_ROOT } className="navbar-brand">
-              <img style={{ height: '90%' }} src="img/logo.png" />
+              <img style={{ height: '90%' }} src={logoImg} />
             </Link>
           </div>
           <div className="collapse navbar-collapse" id="header-nav">

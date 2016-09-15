@@ -1,5 +1,5 @@
 var React = require('react');
-var Radium = require('radium');
+// var Radium = require('radium');
 
 var ToolTip = React.createClass({
   getDefaultProps: function () {
@@ -39,4 +39,4 @@ var ToolTip = React.createClass({
     )
   }
 });
-module.exports = Radium(ToolTip);
+module.exports = ToolTip;

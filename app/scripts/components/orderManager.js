@@ -1,7 +1,7 @@
-var React = require('react');
-var Reflux = require('reflux');
+import React from 'react'
+import Reflux from 'reflux'
 import { Link, History } from 'react-router'
-
+import defaultUserImg from 'image/default_user_img.png'
 import NoData from './noData';
 import { ROUTE_LOGIN } from '../routeConfig'
 
@@ -301,7 +301,7 @@ var OrderItem = React.createClass({
         <div className="row" style={itemStyle.infoWrap}>
           <div style={triangleClass} onClick={this.handleCollapse}></div>
           <div style={itemStyle.uniqueLineHeight} className="col-xs-2">
-            <img style={itemStyle.img} src={this.props.order.User&&this.props.order.User.Avatar?this.props.order.User.Avatar:'img/default_user_img.png'} width="60" heigth="60"/>
+            <img style={itemStyle.img} src={this.props.order.User&&this.props.order.User.Avatar?this.props.order.User.Avatar: defaultUserImg} width="60" heigth="60"/>
             <p>{this.props.order.User?this.props.order.User.NickName:''}</p>
           </div>
           <div className="col-xs-3" style={itemStyle.bookDate}>

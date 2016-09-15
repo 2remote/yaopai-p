@@ -1,20 +1,11 @@
 import React from 'react'
 import Reflux from 'reflux'
 import { Link } from 'react-router'
+import loadErrorImg from 'image/loaderror.png'
 import { AlbumStore, ALBUM_NOT_FETCHED } from '../../../stores/AlbumStore'
 import AlbumAction from '../../../actions/AlbumAction'
-var MasonryMixin = require('react-masonry-mixin')(React)
+// var MasonryMixin = require('react-masonry-mixin')(React)
 import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './constant'
-import NoData from '../../noData'
-
-/*
-瀑布流布局配置参数
-*/
-const masonryOptions = {
-  transitionDuration: '0s',
-  gutter: 15,
-  isFitWidth: true,
-}
 
 /**
  * AlbumList用来(按需)展示作品列表
@@ -27,7 +18,7 @@ const masonryOptions = {
 const AlbumList = React.createClass({
   mixins: [
     Reflux.connect(AlbumStore, 'album'),
-    MasonryMixin('masonryContainer', masonryOptions)
+    // MasonryMixin('masonryContainer', masonryOptions)
   ],
   /**
    * 利用上层传来的用户id来触发作品全列表的获取
@@ -82,7 +73,7 @@ const AlbumList = React.createClass({
     AlbumAction.sort(resultList.toString())
   },
   onImgError: function (obj) {
-    obj.target.src = "../../../img/loaderror.png"
+    obj.target.src = loadErrorImg
   },
   workState : function(state){
     switch (state){

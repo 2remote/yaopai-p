@@ -7,11 +7,11 @@
 import React from 'react'
 import Reflux from 'reflux'
 /* reusable components */
-import InputGroup from '../components/upai/form/InputGroup'
+import InputGroup from 'components/upai/form/InputGroup'
 /* store and action */
 import MoteStore from './MoteStore'
 import MoteAction from './MoteAction'
-import ToolTip from '../components/toolTip';
+import ToolTip from 'components/toolTip';
 
 const MoteInfo = React.createClass({
   mixins: [Reflux.connect(MoteStore, 'info')],

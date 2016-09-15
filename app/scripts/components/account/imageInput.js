@@ -7,6 +7,7 @@ var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
 import { History } from 'react-router'
 import { ROUTE_LOGIN } from '../../routeConfig'
+import tianjiaImg from 'image/tianjia.png'
 
 var ImageInput = React.createClass({
   mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange'), History],
@@ -53,7 +54,7 @@ var ImageInput = React.createClass({
     return {
       multi_selection : true,
       disabled : false,
-      defaultImage : 'img/tianjia.png', //指定未上传时的图片
+      defaultImage : tianjiaImg, //指定未上传时的图片
       colWidth : 'col-xs-4',  //指定所占列宽
       width : '150',  //图片高度
       height : '150', //指定图片高度

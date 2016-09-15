@@ -1,4 +1,9 @@
-var React = require('react');
+import React from 'react'
+import footerCodeImg from 'image/footer_code.png'
+import footerDataImg from 'image/footer_data.png'
+import footerWechatImg from 'image/footer_wechat.png'
+// import footerMoneyImg from 'image/footer_money.png'
+import footerVipImg from 'image/footer_vip.png'
 
 var FooterCover = React.createClass({
 	render : function(){
@@ -7,16 +12,16 @@ var FooterCover = React.createClass({
 				<div className="center">
 					<div className="row">
 						<div className="col-xs-3">
-							<img width="100" src="img/footer_wechat.png" />
+							<img width="100" src={footerWechatImg} />
 						</div>
 						<div className="col-xs-3">
-							<img width="100" src="img/footer_money.png" />
+							{/* <img width="100" src={footerMoneyImg} /> */}
 						</div>
 						<div className="col-xs-3">
-							<img width="100" src="img/footer_data.png" />
+							<img width="100" src={footerDataImg} />
 						</div>
 						<div className="col-xs-3">
-							<img width="100" src="img/footer_vip.png" />
+							<img width="100" src={footerVipImg} />
 						</div>
 					</div>
 					<div className="row">
@@ -58,7 +63,7 @@ var FooterBar = React.createClass({
 		return(
 			<div className="footer-bar" >
 				<div className="footer-code">
-					<img width="50" src="img/footer_code.png" />
+					<img width="50" src={footerCodeImg} />
 				</div>
 				<div className="footer-info">
 					<span className="glyphicon glyphicon-envelope" aria-hidden="true"></span>

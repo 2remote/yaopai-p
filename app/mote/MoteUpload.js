@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react'
 import { History } from 'react-router'
 import Reflux from 'reflux'
-import InputGroup from '../components/upai/form/InputGroup'
-import ImageOptimus from '../components/upai/ImageOptimus'
-import ImageUploader from '../temp/ImageUploader'
-import InfoHeader from '../components/infoHeader'
-import TagList from '../common/TagList'
+import InputGroup from 'components/upai/form/InputGroup'
+import ImageOptimus from 'components/upai/ImageOptimus'
+import ImageUploader from 'yaopai/ImageUploader'
+import InfoHeader from 'components/infoHeader'
+import TagList from 'yaopai/TagList'
 import MoteAlbumAction from './MoteAlbumAction'
-import { ROUTE_MAIN } from '../routeConfig'
+import { ROUTE_MAIN } from '../scripts/routeConfig'
 import { MoteNotifyStore, MOTE_UPLOAD_ALBUM } from './MoteNotifyStore'
 
 const MoteUpload = React.createClass({
@@ -21,7 +21,7 @@ const MoteUpload = React.createClass({
   },
 
   onMoteNotify(notification) {
-    const { source, success, msg} = notification
+    const { source, success, msg } = notification
     if (source === MOTE_UPLOAD_ALBUM) {
       if (success) {
         alert('上传成功！')
