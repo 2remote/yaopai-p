@@ -6,11 +6,7 @@ var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
 import { History } from 'react-router'
-<<<<<<< HEAD
 import { ROUTE_LOGIN } from 'util/routeConfig'
-=======
-import { ROUTE_LOGIN } from '../../routeConfig'
->>>>>>> dev
 import tianjiaImg from 'image/tianjia.png'
 
 var ImageInput = React.createClass({
