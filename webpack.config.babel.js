@@ -205,7 +205,6 @@ if (targetEnv === 'prod') { // prod
     /* ================================================================ */
     output: {
       path: DIST_PATH,
-      publicPath: DIST_PATH,
       filename: 'bundle.js?[chunkhash]',
     },
     plugins: [
