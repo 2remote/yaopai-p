@@ -2,7 +2,7 @@ html, body {
   margin: 0;
   height: 100%;
   background: #e7e7e7;
-  font: normal 14px/1.42 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif!important;
+  font: normal 14px/1.42 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -200,9 +200,9 @@ a.active {
 .btn-primary.active,
 .btn-primary:active,
 .open>.dropdown-toggle.btn-primary{
-  background:#e6c288!important;
-  border:1px solid #e6c288!important;
-  color:#000!important;
+  background:#e6c288;
+  border:1px solid #e6c288;
+  color:#000;
 }
 .btn-primary.active.focus,
 .btn-primary.active:focus,
@@ -219,9 +219,9 @@ a.active {
 }
 
 .btn-primary{
-  background: #e6c288!important;
-  color:#000!important;
-  border:1px solid #e6c288!important;
+  background: #e6c288;
+  color:#000;
+  border:1px solid #e6c288;
 }
 
 .btn-info{
@@ -236,8 +236,8 @@ a.active {
 }
 
 .btn-info.focus, .btn-info:focus {
-  background:#a5824b!important;
-  border:1px solid #e6c288!important;
+  background:#a5824b;
+  border:1px solid #e6c288;
 }
 
 .label-info{
@@ -269,7 +269,7 @@ a.active {
 }
 
 .progress-bar {
-  background-color:#282828!important;
+  background-color:#282828;
 }
 
 .tab-pane{
@@ -278,7 +278,7 @@ a.active {
 
 
 .center-block{
-  min-height:300px!important;
+  min-height:300px;
 }
 
 .tip_album{
