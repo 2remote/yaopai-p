@@ -11,7 +11,7 @@ var ToolTip = require('./toolTip');
 var API = require('../api');
 var Provision = require('./provision');
 import AuthSummary from './auth/AuthSummary'
-import { ROUTE_MAIN } from '../routeConfig'
+import { ROUTE_MAIN } from 'util/routeConfig'
 import { Link, History } from 'react-router'
 import bgPng from 'image/login_bg.gif'
 import logoIcon from 'image/logo_icon.png'

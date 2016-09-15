@@ -11,7 +11,7 @@ var InfoHeader = require('../infoHeader');
 
 var { NotifyStore, UPDATE_INFO } = require('../../stores/NotifyStore');
 
-import { ROUTE_AUTH_REALNAME } from '../../routeConfig'
+import { ROUTE_AUTH_REALNAME } from 'util/routeConfig'
 
 const AuthBasic = React.createClass({
   mixins: [

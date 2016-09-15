@@ -1,7 +1,7 @@
 import React from 'react'
 import Reflux from 'reflux'
 
-import { ROUTE_AUTH, ROUTE_AUTH_RESULT } from '../../routeConfig'
+import { ROUTE_AUTH, ROUTE_AUTH_RESULT } from 'util/routeConfig'
 
 var InfoHeader = require('../infoHeader');
 var AuthAction = require('../../actions/AuthAction');

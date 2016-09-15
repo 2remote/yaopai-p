@@ -1,7 +1,7 @@
 import React from 'react'
 import Reflux from 'reflux'
 
-import { ROUTE_LOGIN } from '../../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 import { History} from 'react-router'
 
 import Navbar from '../root/Navbar'

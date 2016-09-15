@@ -3,7 +3,7 @@ import Reflux from 'reflux'
 import { Link, History } from 'react-router'
 import defaultUserImg from 'image/default_user_img.png'
 import NoData from './noData';
-import { ROUTE_LOGIN } from '../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 
 var OrderStore = require('../stores/OrderStore');
 var OrderActions = require('../actions/OrderActions');

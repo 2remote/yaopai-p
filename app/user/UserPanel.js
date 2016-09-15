@@ -4,7 +4,7 @@ import qrCodeImg from 'image/qrcode_dingyue.jpg'
 import { Link } from 'react-router'
 import QRCode from 'qrcode.react'
 
-import { ROUTE_AUTH, ROUTE_ACCOUNT_INFO, ROUTE_UPLOAD_SUMMARY } from '../routeConfig'
+import { ROUTE_AUTH, ROUTE_ACCOUNT_INFO, ROUTE_UPLOAD_SUMMARY } from 'util/routeConfig'
 
 const UserPanel = ({ user }) => (
   <div className="panel panel-default">

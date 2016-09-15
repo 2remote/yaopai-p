@@ -6,7 +6,7 @@ import logoImg from 'image/logo.png'
 import {
   ROUTE_ROOT, ROUTE_MAIN, ROUTE_AUTH, ROUTE_UPLOAD_SUMMARY,
   ROUTE_ACCOUNT_PASSWORD, ROUTE_ACCOUNT_INFO, ROUTE_ACCOUNT_MOTE,
-} from '../../routeConfig'
+} from 'util/routeConfig'
 
 /**
  * <ul className="nav navbar-nav">下的每一个li

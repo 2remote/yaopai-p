@@ -19,7 +19,7 @@ var FormControls = require('react-bootstrap').FormControls;
 
 import MoteInfo from 'mote/MoteInfo'
 
-import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
+import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from 'util/routeConfig'
 
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],

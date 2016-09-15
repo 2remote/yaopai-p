@@ -7,7 +7,7 @@ var { NotifyStore, AUTH_MAKEUPARTIST_SUBMIT_AUDIT } = require('../../stores/Noti
 
 var MultiImageSelect = require('../photographer/multiImageSelect');
 
-import { ROUTE_AUTH, ROUTE_AUTH_RESULT } from '../../routeConfig'
+import { ROUTE_AUTH, ROUTE_AUTH_RESULT } from 'util/routeConfig'
 
 const AuthMakeupArtist = React.createClass({
   mixins: [Reflux.listenTo(NotifyStore, 'onNotify')],

@@ -14,7 +14,7 @@ import {
   ROUTE_AUTH_MOTE,
   ROUTE_AUTH_RESULT,
 }
-from '../../routeConfig'
+from 'util/routeConfig'
 
 const convertLinkToVal = function(basic, real, type) {
   let secondTarget = type === 'p' ? ROUTE_AUTH_PHOTOGRAPHER :

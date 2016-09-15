@@ -7,7 +7,7 @@ import ImageUploader from 'yaopai/ImageUploader'
 import TagList from 'yaopai/TagList'
 import InfoHeader from 'components/infoHeader'
 import MaAlbumAction from './MaAlbumAction'
-import { ROUTE_MAIN } from '../scripts/routeConfig'
+import { ROUTE_MAIN } from 'util/routeConfig'
 import { MaNotifyStore, MA_UPLOAD_ALBUM } from './MaNotifyStore'
 
 const MaUpload = React.createClass({

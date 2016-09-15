@@ -7,7 +7,7 @@ import ImageUploader from 'yaopai/ImageUploader'
 import InfoHeader from 'components/infoHeader'
 import TagList from 'yaopai/TagList'
 import MoteAlbumAction from './MoteAlbumAction'
-import { ROUTE_MAIN } from '../scripts/routeConfig'
+import { ROUTE_MAIN } from 'util/routeConfig'
 import { MoteNotifyStore, MOTE_UPLOAD_ALBUM } from './MoteNotifyStore'
 
 const MoteUpload = React.createClass({

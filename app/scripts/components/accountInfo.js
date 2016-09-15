@@ -11,7 +11,7 @@ var AlertBox = require('./user/alertBox');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
 import { History } from 'react-router'
-import { ROUTE_LOGIN } from '../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 
 var UserPhone = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleGetPhone')],

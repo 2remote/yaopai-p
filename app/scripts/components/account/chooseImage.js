@@ -10,7 +10,7 @@ var API = require('../../api');
 var Input = require('react-bootstrap').Input;
 var Tools = require('../../tools');
 
-import { ROUTE_LOGIN } from '../../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 /*
   data structure
   {

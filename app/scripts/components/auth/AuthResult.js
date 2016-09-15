@@ -8,7 +8,7 @@ import {
   ROUTE_UPLOAD_PHOTOGRAPHER,
   ROUTE_UPLOAD_MOTE,
   ROUTE_UPLOAD_MAKEUPARTIST,
-} from '../../routeConfig'
+} from 'util/routeConfig'
 
 const AuthResult = React.createClass({
   render: function() {
