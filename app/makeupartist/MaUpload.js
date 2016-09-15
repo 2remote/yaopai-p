@@ -7,7 +7,11 @@ import ImageUploader from 'yaopai/ImageUploader'
 import TagList from 'yaopai/TagList'
 import InfoHeader from 'components/infoHeader'
 import MaAlbumAction from './MaAlbumAction'
+<<<<<<< HEAD:app/makeupartist/MaUpload.js
 import { ROUTE_MAIN } from 'util/routeConfig'
+=======
+import { ROUTE_MAIN } from '../scripts/routeConfig'
+>>>>>>> dev:app/makeupartist/MaUpload.js
 import { MaNotifyStore, MA_UPLOAD_ALBUM } from './MaNotifyStore'
 
 const MaUpload = React.createClass({

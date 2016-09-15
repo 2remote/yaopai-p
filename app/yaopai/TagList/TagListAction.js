@@ -1,7 +1,12 @@
 import Reflux from 'reflux'
 
+<<<<<<< HEAD:app/yaopai/TagList/TagListAction.js
 import { postStar } from 'util/HttpFactory'
 import { API_URL } from 'util/api'
+=======
+import { postStar } from 'app/scripts/HttpFactory'
+import { API_URL } from 'app/scripts/api'
+>>>>>>> dev:app/yaopai/TagList/TagListAction.js
 
 const getTagConfig = (type) => {
   const tagConfig = {
