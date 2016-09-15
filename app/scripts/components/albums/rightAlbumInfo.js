@@ -11,7 +11,7 @@ var UploadPhotoModal = require('./uploadPhotoModal');
 var UserStore = require('../../stores/UserStore');
 var ToolTip = require('../toolTip');
 import { History } from 'react-router';
-import { ROUTE_LOGIN,ROUTE_MAIN } from '../../routeConfig';
+import { ROUTE_LOGIN,ROUTE_MAIN } from 'util/routeConfig';
 
 var RightAlbumInfo = React.createClass({
   mixins: [UserStore, History],//Reflux.listenTo(AlbumsStore, 'onStoreChanged'),

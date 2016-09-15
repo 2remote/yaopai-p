@@ -14,6 +14,8 @@ var Tools = {
       error : failed,
     });
   },
+<<<<<<< HEAD
+=======
   // crop: function (src, callback) {
   //   var img = new window.Image();
   //   img.crossOrigin = 'Anonymous';
@@ -46,6 +48,7 @@ var Tools = {
   //     });
   //   };
   // }
+>>>>>>> dev
 }
 
 /*

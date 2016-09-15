@@ -1,6 +1,6 @@
 var Reflux = require('reflux');
-var HttpFactory = require('../HttpFactory');
-var API = require('../api');
+var HttpFactory = require('util/HttpFactory');
+var API = require('util/api');
 
 var OrderActions = Reflux.createActions({
   'list' : {children:['success','failed']} ,

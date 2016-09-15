@@ -1,6 +1,6 @@
 import Reflux from 'reflux'
-import { postStar } from '../../HttpFactory'
-import { USER } from '../../api'
+import { postStar } from 'util/HttpFactory'
+import { USER } from 'util/api'
 
 /**
  * login:

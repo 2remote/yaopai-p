@@ -1,6 +1,6 @@
 import React from 'react'
 import Reflux from 'reflux'
-import { FILE } from '../../api'
+import { FILE } from 'util/api'
 import UserAccountStore from '../../stores/UserAccountStore'
 import { ProgressBar } from 'react-bootstrap'
 import tianjiaImg from 'image/tianjia.png'

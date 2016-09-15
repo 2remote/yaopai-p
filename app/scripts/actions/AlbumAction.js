@@ -1,6 +1,6 @@
 var Reflux = require('reflux');
-var { postStar } = require('../HttpFactory');
-var API = require('../api');
+var { postStar } = require('util/HttpFactory');
+var API = require('util/api');
 
 /* Util functions */
 const convertAlbum = function(item) {

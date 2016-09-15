@@ -7,7 +7,7 @@ var { NotifyStore, AUTH_MOTE_SUBMIT_AUDIT } = require('../../stores/NotifyStore'
 
 var MultiImageSelect = require('../photographer/multiImageSelect');
 
-import { ROUTE_AUTH, ROUTE_AUTH_RESULT } from '../../routeConfig'
+import { ROUTE_AUTH, ROUTE_AUTH_RESULT } from 'util/routeConfig'
 
 const AuthMote = React.createClass({
   mixins: [Reflux.listenTo(NotifyStore, 'onNotify')],

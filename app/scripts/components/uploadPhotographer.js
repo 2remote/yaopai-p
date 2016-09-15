@@ -21,7 +21,7 @@ var ChooseTags = require('./chooseTags');
 var Switch = require('./tools/switch');
 var Checkbox = require('./tools/checkbox');
 
-import { ROUTE_LOGIN,ROUTE_MAIN } from '../routeConfig'
+import { ROUTE_LOGIN,ROUTE_MAIN } from 'util/routeConfig'
 
 import ImageOptimus from './upai/ImageOptimus'
 

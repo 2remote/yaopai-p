@@ -1,6 +1,11 @@
 import Reflux from 'reflux'
+<<<<<<< HEAD:app/mote/MoteAction.js
+import { postStar } from 'util/HttpFactory'
+import { MOTE } from 'util/api'
+=======
 import { postStar } from '../scripts/HttpFactory'
 import { MOTE } from '../scripts/api'
+>>>>>>> dev:app/mote/MoteAction.js
 
 const MODEL_TYPE_MASK_STILL = '1'
 const MODEL_TYPE_MASK_ETIQUETTE = '2'

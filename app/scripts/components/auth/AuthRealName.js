@@ -12,7 +12,7 @@ var InfoHeader = require('../infoHeader');
 var AccountActions = require('../../actions/AccountActions');
 var { NotifyStore, CHANGE_REALNAME } = require('../../stores/NotifyStore');
 
-import { ROUTE_AUTH, ROUTE_AUTH_BASIC } from '../../routeConfig'
+import { ROUTE_AUTH, ROUTE_AUTH_BASIC } from 'util/routeConfig'
 
 /*
  身份证图片上传

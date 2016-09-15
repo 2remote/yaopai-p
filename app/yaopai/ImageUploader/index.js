@@ -7,7 +7,11 @@
 import React, { PropTypes } from 'react'
 import Reflux from 'reflux'
 import _ from 'lodash'
+<<<<<<< HEAD:app/yaopai/ImageUploader/index.js
+import { FILE } from 'util/api'
+=======
 import { FILE } from 'app/scripts/api'
+>>>>>>> dev:app/yaopai/ImageUploader/index.js
 import ImageItem from './ImageItem'
 import UserAccountStore from 'app/scripts/stores/UserAccountStore'
 import tianjiaImg from 'image/tianjia.png'

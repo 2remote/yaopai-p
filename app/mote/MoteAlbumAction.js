@@ -1,6 +1,11 @@
 import Reflux from 'reflux'
+<<<<<<< HEAD:app/mote/MoteAlbumAction.js
+import { postStar } from 'util/HttpFactory'
+import { API_URL } from 'util/api'
+=======
 import { postStar } from '../scripts/HttpFactory'
 import { API_URL } from '../scripts/api'
+>>>>>>> dev:app/mote/MoteAlbumAction.js
 
 /* api const */
 const MOTE_ALBUM_ADD = `${API_URL}MoteAlbums.Add`
