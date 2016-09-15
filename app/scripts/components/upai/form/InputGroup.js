@@ -91,6 +91,7 @@ const InputGroup = React.createClass({
       helpText,
       value,
       updateValue,
+      placeholder,
     } = this.props
 
     if(!this.validateSupport()) {
@@ -110,7 +111,7 @@ const InputGroup = React.createClass({
     ) : null
 
     let nameMyInput = [(
-      <input className="form-control" id={ inputId } type={ type }
+      <input className="form-control" placeholder={ placeholder } id={ inputId } type={ type }
         value={ value }
         onChange={ e => updateValue(e.target.value, e) }
       />
