@@ -28,8 +28,8 @@ const PGInfoAction = Reflux.createActions({
 })
 
 
-PGInfoAction.fetch.listen(function (id, current = false) {
-  const { success, failure } = this
+PGInfoAction.fetch.listen((id, current = false) => {
+  const { success, failure } = PGInfoAction.fetch
   if (!id && !current) {
     error('PGInfoAction cannot fetch data that does not have an id nor current')
   }
