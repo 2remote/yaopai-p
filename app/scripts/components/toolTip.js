@@ -1,24 +1,6 @@
 import React from 'react'
 
 const ToolTip = React.createClass({
-  getDefaultProps() {
-    return {
-      changeStyle: {
-        width: '100%',
-        position: 'fixed',
-        background: '#ccac7b',
-        lineHeight: 100,
-        height: 100,
-        zIndex: '9999',
-        textAlign: 'center',
-        color: '#000',
-        transition: 'top 2s',
-        left: 0,
-        top: 0,
-      },
-    }
-  },
-
   getInitialState() {
     return {
       title: '',
@@ -37,9 +19,9 @@ const ToolTip = React.createClass({
       width: '100%',
       position: 'fixed',
       background: '#ccac7b',
-      lineHeight: '100px',
-      height: '100px',
-      zIndex: '9999',
+      lineHeight: 100,
+      height: 100,
+      zIndex: 9999,
       textAlign: 'center',
       color: '#000',
       transition: 'top 2s',
