@@ -94,7 +94,6 @@ AlbumAction.fetch.listen(function(photographerId) {
       ',Photos.Id,Photos.AlbumsId,Photos.Url,Photos.Description',
       UserId: photographerId,
     }, function (serverData) {
-      console.log("*********serverData", serverData);
       if (serverData.Result && serverData.Result.length) {
         let albumList = [];
         // 后台数据解析
@@ -104,9 +103,7 @@ AlbumAction.fetch.listen(function(photographerId) {
 
         self.success(albumList);
       }
-    }, function (error) {
-      console.log('[Error][Albums.Search]', error);
-    });
+    }, function (error) {});
 
 });
 

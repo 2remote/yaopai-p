@@ -112,9 +112,7 @@ function QiniuJsSDK() {
         }
         if (that.detectIEVersion()) {
             // http://stackoverflow.com/questions/5538972/console-log-apply-not-working-in-ie9
-            //var log = Function.prototype.bind.call(console.log, console);
             //log.apply(console, args);
-            console.log(msg);
         }else{
             args.unshift(header);
             console.log.apply(console, args);
@@ -779,7 +777,7 @@ function QiniuJsSDK() {
                     directUpload(up, file, that.key_handler);
                 } else {
                     // TODO: need a polifill to make it work in IE 9-
-                    // ISSUE: if file.name is existed in localStorage 
+                    // ISSUE: if file.name is existed in localStorage
                     // but not the same file maybe cause error
                     var localFileInfo = localStorage.getItem(file.name);
                     var blockSize = chunk_size;
@@ -798,7 +796,7 @@ function QiniuJsSDK() {
 
                             if (localFileInfo.percent !== 100) {
                                 if (file.size === localFileInfo.total) {
-                                    // TODO: if file.name and file.size is the same 
+                                    // TODO: if file.name and file.size is the same
                                     // but not the same file will cause error
                                     file.percent = localFileInfo.percent;
                                     file.loaded = localFileInfo.offset;
@@ -1066,7 +1064,7 @@ function QiniuJsSDK() {
 
                 var res = that.parseJSON(info.response);
                 ctx = ctx ? ctx : res.ctx;
-                // if ctx is not empty 
+                // if ctx is not empty
                 //      that means the upload strategy is chunk upload
                 //      befroe the invoke the last_step
                 //      we need request the mkfile to compose all uploaded chunks

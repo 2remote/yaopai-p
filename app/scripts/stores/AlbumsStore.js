@@ -15,7 +15,6 @@ var AlbumsStore = Reflux.createStore({
     total : 0, //当前查询条件下的作品总数
   },
   init: function() {
-    console.log('UploadWorksStore initialized');
     this.listenTo(AlbumsActions.add.success,this.onAddSuccess);
     this.listenTo(AlbumsActions.add.failed,this.onFailed);
     this.listenTo(AlbumsActions.get.success,this.onGetSuccess);
@@ -151,7 +150,6 @@ var AlbumsStore = Reflux.createStore({
     this.trigger(this.data);
   },
   onSortingSuccess : function(res){
-    console.log(res)
     if(res.Success){
       this.data.hintMessage = '';
     }else{

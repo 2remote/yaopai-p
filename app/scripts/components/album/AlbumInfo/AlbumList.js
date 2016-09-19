@@ -80,7 +80,6 @@ const AlbumList = React.createClass({
         resultList.push(targetList[theIndex])
       }
     }
-    // console.log(resultList)
     AlbumAction.sort(resultList.toString())
   },
 

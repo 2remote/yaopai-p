@@ -9,7 +9,6 @@ var data = [];
 var GetCodeStore = Reflux.createStore({
 
   init: function() {
-    console.log('GetCodeStore initialized');
     //记录发送验证码的时间
     this.getCode = {
       timeID : null,
@@ -31,7 +30,6 @@ var GetCodeStore = Reflux.createStore({
     countLeft();
   },
   onTelRegisterSucess : function(data){
-    console.log(data);
     if(data.Success){
       //this.getCode.result = '验证码已发送';
     }else{
@@ -48,7 +46,6 @@ var GetCodeStore = Reflux.createStore({
     this.trigger(this.getCode);
   },
   onTelRegister2Success : function(data){
-    console.log(data);
     if(data.Success){
       //this.getCode.result = '验证码已发送';
     }else{

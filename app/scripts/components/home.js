@@ -508,7 +508,6 @@ var Home = React.createClass({
     this.setState({ display : 'block' });
   },
   auth : function(){
-    console.log(this.props)
   },
   render : function(){
     var bgStyle = {

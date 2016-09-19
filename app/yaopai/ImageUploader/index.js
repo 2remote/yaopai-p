@@ -140,7 +140,6 @@ const ImageUploader = React.createClass({
     const self = this
     const { sessionToken } = self.state.user
     if(sessionToken && !self.uploader) {
-      console.log("type==========",FILE.work_token_url);
       self.uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4', // 上传模式，依次退化 TODO: 如果cropper必须用File API，是不是flash什么的可以删了？
         browse_button: self.refs.uploader.getDOMNode(),
@@ -171,7 +170,6 @@ const ImageUploader = React.createClass({
           },
           UploadProgress: function(up, file) {
             // 每个文件上传时，处理相关的事情
-            console.log('file progress', file)
             self.updateFiles(file)
             // self.setState({ progress: file.percent })
           },
@@ -186,9 +184,6 @@ const ImageUploader = React.createClass({
             var domain = up.getOption('domain')
             var res = JSON.parse(info)
             var sourceLink = domain + res.key // 获取上传成功后的文件的Url
-            console.log('setting image:', res.Url)
-            console.log('uploadedFile', file)
-            console.log('uploadedInfo', info)
             // self.cleanUp()
             // self.setState({
             //   uploadedImage: res.Url,

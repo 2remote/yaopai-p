@@ -32,7 +32,6 @@ var UserImage = React.createClass({
   },
   onUpdateAvatar : function(data){
     if(data.flag == 'avatar'){
-      console.log(data);
     }
   },
   render : function() {
@@ -201,7 +200,6 @@ var PersonInfo = React.createClass({
       }
     }
     if(data.flag == 'updateInfo'){
-      console.log(data.hintMessage);
       this.showMessage(data.hintMessage);
       UserActions.currentUser();
     }

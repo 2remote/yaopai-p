@@ -77,7 +77,6 @@ const fillUserBasicInfo = function(self, tokens, userInfo) {
   self.basic.province = userInfo.ProvinceId
   self.basic.city = userInfo.CityId
   self.basic.county = userInfo.CountyId
-  // console.log('The fillUserBasicInfo function decided to have himself heared, Errr!', self)
 }
 
 /**

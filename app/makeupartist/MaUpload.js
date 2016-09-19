@@ -164,7 +164,7 @@ const MaUploadContainer = React.createClass({
 
   updateTags(tags) { this.setState({ tags }) },
 
-  updatePhotos(photos) { console.log('photos', photos); this.setState({ photos }) },
+  updatePhotos(photos) { this.setState({ photos }) },
 
   validate(){
     if(!this.state.title){
@@ -192,7 +192,6 @@ const MaUploadContainer = React.createClass({
 
   handleSubmit(e) {
     e && e.preventDefault && e.preventDefault()
-    console.log('[formData]', this.state)
     if(this.validate()){
       MaAlbumAction.add(this.state)
     }

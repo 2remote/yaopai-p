@@ -52,7 +52,6 @@ var ConstTags = React.createClass({
     return {
       cat : '',
       handleSelectTag : function(event){
-        //console.log(tag);
       }
     }
   },

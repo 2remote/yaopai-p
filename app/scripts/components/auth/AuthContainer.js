@@ -57,7 +57,6 @@ var AuthContainer = React.createClass({
     }
   },
   componentWillMount: function() {
-    console.log("AuthContainer:",this.state)
 
     //组件即将加载前,重新获取认证状态
     AuthAction.viewPhotographerAudit();

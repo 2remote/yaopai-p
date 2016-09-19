@@ -124,7 +124,6 @@ var OrderItem = React.createClass({
     }
   },
   updateDate : function(e){
-    console.log(e.target.value);
     this.props.updateDate(this.props.order,new Date(e.target.value));
   },
   dateFormat : function(date, format) {
@@ -421,7 +420,6 @@ var OrderManager = React.createClass({
     }
   },
   onOrderStoreChange : function(data){
-    console.log(data);
     if(data.flag == 'list'){
       if(data.success)
         this.setState({orders : data.orders});
@@ -436,7 +434,6 @@ var OrderManager = React.createClass({
   },
   componentWillReceiveProps : function (nextProps) {
     if(this.props.params.type != nextProps.params.type || this.props.params.state != nextProps.params.state){
-      console.log(nextProps.params.type,nextProps.params.state);
       OrderActions.list(nextProps.params.type,nextProps.params.state);
     }
   },
@@ -444,7 +441,6 @@ var OrderManager = React.createClass({
     UserActions.currentUser();
   },
   showMessage : function(msg){
-    console.log(msg);
   },
   showConfirmOrder : function(order){
     this.refs.confirmModal.open(order);

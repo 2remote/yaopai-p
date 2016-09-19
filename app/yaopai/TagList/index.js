@@ -57,7 +57,6 @@ TagList.propTypes = {
 
 const TagListContainer = React.createClass({
   mixins: [Reflux.connectFilter(TagListStore, 'list', function(lists) {
-    console.log('lists', lists)
     return lists[this.props.type]
   })],
 
