@@ -1,0 +1,117 @@
+import Reflux from 'reflux'
+import AlbumAction from 'photographer/actions/AlbumAction'
+
+const ALBUM_NOT_FETCHED = 0
+const ALBUM_FETCHED = 1
+
+/**
+ * 关于作品排序：
+ * 后台对作品的上下架和排序是无相关控制的，这里从前端做简单的管理：
+ * 1. 上架作品排在下架作品之前
+ * 2. 下架作品上架时排在所有上架作品最后
+ * 3. 上架作品下架时排在所有下架作品最前
+ * 4. 对于并没有按照先排上架作品后排下架作品的老数据，
+ *    前端接收数据后自动调整顺序（但不发后台），待遇到排序请求时再发送
+**/
+const AlbumStore = Reflux.createStore({
+  getInitialState() {
+    return this.data
+  },
+
+  init() {
+    // Initial data for Album info
+    this.listenTo(AlbumAction.fetch.success, this.updateList)
+    this.listenTo(AlbumAction.sort.success, this.sort)
+    this.listenTo(AlbumAction.delete.success, this.delete)
+    this.listenTo(AlbumAction.add.success, this.add)
+    this.data = {
+      status: ALBUM_NOT_FETCHED,
+      onSaleList: [],
+      offSaleList: [],
+    }
+  },
+  updateList(list) {
+    console.log('list', list)
+    const onSaleList = []
+    const offSaleList = []
+    for (const albumIndex in list) {
+      const album = list[albumIndex]
+      if (album.display) {
+        onSaleList.push(album)
+      } else {
+        offSaleList.push(album)
+      }
+    }
+    this.data = {
+      status: ALBUM_FETCHED,
+      onSaleList,
+      offSaleList,
+    }
+
+    this.trigger(this.data)
+  },
+
+  sort(ids) {
+    const dataRef = this.data
+    const idList = ids.split(',')
+    const albumObject = {}
+    const newOnSaleList = []
+    const newOffSaleList = []
+    // 所有album放进albumObject，建立从id到Object的引用
+    for (const onItem in dataRef.onSaleList) {
+      const theItem = dataRef.onSaleList[onItem]
+      albumObject[theItem.id] = theItem
+    }
+    for (const offItem in dataRef.offSaleList) {
+      const theItem = dataRef.offSaleList[offItem]
+      albumObject[theItem.id] = theItem
+    }
+    // 从新排序后的id列表中遍历id，使用albumObject转换成album，看display推进不同的list
+    // 不过好像没有卵用的排序也会推到服务器= =
+    for (const idx in idList) {
+      const theItem = albumObject[idList[idx]]
+      if (theItem) { // 确保作品存在，可处理异步作品被删，但没法处理异步增加作品（小概率）
+        if (theItem.display) {
+          newOnSaleList.push(theItem)
+        } else {
+          newOffSaleList.push(theItem)
+        }
+      }
+    }
+    // 重拍完成，把结果的引用传给dataRef(this.data)
+    dataRef.onSaleList = newOnSaleList
+    dataRef.offSaleList = newOffSaleList
+    this.trigger(dataRef)
+  },
+
+  delete(albumId) {
+    for (const i in this.data.onSaleList){
+      if (this.data.onSaleList[i].id === albumId) {
+        this.data.onSaleList.splice(i, 1)
+      }
+    }
+
+    for (const i in this.data.offSaleList) {
+      if (this.data.offSaleList[i].id === albumId) {
+        this.data.offSaleList.splice(i, 1)
+      }
+    }
+    this.trigger(this.data)
+  },
+
+  add(data) {
+    const onSaleItem = {}
+    onSaleItem.cover = data.data.Cover
+    onSaleItem.display = true
+    onSaleItem.id = data.res.Result
+    onSaleItem.state = 0
+    onSaleItem.title = data.data.Title
+
+    this.data.onSaleList.push(onSaleItem)
+    this.trigger(this.data)
+  },
+})
+
+export { ALBUM_NOT_FETCHED, ALBUM_FETCHED }
+
+export default AlbumStore

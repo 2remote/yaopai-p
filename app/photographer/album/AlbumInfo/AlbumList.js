@@ -2,8 +2,8 @@ import React from 'react'
 import Reflux from 'reflux'
 import { Link } from 'react-router'
 import loadErrorImg from 'image/loaderror.png'
-import { AlbumStore, ALBUM_NOT_FETCHED } from '../../../stores/AlbumStore'
-import AlbumAction from '../../../actions/AlbumAction'
+import AlbumStore, { ALBUM_NOT_FETCHED } from 'photographer/stores/AlbumStore'
+import AlbumAction from 'photographer/actions/AlbumAction'
 // var MasonryMixin = require('react-masonry-mixin')(React)
 import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './constant'
 

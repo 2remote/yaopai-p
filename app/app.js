@@ -26,7 +26,7 @@ import AuthMakeupArtist from 'components/auth/AuthMakeupArtist' // 化妆师专�
 import AuthMote from 'components/auth/AuthMote' // 模特专业认证
 import AuthResult from 'components/auth/AuthResult' // 结果
 /* ********************************作品上传******************************** */
-import AlbumInfo from 'components/album/AlbumInfo'
+import AlbumInfo from 'photographer/album/AlbumInfo'
 import MakeupArtistUploadRouteComponent from 'routes/upload/makeupartist'
 import MoteUploadRouteComponent from 'routes/upload/mote'
 

@@ -7,28 +7,17 @@ import { error } from 'util/logger'
 import { unloadPGInfo } from 'photographer/functions'
 
 const API = {
-  current: `${apiServer}Photographer.CurrentPhotographer`,
-  change: `${apiServer}Photographer.ChangePhotographer`,
-  get: `${apiServer}Photographer.Get`,
-  search: `${apiServer}Photographer.Search`,
-  view: `${apiServer}Photographer.ViewAdd`,
-  mark: `${apiServer}Photographer.Mark`,
-  unmark: `${apiServer}Photographer.UnMark`,
-  searchMarker: `${apiServer}PhotographerUserMarked.Search`,
+  apply: `${apiServer}Photographer.SubmitAudit`,
+  view: `${apiServer}Photographer.ViewAudit`,
 }
 
 const PGAuthAction = Reflux.createActions({
-  fetch: { children: ['success', 'failure'] }, // 获取
-  update: { children: ['success', 'failure'] }, // 更改
-  search: { children: ['success', 'failure'] }, // 查找
-  view: { children: ['success', 'failure'] }, // 浏览
-  follow: { children: ['success', 'failure'] }, // 关注
-  unfollow: { children: ['success', 'failure'] }, // 取消关注
-  searchFollowers: { children: ['success', 'failure'] }, // 查找关注者
+  apply: { children: ['success', 'failure'] }, // 申请审核
+  view: { children: ['success', 'failure'] }, // 获取审核资料
 })
 
 
-PGAuthAction.fetch.listen(function (id, current = false) {
+PGAuthAction.apply.listen(function (id, current = false) {
   const { success, failure } = this
   if (!id && !current) {
     error('PGAuthAction cannot fetch data that does not have an id nor current')

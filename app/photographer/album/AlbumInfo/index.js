@@ -1,10 +1,9 @@
 import React from 'react'
 import Reflux from 'reflux'
 
-import UserAccountStore from '../../../stores/UserAccountStore'
+import UserAccountStore from 'app/scripts/stores/UserAccountStore'
 import AlbumList from './AlbumList'
 import AlbumHeader from './AlbumHeader'
-import AlbumAction from '../../../actions/AlbumAction'
 import { ALBUM_DISPLAY_ON } from './constant'
 
 /**

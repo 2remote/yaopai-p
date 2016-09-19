@@ -55,3 +55,5 @@ AlbumsActions.getTagList.listen(function () {
 });
 
 module.exports = AlbumsActions;
+
+export default AlbumsActions

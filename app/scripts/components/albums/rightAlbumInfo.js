@@ -4,7 +4,7 @@ var validator = require('validator');
 var moment = require('moment');
 var Button = require('react-bootstrap').Button;
 var AlbumsActions = require('../../actions/AlbumsActions');
-import AlbumAction from '../../actions/AlbumAction'
+import AlbumAction from 'photographer/actions/AlbumAction'
 var AlbumsStore = require('../../stores/AlbumsStore');
 var EditAlbumModal = require('./editAlbumModal');
 var UploadPhotoModal = require('./uploadPhotoModal');

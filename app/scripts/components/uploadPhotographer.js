@@ -11,7 +11,7 @@ var ToolTip = require('./toolTip');
 
 var AlbumsStore = require('../stores/AlbumsStore');
 import $ from 'jquery'
-import AlbumAction from '../actions/AlbumAction';
+import AlbumAction from 'photographer/actions/AlbumAction';
 var AlbumsActions = require('../actions/AlbumsActions');
 var WorkStore = require('../stores/WorkStore');
 var UserActions = require("../actions/UserActions");
