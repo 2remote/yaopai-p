@@ -1,42 +1,37 @@
-var React = require('react');
-// var Radium = require('radium');
+import React from 'react'
 
-var ToolTip = React.createClass({
-  getDefaultProps: function () {
+const ToolTip = React.createClass({
+  getInitialState() {
     return {
-      changeStyle: {
-        width: '100%',
-        position: 'fixed',
-        background: '#ccac7b',
-        lineHeight: '100px',
-        height: '100px',
-        zIndex: '9999',
-        textAlign: 'center',
-        color: '#000',
-        transition: 'top 2s',
-        left:'0px',
-        top:'0px'
-      },
+      title: '',
+      top: -200,
     }
   },
-  getInitialState: function () {
-    return {
-      title : '',
-      setTop: {
-        top: '-200px',
-      }
+
+  toShow(title) {
+    const self = this
+    self.setState({ title, top: 0 })
+    setTimeout(() => self.setState({ top: -200 }), 5000)
+  },
+
+  render() {
+    const toolTipStyle = {
+      width: '100%',
+      position: 'fixed',
+      background: '#ccac7b',
+      lineHeight: 100,
+      height: 100,
+      zIndex: 9999,
+      textAlign: 'center',
+      color: '#000',
+      transition: 'top 2s',
+      left: 0,
+      top: this.state.top,
     }
-  },
-  toShow: function (title) {
-    this.setState({title: title, setTop: {top: '0px'}});
-    setTimeout(function () {
-      this.setState({setTop: {top: '-200px'}})
-    }.bind(this), 5000);
-  },
-  render: function () {
     return (
-      <div className="tool-tip" style={[this.props.changeStyle, this.state.setTop]}>{this.state.title}</div>
+      <div className="tool-tip" style={toolTipStyle}>{this.state.title}</div>
     )
-  }
-});
-module.exports = ToolTip;
+  },
+})
+
+module.exports = ToolTip
