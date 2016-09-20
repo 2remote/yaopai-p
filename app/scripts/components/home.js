@@ -176,7 +176,7 @@ var LoginButtonn = React.createClass({
       <div>
         <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
 
-        <div style={openLogin}><span>还没有账号？<a href="#" onClick={this.props.toRegister}>先注册</a></span><span style={{float:'right',paddingRight:'20px'}}><a onClick={this.forgotPass}>忘记密码</a></span></div>
+        <div style={openLogin}><span>还没有账号？<a onClick={this.props.toRegister}>先注册</a></span><span style={{float:'right',paddingRight:'20px'}}><a onClick={this.forgotPass}>忘记密码</a></span></div>
       </div>
     );
   }
@@ -306,7 +306,7 @@ var RegisterButtons = React.createClass({
         <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
 
-        <div style={openLogin}><span>已经有账号？<a href="#" onClick={this.props.toLogin}>直接登录</a></span></div>
+        <div style={openLogin}><span>已经有账号？<a onClick={this.props.toLogin}>直接登录</a></span></div>
       </div>
     );
   }
@@ -498,13 +498,14 @@ var Home = React.createClass({
     return false;
   },
   showRegister : function(){
+
     this.setState({show : 'register'});
     return false;
   },
   hidden : function(){
     this.setState({ display : 'none' });
   },
-  show : function(){
+  show : function(e){
     this.setState({ display : 'block' });
   },
   auth : function(){
@@ -575,7 +576,7 @@ var Home = React.createClass({
         <div style={container}>
           <div>
             <div style={{padding:'30px 0',color:'#fff'}}>
-              <a href="#">
+              <a >
                 <img src={logoImg} width="250" alt=""/>
               </a>
               <a style={{
