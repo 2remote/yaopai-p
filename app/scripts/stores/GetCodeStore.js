@@ -19,8 +19,22 @@ var GetCodeStore = Reflux.createStore({
     this.listenTo(GetCodeActions.sendTelRegister.success,this.onTelRegisterSucess);
     this.listenTo(GetCodeActions.sendTelRegister2,this.onBeginTelRegister);
     this.listenTo(GetCodeActions.sendTelRegister2.success,this.onTelRegister2Success);
+
+    this.listenTo(GetCodeActions.sendEmailRegister,this.onBeginEmailRegister);
+    this.listenTo(GetCodeActions.sendEmailRegister.success,this.onEmailRegisterSuccess);
+    //this.listenTo(GetCodeActions.sendEmailRegister2,this.onBeginEmailRegister);
+    //this.listenTo(GetCodeActions.sendEmailRegister2.success,this.onEmailRegisterSuccess);
   },
   onBeginTelRegister : function(){
+    this.getCode.left = 60;
+    var countLeft = function(){
+      this.getCode.left = this.getCode.left -1;
+      this.trigger(this.getCode);
+      this.timeID = setTimeout(countLeft, 1000);
+    }.bind(this);
+    countLeft();
+  },
+  onBeginEmailRegister : function(){
     this.getCode.left = 60;
     var countLeft = function(){
       this.getCode.left = this.getCode.left -1;
@@ -37,6 +51,22 @@ var GetCodeStore = Reflux.createStore({
       this.timeID = null;
       if(data.ErrorCode == '200002'){
         this.getCode.result = '该手机号已注册可直接登录';
+        this.getCode.left = 0;
+      }else{
+        this.getCode.result = '验证码发送失败';
+        this.getCode.left = 0;
+      }
+    }
+    this.trigger(this.getCode);
+  },
+  onEmailRegisterSuccess : function(data){
+    if(data.Success){
+      this.getCode.result = '验证码已发送';
+    }else{
+      clearTimeout(this.timeID)
+      this.timeID = null;
+      if(data.ErrorCode == '200007'){
+        this.getCode.result = '该邮箱已注册可直接登录';
         this.getCode.left = 0;
       }else{
         this.getCode.result = '验证码发送失败';
