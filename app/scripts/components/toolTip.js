@@ -19,7 +19,7 @@ const ToolTip = React.createClass({
       width: '100%',
       position: 'fixed',
       background: '#ccac7b',
-      lineHeight: 100,
+      lineHeight: '100px',
       height: 100,
       zIndex: 9999,
       textAlign: 'center',
