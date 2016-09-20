@@ -164,12 +164,9 @@ var ChooseImages = React.createClass({
         //    // progress.setChunkProgess(chunk_size);
         //    console.log(chunk_size);
         //}
-        console.log(file.name+"::"+file.origSize);
         if(file.origSize >= 1024 * 1024){
-          console.log("resize 1M: 95");
           up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:85});
         }else{
-          console.log("resize desabled");
           up.setOption('resize',false);
         }
       },
@@ -226,7 +223,6 @@ var ChooseImages = React.createClass({
     单个文件上传完毕后，返回值info.Url是图片地址
   */
   onFileUploaded : function(up,file,info){
-    console.log(file);
     var res = JSON.parse(info);
     WorkActions.updateImageUrl(file.id,res.Url);
   },
@@ -238,7 +234,6 @@ var ChooseImages = React.createClass({
   },
 
   onUploadComplete : function(){
-    console.log('all files upload complete.');
   },
 
   onError : function(up, err, errTip) {

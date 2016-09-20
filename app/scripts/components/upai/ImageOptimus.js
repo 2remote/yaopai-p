@@ -97,7 +97,6 @@ const ImageOptimus = React.createClass({
     const self = this
     const { sessionToken } = self.state.user
     if(sessionToken && !self.uploader) {
-      console.log("type==========",FILE.work_token_url);
       self.uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4', // 上传模式，依次退化 TODO: 如果cropper必须用File API，是不是flash什么的可以删了？
         browse_button: self.refs.uploader.getDOMNode(),
@@ -157,7 +156,6 @@ const ImageOptimus = React.createClass({
             var domain = up.getOption('domain')
             var res = JSON.parse(info)
             var sourceLink = domain + res.key // 获取上传成功后的文件的Url
-            console.log('setting image:', res.Url)
             self.cleanUp()
             self.setState({
               uploadedImage: res.Url,

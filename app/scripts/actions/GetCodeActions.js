@@ -11,7 +11,7 @@ var GetCodeActions = Reflux.createActions({
 
 /*
   发送注册手机号码
-  request : 
+  request :
   {tel : string}
   response:
   {
@@ -21,7 +21,6 @@ var GetCodeActions = Reflux.createActions({
 }
 */
 GetCodeActions.sendTelRegister.listen(function(data) {
-  console.log("send request code.");
   HttpFactory.post(API.USER.sendTelRegister,data,this.success,this.failed);
 });
 /*
@@ -36,7 +35,6 @@ GetCodeActions.sendTelRegister.listen(function(data) {
  }
  */
 GetCodeActions.sendTelRegister2.listen(function(data) {
-  console.log("send request code2.");
   HttpFactory.post(API.USER.sendTelRegister2,data,this.success,this.failed);
 });
 

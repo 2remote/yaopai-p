@@ -43,7 +43,6 @@ var ChooseTags = React.createClass({
 
   onGetCategories : function(data){
     if(data.hintMessage){
-      console.log(data.hintMessage);
     }else{
       this.setState({tags : data.tags});
     }

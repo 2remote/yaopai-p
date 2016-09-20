@@ -16,7 +16,6 @@ var Checkbox = React.createClass({
       this.setState({selectedValues:this.props.value})
     }
     this.setState({data:this.props.data})
-    console.log(this.props)
   },
   setValue: function (event) {
     var key = event.target.getAttribute('data-key');

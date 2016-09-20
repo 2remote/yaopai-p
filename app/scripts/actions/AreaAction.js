@@ -8,7 +8,6 @@ const AreaAction = Reflux.createActions({
 
 AreaAction.loadChildren.listen(function(parentId) {
   const self = this
-  console.log(COMMON.area_list)
   postStar(COMMON.area_list, {
     ParentId: parentId || 0, // 传入ParentId为0时获取所有省份
   }, function(resp) {

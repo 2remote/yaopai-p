@@ -32,13 +32,10 @@ var ImageInput = React.createClass({
         init: {
           'FilesAdded': function(up,files){},
           'BeforeUpload': function(up, file) {
-            console.log(file.name+"::"+file.origSize);
 
             if(file.origSize >= 1024 * 1024){
-              console.log("resize 1M: 95");
               up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:90});
             }else{
-              console.log("resize desabled");
               up.setOption('resize',false);
             }
           },
@@ -78,13 +75,11 @@ var ImageInput = React.createClass({
     }
   },
   onFileUploaded : function(up,file,info){
-    console.log(file);
     var res = JSON.parse(info);
     this.setState({imageUrl : res.Url});
     this.props.onUpload(res.Url); //上传成功后可以回调onUpload函数
   },
   onUploadProgress : function(up,file){
-    //console.log(JSON.stringify(file))
     this.setState({progress :file.percent});
     //this.props.progress = file.percent;
   },

@@ -24,7 +24,6 @@ function styleMaskConverter(binaryType, mask) {
 }
 
 function convertMoteData(serverData) {
-  console.log('[serverData]', serverData)
   let convertedData = {
     // styleCode: serverData.Style, // 风格
     // style: {

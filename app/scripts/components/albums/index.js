@@ -33,7 +33,6 @@ const Albums = React.createClass({
   ],
   onStoreChanged: function (data) {
     if (data.hintMessage) {
-      console.log(data.hintMessage);
     } else {
       if (data.flag == 'get') {
         this.setState({work: data.workData});

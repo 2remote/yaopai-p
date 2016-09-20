@@ -46,10 +46,8 @@ var uploaderOption = {
         'BeforeUpload': function(up, file) {
                // 每个文件上传前,处理相关的事情
           if(file.origSize >= 1 * 1024 * 1024){
-            console.log("resize 1M: 95");
             up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:85});
           }else{
-            console.log("resize desabled");
             up.setOption('resize',false);
           }
         },

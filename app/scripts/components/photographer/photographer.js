@@ -51,7 +51,6 @@ var Photographer = React.createClass({
     }
   },
   handleStoreChange : function(data){
-    console.log(data);
     if(data.flag == 'current' ){
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
@@ -66,7 +65,6 @@ var Photographer = React.createClass({
     //  this.setState({studio : data.studio});
     //}
     if(data.flag == 'change'){
-      console.log('flag:change');
       if(data.hintMessage){
         this.showMessage(data.hintMessage);
       }else{
@@ -277,9 +275,9 @@ var Photographer = React.createClass({
       <div style={style.outer}>
         <InfoHeader infoTitle="摄影师信息" rightInfo="已审核" infoIconClass="glyphicon glyphicon-camera"/>
         <form className='form-horizontal'>
-          <FormControls.Static label="姓名：" 
-            labelClassName="col-xs-3" 
-            wrapperClassName="col-xs-4" 
+          <FormControls.Static label="姓名："
+            labelClassName="col-xs-3"
+            wrapperClassName="col-xs-4"
             value={this.state.photographer.NickName} />
           <FormControls.Static label="常驻地："
            labelClassName="col-xs-3"

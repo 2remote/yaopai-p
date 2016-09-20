@@ -165,7 +165,7 @@ const MoteUploadContainer = React.createClass({
 
   updateTags(tags) { this.setState({ tags }) },
 
-  updatePhotos(photos) { console.log('photos', photos); this.setState({ photos }) },
+  updatePhotos(photos) { this.setState({ photos }) },
 
   validate(){
     if(!this.state.title){
@@ -194,7 +194,6 @@ const MoteUploadContainer = React.createClass({
 
   handleSubmit(e) {
     e && e.preventDefault && e.preventDefault()
-    console.log('[formData]', this.state)
     if(this.validate()){
       MoteAlbumAction.add(this.state)
     }

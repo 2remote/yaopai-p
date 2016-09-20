@@ -28,7 +28,6 @@ var AlbumSummary = React.createClass({
     // 重新获取认证状态
     AuthAction.viewPhotographerAudit();
     AuthAction.viewMakeupArtistAudit();
-    console.log("******************begin get")
     AuthAction.viewMoteAudit();
   },
 
