@@ -33,6 +33,8 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.login.failed, this.onLoginFailed);
     this.listenTo(UserActions.register.success, this.onRegisterSuccess);
     this.listenTo(UserActions.register.failed, this.onRegisterFailed);
+    this.listenTo(UserActions.emailRegister.success, this.onEmailRegisterSuccess);
+    this.listenTo(UserActions.emailRegister.failed, this.onEmailRegisterFailed);
     this.listenTo(UserActions.logout.success, this.onLogoutSuccess);
     this.listenTo(UserActions.loginWithToken.success,this.onLoginWithTokenSuccess);
     this.listenTo(UserActions.loginWithToken.failed,this.onLoginWithTokenFailed);
@@ -161,6 +163,27 @@ var UserStore = Reflux.createStore({
       this.userData.hintMessage = '网络出错啦！';
       this.userData.flag = "register"
       this.trigger(this.userData);
+  },
+  /*
+   监听注册action，根据返回的data.success判断是否注册成功
+   */
+  onEmailRegisterSuccess: function(data) {
+    if (data.Success) {
+      this.userData.hintMessage = '';
+      this.setCurrentUser(data.User);
+    } else {
+      this.userData.hintMessage = data.ErrorMsg;
+    }
+    this.userData.flag = "register";
+    this.trigger(this.userData);
+  },
+  /*
+   onRegisterFailed 主要监听网络访问错误
+   */
+  onEmailRegisterFailed: function(data) {
+    this.userData.hintMessage = '网络出错啦！';
+    this.userData.flag = "register"
+    this.trigger(this.userData);
   },
   /*
     登出后清空userData的用户信息

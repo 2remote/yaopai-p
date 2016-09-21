@@ -6,6 +6,8 @@ var API = require('util/api');
 var GetCodeActions = Reflux.createActions({
   'sendTelRegister' : {children:["success","failed"]},
   'sendTelRegister2' : {children:["success","failed"]},//_SendTelRegister
+  'sendEmailRegister' : {children:["success","failed"]},
+  'sendEmailRegister2' : {children:["success","failed"]},
   // Here you can list your actions
 });
 
@@ -36,6 +38,36 @@ GetCodeActions.sendTelRegister.listen(function(data) {
  */
 GetCodeActions.sendTelRegister2.listen(function(data) {
   HttpFactory.post(API.USER.sendTelRegister2,data,this.success,this.failed);
+});
+
+/*
+ 发送注册邮箱
+ request :
+ {email : string}
+ response:
+ {
+ Result: true,    //信息是否发送成功
+ ErrorCode: 0，    //错误代码
+ ErrorMsg: null    //错误信息
+ }
+ */
+GetCodeActions.sendEmailRegister.listen(function(data) {
+  HttpFactory.post(API.USER.sendEmailRegister,data,this.success,this.failed);
+});
+
+/*
+ 发送注册邮箱   带图片验证码
+ request :
+ {email : string,pin : string}
+ response:
+ {
+ Result: true,    //信息是否发送成功
+ ErrorCode: 0，    //错误代码
+ ErrorMsg: null    //错误信息
+ }
+ */
+GetCodeActions.sendEmailRegister2.listen(function(data) {
+  HttpFactory.post(API.USER.sendEmailRegister2,data,this.success,this.failed);
 });
 
 module.exports = GetCodeActions;
