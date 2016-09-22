@@ -74,7 +74,7 @@ const MoteUpload = React.createClass({
         />
         <form className="form-horizontal" onSubmit={this.props.handleSubmit}>
 
-          {/* TODO: 一、title 标题 - required */}
+          {/* 一、title 标题 */}
           <InputGroup
             label="标题"
             type="text"
@@ -88,7 +88,7 @@ const MoteUpload = React.createClass({
             maxLength={30}
           />
 
-          {/* TODO: 二、desc 描述 */}
+          {/* 二、desc 描述 */}
           <InputGroup
             label="描述"
             type="text"
@@ -102,7 +102,7 @@ const MoteUpload = React.createClass({
             maxLength={200}
           />
 
-          {/* TODO: 三、cover 封面 - required */}
+          {/* 三、cover 封面 */}
           <InputGroup
             label="封面"
             type="children"
@@ -114,7 +114,7 @@ const MoteUpload = React.createClass({
 
           {/* TODO: 四、cut 封面裁剪函数 */}
 
-          {/* TODO: 五、tags 标签 */}
+          {/* 五、tags 标签 */}
           <InputGroup
             label="标签"
             type="children"
@@ -131,7 +131,7 @@ const MoteUpload = React.createClass({
             />
           </InputGroup>
 
-          {/* TODO: 六、photos 作品 - required */}
+          {/* 六、photos 作品 */}
           <InputGroup
             label="作品"
             type="children"
@@ -219,11 +219,10 @@ const MoteUploadContainer = React.createClass({
 
 
   handleSubmit(e) {
-    e && e.preventDefault && e.preventDefault()
-    if(this.validate()){
+    if (e && e.preventDefault) e.preventDefault()
+    if (this.validate()) {
       MoteAlbumAction.add(this.state)
     }
-
   },
 
   render() {
