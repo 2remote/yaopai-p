@@ -139,7 +139,7 @@ const MoteUpload = React.createClass({
             horizontalInputStyle="col-xs-6"
           >
             <ImageUploader
-              maxCount={5}
+              maxCount={30}
               onPhotosChange={this.props.updatePhotos}
             />
           </InputGroup>
@@ -209,9 +209,9 @@ const MoteUploadContainer = React.createClass({
       alert('请选择1到3个标签')
       return false
     }
-    /* photos: TODO: */
-    if (photos.length === 0) {
-      alert('作品图不能为空')
+    /* photos: [1, 30] */
+    if (photos.length < 1 || photos.length > 30) {
+      alert('请上传1到30张作品')
       return false
     }
     return true
