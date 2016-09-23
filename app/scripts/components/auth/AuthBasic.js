@@ -1,6 +1,7 @@
 import React from 'react'
 import Reflux from 'reflux'
 import { History } from 'react-router'
+import defaultUserImg from 'image/default_user_img.png'
 
 var ImageInput = require('../account/imageInput');
 var TextInput = require('../account/textInput');
@@ -10,7 +11,7 @@ var InfoHeader = require('../infoHeader');
 
 var { NotifyStore, UPDATE_INFO } = require('../../stores/NotifyStore');
 
-import { ROUTE_AUTH_REALNAME } from '../../routeConfig'
+import { ROUTE_AUTH_REALNAME } from 'util/routeConfig'
 
 const AuthBasic = React.createClass({
   mixins: [
@@ -79,7 +80,7 @@ const AuthBasic = React.createClass({
     AccountActions.changeAvatar({Avatar : avatarUrl})
   },
   render: function() {
-    var image = this.props.userAccount.basic.avatar || 'img/default_user_img.png'
+    var image = this.props.userAccount.basic.avatar || defaultUserImg
     var style = {
       label: {
         lineHeight: '150px',

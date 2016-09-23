@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var React = require('react');
+import React from  'react';
 var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
 var Button = require('react-bootstrap').Button;
@@ -16,7 +16,6 @@ var Checkbox = React.createClass({
       this.setState({selectedValues:this.props.value})
     }
     this.setState({data:this.props.data})
-    console.log(this.props)
   },
   setValue: function (event) {
     var key = event.target.getAttribute('data-key');

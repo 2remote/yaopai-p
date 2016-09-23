@@ -1,5 +1,6 @@
-var React = require('react');
+import React from 'react'
 import { Link } from 'react-router'
+import defaultUserImg from 'image/default_user_img.png'
 var Reflux = require('reflux');
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
@@ -16,9 +17,9 @@ import { History } from 'react-router'
 var AreaSelect = require('./account/areaSelect');
 var FormControls = require('react-bootstrap').FormControls;
 
-import MoteInfo from '../mote/MoteInfo'
+import MoteInfo from 'mote/MoteInfo'
 
-import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from '../routeConfig'
+import { ROUTE_LOGIN,ROUTE_ACCOUNT_PASSWORD } from 'util/routeConfig'
 
 var UserImage = React.createClass({
   mixins : [Reflux.listenTo(AccountStore,'onUpdateAvatar')],
@@ -31,11 +32,10 @@ var UserImage = React.createClass({
   },
   onUpdateAvatar : function(data){
     if(data.flag == 'avatar'){
-      console.log(data);
     }
   },
   render : function() {
-    var image = 'img/default_user_img.png';
+    var image = defaultUserImg //'img/default_user_img.png';
     var style = {
       label: {
         lineHeight: '150px',
@@ -200,7 +200,6 @@ var PersonInfo = React.createClass({
       }
     }
     if(data.flag == 'updateInfo'){
-      console.log(data.hintMessage);
       this.showMessage(data.hintMessage);
       UserActions.currentUser();
     }

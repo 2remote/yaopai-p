@@ -1,4 +1,5 @@
 var React = require('react');
+import tianjiaImg from 'image/tianjia.png'
 var ImageInput = require('../account/imageInput');
 
 var MultiImageSelect = React.createClass({
@@ -8,8 +9,8 @@ var MultiImageSelect = React.createClass({
       labelName : '',
       images : [],
       uid : 'multiImageSelect',
-      width: '150px',
-      height: '150px',
+      width: '150',
+      height: '150',
       maxCount : 4,
     }
   },
@@ -39,7 +40,7 @@ var MultiImageSelect = React.createClass({
   parseImageUrl :function(url){
     url = url + '?imageMogr2/gravity/Center'
     if(this.props.width && this.props.height){
-      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height+'r'; //限制短边
+      url = url + '/thumbnail/!'+this.props.width+'x'+this.props.height; //限制短边
       url = url + '/crop/'+this.props.width + 'x' + this.props.height; //剪裁
     }
     if(this.props.width && !this.props.height){
@@ -121,7 +122,7 @@ var MultiImageSelect = React.createClass({
             height={this.props.height}
             uid={this.props.uid}
             ref="addImage"
-            defaultImage="img/tianjia.png"
+            defaultImage={tianjiaImg}
             onError={this.props.showMessage}
             onUpload={this.onUpload}/>
           <span className='text-info' style={{display: 'block'}}>{this.props.placeholder}</span>

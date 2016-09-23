@@ -1,12 +1,13 @@
 var React = require ('react');
 var Reflux = require('reflux');
-var API = require('../../api');
+var API = require('util/api');
 var ProgressBar = require('react-bootstrap').ProgressBar;
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
 import { History } from 'react-router'
-import { ROUTE_LOGIN } from '../../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
+import tianjiaImg from 'image/tianjia.png'
 
 var ImageInput = React.createClass({
   mixins : [Reflux.listenTo(UserStore, 'onUserStoreChange'), History],
@@ -31,13 +32,10 @@ var ImageInput = React.createClass({
         init: {
           'FilesAdded': function(up,files){},
           'BeforeUpload': function(up, file) {
-            console.log(file.name+"::"+file.origSize);
 
             if(file.origSize >= 1024 * 1024){
-              console.log("resize 1M: 95");
               up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:90});
             }else{
-              console.log("resize desabled");
               up.setOption('resize',false);
             }
           },
@@ -53,7 +51,7 @@ var ImageInput = React.createClass({
     return {
       multi_selection : true,
       disabled : false,
-      defaultImage : 'img/tianjia.png', //指定未上传时的图片
+      defaultImage : tianjiaImg, //指定未上传时的图片
       colWidth : 'col-xs-4',  //指定所占列宽
       width : '150',  //图片高度
       height : '150', //指定图片高度
@@ -77,13 +75,11 @@ var ImageInput = React.createClass({
     }
   },
   onFileUploaded : function(up,file,info){
-    console.log(file);
     var res = JSON.parse(info);
     this.setState({imageUrl : res.Url});
     this.props.onUpload(res.Url); //上传成功后可以回调onUpload函数
   },
   onUploadProgress : function(up,file){
-    //console.log(JSON.stringify(file))
     this.setState({progress :file.percent});
     //this.props.progress = file.percent;
   },

@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var React = require('react');
+import React from  'react';
 var Reflux = require('reflux');
 var ReactAddons = require('react/addons');
 var validator = require('validator');
@@ -9,7 +9,6 @@ var TextInput = require('./account/textInput');
 var ChooseImage = require('./account/chooseImage');
 var Panel = require('react-bootstrap').Panel;
 
-var assert = require('assert');
 var ToolTip = require('./toolTip');
 var AlbumsStore = require('../stores/AlbumsStore');
 var AlbumsActions = require('../actions/AlbumsActions');
@@ -44,7 +43,6 @@ var ChooseTags = React.createClass({
 
   onGetCategories : function(data){
     if(data.hintMessage){
-      console.log(data.hintMessage);
     }else{
       this.setState({tags : data.tags});
     }
@@ -158,7 +156,6 @@ var ChooseTags = React.createClass({
       var existTagList = (typeof tagList != 'undefined');
       var tags = (<div className="no tag list"></div>);
       if(existTagList){
-        assert(typeof tagList != 'undefined', 'tagList must exist');
         tags = tagList.map(function (list,i) {
           return makeTagRow(list,i);
         })

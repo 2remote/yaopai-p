@@ -1,6 +1,6 @@
 var React = require('react');
 var { Link, History } = require('react-router');
-var { ROUTE_ROOT } = require('../../routeConfig');
+import { ROUTE_ROOT } from 'util/routeConfig'
 
 const Main = React.createClass({
   mixins: [History],

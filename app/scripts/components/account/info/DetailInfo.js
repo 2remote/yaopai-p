@@ -27,7 +27,6 @@ const DetailInfo = React.createClass({
   },
   onSubmit(e) {
     e.preventDefault()
-    console.log('[DetailInfo][Submit]', this.state)
   },
   render() {
     const self = this

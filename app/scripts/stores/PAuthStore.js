@@ -10,7 +10,6 @@ var PAuthStore = Reflux.createStore({
     flag : '',
   },
   init: function() {
-    console.log('PAuthStore initialized');
     this.listenTo(PAuthActions.submitAudit.success,this.onSubmitAudit);
     this.listenTo(PAuthActions.submitAudit.failed,this.onFailed);
     this.listenTo(PAuthActions.viewAudit.success,this.onViewAudit);
@@ -64,7 +63,6 @@ var PAuthStore = Reflux.createStore({
     }else{
       this.data.photographer = {};
       this.data.hintMessage = res.ErrorMsg;
-      console.log('摄影师信息获取失败');
     }
     this.data.flag = 'current';
     this.trigger(this.data);
@@ -85,7 +83,6 @@ var PAuthStore = Reflux.createStore({
   //  }else{
   //    this.data.studio = {};
   //    this.data.hintMessage = res.ErrorMsg;
-  //    console.log('工作室信息获取失败');
   //  }
   //  this.data.flag = 'currentStudio';
   //  this.trigger(this.data);
@@ -100,7 +97,6 @@ var PAuthStore = Reflux.createStore({
   //  this.trigger(this.data);
   //},
   onFailed : function(data){
-    console.log('网络出错了');
   }
 
 });

@@ -14,7 +14,6 @@ var ChooseCategory = React.createClass({
     }
   },
   setCategory: function (event) {
-    console.log("event.target.getAttribute('data-category')=" + event.target.getAttribute('data-category'))
     this.props.onChange(event.target.getAttribute('data-category'));
   },
   render: function () {

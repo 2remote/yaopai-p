@@ -8,13 +8,10 @@ var UploadTokenStore = Reflux.createStore({
   errorMessage : '',
 
   init: function() {
-    console.log('UploadStore initialized');
-
-    this.listenTo(UploadActions.getToken.success, this.onGetTokenSuccess);  
-    this.listenTo(UploadActions.getToken.failed, this.onGetTokenFailed); 
+    this.listenTo(UploadActions.getToken.success, this.onGetTokenSuccess);
+    this.listenTo(UploadActions.getToken.failed, this.onGetTokenFailed);
   },
   onGetTokenSuccess : function(data){
-    console.log(data);
     if(data.Success){
       // this.tokens[data.Type] = data.Token;
       //this.tokens['work'] = data.Token;
@@ -32,7 +29,6 @@ var UploadTokenStore = Reflux.createStore({
   onGetTokenFailed : function(data){
     this.errorCode = data.errorCode;
     this.errorMessage = data.errorMessage;
-    console.log(data);
     this.trigger(this.tokens);
   },
 

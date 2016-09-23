@@ -1,16 +1,16 @@
-var React = require('react');
+import React from 'react'
+import Reflux from 'reflux'
+import tianjiaImg from 'image/tianjia.png'
 var ProgressBar = require('react-bootstrap').ProgressBar;
-var TextInput = require('./textInput');
-var Reflux = require('reflux');
 var WorkActions  = require('../../actions/WorkActions');
 var LogActions  = require('../../actions/LogActions');
 var UserActions = require("../../actions/UserActions");
 var UserStore = require("../../stores/UserStore");
-var API = require('../../api');
+var API = require('util/api');
 var Input = require('react-bootstrap').Input;
 var Tools = require('../../tools');
 
-import { ROUTE_LOGIN } from '../../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 /*
   data structure
   {
@@ -164,12 +164,9 @@ var ChooseImages = React.createClass({
         //    // progress.setChunkProgess(chunk_size);
         //    console.log(chunk_size);
         //}
-        console.log(file.name+"::"+file.origSize);
         if(file.origSize >= 1024 * 1024){
-          console.log("resize 1M: 95");
           up.setOption('resize',{width : 1125, height : 2208,enabled:true,quality:85});
         }else{
-          console.log("resize desabled");
           up.setOption('resize',false);
         }
       },
@@ -226,7 +223,6 @@ var ChooseImages = React.createClass({
     单个文件上传完毕后，返回值info.Url是图片地址
   */
   onFileUploaded : function(up,file,info){
-    console.log(file);
     var res = JSON.parse(info);
     WorkActions.updateImageUrl(file.id,res.Url);
   },
@@ -238,7 +234,6 @@ var ChooseImages = React.createClass({
   },
 
   onUploadComplete : function(){
-    console.log('all files upload complete.');
   },
 
   onError : function(up, err, errTip) {
@@ -304,11 +299,11 @@ var ChooseImages = React.createClass({
         <label className="control-label col-xs-3">上传样片 (至少6张)：</label>
         <div id="pickfilesCont" className="col-xs-8">
           <div>
-            <img id="pickfiles" className="image-button uploader-img" width="140" src="img/tianjia.png" />
+            <img id="pickfiles" className="image-button uploader-img" width="140" src={tianjiaImg} />
           </div>
 
             {renderImages}
-          
+
         </div>
       </div>
     );

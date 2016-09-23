@@ -1,7 +1,7 @@
 var React = require('react');
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
-var Radium = require('radium');
+// var Radium = require('radium');
 
 var Reflux = require('reflux');
 var UserStore = require('../stores/UserStore');
@@ -11,7 +11,7 @@ var AlertBox = require('./user/alertBox');
 var InfoHeader = require('./infoHeader');
 var ToolTip = require('./toolTip');
 import { History } from 'react-router'
-import { ROUTE_LOGIN } from '../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 
 var UserPhone = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleGetPhone')],
@@ -231,4 +231,3 @@ var AccountInfo = React.createClass({
 });
 
 module.exports = AccountInfo;
-

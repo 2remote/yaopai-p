@@ -5,7 +5,6 @@ var data = [];
 var AccountStore = Reflux.createStore({
   accountData : {},
   init: function() {
-    console.log('AccountStore initialized');
     this.accountData = {
       avator : '',
       hintMessage : '',
@@ -64,7 +63,6 @@ var AccountStore = Reflux.createStore({
     this.trigger(this.accountData);
   },
   onGetUserDetailFailed: function(data) {
-    console.log(data);
     this.accountData.hintMessage = '网络错误，请重试！';
     this.accountData.flag = 'userDetail';
     this.trigger(this.accountData);
@@ -80,7 +78,6 @@ var AccountStore = Reflux.createStore({
     this.trigger(this.accountData);
   },
   onChangeContactDetailFailed: function(data) {
-    console.log(data);
     this.accountData.hintMessage = '网络错误，请重试！';
     this.accountData.flag = 'changeContactDetail';
     this.trigger(this.accountData);
@@ -98,7 +95,6 @@ var AccountStore = Reflux.createStore({
     this.trigger(this.accountData);
   },
   onChangeRealNameFailed: function(data) {
-    console.log(data);
     this.accountData.changeSuccess = false;
     this.accountData.hintMessage = '网络错误，请重试！';
     this.accountData.flag = 'changeRealName';

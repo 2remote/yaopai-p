@@ -3,7 +3,15 @@ import { History } from 'react-router'
 import InfoHeader from './infoHeader'
 import Reflux from 'reflux'
 import UserAccountStore from '../stores/UserAccountStore'
-import { ROUTE_UPLOAD_MAKEUPARTIST } from '../routeConfig'
+import { ROUTE_UPLOAD_MAKEUPARTIST } from 'util/routeConfig'
+import { PhotographerAuthStore, PHOTOGRAPHER_AUTH_APPROVE, PHOTOGRAPHER_AUTH_PENDING } from '../stores/auth/PhotographerAuthStore'
+import { MakeupArtistAuthStore, MAKEUPARTIST_AUTH_APPROVE, MAKEUPARTIST_AUTH_PENDING } from '../stores/auth/MakeupArtistAuthStore'
+import { MoteAuthStore, MOTE_AUTH_APPROVE, MOTE_AUTH_PENDING } from '../stores/auth/MoteAuthStore'
+import pPng from 'image/p.png'
+import dPng from 'image/d.png'
+import mPng from 'image/m.png'
+
+var AuthAction = require('../actions/AuthAction');
 
 /*
   本页面用于分角色上传作品
@@ -12,10 +20,21 @@ var AlbumSummary = React.createClass({
   mixins: [
     History,
     Reflux.connect(UserAccountStore, 'user'),
+    Reflux.connect(PhotographerAuthStore, 'authPhotographer'),
+    Reflux.connect(MakeupArtistAuthStore, 'authMakeupArtist'),
+    Reflux.connect(MoteAuthStore, 'authMote')
   ],
+  componentDidMount: function(){
+    // 重新获取认证状态
+    AuthAction.viewPhotographerAudit();
+    AuthAction.viewMakeupArtistAudit();
+    AuthAction.viewMoteAudit();
+  },
+
   isPUpload : function(){
     var self = this
-    if(!this.state.user.isPhotographerApply){
+    var enter = self.state.authPhotographer.status
+    if( enter === '未申请' || enter === '审核拒绝' ){
       alert('未提交摄影师认证或摄影师认证被拒,无法上传作品')
       return false
     }else{
@@ -24,7 +43,8 @@ var AlbumSummary = React.createClass({
   },
   isMUpload : function(){
     var self = this
-    if(!this.state.user.isMoteApply){
+    var enter = self.state.authMote.status
+    if( enter === '未申请' || enter === '审核拒绝' ){
       alert('未提交模特认证或模特认证被拒,无法上传作品')
       return false
     }else{
@@ -33,7 +53,8 @@ var AlbumSummary = React.createClass({
   },
   isDUpload : function(){
     var self = this
-    if(!this.state.user.isMakeupArtistApply){
+    var enter = self.state.authMakeupArtist.status
+    if( enter === '未申请' || enter === '审核拒绝' ){
       alert('未提交化妆师认证或化妆师认证被拒,无法上传作品')
       return false
     }else{
@@ -57,7 +78,7 @@ var AlbumSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/p.png) no-repeat',
+                        background: `url(${pPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -79,7 +100,7 @@ var AlbumSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/m.png) no-repeat',
+                        background: `url(${mPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -101,7 +122,7 @@ var AlbumSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/d.png) no-repeat',
+                        background: `url(${dPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>

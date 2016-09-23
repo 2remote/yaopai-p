@@ -46,6 +46,7 @@ const AlbumStore = Reflux.createStore({
       onSaleList,
       offSaleList,
     };
+
     this.trigger(this.data);
   },
   sort: function(ids) {
@@ -107,7 +108,6 @@ const AlbumStore = Reflux.createStore({
     this.data.onSaleList.push(onSaleItem);
     this.trigger(this.data);
   }
-
 });
 
 module.exports = {

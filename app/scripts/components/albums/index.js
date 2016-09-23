@@ -1,7 +1,7 @@
 import React from 'react'
 import Reflux from 'reflux'
 
-import { ROUTE_LOGIN } from '../../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 import { History} from 'react-router'
 
 import Navbar from '../root/Navbar'
@@ -33,7 +33,6 @@ const Albums = React.createClass({
   ],
   onStoreChanged: function (data) {
     if (data.hintMessage) {
-      console.log(data.hintMessage);
     } else {
       if (data.flag == 'get') {
         this.setState({work: data.workData});

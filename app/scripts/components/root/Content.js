@@ -8,13 +8,13 @@ import Reflux from 'reflux'
 import { History } from 'react-router'
 /* Components inside this main frame. */
 import Navbar from './Navbar'
-import UserPanel from '../../user/UserPanel'
+import UserPanel from 'user/UserPanel'
 /* Things a container typically requires */
 import UserAccountStore from '../../stores/UserAccountStore'
 import {
   PhotographerAuthStore, PHOTOGRAPHER_AUTH_DEFAULT, PHOTOGRAPHER_AUTH_NONE
 } from '../../stores/auth/PhotographerAuthStore'
-import { ROUTE_LOGIN } from '../../routeConfig'
+import { ROUTE_LOGIN } from 'util/routeConfig'
 var UserActions = require('../../actions/UserActions')
 var AuthAction = require('../../actions/AuthAction')
 

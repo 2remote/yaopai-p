@@ -5,7 +5,6 @@ var AccountActions = require('../actions/AccountActions');
 var UserStore = Reflux.createStore({
   userKey : 'yaopai_user',
   init: function() {
-    console.log('UserStore initialized');
     /*
         需要增加从localStorage读取用户信息的方法来初始化userData
     */
@@ -34,6 +33,8 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.login.failed, this.onLoginFailed);
     this.listenTo(UserActions.register.success, this.onRegisterSuccess);
     this.listenTo(UserActions.register.failed, this.onRegisterFailed);
+    this.listenTo(UserActions.emailRegister.success, this.onEmailRegisterSuccess);
+    this.listenTo(UserActions.emailRegister.failed, this.onEmailRegisterFailed);
     this.listenTo(UserActions.logout.success, this.onLogoutSuccess);
     this.listenTo(UserActions.loginWithToken.success,this.onLoginWithTokenSuccess);
     this.listenTo(UserActions.loginWithToken.failed,this.onLoginWithTokenFailed);
@@ -63,7 +64,6 @@ var UserStore = Reflux.createStore({
     }
   },
   onLoginSuccess: function(data) {
-    console.log(data);
     //测试本地须转换JSON，集成测试后不需要
     //data = eval("(" + data + ")");
     if (data.Success) {
@@ -112,7 +112,6 @@ var UserStore = Reflux.createStore({
       this.userData.flag = 'currentUser';
       this.trigger(this.userData);
     }else{
-      console.log(data.ErrorMsg);
       //若未得到当前用户，尝试loginwithtoken
       this.getTokenToLogin();
     }
@@ -126,14 +125,11 @@ var UserStore = Reflux.createStore({
     自动登录，如果用了loginToken，是否不用存user的其他信息？
   */
   onLoginWithTokenSuccess: function(data) {
-    console.log(data);
     if(data.Success){
-      console.log('login with token success');
       this.setCurrentUser(data.User);
       this.userData.loginToken = data.LoginToken;
       localStorage.setItem(this.userKey,JSON.stringify(this.userData));
     }else{
-      console.log('login with token failed');
       this.setCurrentUser(null);
       this.userData.LoginToken = '';
       localStorage.removeItem(this.userKey);
@@ -169,6 +165,27 @@ var UserStore = Reflux.createStore({
       this.trigger(this.userData);
   },
   /*
+   监听注册action，根据返回的data.success判断是否注册成功
+   */
+  onEmailRegisterSuccess: function(data) {
+    if (data.Success) {
+      this.userData.hintMessage = '';
+      this.setCurrentUser(data.User);
+    } else {
+      this.userData.hintMessage = data.ErrorMsg;
+    }
+    this.userData.flag = "register";
+    this.trigger(this.userData);
+  },
+  /*
+   onRegisterFailed 主要监听网络访问错误
+   */
+  onEmailRegisterFailed: function(data) {
+    this.userData.hintMessage = '网络出错啦！';
+    this.userData.flag = "register"
+    this.trigger(this.userData);
+  },
+  /*
     登出后清空userData的用户信息
   */
   onLogoutSuccess: function() {
@@ -191,7 +208,6 @@ var UserStore = Reflux.createStore({
     this.trigger(this.userData);
   },
   onModifyPasswordFailed : function(data){
-    console.log('网络出错，无法连接服务器！');
   },
 
   /*

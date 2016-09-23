@@ -1,9 +1,10 @@
 var Reflux = require('reflux');
-var API = require('../api');
-var HttpFactory = require('../HttpFactory');
+var API = require('util/api');
+var HttpFactory = require('util/HttpFactory');
 
 var UserActions = Reflux.createActions({
 	  'register' : {children:["success","failed"]},
+    'emailRegister' : {children:["success","failed"]},
 	  'login' : {children:["success","failed"]},
     'loginWithToken' : {children : ['success','failed']},
 	  'logout' : {children:["success"]},
@@ -56,6 +57,19 @@ UserActions.register.listen(function(data) {
   // $.post(API.user_api.register_url, data).then(this.success, this.failed);
   HttpFactory.post(API.USER.register,data,this.success,this.failed);
 });
+
+/*
+ 邮箱注册
+ data:｛email,code,password｝
+ {
+ Result: true,    //是否通过验证并注册成功
+ ErrorCode: 0,    //错误代码
+ ErrorMsg: null    //错误信息
+ }
+ */
+UserActions.emailRegister.listen(function(data) {
+  HttpFactory.post(API.USER.emailRegister,data,this.success,this.failed);
+})
 /*
   修改密码
   ##请求data结构

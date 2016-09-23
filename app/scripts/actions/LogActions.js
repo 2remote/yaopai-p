@@ -1,6 +1,6 @@
 var Reflux = require('reflux');
-var HttpFactory = require('../HttpFactory');
-var API = require('../api');
+var HttpFactory = require('util/HttpFactory');
+var API = require('util/api');
 
 
 var LogActions = Reflux.createActions({
@@ -8,7 +8,6 @@ var LogActions = Reflux.createActions({
 });
 
 LogActions.log.listen(function(data) {
-  // console.log("send log.");
   // HttpFactory.post(API.LOG.log,data,this.success,this.failed);
 });
 

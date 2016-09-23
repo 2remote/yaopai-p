@@ -1,8 +1,9 @@
 import React from 'react'
 import Reflux from 'reflux'
-import { FILE } from '../../api'
+import { FILE } from 'util/api'
 import UserAccountStore from '../../stores/UserAccountStore'
 import { ProgressBar } from 'react-bootstrap'
+import tianjiaImg from 'image/tianjia.png'
 
 /**
  * // TODO: 回头我把下面的解释换成中文
@@ -48,7 +49,7 @@ const ImageOptimus = React.createClass({
         </div>
         {/* Two functional buttons */}
         <div>
-          <img ref="uploader" className="image-button" width="140" src="img/tianjia.png" /><button type="button" ref="upload" style={{display:this.state.file?'inline-block':'none'}} onClick={ this.doUpload } className="btn btn-primary">确认裁剪</button>
+          <img ref="uploader" className="image-button" width="140" src={tianjiaImg} /><button type="button" ref="upload" style={{display:this.state.file?'inline-block':'none'}} onClick={ this.doUpload } className="btn btn-primary">确认裁剪</button>
         </div>
 
         {/* 裁剪结果预览，可删除 */}
@@ -96,7 +97,6 @@ const ImageOptimus = React.createClass({
     const self = this
     const { sessionToken } = self.state.user
     if(sessionToken && !self.uploader) {
-      console.log("type==========",FILE.work_token_url);
       self.uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4', // 上传模式，依次退化 TODO: 如果cropper必须用File API，是不是flash什么的可以删了？
         browse_button: self.refs.uploader.getDOMNode(),
@@ -156,7 +156,6 @@ const ImageOptimus = React.createClass({
             var domain = up.getOption('domain')
             var res = JSON.parse(info)
             var sourceLink = domain + res.key // 获取上传成功后的文件的Url
-            console.log('setting image:', res.Url)
             self.cleanUp()
             self.setState({
               uploadedImage: res.Url,

@@ -1,6 +1,7 @@
 var React = require('react');
 var Reflux = require('reflux');
 var AlbumsActions = require('../../actions/AlbumsActions');
+import AlbumAction from '../../actions/AlbumAction'
 var AlbumsStore = require('../../stores/AlbumsStore');
 var Button = require('react-bootstrap').Button;
 var Modal = require('react-bootstrap').Modal;
@@ -53,7 +54,6 @@ var EditAlbumModal = React.createClass({
     }
   },
   componentWillMount: function () {
-    console.log("componentWillMount:00000",this.props)
     this.setState({album: this.props.album});
   },
   componentWillReceiveProps : function (nextProps) {
@@ -81,7 +81,6 @@ var EditAlbumModal = React.createClass({
     var album = this.state.album;
     album.Cover = cover
     this.setState({album : album});
-    console.log("success")
   },
   updateDescription: function (des) {
     var album = this.state.album;
@@ -164,7 +163,6 @@ var EditAlbumModal = React.createClass({
     this.setState({album: album});
   },
   validate: function () {
-    console.log(this.refs.placeType.state.selectedValues)
     if($.trim(this.state.album.Title).length < 1 || $.trim(this.state.album.Title).length > 20){
       React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
       this.showMessage('作品名称必须在1-20字之间');
@@ -310,15 +308,12 @@ var EditAlbumModal = React.createClass({
           return item.Id
         }).join(',')
       }
-      console.log("begin 1");
       AlbumsActions.update(album);
-      console.log("end 2");
       this.hideInfoModal();
       this.setState({submit:true});
     }
   },
   displayHandle: function (display) {
-    console.log(typeof display)
     if(this.state.album.Display != display){
       if(display == 'true'){
         AlbumsActions.onSale({Id:this.state.album.Id})
@@ -334,7 +329,6 @@ var EditAlbumModal = React.createClass({
       //去掉前后空格
       placeType = placeType.map(function (item) {
         item=item.replace(/(^\s*)|(\s*$)/g, "");
-        console.log(item)
         return item;
       });
       //end
@@ -474,7 +468,7 @@ var EditAlbumModal = React.createClass({
                          type="textarea"
                          value={this.state.album.Service}
                          updateValue={this.updateService}
-                         labelName="补充说明："
+                         labelName="补充服务说明："
                          maxLength={1000}
                          placeholder=""
                          help="(非必填) 补充服务说明不超过1000字"

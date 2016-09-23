@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import _ from 'lodash'
+import { warn } from 'util/logger'
 /**
  * InputGroup是借用Bootstrap的思想来做一个带label的input
  * Bootstrap中的InputGroup有2种：
@@ -31,11 +32,11 @@ const feedbackStatus = (value, { min, max, required }) => {
     return INPUT_STATUS.DEFAULT
   }
   // is required?
-  if (!value && required) {
+  if (!value && (required || min)) {
     return INPUT_STATUS.ERROR
   }
   // check minimum
-  if (value && min && value.length < min ) {
+  if (value && min && value.length < min) {
     return INPUT_STATUS.ERROR
   }
   // check maximum
@@ -76,6 +77,24 @@ const supportedInputTypes = {
 }
 
 const InputGroup = React.createClass({
+  propTypes: {
+    label: PropTypes.string,
+    inputId: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    horizontalLabelStyle: PropTypes.string,
+    horizontalInputStyle: PropTypes.string,
+    staticContent: PropTypes.string,
+    minLength: PropTypes.number,
+    maxLength: PropTypes.number,
+    required: PropTypes.bool,
+    hasFeedback: PropTypes.bool,
+    helpText: PropTypes.string,
+    value: PropTypes.any,
+    updateValue: PropTypes.func,
+    children: PropTypes.node,
+  },
+
   render() {
     const {
       label,
@@ -91,9 +110,10 @@ const InputGroup = React.createClass({
       helpText,
       value,
       updateValue,
+      placeholder,
     } = this.props
 
-    if(!this.validateSupport()) {
+    if (!this.validateSupport()) {
       return null
     }
 
@@ -106,26 +126,33 @@ const InputGroup = React.createClass({
 
     // TODO: feedback: how to add it?
     const feedbackIcon = hasFeedback && feedback.glyphicon ? (
-      <span className={`glyphicon ${feedback.glyphicon} form-control-feedback`} aria-hidden="true" />
+      <span
+        className={`glyphicon ${feedback.glyphicon} form-control-feedback`}
+        aria-hidden="true"
+      />
     ) : null
 
     let nameMyInput = [(
-      <input className="form-control" id={ inputId } type={ type }
-        value={ value }
-        onChange={ e => updateValue(e.target.value, e) }
+      <input
+        className="form-control"
+        placeholder={placeholder}
+        id={inputId}
+        type={type}
+        value={value}
+        onChange={e => updateValue(e.target.value, e)}
       />
-    ), feedbackIcon, ( hasFeedback && helpText ? (
+    ), feedbackIcon, (hasFeedback && helpText ? (
       <span className="help-block">{ helpText }</span>
     ) : null
     )]
 
-    if(type === 'static') {
+    if (type === 'static') {
       nameMyInput = <p className="form-control-static">{ staticContent }</p>
     }
-    if(type === 'children')  {
+    if (type === 'children') {
       nameMyInput = this.props.children
     }
-    if(horizontalInputStyle) {
+    if (horizontalInputStyle) {
       nameMyInput = (
         <div className={horizontalInputStyle}>
           { nameMyInput }
@@ -134,14 +161,14 @@ const InputGroup = React.createClass({
     }
     return (
       <div className={`form-group ${hasFeedback ? `has-feedback ${feedback.formGroup}` : ''}`}>
-        <label htmlFor={ inputId } className={ `${horizontalLabelStyle} control-label` }>{ label }</label>
+        <label htmlFor={inputId} className={`${horizontalLabelStyle} control-label`}>{label}</label>
         { nameMyInput }
       </div>
     )
   },
   validateSupport() {
-    if(!supportedInputTypes[this.props.type]) {
-      console.warn(
+    if (!supportedInputTypes[this.props.type]) {
+      warn(
         `Unsupported input type[${this.props.type}]! Supported input type config is:`,
         supportedInputTypes
       )
@@ -150,22 +177,5 @@ const InputGroup = React.createClass({
     return true
   },
 })
-
-InputGroup.propTypes = {
-  label: PropTypes.string,
-  inputId: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  horizontalLabelStyle: PropTypes.string,
-  horizontalInputStyle: PropTypes.string,
-  staticContent: PropTypes.string,
-  minLength: PropTypes.number,
-  maxLength: PropTypes.number,
-  required: PropTypes.bool,
-  hasFeedback: PropTypes.bool,
-  helpText: PropTypes.string,
-  value: PropTypes.any,
-  updateValue: PropTypes.func,
-}
 
 export default InputGroup

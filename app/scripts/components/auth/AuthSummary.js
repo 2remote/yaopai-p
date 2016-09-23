@@ -1,5 +1,8 @@
 import React from 'react'
 import { History } from 'react-router'
+import pPng from 'image/p.png'
+import dPng from 'image/d.png'
+import mPng from 'image/m.png'
 var InfoHeader = require('../infoHeader')
 
 import {
@@ -11,7 +14,7 @@ import {
   ROUTE_AUTH_MOTE,
   ROUTE_AUTH_RESULT,
 }
-from '../../routeConfig'
+from 'util/routeConfig'
 
 const convertLinkToVal = function(basic, real, type) {
   let secondTarget = type === 'p' ? ROUTE_AUTH_PHOTOGRAPHER :
@@ -67,8 +70,9 @@ function getStyle(status){
 
 var AuthSummary = React.createClass({
   mixins: [History],
+  componentDidMount: function(){
+  },
   render: function() {
-
     const {
       realNameComplete,
       photographerAuthed,
@@ -92,7 +96,7 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/p.png) no-repeat',
+                        background: `url(${pPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -135,7 +139,7 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/m.png) no-repeat',
+                        background: `url(${mPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>
@@ -179,7 +183,7 @@ var AuthSummary = React.createClass({
                         height: 150,
                         width: 150,
                         borderRadius: '50%',
-                        background: 'url(././img/d.png) no-repeat',
+                        background: `url(${dPng}) no-repeat`,
                         margin: '0 auto 10px',
                         backgroundSize:'contain'
                       }}></div>

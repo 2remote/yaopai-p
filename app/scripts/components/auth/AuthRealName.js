@@ -1,6 +1,9 @@
 import React from 'react'
 import Reflux from 'reflux'
 import { History } from 'react-router'
+import facecodeImg from 'image/facecode.png'
+import oppositeImg from 'image/opposite.png'
+import idShiliImg from 'image/id_shili.png'
 /* 组件 */
 var ImageInput = require('../account/imageInput');
 var TextInput = require('../account/textInput');
@@ -9,7 +12,7 @@ var InfoHeader = require('../infoHeader');
 var AccountActions = require('../../actions/AccountActions');
 var { NotifyStore, CHANGE_REALNAME } = require('../../stores/NotifyStore');
 
-import { ROUTE_AUTH, ROUTE_AUTH_BASIC } from '../../routeConfig'
+import { ROUTE_AUTH, ROUTE_AUTH_BASIC } from 'util/routeConfig'
 
 /*
  身份证图片上传
@@ -17,8 +20,8 @@ import { ROUTE_AUTH, ROUTE_AUTH_BASIC } from '../../routeConfig'
 var PersonIDImage = React.createClass({
   getInitialState: function() {
     return {
-      facecodeDefaultImage : 'img/facecode.png',
-      oppositeDefaultImage : 'img/opposite.png',
+      facecodeDefaultImage : facecodeImg,
+      oppositeDefaultImage : oppositeImg,
     }
   },
   getValue: function() {
@@ -94,7 +97,7 @@ var PersonIDImage = React.createClass({
           </div>
           <div className="row">
             <div className="col-xs-4">
-              <img height="150" width="200" src="img/id_shili.png" />
+              <img height="150" width="200" src={idShiliImg} />
             </div>
             <div className="col-xs-8">
               <div style={style.info}>
