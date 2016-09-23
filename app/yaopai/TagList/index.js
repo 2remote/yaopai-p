@@ -5,22 +5,35 @@ import _ from 'lodash'
 import TagListAction from './TagListAction'
 import TagListStore from './TagListStore'
 
+/* eslint-disable react/prefer-es6-class, react/prefer-stateless-function */
 const TagList = React.createClass({
+  propTypes: {
+    size: PropTypes.string,
+    gutter: PropTypes.number,
+    maxCount: PropTypes.number,
+    list: PropTypes.arrayOf({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      phonics: PropTypes.string,
+    }),
+  },
+
   render() {
     const { size, gutter, list, maxCount, selectedTagIds, onTagSelect } = this.props
 
     const onClick = (e, isTagSelected, tag, max) => {
       const MAX = 1024
       // as always
-      e && e.preventDefault && e.preventDefault()
+      if (e && e.preventDefault) e.preventDefault()
 
-      onTagSelect( isTagSelected ?
+      onTagSelect(isTagSelected ?
         _.without(selectedTagIds, tag.id) :
         _.takeRight(_.union(selectedTagIds, [tag.id]), max || MAX)
       )
     }
 
     window._ = _
+
     return (
       <div>
         {
@@ -31,7 +44,7 @@ const TagList = React.createClass({
               <button
                 className={`btn ${isTagSelected ? 'btn-primary' : 'btn-default'}`}
                 style={{ marginRight: gutter, marginBottom: gutter }}
-                onClick={ e => onClick(e, isTagSelected, tag, maxCount) }
+                onClick={e => onClick(e, isTagSelected, tag, maxCount)}
               >
                 {_.find(selectedTagIds, tag.id)}
                 {tag.name}
@@ -44,18 +57,16 @@ const TagList = React.createClass({
   },
 })
 
-TagList.propTypes = {
-  size: PropTypes.string,
-  gutter: PropTypes.number,
-  maxCount: PropTypes.number,
-  list: PropTypes.arrayOf({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    phonics: PropTypes.string,
-  }),
-}
-
 const TagListContainer = React.createClass({
+  propTypes: {
+    type: PropTypes.string.isRequired,
+    gutter: PropTypes.number,
+    size: PropTypes.string,
+    maxCount: PropTypes.number,
+    selectedTagIds: PropTypes.func,
+    onTagSelect: PropTypes.func,
+  },
+
   mixins: [Reflux.connectFilter(TagListStore, 'list', function(lists) {
     return lists[this.props.type]
   })],
@@ -79,12 +90,5 @@ const TagListContainer = React.createClass({
     )
   },
 })
-
-TagListContainer.propTypes = {
-  type: PropTypes.string.isRequired,
-  gutter: PropTypes.number,
-  size: PropTypes.string,
-  maxCount: PropTypes.number,
-}
 
 export default TagListContainer

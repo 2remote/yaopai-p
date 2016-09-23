@@ -31,11 +31,12 @@ const ImageUploader = React.createClass({
     this.initUploader()
   },
 
-  notifyPhotos() {
+  notifyPhotos(photos = []) {
     if (this.props.onPhotosChange) {
-      const successPhotos = _.filter(this.state.photos, photo => photo.url)
+      const successPhotos = _.filter(photos, photo => photo.url)
       this.props.onPhotosChange(successPhotos.map(photo => _.pick(photo, ['url', 'desc'])))
     }
+    this.setState({ photos })
   },
 
   /**
@@ -59,8 +60,8 @@ const ImageUploader = React.createClass({
     if (max > 0) {
       photos = _.take(photos, this.props.maxCount)
     }
-    this.setState({ photos })
-    this.notifyPhotos()
+    // this.setState({ photos })
+    this.notifyPhotos(photos)
   },
 
   doMoveItemUp(id) {
@@ -71,8 +72,8 @@ const ImageUploader = React.createClass({
       const target = photos[idx - 1]
       photos[idx - 1] = photos[idx]
       photos[idx] = target
-      this.setState({ photos })
-      this.notifyPhotos()
+      // this.setState({ photos })
+      this.notifyPhotos(photos)
     }
   },
 
@@ -84,24 +85,24 @@ const ImageUploader = React.createClass({
       const target = photos[idx + 1]
       photos[idx + 1] = photos[idx]
       photos[idx] = target
-      this.setState({ photos })
-      this.notifyPhotos()
+      // this.setState({ photos })
+      this.notifyPhotos(photos)
     }
   },
 
   doDeleteItem(id) {
     const photos = _.cloneDeep(this.state.photos)
     _.remove(photos, photo => photo.id === id)
-    this.setState({ photos })
-    this.notifyPhotos()
+    // this.setState({ photos })
+    this.notifyPhotos(photos)
   },
 
   onDescChange(id, desc) {
     const photos = _.cloneDeep(this.state.photos)
     const idx = _.findIndex(photos, photo => photo.id === id)
     photos[idx].desc = desc
-    this.setState({ photos })
-    this.notifyPhotos()
+    // this.setState({ photos })
+    this.notifyPhotos(photos)
   },
 
   render() {
