@@ -1,42 +1,38 @@
-var React = require('react');
-var Location = require('react-router').Location;
-var validator = require('validator');
-var Reflux = require('reflux');
-var GetCodeStore = require('../stores/GetCodeStore');
-var GetCodeActions = require('../actions/GetCodeActions');
-var UserActions = require('../actions/UserActions');
-var UserStore = require('../stores/UserStore');
-var IndexCover = require('./indexCover');
-var ToolTip = require('./toolTip');
-var API = require('util/api');
-var Provision = require('./provision');
-import AuthSummary from './auth/AuthSummary'
 import { ROUTE_MAIN } from 'util/routeConfig'
 import { Link, History } from 'react-router'
+
+var Location = require('react-router').Location
+import Reflux from 'reflux'
+import React from 'react'
+import moteImg from 'image/Model.png'
+import photographerImg from 'image/Photographer.png'
+import maImg from 'image/Dresser.png'
 import bgPng from 'image/login_bg_lysb.gif'
 import logoIcon from 'image/logo_icon.png'
 import logoImg from 'image/logo.png'
-import photographerImg from 'image/Photographer.png'
-import moteImg from 'image/Model.png'
-import maImg from 'image/Dresser.png'
-import footerImg from 'image/footer.png'
+import API from 'util/api'
+import GetCodeStore from '../stores/GetCodeStore'
+import GetCodeActions from '../actions/GetCodeActions'
+import UserActions from '../actions/UserActions'
+import UserStore from '../stores/UserStore'
+import ToolTip from './toolTip'
 
-var PhoneInput = React.createClass({
-  getDefaultProps : function(){
+const PhoneInput = React.createClass({
+  getDefaultProps: function () {
     return ({
-      des : '手机号'
+      des: '手机号',
     })
   },
-  getInitialState : function(){
-    return({
-      value : '',
-    });
+  getInitialState: function () {
+    return ({
+      value: '',
+    })
   },
-  getValue : function(){
-    return this.state.value;
+  getValue: function () {
+    return this.state.value
   },
-  handleChange : function(event){
-    this.setState({value : event.target.value});
+  handleChange: function (event) {
+    this.setState({ value : event.target.value })
   },
   render : function(){
     var textStyle = {
@@ -95,49 +91,49 @@ var PasswordInput = React.createClass({
     );
   }
 });
-var PinInput = React.createClass({
-  getInitialState : function(){
-    return({
-      value : '',
-      codeOriginSrc : API.DOMAIN + 'temp/code',
-      codesrc : API.DOMAIN + 'temp/code'
-    });
-  },
-  getValue : function(){
-    return this.state.value;
-  },
-  handleChange : function(event){
-    this.setState({value : event.target.value});
-  },
-  reloadcode : function(event){
-    this.setState({codesrc:this.state.codeOriginSrc+'?'+new Date().getTime()})
-  },
-  render : function(){
-    var codeStyle = {
-      width: '180px',
-      height: '45px',
-      border: '1px solid #FFFFFF',
-      display: 'block',
-      boxSizing: 'border-box',
-      background: 'rgba(0,0,0,0)',
-      marginBottom : '10px',
-      padding : '10px',
-      color : '#8d8d8d',
-      float : 'left'
-    };
-    return (
-        <div>
-          <input ref="phone"
-                 type="text"
-                 value={this.state.value}
-                 placeholder="请输入图片验证码"
-                 style={codeStyle}
-                 onChange={this.handleChange} />
-          <img src={this.state.codesrc}  onClick={this.reloadcode}/>
-        </div>
-    );
-  }
-});
+//var PinInput = React.createClass({
+//  getInitialState : function(){
+//    return({
+//      value : '',
+//      codeOriginSrc : API.DOMAIN + 'temp/code',
+//      codesrc : API.DOMAIN + 'temp/code'
+//    });
+//  },
+//  getValue : function(){
+//    return this.state.value;
+//  },
+//  handleChange : function(event){
+//    this.setState({value : event.target.value});
+//  },
+//  reloadcode : function(event){
+//    this.setState({codesrc:this.state.codeOriginSrc+'?'+new Date().getTime()})
+//  },
+//  render : function(){
+//    var codeStyle = {
+//      width: '180px',
+//      height: '45px',
+//      border: '1px solid #FFFFFF',
+//      display: 'block',
+//      boxSizing: 'border-box',
+//      background: 'rgba(0,0,0,0)',
+//      marginBottom : '10px',
+//      padding : '10px',
+//      color : '#8d8d8d',
+//      float : 'left'
+//    };
+//    return (
+//        <div>
+//          <input ref="phone"
+//                 type="text"
+//                 value={this.state.value}
+//                 placeholder="请输入图片验证码"
+//                 style={codeStyle}
+//                 onChange={this.handleChange} />
+//          <img src={this.state.codesrc}  onClick={this.reloadcode}/>
+//        </div>
+//    );
+//  }
+//});
 var LoginButtonn = React.createClass({
   openLogin : function(){
     UserActions.openLogin();
@@ -187,6 +183,9 @@ var LoginButtonn = React.createClass({
   }
 });
 
+/*
+  发送验证码模块
+ */
 var ValidateCodeInput = React.createClass({
   mixins: [Reflux.listenTo(GetCodeStore, 'handleResult')],
   getInitialState : function(){
@@ -294,7 +293,7 @@ var RegisterButtons = React.createClass({
     var ruleStyle ={
       color : '#000',
       fontSize : '11px',
-    };
+    }
     var openLogin = {
       color : '#000',
       fontSize : '14px',
@@ -302,18 +301,18 @@ var RegisterButtons = React.createClass({
       width : '300px',
       marginTop : '10px',
       marginLeft: '12px',
-    };
+    }
     var regEmail = {
-      float : 'right'
-    };
+      float: 'right',
+    }
     var imageBtn = {
-      cursor : 'pointer'
+      cursor: 'pointer',
     }
     return (
       <div>
         <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
         <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
-        <div style={openLogin}><span>已经有账号？<a onClick={this.props.toLogin}>直接登录</a></span><span style={regEmail}><a onClick={this.props.toEmailRegister}>切换邮箱注册</a></span></div>
+        <div style={openLogin}><span>已经有账号？<a onClick={this.props.toLogin}>直接登录</a></span><span style={regEmail}>{ this.props.buttonName === '切换邮箱注册' ? <a onClick={ this.props.toEmailRegister }>切换邮箱注册</a> : <a onClick={ this.props.toTelRegister }>切换手机注册</a> }</span></div>
       </div>
     );
   }
@@ -324,17 +323,20 @@ var LoginForm = React.createClass({
     var password = this.refs.passwordInput.getValue();
     // 测试userName为手机号 /^(176|170)\d{8}$/
     // 旧的是这样的：!validator.isMobilePhone(phone, 'zh-CN')
-    //const rightReg = /^1(3|4|5|7|8)\d{9}$/;
-    //if(!rightReg.test(phone) || !validator.isLength(password,6,18)) {
-    //  this.props.handleHint('请输入正确的手机号码和密码格式');
-    //  return;
-    //}
+    const rightReg = /^1(3|4|5|7|8)\d{9}$/;
+    const filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(!rightReg.test(phone)) {
+      if (!filter.test(phone)) {
+        this.props.handleHint('您输入邮箱或手机号格式有误')
+        return
+      }
+    }
     //登录数据
     var loginData = {
       loginname : phone,
       password : password,
       //autologin : this.state.rememberMe, //记住我的登录需要加上
-      autoexpires : 10000
+      autoexpires : 10000,
     };
     UserActions.login(loginData);
   },
@@ -456,7 +458,7 @@ var RegisterForm = React.createClass({
           <PasswordInput ref="passwordInput"/>
           <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
         </div>
-        <RegisterButtons handleRegister={this.handleRegister} toLogin={this.props.toLogin} toEmailRegister={this.props.toEmailRegister} />
+        <RegisterButtons buttonName="切换邮箱注册" handleRegister={this.handleRegister} toLogin={this.props.toLogin} toEmailRegister={this.props.toEmailRegister} />
       </div>
     );
   }
@@ -468,7 +470,13 @@ var EmailRegisterForm = React.createClass({
 
   handleGetCode : function(){
     var email = this.refs.phoneInput.getValue();
-    GetCodeActions.sendEmailRegister({email:email});
+    var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!filter.test(email)){
+      this.props.handleHint('请输入正确格式的邮箱')
+      return
+    } else {
+      GetCodeActions.sendEmailRegister({email:email});
+    }
   },
 
   handleRegister : function(){
@@ -538,7 +546,7 @@ var EmailRegisterForm = React.createClass({
           <PasswordInput ref="passwordInput"/>
           <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
         </div>
-        <RegisterButtons handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
+        <RegisterButtons toTelRegister={this.props.toTelRegister} buttonName="切换手机注册" handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
       </div>
     );
   }
@@ -552,8 +560,8 @@ var Home = React.createClass({
       if(data.hintMessage){
         this.handleHint(data.hintMessage);
       }else{
-        //登录成功，需要获取当前用户
-        UserActions.currentUser();
+        // 登录成功，需要获取当前用户
+        UserActions.currentUser()
       }
     }
     if(data.flag == 'currentUser'){
@@ -661,7 +669,7 @@ var Home = React.createClass({
       );
     }else{
       mainFrame = (
-        <EmailRegisterForm handleHint={this.handleHint} toLogin={this.showLogin} toEmailRegister={this.showEmailRegister} />
+        <EmailRegisterForm toTelRegister={ this.showRegister } handleHint={this.handleHint} toLogin={this.showLogin} toEmailRegister={this.showEmailRegister} />
       );
     }
     return (

@@ -16,7 +16,6 @@ import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './consta
  *   display: 作品展示过滤条件
 **/
 const AlbumList = React.createClass({
-
   propTypes: {
     userId: PropTypes.string,
   },
