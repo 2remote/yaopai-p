@@ -121,8 +121,10 @@ const AlbumList = React.createClass({
           style={{
             border: '1px solid #efefef',
             marginBottom: 15,
+            marginLeft: 15,
             position: 'relative',
             width: 300,
+            float: 'left',
             // height: 320,
             display: 'inline-block',
           }}
