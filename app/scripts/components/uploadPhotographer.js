@@ -1,29 +1,36 @@
-var _ = require('lodash');
-var React = require('react');
-var Reflux = require('reflux');
-var validator = require('validator');
-var Button = require('react-bootstrap').Button;
-
-var InfoHeader= require('./infoHeader');
-var TextInput = require('./account/textInput');
-var ChooseImage = require('./account/chooseImage');
-var ToolTip = require('./toolTip');
-
-var AlbumsStore = require('../stores/AlbumsStore');
-import $ from 'jquery'
-import AlbumAction from '../actions/AlbumAction';
-var AlbumsActions = require('../actions/AlbumsActions');
-var WorkStore = require('../stores/WorkStore');
-var UserActions = require("../actions/UserActions");
-var UserStore = require("../stores/UserStore");
-import { History } from 'react-router'
-var ChooseTags = require('./chooseTags');
-var Switch = require('./tools/switch');
-var Checkbox = require('./tools/checkbox');
-
 import { ROUTE_LOGIN,ROUTE_MAIN } from 'util/routeConfig'
-
+import { History } from 'react-router'
+import $ from 'jquery'
+import AlbumAction from '../actions/AlbumAction'
 import ImageOptimus from './upai/ImageOptimus'
+
+
+
+
+
+var _ = require('lodash')
+var React = require('react')
+var Reflux = require('reflux')
+var validator = require('validator')
+var Button = require('react-bootstrap').Button
+
+var InfoHeader= require('./infoHeader')
+var TextInput = require('./account/textInput')
+var ChooseImage = require('./account/chooseImage')
+var ToolTip = require('./toolTip')
+var AlbumsStore = require('../stores/AlbumsStore')
+
+
+var AlbumsActions = require('../actions/AlbumsActions')
+var WorkStore = require('../stores/WorkStore')
+var UserActions = require("../actions/UserActions")
+var UserStore = require("../stores/UserStore")
+
+var ChooseTags = require('./chooseTags')
+var Switch = require('./tools/switch')
+var Checkbox = require('./tools/checkbox')
+
+
 
 /*
   上传作品组件
@@ -63,8 +70,8 @@ var UploadPhotographer = React.createClass({
   isLogin: function (data) {
     if (!data.isLogin) {
       //没有登录跳转到首页登录界面
-      UserActions.logout(true);
-      this.history.pushState(null, ROUTE_LOGIN);
+      UserActions.logout(true)
+      this.history.pushState(null, ROUTE_LOGIN)
     }
   },
   onStoreChanged : function(data){
@@ -72,7 +79,7 @@ var UploadPhotographer = React.createClass({
       if(data.hintMessage){
         this.showMessage(data.hintMessage)
       }else{
-        this.showMessage('上传成功，您可以继续上传');
+        this.showMessage('上传成功，您可以继续上传')
         //清空数据
         this.setState({
           title : '',
@@ -92,10 +99,10 @@ var UploadPhotographer = React.createClass({
           cut : '',
           photos : [],
           tags : [],
-        });
+        })
         //同时要清空WorkStore的数据
-        this.refs.chooseImage.clearImage();
-        this.history.replaceState(null, ROUTE_MAIN);
+        this.refs.chooseImage.clearImage()
+        this.history.replaceState(null, ROUTE_MAIN)
       }
     }
     if(data.flag == 'get'){
@@ -106,210 +113,210 @@ var UploadPhotographer = React.createClass({
     }
     if(data.flag == 'getTagList'){
       //获取所有的标签列表值
-      this.setState({"allTags" : data.tags});
+      this.setState({"allTags" : data.tags})
     }
   },
   onWorkStoreChange : function(data){
     if(data.flag == 'onSetCut'){
-      this.setState({cut : data.cut});
+      this.setState({cut : data.cut})
     }else{
       //处理封面
-      // var cover = -1;
-      // for(var i =0 ; i < data.length ; i ++){
-      //   if(data[i].isCover) cover = i;
+      // var cover = -1
+      // for(var i =0  i < data.length  i ++){
+      //   if(data[i].isCover) cover = i
       // }
-      this.setState({photos : data});
+      this.setState({photos : data})
     }
   },
   updateTitle : function(title){
-    this.setState({title: title});
+    this.setState({title: title})
   },
   updatePhotos : function(photos){
-    this.setState({photos : photos});
+    this.setState({photos : photos})
   },
   updateTags : function(tags){
-    this.setState({tags : tags});
+    this.setState({tags : tags})
   },
   updateDescription : function(des){
-    this.setState({description : des});
+    this.setState({description : des})
   },
   updateService : function(service){
-    this.setState({service : service});
+    this.setState({service : service})
   },
   updatePrice : function(price){
-    this.setState({price : price});
+    this.setState({price : price})
   },
   updateCover : function(cover){
-    this.setState({cover : cover});
+    this.setState({cover : cover})
   },
   updateOriginalSupport : function(originalSupport){
-    this.setState({originalSupport : originalSupport});
+    this.setState({originalSupport : originalSupport})
   },
   updatePhysicalSupport : function(physicalSupport){
-    this.setState({physicalSupport : physicalSupport});
+    this.setState({physicalSupport : physicalSupport})
   },
   updatePlateCount : function(plateCount){
-    this.setState({plateCount : plateCount});
+    this.setState({plateCount : plateCount})
   },
   updateTruingCount : function(truingCount){
-    this.setState({truingCount : truingCount});
+    this.setState({truingCount : truingCount})
   },
   updateMakeUpSupport : function(makeUpSupport){
-    this.setState({makeUpSupport : makeUpSupport});
+    this.setState({makeUpSupport : makeUpSupport})
   },
   updateCostumeCount : function(costumeCount){
-    this.setState({costumeCount : costumeCount});
+    this.setState({costumeCount : costumeCount})
   },
   updatePeopleCount : function(peopleCount){
-    this.setState({peopleCount : peopleCount});
+    this.setState({peopleCount : peopleCount})
   },
   updateUnitCount : function(unitCount){
-    this.setState({unitCount : unitCount});
+    this.setState({unitCount : unitCount})
   },
   updateSceneCount : function(sceneCount){
-    this.setState({sceneCount : sceneCount});
+    this.setState({sceneCount : sceneCount})
   },
   updateDuration : function(duration){
-    this.setState({duration : duration});
+    this.setState({duration : duration})
   },
   updatePhysicalDetail : function(physicalDetail){
-    this.setState({physicalDetail : physicalDetail});
+    this.setState({physicalDetail : physicalDetail})
   },
   updateSeatCount : function(seatCount){
-    this.setState({seatCount : seatCount});
+    this.setState({seatCount : seatCount})
   },
   updatePlaceType : function(placeType){
-    this.setState({placeType : placeType});
+    this.setState({placeType : placeType})
   },
   validate : function(){
 
     if($.trim(this.state.title).length < 1 || $.trim(this.state.title).length > 20){
-      React.findDOMNode(this.refs.workName.refs.input.refs.input).focus();
-      this.showMessage('作品名称必须在1-20字之间');
-      return false;
+      React.findDOMNode(this.refs.workName.refs.input.refs.input).focus()
+      this.showMessage('作品名称必须在1-20字之间')
+      return false
     }
     if(this.state.cover === -1 ){
-      this.showMessage('请上传封面');
-      return false;
+      this.showMessage('请上传封面')
+      return false
     }
     if(this.state.photos.length < 6){
-      this.showMessage('请至少上传 6 张作品');
-      return false;
+      this.showMessage('请至少上传 6 张作品')
+      return false
     }
 
-    var tag1=[],tag2=[],tag3 =[];
-    var n1=0,n2=0,n3=0;
+    var tag1=[],tag2=[],tag3 =[]
+    var n1=0,n2=0,n3=0
 
       //获得全部标签并放入state
-      AlbumsActions.getTagList();
+      AlbumsActions.getTagList()
       //比对state中的全部标签和已选标签
-      var selectedArr = this.state.tags;
-      var arr = this.state.allTags;
+      var selectedArr = this.state.tags
+      var arr = this.state.allTags
       //获取所有标签集合tag1~3
-      for(var i=0;i<arr.length;i++){
-        for(var j=0;j<arr[i].Tags.length;j++){
+      for(var i=0; i<arr.length; i++) {
+        for(var j=0; j<arr[i].Tags.length; j++) {
           if(i==0){
-            tag1.push(arr[i].Tags[j].Id);
+            tag1.push(arr[i].Tags[j].Id)
           }
           if(i==1){
-            tag2.push(arr[i].Tags[j].Id);
+            tag2.push(arr[i].Tags[j].Id)
           }
           if(i==2){
-            tag3.push(arr[i].Tags[j].Id);
+            tag3.push(arr[i].Tags[j].Id)
           }
         }
       }
 
       //判断所选元素是否在allTags[0]数组中
       if(selectedArr.length==0){
-        this.showMessage('请选择类别标签');
-        return false;
-      }else{
-        for(var i =0;i<selectedArr.length;i++){
-          if(tag1.indexOf(selectedArr[i])>=0){n1++;}
-          if(tag2.indexOf(selectedArr[i])>=0){n2++;}
-          if(tag3.indexOf(selectedArr[i])>=0){n3++;}
+        this.showMessage('请选择类别标签')
+        return false
+      } else {
+        for ( var i = 0; i < selectedArr.length; i++ ) {
+          if(tag1.indexOf(selectedArr[i])>=0){n1++}
+          if(tag2.indexOf(selectedArr[i])>=0){n2++}
+          if(tag3.indexOf(selectedArr[i])>=0){n3++}
         }
         if(n1==0){
-          this.showMessage('请选择类别标签');
-          return false;
-        }else if(n2==0){
-          this.showMessage('请选择可服务拍摄地标签');
-          return false;
+          this.showMessage('请选择类别标签')
+          return false
+        } else if (n2 === 0) {
+          this.showMessage('请选择可服务拍摄地标签')
+          return false
         }else if(n3==0){
-          this.showMessage('请选择风格标签');
-          return false;
+          this.showMessage('请选择风格标签')
+          return false
         }
       }
 
     if($.trim(this.state.description).length < 15 || $.trim(this.state.description).length > 1000){
-      this.showMessage('作品描述必须在15-1000字之间');
-      React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('作品描述必须在15-1000字之间')
+      React.findDOMNode(this.refs.workDescription.refs.input.refs.input).focus()
+      return false
     }
     if(this.state.duration.length <= 0){
-      this.showMessage('拍摄时长不能为空');
-      React.findDOMNode(this.refs.duration.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('拍摄时长不能为空')
+      React.findDOMNode(this.refs.duration.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isInt($.trim(this.state.plateCount)) || parseInt(this.state.plateCount) <= 0){
-      this.showMessage('底片张数必须大于0');
-      React.findDOMNode(this.refs.plateCount.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('底片张数必须大于0')
+      React.findDOMNode(this.refs.plateCount.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isInt($.trim(this.state.truingCount)) || parseInt(this.state.truingCount) < 0){
-      this.showMessage('精修张数仅限数字,且不能为空');
-      React.findDOMNode(this.refs.truingCount.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('精修张数仅限数字,且不能为空')
+      React.findDOMNode(this.refs.truingCount.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isInt($.trim(this.state.costumeCount)) || parseInt(this.state.costumeCount) < 0){
-      this.showMessage('服装数目仅限数字,且不能为空');
-      React.findDOMNode(this.refs.costumeCount.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('服装数目仅限数字,且不能为空')
+      React.findDOMNode(this.refs.costumeCount.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isInt($.trim(this.state.unitCount)) || parseInt(this.state.unitCount) <= 0){
-      this.showMessage('拍摄组数仅限大于0的数字,且不能为空');
-      React.findDOMNode(this.refs.unitCount.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('拍摄组数仅限大于0的数字,且不能为空')
+      React.findDOMNode(this.refs.unitCount.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isInt($.trim(this.state.sceneCount)) || parseInt(this.state.sceneCount) <= 0){
-      this.showMessage('拍摄场景数量仅限大于0的数字,且不能为空');
-      React.findDOMNode(this.refs.sceneCount.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('拍摄场景数量仅限大于0的数字,且不能为空')
+      React.findDOMNode(this.refs.sceneCount.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isInt($.trim(this.state.peopleCount)) || parseInt(this.state.peopleCount) < 0){
-      this.showMessage('被拍摄人数仅限数字,且不能为空');
-      React.findDOMNode(this.refs.peopleCount.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('被拍摄人数仅限数字,且不能为空')
+      React.findDOMNode(this.refs.peopleCount.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isInt($.trim(this.state.seatCount)) || parseInt(this.state.seatCount) <= 0){
-      this.showMessage('拍摄机位仅限大于0的数字,且不能为空');
-      React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('拍摄机位仅限大于0的数字,且不能为空')
+      React.findDOMNode(this.refs.seatCount.refs.input.refs.input).focus()
+      return false
     }
     var placeType = this.refs.placeType.state.selectedValues
     if(placeType.length==0){
-      this.showMessage('拍摄场地不能为空');
-      return false;
+      this.showMessage('拍摄场地不能为空')
+      return false
     }else if(placeType.length==1 && placeType[0]=="Null"){
-      this.showMessage('拍摄场地不能为空');
-      return false;
+      this.showMessage('拍摄场地不能为空')
+      return false
     }
     if (this.state.placeType.length==0) {6
-      this.showMessage('请选择拍摄场地');
-      return false;
+      this.showMessage('请选择拍摄场地')
+      return false
     }
     if(this.state.service && $.trim(this.state.service).length > 1000){
-      this.showMessage('补充服务说明不超过1000字');
-      React.findDOMNode(this.refs.service.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('补充服务说明不超过1000字')
+      React.findDOMNode(this.refs.service.refs.input.refs.input).focus()
+      return false
     }
     if(!validator.isFloat($.trim(this.state.price)) || parseFloat(this.state.price) < 1){
-      this.showMessage('价格仅限大于等于1的数字,且不能为空');
-      React.findDOMNode(this.refs.price.refs.input.refs.input).focus();
-      return false;
+      this.showMessage('价格仅限大于等于1的数字,且不能为空')
+      React.findDOMNode(this.refs.price.refs.input.refs.input).focus()
+      return false
     }
-    return true;
+    return true
   },
   handleSubmit : function(e){
     e.preventDefault && e.preventDefault()
@@ -341,16 +348,16 @@ var UploadPhotographer = React.createClass({
       }
       //针对后端要求，序列化数组
       this.state.photos.map(function(photo,i){
-        data['photos['+i+'].Url'] = photo.Url;
-        data['photos['+i+'].Description'] = photo.Description;
-      });
-      AlbumAction.add(data);
+        data['photos['+i+'].Url'] = photo.Url
+        data['photos['+i+'].Description'] = photo.Description
+      })
+      AlbumAction.add(data)
       alert("恭喜你,上传作品成功!")
-      this.history.replaceState(null, ROUTE_LOGIN);
+      this.history.replaceState(null, ROUTE_LOGIN)
     }
   },
   showMessage : function(message){
-    this.refs.toolTip.toShow(message);
+    this.refs.toolTip.toShow(message)
   },
   render: function() {
     var style = {
@@ -406,7 +413,7 @@ var UploadPhotographer = React.createClass({
         textAlign: 'center',
         cursor: 'pointer',
       },
-    };
+    }
     //<Button style={style.preview}>预览</Button>
     var placeTypeData = [
       {
@@ -426,7 +433,7 @@ var UploadPhotographer = React.createClass({
               textClassName="col-xs-4"
               value={this.state.physicalDetail}
           updateValue={this.updatePhysicalDetail}
-          placeholder=""/>):'';
+          placeholder=""/>):''
     return (
       <div style={style.outer}>
         <InfoHeader infoTitle="作品上传" infoIconClass="glyphicon glyphicon-picture" titleImage="" />
@@ -557,8 +564,8 @@ var UploadPhotographer = React.createClass({
         </form>
         <ToolTip ref="toolTip" title=""/>
       </div>
-    );
+    )
   }
-});
+})
 
-module.exports = UploadPhotographer;
+module.exports = UploadPhotographer
