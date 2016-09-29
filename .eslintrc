@@ -1,4 +1,10 @@
 {
+  "env": {
+    "browser": true
+  },
+  "settings": {
+    "import/resolver": "webpack",
+  },
   "extends": "eslint-config-airbnb",
   "plugins": [
     "react"
@@ -6,7 +12,5 @@
   "rules": {
     semi: [2, "never"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "import/no-extraneous-dependencies": "off",
-    "import/no-unresolved": "off",
   },
 }
