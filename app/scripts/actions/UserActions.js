@@ -11,7 +11,30 @@ var UserActions = Reflux.createActions({
     'openLogin' : {children:["success","failed"]},
     'currentServerUser' : {children:['success','failed']},
     'currentUser' : {children:[]},
-    'modifyPassword':{children:["success","failed"]}
+    'modifyPassword' : {children:["success","failed"]},
+    'receiveTelResetPassWord' : {children:["success","failed"]},
+    'receiveMailResetPassWord' : {children:["success","failed"]},
+});
+
+/*
+ id  string  Y 用户手机或邮箱号码
+ password  string  Y 用户密码
+ autologin boolean N 是否自动登陆
+ autoexpires integer N 自动登陆过期时间，单位（分钟）
+ */
+UserActions.receiveTelResetPassWord.listen(function(data) {
+  HttpFactory.post(API.USER.receiveTelResetPassWord,data,this.success,this.failed);
+});
+
+
+/*
+ id  string  Y 用户手机或邮箱号码
+ password  string  Y 用户密码
+ autologin boolean N 是否自动登陆
+ autoexpires integer N 自动登陆过期时间，单位（分钟）
+ */
+UserActions.receiveMailResetPassWord.listen(function(data) {
+  HttpFactory.post(API.USER.receiveMailResetPassWord,data,this.success,this.failed);
 });
 
 /*

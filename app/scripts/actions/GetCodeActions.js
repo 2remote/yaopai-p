@@ -8,6 +8,8 @@ var GetCodeActions = Reflux.createActions({
   'sendTelRegister2' : {children:["success","failed"]},//_SendTelRegister
   'sendEmailRegister' : {children:["success","failed"]},
   'sendEmailRegister2' : {children:["success","failed"]},
+  'sendTelResetPassWord' : {children:["success","failed"]},
+  'sendMailResetPassWord' : {children:["success","failed"]},
   // Here you can list your actions
 });
 
@@ -69,5 +71,39 @@ GetCodeActions.sendEmailRegister.listen(function(data) {
 GetCodeActions.sendEmailRegister2.listen(function(data) {
   HttpFactory.post(API.USER.sendEmailRegister2,data,this.success,this.failed);
 });
+
+
+
+/*
+ 发送手机重置密码信息
+ request :
+ {tel : string}
+ response:
+ {
+ Result: true,    //信息是否发送成功
+ ErrorCode: 0，    //错误代码
+ ErrorMsg: null    //错误信息
+ }
+ */
+GetCodeActions.sendTelResetPassWord.listen(function(data) {
+  HttpFactory.post(API.USER.sendTelResetPassWord,data,this.success,this.failed)
+})
+
+
+/*
+ 发送邮箱重置密码信息
+ request :
+ {email : string}
+ response:
+ {
+ Result: true,    //信息是否发送成功
+ ErrorCode: 0，    //错误代码
+ ErrorMsg: null    //错误信息
+ }
+ */
+GetCodeActions.sendMailResetPassWord.listen(function(data) {
+  HttpFactory.post(API.USER.sendMailResetPassWord,data,this.success,this.failed)
+})
+
 
 module.exports = GetCodeActions;
