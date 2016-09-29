@@ -60,6 +60,11 @@ const PhoneInput = React.createClass({
   }
 });
 var PasswordInput = React.createClass({
+  getDefaultProps : function(){
+    return ({
+      placeHolder:'密码'
+    })
+  },
   getInitialState : function(){
     return({
       value : '',
@@ -86,7 +91,7 @@ var PasswordInput = React.createClass({
     };
     return (
       <div>
-        <input type="password" placeholder="密码" style={textStyle} onChange={this.handleChange}/>
+        <input type="password" placeholder={this.props.placeHolder} style={textStyle} onChange={this.handleChange}/>
       </div>
     );
   }
@@ -177,7 +182,7 @@ var LoginButtonn = React.createClass({
       <div>
         <div style={buttonStyle} onClick={this.props.handleLogin}>登录</div>
 
-        <div style={openLogin}><span>还没有账号？<a onClick={this.props.toRegister}>先注册</a></span><span style={{float:'right',paddingRight:'20px'}}><a onClick={this.forgotPass}>忘记密码</a></span></div>
+        <div style={openLogin}><span>还没有账号？<a onClick={this.props.toRegister}>先注册</a></span><span style={{float:'right',paddingRight:'20px'}}><a onClick={this.props.findMyPass}>忘记密码</a></span></div>
       </div>
     );
   }
@@ -308,13 +313,22 @@ var RegisterButtons = React.createClass({
     var imageBtn = {
       cursor: 'pointer',
     }
-    return (
-      <div>
-        <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
-        <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
-        <div style={openLogin}><span>已经有账号？<a onClick={this.props.toLogin}>直接登录</a></span><span style={regEmail}>{ this.props.buttonName === '切换邮箱注册' ? <a onClick={ this.props.toEmailRegister }>切换邮箱注册</a> : <a onClick={ this.props.toTelRegister }>切换手机注册</a> }</span></div>
-      </div>
-    );
+    if(this.props.type=='register'){
+      return (
+        <div>
+          <span style={textStyle}>点注册表示您已阅读同意</span><Link to={'/provision'} target='_blank'><span style={ruleStyle}>《YAOPAI服务条款》</span></Link>
+          <div style={buttonStyle} onClick={this.props.handleRegister}>注册</div>
+          <div style={openLogin}><span>已经有账号？<a onClick={this.props.toLogin}>直接登录</a></span><span style={regEmail}>{ this.props.buttonName === '切换邮箱注册' ? <a onClick={ this.props.toEmailRegister }>切换邮箱注册</a> : <a onClick={ this.props.toTelRegister }>切换手机注册</a> }</span></div>
+        </div>
+      );
+    }else{
+      return (
+        <div>
+          <div style={buttonStyle} onClick={this.props.handleValidate}>提交</div>
+          <div style={openLogin}><a onClick={this.props.toLogin}>直接登录</a></div>
+        </div>
+      );
+    }
   }
 });
 var LoginForm = React.createClass({
@@ -369,7 +383,113 @@ var LoginForm = React.createClass({
           <PhoneInput des="手机号或邮箱" ref="phoneInput"/>
           <PasswordInput ref="passwordInput"/>
         </div>
-        <LoginButtonn handleLogin={this.handleLogin} toRegister={this.props.toRegister}/>
+        <LoginButtonn handleLogin={this.handleLogin} toRegister={this.props.toRegister} findMyPass={this.props.toFindPS}/>
+      </div>
+    );
+  }
+});
+
+
+// 找回密码
+var FindMyPass = React.createClass({
+  mixins: [Reflux.listenTo(UserStore, 'handleResetResult')],
+  handleGetCode : function(){
+    const emailPhone = this.refs.phoneInput.getValue();
+    const telReg = /^1(3|4|5|7|8)\d{9}$/
+    const mailReg  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+    if (telReg.test(emailPhone)){
+      GetCodeActions.sendTelResetPassWord({tel:emailPhone});
+      alert('验证码已发送,请查收')
+    } else if(mailReg.test(emailPhone)) {
+      GetCodeActions.sendMailResetPassWord({email:emailPhone});
+      alert('验证码已发送,请查收')
+    } else {
+      this.props.handleHint('手机号或邮箱格式错误')
+      return
+    }
+  },
+  handleValidate : function(){
+    var emailPhone = this.refs.phoneInput.getValue();
+    var code = this.refs.codeInput.getValue();
+    var password = this.refs.passwordInput.getValue();
+    var repassword = this.refs.repasswordInput.getValue();
+    if(!password){
+      this.props.handleHint('请输入密码');
+      return;
+    }
+    if(!repassword){
+      this.props.handleHint('请再次输入密码');
+      return;
+    }
+    if(password!==repassword){
+      this.props.handleHint('两次输入的密码不一致');
+      return;
+    }
+    if(password.length < 6 || password.length > 18){
+      this.props.handleHint('密码长度应在6-18之间');
+      return;
+    }
+    if(!code){
+      this.props.handleHint('请输入验证码');
+      return;
+    }
+    if(code.length != 4){
+      this.props.handleHint('请输入4位验证码');
+    }
+    var resetData = {}
+    const telReg = /^1(3|4|5|7|8)\d{9}$/
+    const mailReg  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
+    if (telReg.test(emailPhone)){
+      resetData = {tel: emailPhone, password: password, code: code}
+      UserActions.receiveTelResetPassWord(resetData)
+    } else if(mailReg.test(emailPhone)) {
+      resetData = {email: emailPhone, password: password, code: code}
+      UserActions.receiveMailResetPassWord(resetData)
+    } else {
+      this.props.handleHint('手机号或邮箱格式错误')
+      return
+    }
+  },
+  handleResetResult : function(data){
+    if(data.hintMessage){
+      this.props.handleHint(data.hintMessage);
+    }else{
+      this.props.handleHint('密码修改成功，请登录！');
+      this.props.toLogin();
+    }
+  },
+  render : function(){
+    var registerStyle = {
+      width : '360px',
+      height : '510px',
+      margin : '0 auto',
+      padding : '40px 30px 14px',
+      position : 'relative',
+      top: '45%',
+      left: '50%',
+      marginLeft: '-180px',
+      marginTop: '-230px',
+      textAlign: 'center',
+    };
+    var imageCenter = {
+      margin : '0px auto',
+      marginBottom : '20px',
+      marginTop:'50px',
+      height: 'auto',
+    };
+    var inputWrap = {
+      marginBottom: '15px',
+    }
+    return (
+      <div style={registerStyle}>
+        <img style={imageCenter} src={logoIcon} width='140'/>
+        <div style={inputWrap}>
+          <PhoneInput des="手机号或邮箱" ref="phoneInput"/>
+          <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
+          <PasswordInput placeHolder="输入新密码" ref="passwordInput"/>
+          <PasswordInput placeHolder="再次输入密码" ref="repasswordInput"/>
+        </div>
+        <RegisterButtons handleValidate={this.handleValidate} toLogin={this.props.toLogin} />
       </div>
     );
   }
@@ -463,7 +583,6 @@ var RegisterForm = React.createClass({
     );
   }
 });
-
 
 var EmailRegisterForm = React.createClass({
   mixins: [Reflux.listenTo(UserStore, 'handleRegisterResult')],
@@ -603,6 +722,9 @@ var Home = React.createClass({
     this.setState({show : 'emailRegister'});
     return false;
   },
+  showFindPS: function(){
+    this.setState({show: 'findMyPass'})
+  },
   hidden : function(){
     this.setState({ display : 'none' });
   },
@@ -665,7 +787,11 @@ var Home = React.createClass({
       );
     }else if(this.state.show == 'login'){
       mainFrame = (
-        <LoginForm handleHint={this.handleHint} toRegister={this.showRegister}/>
+        <LoginForm handleHint={this.handleHint} toRegister={this.showRegister} toFindPS={this.showFindPS} />
+      );
+    }else if(this.state.show=='findMyPass'){
+      mainFrame = (
+        <FindMyPass handleHint={this.handleHint} toLogin={this.showLogin} />
       );
     }else{
       mainFrame = (
