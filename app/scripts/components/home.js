@@ -454,7 +454,7 @@ var FindMyPass = React.createClass({
     if(data.hintMessage){
       this.props.handleHint(data.hintMessage);
     }else{
-      this.props.handleHint('注册成功，请登录！');
+      this.props.handleHint('密码修改成功，请登录！');
       this.props.toLogin();
     }
   },
