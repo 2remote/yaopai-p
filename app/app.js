@@ -2,7 +2,7 @@ import 'css/main.css'
 import 'css/mainAgain.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute, IndexRedirect } from 'react-router'
+import { hashHistory, Router, Route, IndexRoute, IndexRedirect } from 'react-router'
 
 import Test from 'photographer/Test'
 
@@ -45,7 +45,7 @@ const Provision = require('components/provision')
 require('./vendor/qiniu')
 
 const routes = (
-  <Router>
+  <Router history={hashHistory}>
     <Route path="/test" component={Test} comment="test only" />
     {/* ****************已登录的内容**************** */}
     <Route path="/" component={Content} comment="已登录内容容器">
