@@ -578,7 +578,7 @@ var RegisterForm = React.createClass({
           <PasswordInput ref="passwordInput"/>
           <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
         </div>
-        <RegisterButtons buttonName="切换邮箱注册" handleRegister={this.handleRegister} toLogin={this.props.toLogin} toEmailRegister={this.props.toEmailRegister} />
+        <RegisterButtons buttonName="切换邮箱注册" type="register" handleRegister={this.handleRegister} toLogin={this.props.toLogin} toEmailRegister={this.props.toEmailRegister} />
       </div>
     );
   }
@@ -665,7 +665,7 @@ var EmailRegisterForm = React.createClass({
           <PasswordInput ref="passwordInput"/>
           <ValidateCodeInput ref="codeInput" handleGetCode = {this.handleGetCode} handleHint = {this.props.handleHint}/>
         </div>
-        <RegisterButtons toTelRegister={this.props.toTelRegister} buttonName="切换手机注册" handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
+        <RegisterButtons type="register" toTelRegister={this.props.toTelRegister} buttonName="切换手机注册" handleRegister={this.handleRegister} toLogin={this.props.toLogin}/>
       </div>
     );
   }
