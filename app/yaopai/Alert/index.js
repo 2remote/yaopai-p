@@ -121,7 +121,7 @@ class AlertContainer extends React.Component {
 
   willLeave() {
     // triggered when c's gone. Keeping c until its width/height reach 0.
-    return { width: spring(0), height: spring(0) }
+    return { maxHeight: spring(0) }
   }
 
   render() {
@@ -130,32 +130,32 @@ class AlertContainer extends React.Component {
 
         <TransitionMotion
           willLeave={this.willLeave}
-          styles={this.state.items.map(item => ({
-            key: item.key,
-            style: { width: item.size, height: item.size },
+          styles={this.state.alerts.map((alertConfig) => ({
+            key: alertConfig.id,
+            data: alertConfig,
+            style: { maxHeight: 100 },
           }))}
         >
-          {interpolatedStyles =>
-            // first render: a, b, c. Second: still a, b, c! Only last one's a, b.
-            <div>
-              {interpolatedStyles.map(config => {
-                const style = _.merge({}, config.style, { border: '1px solid' })
-                return <div key={config.key} style={style} />
-              })}
-            </div>
+          {
+            (styles) => (
+              <div>
+                {
+                  styles.map(({ key, data, style }) => (
+                    <AlertItem
+                      key={key}
+                      id={data.id}
+                      fuckHeight={style.maxHeight}
+                      content={data.content}
+                      title={data.title}
+                      type={data.type}
+                      animation={data.animation}
+                    />
+                  ))
+                }
+              </div>
+            )
           }
         </TransitionMotion>
-
-        {this.state.alerts.map((alertConfig) => (
-          <AlertItem
-            key={alertConfig.id}
-            id={alertConfig.id}
-            content={alertConfig.content}
-            title={alertConfig.title}
-            type={alertConfig.type}
-            animation={alertConfig.animation}
-          />
-        ))}
       </div>
     )
   }

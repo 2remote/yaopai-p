@@ -28,7 +28,7 @@ class AlertItem extends React.Component {
   render() {
     const { id, content, title, type, animation } = this.props
     return (
-      <div key={id} className={`alert-message ${getAlertTypeClassName(type)} ${getAlertAnimationClassName(animation)}`}>
+      <div key={id} className={`alert-message ${getAlertTypeClassName(type)} ${getAlertAnimationClassName(animation)}`} style={{ maxHeight: this.props.fuckHeight }}>
         <div>{`${id} ${title}`}</div>
         <div>{content}</div>
       </div>

@@ -10,6 +10,7 @@
 .alert-message {
   background: white;
   border: 1px solid yellow;
+  overflow: hidden;
 }
 
 .alert-default {
