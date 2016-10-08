@@ -31,6 +31,8 @@ import AuthResult from 'components/auth/AuthResult' // 结果
 import AlbumInfo from 'components/album/AlbumInfo'
 import MakeupArtistUploadRouteComponent from 'routes/upload/makeupartist'
 import MoteUploadRouteComponent from 'routes/upload/mote'
+import alert from 'yaopai/Alert'
+alert.message({ content: 'hehehe', type: 'success' }, 10000)
 
 const Home = require('components/home')
 const PersonInfo = require('components/personInfo')

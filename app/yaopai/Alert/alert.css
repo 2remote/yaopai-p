@@ -1,0 +1,29 @@
+.alert-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: white;
+}
+
+.alert-message {
+  background: white;
+  border: 1px solid yellow;
+}
+
+.alert-default {
+  color: black;
+}
+
+.alert-warnning {
+  color: orange;
+}
+
+.alert-error {
+ color: red;
+}
+
+.alert-success {
+ color: green;
+}
