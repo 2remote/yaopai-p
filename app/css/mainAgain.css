@@ -309,3 +309,30 @@ a.active {
   font-weight:bold;
   color: #f90;
 }
+
+.workList {
+  transition: .5s ease-in;
+}
+
+.workItem-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.workItem-enter.workItem-enter-active {
+  opacity: 1;
+}
+
+.workItem-leave {
+  opacity: 1;
+  transition: opacity .5s ease-out;
+}
+
+.workItem-leave.workItem-leave-active {
+  opacity: 0.01;
+}
+
+.component-wrapper:hover .imghover{
+  opacity: 1!important;
+}
+ 
