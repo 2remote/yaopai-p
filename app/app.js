@@ -2,9 +2,11 @@ import 'css/main.css'
 import 'css/mainAgain.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute, IndexRedirect } from 'react-router'
-
-import Test from 'photographer/Test'
+import { hashHistory, Router, Route, IndexRoute, IndexRedirect } from 'react-router'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
+import { Provider } from 'react-redux'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import createSagaMiddleware from 'redux-saga'
 
 /* ********************************首页******************************** */
 import Content from 'components/root/Content'
@@ -45,50 +47,68 @@ const Provision = require('components/provision')
 
 require('./vendor/qiniu')
 
+const sagaMiddleware = createSagaMiddleware()
+
+const store = createStore(
+  combineReducers({
+    routing: routerReducer,
+  }),
+  compose(
+    applyMiddleware(sagaMiddleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
+  // window.devToolsExtension && window.devToolsExtension()
+)
+
+// Create an enhanced history that syncs navigation events with the store
+const history = syncHistoryWithStore(hashHistory, store)
+
 const routes = (
-  <Router>
-    {/* <Route path="/test" component={Test} comment="test only" /> */}
-    {/* ****************已登录的内容**************** */}
-    <Route path="/" component={Content} comment="已登录内容容器">
-      {/* ****************首页信息**************** */}
-      <IndexRedirect to="main" />
-      <Route path="main" component={AlbumInfo} comment="首页，作品信息" />
-      {/* ****************账户信息**************** */}
-      <Route path="/account" component={AccountContainer} comment="账户信息">
-        <IndexRedirect to="info" />
-        <Route path="info" component={PersonInfo} />
-        <Route path="basic" component={BasicInfo} />
-        <Route path="detail" component={DetailInfo} />
-        {/* <Route path="m" component={ MoteInfo } /> */}
-        <Route path="password" component={AccountInfo} />
+  <Provider store={store}>
+    <Router history={history}>
+      {/* <Route path="/test" component={Test} comment="test only" /> */}
+      {/* ****************已登录的内容**************** */}
+      <Route path="/" component={Content} comment="已登录内容容器">
+        {/* ****************首页信息**************** */}
+        <IndexRedirect to="main" />
+        <Route path="main" component={AlbumInfo} comment="首页，作品信息" />
+        {/* ****************账户信息**************** */}
+        <Route path="/account" component={AccountContainer} comment="账户信息">
+          <IndexRedirect to="info" />
+          <Route path="info" component={PersonInfo} />
+          <Route path="basic" component={BasicInfo} />
+          <Route path="detail" component={DetailInfo} />
+          {/* <Route path="m" component={ MoteInfo } /> */}
+          <Route path="password" component={AccountInfo} />
+        </Route>
+        {/* ****************TODO: 订单信息**************** */}
+        {/* <Route path="order/:type/:state" component={ OrderManager } /> */}
+        {/* ****************作品上传**************** */}
+        <Route path="upload">
+          <IndexRoute component={AlbumSummary} comment="上传总览" />
+          <Route path="photographer" component={UploadPhotographer} comment="摄影师作品上传" />
+          <Route path="mote" component={MoteUploadRouteComponent} comment="模特作品上传" />
+          <Route path="makeupartist" component={MakeupArtistUploadRouteComponent} comment="化妆师作品上传" />
+        </Route>
+        {/* ****************认证信息**************** */}
+        <Route path="auth" component={AuthContainer} comment="认证信息">
+          <IndexRoute component={AuthSummary} comment="认证总览" />
+          <Route path="basic" component={AuthBasic} comment="认证基本信息" />
+          <Route path="real" component={AuthRealName} comment="实名认证" />
+          <Route path="p" component={AuthPhotographer} comment="摄影师认证" />
+          <Route path="a" component={AuthMakeupArtist} comment="化妆师认证" />
+          <Route path="m" component={AuthMote} comment="模特认证" />
+          <Route path="result" component={AuthResult} comment="能用认证结果页" />
+        </Route>
       </Route>
-      {/* ****************TODO: 订单信息**************** */}
-      {/* <Route path="order/:type/:state" component={ OrderManager } /> */}
-      {/* ****************作品上传**************** */}
-      <Route path="upload">
-        <IndexRoute component={AlbumSummary} comment="上传总览" />
-        <Route path="photographer" component={UploadPhotographer} comment="摄影师作品上传" />
-        <Route path="mote" component={MoteUploadRouteComponent} comment="模特作品上传" />
-        <Route path="makeupartist" component={MakeupArtistUploadRouteComponent} comment="化妆师作品上传" />
-      </Route>
-      {/* ****************认证信息**************** */}
-      <Route path="auth" component={AuthContainer} comment="认证信息">
-        <IndexRoute component={AuthSummary} comment="认证总览" />
-        <Route path="basic" component={AuthBasic} comment="认证基本信息" />
-        <Route path="real" component={AuthRealName} comment="实名认证" />
-        <Route path="p" component={AuthPhotographer} comment="摄影师认证" />
-        <Route path="a" component={AuthMakeupArtist} comment="化妆师认证" />
-        <Route path="m" component={AuthMote} comment="模特认证" />
-        <Route path="result" component={AuthResult} comment="能用认证结果页" />
-      </Route>
-    </Route>
-    {/* TODO: 把这货放[/album]里去 */}
-    <Route path="albums/:id" component={Albums} />
-    {/* ****************未登录的内容**************** */}
-    <Route path="/login" component={Home} comment="登录注册" />
-    <Route path="/provision" component={Provision} comment="条款" />
-    <Route path="*" component={NF404} comment="传说中的404" />
-  </Router>
+      {/* TODO: 把这货放[/album]里去 */}
+      <Route path="albums/:id" component={Albums} />
+      {/* ****************未登录的内容**************** */}
+      <Route path="/login" component={Home} comment="登录注册" />
+      <Route path="/provision" component={Provision} comment="条款" />
+      <Route path="*" component={NF404} comment="传说中的404" />
+    </Router>
+  </Provider>
 )
 
 

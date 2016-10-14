@@ -4,6 +4,7 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin')// 处理完自�
 const webpack = require('webpack')// The Webpack
 const merge = require('webpack-merge')// 合并配置
 const Clean = require('clean-webpack-plugin')// 清理build用
+const DashboardPlugin = require('webpack-dashboard/plugin')
 
 // 配置思路
 // 4个环境：
@@ -88,6 +89,7 @@ common = {
       /* ================================================================ */
       {
         test: /\.jsx?$/,
+        exclude: /node_modules/,
         loaders: ['babel'],
         // include: path.resolve(APP_PATH, 'app'),
       },
@@ -152,6 +154,7 @@ if (targetEnv === 'dev') { // dev
     plugins: [
       // 热替换
       new webpack.HotModuleReplacementPlugin(),
+      new DashboardPlugin(),
     ],
     /* ================================================================ */
     /* 开发服务器: devServer */
