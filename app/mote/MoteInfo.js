@@ -6,8 +6,6 @@
 **/
 import React from 'react'
 import Reflux from 'reflux'
-import alert from 'yaopai/Alert'
-alert.message({ content: 'MoteInfo' }, 5000)
 /* reusable components */
 import InputGroup from 'components/upai/form/InputGroup'
 /* store and action */

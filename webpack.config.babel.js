@@ -89,6 +89,7 @@ common = {
       /* ================================================================ */
       {
         test: /\.jsx?$/,
+        exclude: /node_modules/,
         loaders: ['babel'],
         // include: path.resolve(APP_PATH, 'app'),
       },
