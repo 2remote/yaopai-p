@@ -31,6 +31,12 @@ var UserStore = Reflux.createStore({
     */
     this.listenTo(UserActions.login.success, this.onLoginSuccess);
     this.listenTo(UserActions.login.failed, this.onLoginFailed);
+
+    this.listenTo(UserActions.receiveTelResetPassWord.success, this.onReceiveTelResetSuccess);
+    this.listenTo(UserActions.receiveTelResetPassWord.failed, this.onReceiveTelResetFailed);
+    this.listenTo(UserActions.receiveMailResetPassWord.success, this.onReceiveMailResetSuccess);
+    this.listenTo(UserActions.receiveMailResetPassWord.failed, this.onReceiveMailResetFailed);
+
     this.listenTo(UserActions.register.success, this.onRegisterSuccess);
     this.listenTo(UserActions.register.failed, this.onRegisterFailed);
     this.listenTo(UserActions.emailRegister.success, this.onEmailRegisterSuccess);
@@ -45,6 +51,34 @@ var UserStore = Reflux.createStore({
     this.listenTo(UserActions.modifyPassword.failed,this.onModifyPasswordFailed);
     this.listenTo(AccountActions.changeAvatar.success, this.updateUser);
     this.listenTo(AccountActions.updateInfo.success, this.updateUser);
+  },
+
+  onReceiveTelResetSuccess : function(data){
+    if(data.Success){
+      //this.userData.hintMessage = "密码修改成功";
+    }else{
+      this.userData.hintMessage = data.ErrorMsg;
+    }
+    this.trigger(this.userData);
+  },
+
+  onReceiveTelResetFailed : function(data){
+    this.userData.hintMessage = "网络出错啦！";
+    this.trigger(this.userData);
+  },
+
+  onReceiveMailResetSuccess : function(data){
+    if(data.Success){
+      //this.userData.hintMessage = "密码修改成功";
+    }else{
+      this.userData.hintMessage = data.ErrorMsg;
+    }
+    this.trigger(this.userData);
+  },
+
+  onReceiveMailResetFailed : function(data){
+    this.userData.hintMessage = "网络出错啦！";
+    this.trigger(this.userData);
   },
   getTokenToLogin: function() {
     //从localStorage读取UserData

@@ -6,11 +6,30 @@ import ImageOptimus from 'components/upai/ImageOptimus'
 import ImageUploader from 'yaopai/ImageUploader'
 import InfoHeader from 'components/infoHeader'
 import TagList from 'yaopai/TagList'
-import MoteAlbumAction from './MoteAlbumAction'
 import { ROUTE_MAIN } from 'util/routeConfig'
+import alert from 'util/alert'
+import MoteAlbumAction from './MoteAlbumAction'
 import { MoteNotifyStore, MOTE_UPLOAD_ALBUM } from './MoteNotifyStore'
 
 const MoteUpload = React.createClass({
+  propTypes: {
+    /* title */
+    title: PropTypes.string,
+    updateTitle: PropTypes.func.isRequired,
+    /* desc */
+    desc: PropTypes.string,
+    updateDesc: PropTypes.func.isRequired,
+    /* cover */
+    updateCover: PropTypes.func.isRequired,
+    /* tags */
+    tags: PropTypes.list,
+    updateTags: PropTypes.func.isRequired,
+    /* photos */
+    updatePhotos: PropTypes.func.isRequired,
+    /* submit */
+    handleSubmit: PropTypes.func.isRequired,
+  },
+
   mixins: [Reflux.listenTo(MoteNotifyStore, 'onMoteNotify'), History],
 
   getInitialState() {
@@ -27,7 +46,7 @@ const MoteUpload = React.createClass({
         alert('上传成功！')
         this.history.replaceState(null, ROUTE_MAIN)
       } else {
-        alert('上传失败！')
+        alert(msg)
       }
     }
   },
@@ -42,44 +61,51 @@ const MoteUpload = React.createClass({
 
   render() {
     return (
-      <div style={{backgroundColor: '#fff',
-        padding: '40px 60px 70px 60px',
-        color: '#777777',}}>
+      <div
+        style={{
+          backgroundColor: '#fff',
+          padding: '40px 60px 70px 60px',
+          color: '#777777',
+        }}
+      >
         <InfoHeader
           infoTitle="模特作品上传"
           infoIconClass="glyphicon glyphicon-camera"
         />
         <form className="form-horizontal" onSubmit={this.props.handleSubmit}>
 
-          {/* TODO: 一、title 标题 - required */}
+          {/* 一、title 标题 */}
           <InputGroup
-            ref="title"
-            label="标题" type="text"
+            label="标题"
+            type="text"
             horizontalLabelStyle="col-xs-3"
             horizontalInputStyle="col-xs-6"
             value={this.props.title}
             updateValue={this.props.updateTitle}
-            placeholder="不超过50个汉字"
-            minLength="1"
-            maxLength="50"
+            placeholder="2到30个字"
+            hasFeedback
+            minLength={2}
+            maxLength={30}
           />
 
-          {/* TODO: 二、desc 描述 */}
+          {/* 二、desc 描述 */}
           <InputGroup
-            ref="description"
-            label="描述" type="text"
+            label="描述"
+            type="text"
             horizontalLabelStyle="col-xs-3"
             horizontalInputStyle="col-xs-6"
             value={this.props.desc}
             updateValue={this.props.updateDesc}
-            placeholder="请输入模特描述文字,不超过100个汉字"
-            minLength="1"
-            maxLength="100"
+            placeholder="请输入模特描述文字，5到200个汉字"
+            hasFeedback
+            minLength={5}
+            maxLength={200}
           />
 
-          {/* TODO: 三、cover 封面 - required */}
+          {/* 三、cover 封面 */}
           <InputGroup
-            label="封面" type="children"
+            label="封面"
+            type="children"
             horizontalLabelStyle="col-xs-3"
             horizontalInputStyle="col-xs-6"
           >
@@ -88,28 +114,32 @@ const MoteUpload = React.createClass({
 
           {/* TODO: 四、cut 封面裁剪函数 */}
 
-          {/* TODO: 五、tags 标签 */}
+          {/* 五、tags 标签 */}
           <InputGroup
-            label="标签" type="children"
+            label="标签"
+            type="children"
             horizontalLabelStyle="col-xs-3"
             horizontalInputStyle="col-xs-6"
           >
             <TagList
-              type="mote" gutter={5} size="normal" maxCount={3}
+              type="mote"
+              gutter={5}
+              size="normal"
+              maxCount={3}
               selectedTagIds={this.props.tags}
               onTagSelect={this.props.updateTags}
             />
           </InputGroup>
 
-          {/* TODO: 六、photos 作品 - required */}
+          {/* 六、photos 作品 */}
           <InputGroup
-            label="作品" type="children"
+            label="作品"
+            type="children"
             horizontalLabelStyle="col-xs-3"
             horizontalInputStyle="col-xs-6"
           >
             <ImageUploader
-              onTagSelect={this.onPhotosChange}
-              maxCount={5}
+              maxCount={30}
               onPhotosChange={this.props.updatePhotos}
             />
           </InputGroup>
@@ -127,24 +157,6 @@ const MoteUpload = React.createClass({
     )
   },
 })
-
-MoteUpload.propTypes = {
-  /* title */
-  title: PropTypes.string,
-  updateTitle: PropTypes.func.isRequired,
-  /* desc */
-  desc: PropTypes.string,
-  updateDesc: PropTypes.func.isRequired,
-  /* cover */
-  updateCover: PropTypes.func.isRequired,
-  /* tags */
-  tags: PropTypes.list,
-  updateTags: PropTypes.func.isRequired,
-  /* photos */
-  updatePhotos: PropTypes.func.isRequired,
-  /* submit */
-  handleSubmit: PropTypes.func.isRequired,
-}
 
 const MoteUploadContainer = React.createClass({
   getInitialState() {
@@ -167,37 +179,50 @@ const MoteUploadContainer = React.createClass({
 
   updatePhotos(photos) { this.setState({ photos }) },
 
-  validate(){
-    if(!this.state.title){
+  validate() {
+    const { title, desc, cover, tags, photos } = this.state
+    /* title [2, 30] */
+    if (!title) {
       alert('标题不能为空')
-      return false;
+      return false
     }
-    if(!this.state.desc){
+    if (title.length < 2 || title.length > 30) {
+      alert('标题长度需在2到30个字之间')
+      return false
+    }
+    /* desc: [5, 200] */
+    if (!desc) {
       alert('描述不能为空')
-      return false;
+      return false
     }
-    if(this.state.cover===''){
+    if (desc.length < 5 || desc.length > 200) {
+      alert('描述长度需在5到200字之间')
+      return false
+    }
+    /* cover */
+    if (!cover) {
       alert('封面不能为空')
-      return false;
+      return false
     }
-    if(this.state.tags.length==0){
-      alert('标签不能为空')
-      return false;
+    /* tags: [1, 3] */
+    if (tags.length < 1 || tags.length > 3) {
+      alert('请选择1到3个标签')
+      return false
     }
-    if(this.state.photos.length==0){
-      alert('作品图不能为空')
-      return false;
+    /* photos: [1, 30] */
+    if (photos.length < 1 || photos.length > 30) {
+      alert('请上传1到30张作品')
+      return false
     }
     return true
   },
 
 
   handleSubmit(e) {
-    e && e.preventDefault && e.preventDefault()
-    if(this.validate()){
+    if (e && e.preventDefault) e.preventDefault()
+    if (this.validate()) {
       MoteAlbumAction.add(this.state)
     }
-
   },
 
   render() {

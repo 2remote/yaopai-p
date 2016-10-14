@@ -22,17 +22,57 @@ var GetCodeStore = Reflux.createStore({
 
     //this.listenTo(GetCodeActions.sendEmailRegister,this.onBeginEmailRegister);
     this.listenTo(GetCodeActions.sendEmailRegister.success,this.onEmailRegisterSuccess);
+    this.listenTo(GetCodeActions.sendTelResetPassWord,this.onBeginTelRegister);
+    this.listenTo(GetCodeActions.sendTelResetPassWord.success,this.onSendTelResetSuccess);
+    this.listenTo(GetCodeActions.sendMailResetPassWord,this.onBeginTelRegister);
+    this.listenTo(GetCodeActions.sendMailResetPassWord.success,this.onSendMailResetSuccess);
     //this.listenTo(GetCodeActions.sendEmailRegister2,this.onBeginEmailRegister);
     //this.listenTo(GetCodeActions.sendEmailRegister2.success,this.onEmailRegisterSuccess);
   },
+
+  onSendTelResetSuccess : function(data){
+    if(data.Success){
+      //this.getCode.result = '验证码已发送';
+    }else{
+      clearTimeout(this.timeID)
+      this.timeID = null
+      if(data.ErrorCode == '205002'){
+        this.getCode.result = '该手机号未注册过本站'
+        this.getCode.left = 0
+      }else{
+        this.getCode.result = '验证码发送失败'
+        this.getCode.left = 0
+      }
+    }
+    this.trigger(this.getCode)
+  },
+
+
+  onSendMailResetSuccess : function(data){
+    if(data.Success){
+      //this.getCode.result = '验证码已发送';
+    }else{
+      clearTimeout(this.timeID)
+      this.timeID = null;
+      if(data.ErrorCode == '205002'){
+        this.getCode.result = '该邮箱未注册过本站'
+        this.getCode.left = 0
+      }else{
+        this.getCode.result = '验证码发送失败'
+        this.getCode.left = 0
+      }
+    }
+    this.trigger(this.getCode)
+  },
+
   onBeginTelRegister : function(){
     this.getCode.left = 60;
     var countLeft = function(){
       this.getCode.left = this.getCode.left -1;
       this.trigger(this.getCode);
       this.timeID = setTimeout(countLeft, 1000);
-    }.bind(this);
-    countLeft();
+    }.bind(this)
+    countLeft()
   },
   onBeginEmailRegister : function(data){
     console.log(data);

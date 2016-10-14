@@ -16,7 +16,6 @@ import { ALBUM_DISPLAY_ON, ALBUM_DISPLAY_OFF, ALBUM_DISPLAY_ALL } from './consta
  *   display: 作品展示过滤条件
 **/
 const AlbumList = React.createClass({
-
   propTypes: {
     userId: PropTypes.string,
   },
@@ -121,8 +120,10 @@ const AlbumList = React.createClass({
           style={{
             border: '1px solid #efefef',
             marginBottom: 15,
+            marginLeft: 15,
             position: 'relative',
             width: 300,
+            float: 'left',
             // height: 320,
             display: 'inline-block',
           }}

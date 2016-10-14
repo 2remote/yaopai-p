@@ -29,6 +29,7 @@ import AuthMote from 'components/auth/AuthMote' // 模特专业认证
 import AuthResult from 'components/auth/AuthResult' // 结果
 /* ********************************作品上传******************************** */
 import AlbumInfo from 'components/album/AlbumInfo'
+import PhotographerUploadRouteComponent from 'routes/upload/photographer'
 import MakeupArtistUploadRouteComponent from 'routes/upload/makeupartist'
 import MoteUploadRouteComponent from 'routes/upload/mote'
 
@@ -65,6 +66,7 @@ const history = syncHistoryWithStore(hashHistory, store)
 const routes = (
   <Provider store={store}>
     <Router history={history}>
+      {/* <Route path="/test" component={Test} comment="test only" /> */}
       {/* ****************已登录的内容**************** */}
       <Route path="/" component={Content} comment="已登录内容容器">
         {/* ****************首页信息**************** */}
