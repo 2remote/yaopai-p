@@ -738,8 +738,7 @@ var Home = React.createClass({
     var bgStyle = {
       width : '100%',
       height : '100%',
-      background : `url(${bgPng}) no-repeat center center`,
-      backgroundColor : '#777777',
+      backgroundColor : '#000',
       backgroundSize : 'cover',
       position: 'absolute',
       top: '0',
@@ -819,9 +818,9 @@ var Home = React.createClass({
             </div>
           </div>
           <div style={{display:'flex',marginTop:'50px'}}>
-            <div style={{flex:1}}><img src={photographerImg} draggable="false" width="350" alt=""/></div>
-            <div style={{flex:1}}><img src={moteImg} draggable="false" width="350" alt=""/></div>
-            <div style={{flex:1}}><img src={maImg} draggable="false" width="350" alt=""/></div>
+            <div style={{flex:1,cursor:'pointer'}}><img src={photographerImg} draggable="false" onClick={this.show} width="330" alt=""/></div>
+            <div style={{flex:1,cursor:'pointer'}}><img src={moteImg} draggable="false" onClick={this.show} width="330" alt=""/></div>
+            <div style={{flex:1,cursor:'pointer'}}><img src={maImg} draggable="false" onClick={this.show} width="330" alt=""/></div>
           </div>
         </div>
         <ToolTip ref="toolTip" title=""></ToolTip>
