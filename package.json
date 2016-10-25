@@ -5,7 +5,7 @@
   "author": "YAOPAI-dev",
   "license": "BSD",
   "scripts": {
-    "build": "webpack -p",
+    "build": "NODE_ENV=production webpack -p",
     "server": "npm run build && npm run serverup",
     "serverup": "node yaopai-node/index.js",
     "start": "webpack-dev-server",
